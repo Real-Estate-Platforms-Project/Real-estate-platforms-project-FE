@@ -1,0 +1,39 @@
+.py-18px {
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+body {
+    font-family: "Manrope", sans-serif;
+}
+
+.button-black {
+    border-radius: 10px;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.dropdown-menu {
+    width: 300px;
+}
+
+.dropdown-item {
+    font-size: 13px;
+}
+
+.text-orange {
+    color: #ff6523;
+    font-size: 27px;
+    margin-right: 8px;
+}
+
+li > a {
+    text-decoration: none;
+    color: #000;
+}
+
+.footer-list {
+    line-height: 35px;
+}
