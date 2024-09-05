@@ -6,7 +6,7 @@ export default function Client() {
     return (
         <div className="main-layout">
             <Nav/>
-            <main className="mt-3">
+            <main>
                 <Outlet/>
             </main>
             <Footer/>

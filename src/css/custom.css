@@ -38,3 +38,12 @@ li > a {
 .footer-list {
     line-height: 35px;
 }
+
+.bg-search {
+    background-color: #FFF7F0;
+}
+
+.form-title {
+    margin-left: 120px;
+
+}
