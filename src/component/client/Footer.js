@@ -3,7 +3,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Footer() {
     return (
-        <footer className='container py-5'>
+        <footer className='container py-4'>
             <div className='row justify-content-between'>
                 <div className='mb-2'>
                     <a className="navbar-brand" href="#"><Logo width={'125px'}/></a>

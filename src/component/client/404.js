@@ -11,7 +11,7 @@ const NotFound = () => {
                     <p>Oops! The page you’re looking for doesn’t exist.</p>
                 </div>
                 <div>
-                    <button>HomePage <i className="bi bi-chevron-right"></i></button>
+                    <button className='btn btn-outline-dark fw-bold' style={{padding: 10}}>HomePage<i className="bi bi-chevron-right ms-1"></i></button>
                 </div>
             </div>
     );
