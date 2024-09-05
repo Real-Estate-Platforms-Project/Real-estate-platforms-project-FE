@@ -7,9 +7,8 @@ export default function Home() {
         <div className="main-layout">
             <Nav/>
             <main className="mt-3">
-                <div className="container">
-                    <Outlet/>
-                </div>
+                <Outlet/>
+
             </main>
             <Footer/>
         </div>
