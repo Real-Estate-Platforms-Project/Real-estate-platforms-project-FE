@@ -11,18 +11,8 @@
     margin-bottom: 20px;
 }
 
-.header img.logo {
-    width: 50px;
-    margin-right: 10px;
-}
-
-.header h1 {
-    font-size: 28px;
-    color: #ff6b35;
-}
-
 .content {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .astronaut-image {
@@ -30,12 +20,12 @@
     margin-bottom: 20px;
 }
 
-h1 {
+.nhatngu1 {
     font-size: 64px;
     color: #ff6b35;
 }
 
-p {
+.nhatngu2 {
     font-size: 18px;
     color: #555;
 }
