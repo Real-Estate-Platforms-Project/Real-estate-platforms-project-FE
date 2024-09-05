@@ -1,0 +1,41 @@
+.not-found {
+    text-align: center;
+    padding: 50px;
+    background-color: #FFF9F6;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header img.logo {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.header h1 {
+    font-size: 28px;
+    color: #ff6b35;
+}
+
+.content {
+    margin-top: 50px;
+}
+
+.astronaut-image {
+    max-width: 300px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 64px;
+    color: #ff6b35;
+}
+
+p {
+    font-size: 18px;
+    color: #555;
+}
