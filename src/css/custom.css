@@ -7,7 +7,34 @@ body {
 }
 
 .button-black {
-    border-radius: 10px;
+    border: 2px solid #1e1f22;
+    border-radius: 8px;
+    background-color: #1e1f22;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.button-orange {
+    border: 2px solid #ff6b35;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #ff6b35;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none;
+}
+
+.button-orange:hover {
+    background-color: #ffc7b1;
+    color: #ff6b35;
+}
+
+.button-search {
+    background-color: #ff6b35 !important;
 }
 
 .nav-item.dropdown:hover .dropdown-menu {
@@ -45,5 +72,8 @@ li > a {
 
 .form-title {
     margin-left: 120px;
+}
 
+.form-create-real-estate {
+    background-color: #FFF7F0;
 }

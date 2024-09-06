@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 function Nav() {
     return (
-        <div className="container py-18px">
+        <div className="shadow-lg py-18px">
             <nav className="navbar navbar-expand-lg py-0">
                 <div className="container-fluid">
                     <Link className="navbar-brand py-0" href="#" to='#'><Logo width={'128px'}/></Link>
@@ -50,7 +50,8 @@ function Nav() {
                                 <Link className="nav-link text-dark" aria-disabled="true" to='#'>Blog</Link>
                             </li>
                         </ul>
-                        <Link className='btn btn-dark px-4 button-black' to='#'><span className='fw-bold'>Log in</span></Link>
+                        <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
+                        <Link className='button-black' to='#'><span className='fw-bold'>Đăng nhập</span></Link>
                     </div>
                 </div>
             </nav>
