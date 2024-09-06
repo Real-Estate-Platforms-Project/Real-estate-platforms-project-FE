@@ -14,7 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Client />}>
+        <Route path="/" element={<Client/>}>
             <Route path="/" element={<Home/>} />
             <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>} />
             <Route path="*" element={<NotFound />} />
