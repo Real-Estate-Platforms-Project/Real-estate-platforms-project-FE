@@ -1,10 +1,13 @@
 .search-bar-container {
-    background-color: #ff6523;
-    padding: 10px 20px;
-    border-radius: 8px;
+    position: relative; /* Đảm bảo thanh tìm kiếm cố định ở trên cùng */
+    top: 0; /* Cố định ở đầu trang */
+    left: 0;
     width: 100%;
-
+    background-color: rgba(255, 255, 255, 0.9); /* Nền mờ */
+    z-index: 1050; /* Cao hơn carousel */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
 }
+
 
 .search-bar-tabs {
     display: flex;
