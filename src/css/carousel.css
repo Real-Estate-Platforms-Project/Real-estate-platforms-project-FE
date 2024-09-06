@@ -1,0 +1,5 @@
+.carousel {
+    position: relative; /* Không cần thay đổi nếu không yêu cầu */
+    z-index: 1000; /* Thấp hơn thanh tìm kiếm */
+    margin-top: 60px; /* Đặt một khoảng cách đủ để tránh bị che */
+}
