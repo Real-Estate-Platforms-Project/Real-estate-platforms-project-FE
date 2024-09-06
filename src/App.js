@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NotFound from "./component/client/404";
 import Home from "./page/client/Home";
+import CreateRealEstate from "./page/client/CreateRealEstate";
 
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Client />}>
-
+            <Route path="/" element={<Home/>} />
+            <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>} />
             <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
