@@ -2,8 +2,6 @@ import SearchBar from "../search/SearchBar";
 import '../../css/carousel.css'
 function Carousel() {
     return(
-        <>
-
         <div id="carouselExampleRide" className="carousel slide h-25" data-bs-ride="true">
 
             <div className="carousel-inner">
@@ -30,7 +28,6 @@ function Carousel() {
                 <span className="visually-hidden">Next</span>
             </button>
         </div>
-        </>
     );
 }
 export default Carousel;
