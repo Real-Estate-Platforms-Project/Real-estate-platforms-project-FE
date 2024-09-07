@@ -1,18 +1,11 @@
 import React from 'react';
 
-const ImagePreview = ({ imageUrl, onRemove }) => {
-    return (
-        <div className="position-relative">
-            <img src={imageUrl} alt="Preview" className="img-thumbnail" />
-            <button
-                type="button"
-                className="remove-btn"
-                onClick={onRemove}
-            >
-                ×
-            </button>
-        </div>
-    );
-};
+const ImagePreview = ({ imagePreviews }) => (
+    <div className="image-previews mt-3">
+        {imagePreviews.map((url, index) => (
+            <img key={index} src={url} alt={`Preview ${index}`} className="img-thumbnail" />
+        ))}
+    </div>
+);
 
 export default ImagePreview;
