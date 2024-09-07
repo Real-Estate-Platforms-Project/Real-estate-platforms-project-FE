@@ -9,6 +9,7 @@ import NotFound from "./component/client/404";
 import Home from "./page/client/Home";
 import CreateRealEstate from "./page/client/CreateRealEstate";
 import Carousel from "./component/carousel/Carousel";
+import Notification from "./component/client/Notification";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>} />
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<Carousel/>} />
+            <Route path="/notification" element={<Notification/>} />
         </Route>
       </Routes>
       <ToastContainer />

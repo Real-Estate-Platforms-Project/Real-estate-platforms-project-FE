@@ -47,7 +47,7 @@ function Nav() {
                                 <Link className="nav-link text-dark" aria-disabled="true" to="#">Property</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link text-dark" aria-disabled="true" to='#'>Blog</Link>
+                                <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin tức</Link>
                             </li>
                         </ul>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
