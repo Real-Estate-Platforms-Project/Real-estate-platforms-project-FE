@@ -35,7 +35,11 @@ body {
 }
 
 .button-search {
-    background-color: #ff6b35 !important;
+    background-color: #ff6e3c !important;
+}
+
+.button-search:hover {
+    background-color: #ff5b20 !important;
 }
 
 .nav-item.dropdown:hover .dropdown-menu {
@@ -77,4 +81,48 @@ li > a {
 
 .form-create-real-estate {
     background-color: #FFF7F0;
+}
+
+.sale {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.lease {
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+
+.image-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between images */
+}
+
+.image-previews img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    position: relative;
+}
+
+.image-previews .remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 2px 5px;
+    font-size: 12px;
+    display: none;
+}
+
+.image-previews img:hover .remove-btn {
+    display: block;
 }
