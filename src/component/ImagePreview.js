@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ImagePreview = ({ imagePreviews }) => (
     <div className="image-previews mt-3">
         {imagePreviews.map((url, index) => (
