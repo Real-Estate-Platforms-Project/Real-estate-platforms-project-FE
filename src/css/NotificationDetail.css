@@ -1,0 +1,19 @@
+.notification-detail {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.notification-detail img {
+    max-width: 100%;
+    height: auto;
+}
+
+.notification-detail h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.notification-detail p {
+    margin: 5px 0;
+}

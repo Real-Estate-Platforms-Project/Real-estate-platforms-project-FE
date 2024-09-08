@@ -11,6 +11,7 @@ import Home from "./page/client/Home";
 import CreateRealEstate from "./page/client/CreateRealEstate";
 import Carousel from "./component/carousel/Carousel";
 import Notification from "./component/client/Notification";
+import NotificationDetail from "./component/client/NotificationDetail";
 
 
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="*" element={<NotFound/>} />
             <Route path="/" element={<Carousel/>} />
             <Route path="/notification" element={<Notification/>} />
+            <Route path="/notificationDetail/:id" element={<NotificationDetail />} />
         </Route>
       </Routes>
       <ToastContainer />

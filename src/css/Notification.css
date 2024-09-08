@@ -51,3 +51,25 @@
 .article-description {
     margin-top: 10px;
 }
+
+.article-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.article-link img {
+    display: block;
+}
+
+.article-link:hover {
+    text-decoration: underline;
+    color: red;
+}
+
+.article-image {
+    transition: transform 0.3s ease;
+}
+
+.article-image:hover {
+    transform: scale(1.1);
+}
