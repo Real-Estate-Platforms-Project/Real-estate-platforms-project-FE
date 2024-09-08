@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import * as notificationService from '../../services/NotificationService';
 import '../../css/Notification.css';
+import {Link} from "react-router-dom";
 
 function Notification() {
     const [notification, setNotification] = useState([]);
@@ -12,7 +13,11 @@ function Notification() {
 
     const getNotification = async (title) => {
         let res = await notificationService.getAllNotification(title);
-        setNotification(res);
+        if (res.length > 0) {
+            setNotification(res);
+        } else {
+            setNotification([]);
+        }
     }
 
     const handleSearchChange = (event) => {
@@ -32,10 +37,16 @@ function Notification() {
             <div className="notifications-list">
                 {notification.map((item) => (
                     <div key={item.id} className="article">
-                        <img src={item.image} alt={item.title} className="article-image" />
+                        <Link to={`/notificationDetail/${item.id}`} className="article-link">
+                            <img src={item.image} alt={item.title} className="article-image"/>
+                        </Link>
                         <div className="article-content">
-                            <h2 className="article-title">{item.title}</h2>
-                            <p className="article-date">{item.formattedCreateNotification} · {item.employee.name}</p>
+                            <Link to={`/notificationDetail/${item.id}`} className="article-link">
+                                <h2 className="article-title">{item.title}</h2>
+                            </Link>
+                            <p className="article-date">
+                                {item.formattedCreateNotification} · {item.employee.name}
+                            </p>
                             <p className="article-description">{item.contend}</p>
                         </div>
                     </div>

@@ -16,3 +16,12 @@ export const getAllNotification = async (title) => {
         return [];
     }
 }
+
+export const getNotificationDetail = async (id) => {
+    try {
+        let res = await axios.get(URL_GET_ALL_NOTIFICATION + `/${id}`);
+        return res.data;
+    } catch (e) {
+        return [];
+    }
+}
