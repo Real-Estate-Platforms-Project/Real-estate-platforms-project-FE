@@ -5,11 +5,11 @@ function Carousel() {
         <>
 
         <div id="carouselExampleRide" className="carousel slide h-25" data-bs-ride="true">
-
+            <SearchBar/>
             <div className="carousel-inner">
                 <div className="carousel-item active">
                     <div className="carousel-caption d-none d-md-block">
-                        <SearchBar/>
+
                     </div>
                     <img src={"https://tulieuvankien.dangcongsan.vn/Uploads/2018/7/5/4/united_kingdom.jpg"}
                        style={{height:"500px"}}  className="d-block w-100" alt="..."/>

@@ -1,11 +1,14 @@
 .search-bar-container {
-    position: relative; /* Đảm bảo thanh tìm kiếm cố định ở trên cùng */
-    top: 0; /* Cố định ở đầu trang */
-    left: 0;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.9); /* Nền mờ */
-    z-index: 1050; /* Cao hơn carousel */
+    position: absolute; /* Đảm bảo thanh tìm kiếm cố định ở trên cùng */
+    top: 10px; /* Điều chỉnh giá trị này theo ý muốn */
+    left: 50%;
+    width: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.9); /* Nền mờ */ /* Cao hơn carousel */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
+    border-radius: 10px; /* Bo tròn các góc, có thể điều chỉnh theo ý thích */
+    padding: 10px;
 }
 
 

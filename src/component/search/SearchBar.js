@@ -34,6 +34,7 @@ function SearchBar(){
                     <button className="filter-select" onClick={togglePriceFilter}>
                         Mức giá
                     </button>
+                    
                     <button className="filter-select" onClick={toggleAcreageFilter}>
                       Diện tích
                     </button>
