@@ -15,6 +15,8 @@ import NotificationDetail from "./component/client/NotificationDetail";
 import Login from "./page/auth/Login";
 import Register from "./page/auth/Register";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
+import Statistics from "./component/admin/Statistics";
+
 
 
 function App() {

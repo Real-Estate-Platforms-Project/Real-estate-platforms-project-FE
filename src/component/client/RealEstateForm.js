@@ -194,8 +194,8 @@ const RealEstateForm = ({
                         handleImageChange(event);
                     }}
                 />
-                <ErrorMessage name="images" component="div" className="text-danger"/>
                 <ImagePreview imagePreviews={imagePreviews}/>
+                <ErrorMessage name="images" component="div" className="text-danger mt-2"/>
             </div>
         </div>
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white mt-2">
@@ -216,11 +216,10 @@ const RealEstateForm = ({
                     <Field name="phone" id="phone" className="form-control" placeholder="Nhập email"/>
                 </div>
             </div>
-
         </div>
-        <div className="w-50 m-auto p-0 bg-white m-0">
+        <div className="w-50 mx-auto p-0 bg-white handle-submit" style={{marginTop: -65}}>
             <div className="d-flex justify-content-between shadow-sm p-4 mt-4">
-                <Link to="/" className="btn btn-secondary me-2 fw-bold">Quay lại</Link>
+                <Link to="/" className="btn btn-secondary me-2 fw-bold back-to-home">Quay lại</Link>
                 <button type="submit" className="btn button-search text-white fw-bold">Hoàn thành</button>
             </div>
         </div>

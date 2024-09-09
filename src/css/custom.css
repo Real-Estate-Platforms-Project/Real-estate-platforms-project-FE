@@ -126,3 +126,19 @@ li > a {
 .image-previews img:hover .remove-btn {
     display: block;
 }
+
+.handle-submit {
+    bottom: 0;
+    position: sticky;
+    box-shadow: rgba(182, 182, 182, 0.18) 0 -2px 8px ;
+}
+
+.back-to-home {
+    background-color: #fff !important;
+    color: #000 !important;
+
+}
+
+.back-to-home:hover {
+    background-color: #eeeeee !important;
+}
