@@ -1,6 +1,7 @@
 import Logo from "../Logo";
 import MegaMenu from "../MegaMenu";
 import {Link} from "react-router-dom";
+import ListingMenu from "../ListingMenu";
 
 function Nav() {
     return (
@@ -30,7 +31,7 @@ function Nav() {
                                     Listing
                                 </Link>
                                 <ul className="dropdown-menu">
-                                    <MegaMenu/>
+                                    <ListingMenu/>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown me-4">
@@ -49,7 +50,6 @@ function Nav() {
                                 <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin tức</Link>
                             </li>
                         </ul>
-                        <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
                         <Link className='button-black' to='/login'><span className='fw-bold'>Đăng nhập</span></Link>
                     </div>
