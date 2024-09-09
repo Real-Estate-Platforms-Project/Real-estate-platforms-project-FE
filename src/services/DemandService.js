@@ -17,6 +17,7 @@ export  const deleteDemand = async (id) => {
         await axios.delete(URL_DEMAND + "/" + id);
         return true;
     } catch (e) {
+        console.log(e)
         return false;
     }
 }

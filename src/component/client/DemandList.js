@@ -50,8 +50,8 @@ function DemandList() {
     return (
         <div className="container row">
             {demands.map((item) =>
-            <div className="card w-50" >
-                <div className="card-body">
+            <div className="card w-25" key={item.id} >
+                <div className="card-body" >
                     <h5 className="card-title">{item.title}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{item.type}</h6>
                     <h6 className="card-subtitle mb-2 text-muted">{item.realEstateType}</h6>
