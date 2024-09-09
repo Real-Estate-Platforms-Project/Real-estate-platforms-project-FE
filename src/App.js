@@ -23,7 +23,7 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
-                <Route path="/activation-success" element={<ActivationSuccess/>}/>
+                <Route path="/activation-success" element={<ActivationSuccess />} />
                 <Route path="/" element={<Client/>}>
                     {/*<Route path="/" element={<Home/>} />*/}
                     <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
@@ -39,4 +39,5 @@ function App() {
         </BrowserRouter>
     );
 }
+
 export default App;

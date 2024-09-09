@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import authService from '../../services/AuthService';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,7 +25,7 @@ function Login() {
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <div className="p-5 shadow">
+                    <div className="p-5 shadow rounded-3">
                         <h2 className="text-center mb-4">Đăng Nhập</h2>
                         <form onSubmit={handleLogin}>
                             <div className="form-group mb-3">
@@ -58,6 +58,7 @@ function Login() {
                                 <button type="submit" className="btn btn-primary btn-block">Đăng Nhập</button>
                             </div>
                         </form>
+                        <p className="text-center mt-4">Nếu bạn chưa có tài khoản vui lòng <Link to="/register">đăng ký</Link> tài khoản</p>
                     </div>
 
                 </div>
