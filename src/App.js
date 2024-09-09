@@ -1,5 +1,6 @@
 import './App.css';
 import './css/custom.css'
+import "./css/SearchBar.css"
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Client from './page/layout/Client';
@@ -8,6 +9,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NotFound from "./component/client/404";
 import Home from "./page/client/Home";
 import CreateRealEstate from "./page/client/CreateRealEstate";
+import Carousel from "./component/carousel/Carousel";
+import Notification from "./component/client/Notification";
+import NotificationDetail from "./component/client/NotificationDetail";
+
 
 
 function App() {
@@ -17,7 +22,10 @@ function App() {
         <Route path="/" element={<Client />}>
             {/*<Route path="/" element={<Home/>} />*/}
             <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound/>} />
+            <Route path="/" element={<Carousel/>} />
+            <Route path="/notification" element={<Notification/>} />
+            <Route path="/notificationDetail/:id" element={<NotificationDetail />} />
         </Route>
       </Routes>
       <ToastContainer />

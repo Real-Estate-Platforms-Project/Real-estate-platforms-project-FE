@@ -8,7 +8,7 @@ function Nav() {
         <div className="shadow-lg py-18px">
             <nav className="navbar navbar-expand-lg py-0">
                 <div className="container-fluid">
-                    <Link className="navbar-brand py-0" href="#" to='#'><Logo width={'128px'}/></Link>
+                    <Link className="navbar-brand py-0" to='/'><Logo width={'128px'}/></Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@ function Nav() {
                                 <Link className="nav-link text-dark" aria-disabled="true" to="#">Property</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link text-dark" aria-disabled="true" to='#'>Blog</Link>
+                                <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin tức</Link>
                             </li>
                         </ul>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
