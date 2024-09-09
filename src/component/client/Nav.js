@@ -2,6 +2,8 @@ import Logo from "../Logo";
 import MegaMenu from "../MegaMenu";
 import {Link, useNavigate} from "react-router-dom";
 import {getToken, removeToken} from "../../utils/tokenUtils";
+import {Link} from "react-router-dom";
+import ListingMenu from "../ListingMenu";
 
 
 function Nav() {
@@ -40,7 +42,7 @@ function Nav() {
                                     Listing
                                 </Link>
                                 <ul className="dropdown-menu">
-                                    <MegaMenu/>
+                                    <ListingMenu/>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown me-4">

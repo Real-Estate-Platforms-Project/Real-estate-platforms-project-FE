@@ -1,8 +1,8 @@
 import './App.css';
-import './css/custom.css'
-import "./css/SearchBar.css"
-import {ToastContainer} from "react-toastify";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import './css/custom.css';
+import "./css/SearchBar.css";
+import { ToastContainer } from "react-toastify";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Client from './page/layout/Client';
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,18 +11,13 @@ import CreateRealEstate from "./page/client/CreateRealEstate";
 import LandingPage from "./component/carousel/LandingPage";
 import Notification from "./component/client/Notification";
 import NotificationDetail from "./component/client/NotificationDetail";
-
+import UpdatePassWord from "./component/login/UpdatePassWord";
 import DemandList from "./component/client/DemandList";
 import Login from "./page/auth/Login";
 import Register from "./page/auth/Register";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
-import Statistics from "./component/admin/Statistics";
-
-
-
 
 function App() {
-
     return (
         <BrowserRouter>
             <Routes>
@@ -37,6 +32,7 @@ function App() {
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
+                    <Route path="/update-password" element={<UpdatePassWord/>}/>
                 </Route>
             </Routes>
             <ToastContainer/>

@@ -17,6 +17,7 @@ export  const deleteDemand = async (id) => {
         await axios.delete(URL_DEMAND + "/" + id);
         return true;
     } catch (e) {
+        console.log(e)
         return false;
     }
 }
@@ -25,7 +26,7 @@ export  const verifyDemand = async  (demand) => {
     try {
         if (!demand.isVerify){
             demand.setIsVerify = true;
-            await axios.put(URL_DEMAND+"/"+demand.id,demand);
+            await axios.put(URL_DEMAND+"/"+demand.id+"/verify",demand);
             return true;
         }
         return false;
