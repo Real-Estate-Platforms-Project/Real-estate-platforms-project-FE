@@ -1,9 +1,10 @@
-import { useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Link, NavLink} from "react-router-dom";
-import { Table, Form, Button, Modal } from 'react-bootstrap';
+import {Table, Form, Button, Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
+import "../../css/custom.css"
 
 function DemandList() {
     const [demands, setDemands] = useState([]);
@@ -28,9 +29,9 @@ function DemandList() {
 
     const verifyDemand = async (demand) => {
         let isVerify = await demandService.verifyDemand(demand);
-        if(isVerify) {
+        if (isVerify) {
             demand.isVerify = true
-            setDemands(demands.map(s => s !== demand?s:demand));
+            setDemands(demands.map(s => s !== demand ? s : demand));
             toast.success("Duyet nhu cau thành công")
         } else {
             toast.error("Duyet nhu cau thất bại.")
@@ -39,7 +40,7 @@ function DemandList() {
 
     const deleteDemand = async (id) => {
         let isSuccess = await demandService.deleteDemand(id)
-        if(isSuccess) {
+        if (isSuccess) {
             setDemands(demands.filter(s => s.id !== id));
             toast.success("Xoa nhu cau thành công")
         } else {
@@ -48,21 +49,38 @@ function DemandList() {
     }
 
     return (
-        <div className="container row">
+        <div className="container m-auto mt-5 p-4 row">
             {demands.map((item) =>
-            <div className="card w-25" key={item.id} >
-                <div className="card-body" >
-                    <h5 className="card-title">{item.title}</h5>
-                    <h6 className="card-subtitle mb-2 text-muted">{item.type}</h6>
-                    <h6 className="card-subtitle mb-2 text-muted">{item.realEstateType}</h6>
-                    <h6 className="card-subtitle mb-2 text-muted">{item.region}</h6>
-                    <h6 className="card-subtitle mb-2 text-muted">{item.minArea}-{item.maxArea} m2</h6>
-                    <h6 className="card-subtitle mb-2 text-muted"> Liên hệ: {item.buyer.name} - {item.buyer.phoneNumber}</h6>
-                    <p className="card-text">{item.notes}</p>
-                    {item.isVerify?"": <button className="btn btn-warning pr-3" onClick={() => verifyDemand(item)}>Duyệt nhu cầu</button>}
-                    <button className="btn btn-danger pr-3" onClick={() => handleShow(item)}>Xoá nhu cầu</button>
-                </div>
-            </div>)
+                <div className="shadow-sm rounded col-4 mx-2" key={item.id}>
+                    <div className="x p-3">
+                        <h5 className="card-title fw-bold">{item.title}</h5>
+                        <p className="card-text mt-3">{item.notes}</p>
+                        <h6 className="card-subtitle mb-3 text-muted"> Liên
+                            hệ: {item.buyer.name} - {item.buyer.phoneNumber}</h6>
+                        <div className="d-flex justify-content-between mt-3">
+                            <h6 className="card-subtitle mb-2"><i class="fa-solid fa-money-bill-transfer"></i>
+                                <span className="ms-2">{item.type}</span>
+                            </h6>
+                            <h6 className="card-subtitle mb-2 text-muted "><i
+                                class="fa-solid fa-house"></i> {item.realEstateType}
+                            </h6>
+                            <h6 className="card-subtitle mb-2 text-muted "><i
+                                class="fa-solid fa-location-dot"></i> {item.region}
+                            </h6>
+                            <h6 className="card-subtitle mb-2 text-muted"><i
+                                class="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
+                            </h6>
+                        </div>
+                        <div className="d-flex justify-content-end mt-3">
+                            <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>Xoá nhu cầu
+                            </button>
+                            {item.isVerify ? "" :
+                                <button className="btn btn-primary btn-sm text-white pr-3" onClick={() => verifyDemand(item)}>Duyệt nhu
+                                    cầu</button>}
+
+                        </div>
+                    </div>
+                </div>)
             }
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
