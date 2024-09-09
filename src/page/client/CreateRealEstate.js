@@ -23,7 +23,7 @@ const validationSchema = Yup.object({
     provinceCode: Yup.string().required("Cần nhập thông tin này"),
     districtCode: Yup.string().required("Cần nhập thông tin này"),
     wardCode: Yup.string().required("Cần nhập thông tin này"),
-    images: Yup.mixed().required("Cần chọn ít nhất một ảnh").test(
+    images: Yup.mixed().required("Cần chọn ít nhất 3 ảnh").test(
         "fileSize",
         "Kích thước ảnh quá lớn",
         value => !value || Array.from(value).every(file => file.size <= 5 * 1024 * 1024) // 5MB limit
@@ -31,7 +31,9 @@ const validationSchema = Yup.object({
         "fileType",
         "Chỉ chấp nhận các định dạng ảnh (.jpg, .jpeg, .png)",
         value => !value || Array.from(value).every(file => ["image/jpeg", "image/png"].includes(file.type))
-    ),
+    ).test('fileCount', 'Cần chọn ít nhất 3 ảnh', (value) => {
+        return value && value.length >= 3;
+    }),
 });
 
 const CreateRealEstate = () => {
