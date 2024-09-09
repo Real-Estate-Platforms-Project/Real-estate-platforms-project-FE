@@ -5,7 +5,7 @@ import ImagePreview from '../../component/ImagePreview';
 
 const RealEstateForm = ({
                             formik,
-                            sellerCode,
+                            seller,
                             provinces,
                             filteredDistricts,
                             filteredWards,
@@ -47,7 +47,7 @@ const RealEstateForm = ({
             </div>
             <div className="mt-3">
                 <label htmlFor="customerCode" className="form-label">Mã khách hàng</label>
-                <Field type="text" className="form-control" id="customerCode" value={sellerCode || ''} disabled/>
+                <Field type="text" className="form-control" id="customerCode" value={seller.code || ''} disabled/>
             </div>
             <div className="mt-4 d-flex">
                 <label className="form-label me-3 m-0">Loại bất động sản: </label>
@@ -194,33 +194,32 @@ const RealEstateForm = ({
                         handleImageChange(event);
                     }}
                 />
-                <ErrorMessage name="images" component="div" className="text-danger"/>
                 <ImagePreview imagePreviews={imagePreviews}/>
+                <ErrorMessage name="images" component="div" className="text-danger mt-2"/>
             </div>
         </div>
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white mt-2">
             <h4 className="fw-bold">Thông tin liên hệ</h4>
             <div className="row mt-4">
                 <div className="col-6 ">
-                    <label htmlFor="note" className="form-label">Tên liên hệ</label>
-                    <Field name="name" id="name" className="form-control"/>
+                    <label htmlFor="name" className="form-label">Tên liên hệ</label>
+                    <Field name="name" id="name" className="form-control" value={seller.name || ''}/>
                 </div>
                 <div className="col-6">
-                    <label htmlFor="note" className="form-label">Số điện thoại</label>
-                    <Field name="phone" id="phone" className="form-control"/>
+                    <label htmlFor="phone_number" className="form-label">Số điện thoại</label>
+                    <Field name="phone_number" id="phone_number" className="form-control" value={seller.phoneNumber || ''}/>
                 </div>
             </div>
             <div className="row mt-3 mb-5">
                 <div className="col-6">
-                    <label htmlFor="note" className="form-label">Email</label>
-                    <Field name="phone" id="phone" className="form-control" placeholder="Nhập email"/>
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <Field name="email" id="email" className="form-control" value={seller.email || ''}/>
                 </div>
             </div>
-
         </div>
-        <div className="w-50 m-auto p-0 bg-white m-0">
+        <div className="w-50 mx-auto p-0 bg-white handle-submit" style={{marginTop: -65}}>
             <div className="d-flex justify-content-between shadow-sm p-4 mt-4">
-                <Link to="/" className="btn btn-secondary me-2 fw-bold">Quay lại</Link>
+                <Link to="/" className="btn btn-secondary me-2 fw-bold back-to-home">Quay lại</Link>
                 <button type="submit" className="btn button-search text-white fw-bold">Hoàn thành</button>
             </div>
         </div>
