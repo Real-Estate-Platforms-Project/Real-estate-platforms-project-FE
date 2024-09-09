@@ -50,6 +50,7 @@ function Nav() {
                                 <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin tức</Link>
                             </li>
                         </ul>
+                        <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
                         <Link className='button-black' to='#'><span className='fw-bold'>Đăng nhập</span></Link>
                     </div>
