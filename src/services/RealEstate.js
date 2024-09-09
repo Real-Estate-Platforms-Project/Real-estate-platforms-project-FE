@@ -11,4 +11,12 @@ export const saveRealEstate = async (realEstate) => {
         return false;
     }
 };
+export const findRealEstate = async () => {
+    try{
+       let res = await axios.get(URL_REAL_ESTATE+"/findAll");
+        return res.data;
+    }catch(e){
+        return [];
+    }
+}
 
