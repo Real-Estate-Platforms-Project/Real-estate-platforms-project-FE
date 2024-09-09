@@ -1,6 +1,6 @@
 import './App.css';
-import './css/custom.css'
-import "./css/SearchBar.css"
+import './css/custom.css';
+import "./css/SearchBar.css";
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Client from './page/layout/Client';
@@ -12,7 +12,7 @@ import CreateRealEstate from "./page/client/CreateRealEstate";
 import Carousel from "./component/carousel/Carousel";
 import Notification from "./component/client/Notification";
 import NotificationDetail from "./component/client/NotificationDetail";
-
+import UpdatePassWord from "./component/login/UpdatePassWord";
 
 
 function App() {
@@ -26,7 +26,9 @@ function App() {
             <Route path="/" element={<Carousel/>} />
             <Route path="/notification" element={<Notification/>} />
             <Route path="/notificationDetail/:id" element={<NotificationDetail />} />
+            <Route path="/update-password" element={<UpdatePassWord/>}/>
         </Route>
+
       </Routes>
       <ToastContainer />
     </BrowserRouter>
