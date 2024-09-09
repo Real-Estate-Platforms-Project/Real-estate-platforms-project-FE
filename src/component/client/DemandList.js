@@ -57,9 +57,10 @@ function DemandList() {
                     <h6 className="card-subtitle mb-2 text-muted">{item.realEstateType}</h6>
                     <h6 className="card-subtitle mb-2 text-muted">{item.region}</h6>
                     <h6 className="card-subtitle mb-2 text-muted">{item.minArea}-{item.maxArea} m2</h6>
+                    <h6 className="card-subtitle mb-2 text-muted"> Liên hệ: {item.buyer.name} - {item.buyer.phoneNumber}</h6>
                     <p className="card-text">{item.notes}</p>
-                    {item.isVerify?"": <button className="btn btn-warning pr-3" onClick={() => verifyDemand(item)}>Duyet nhu cau</button>}
-                    <button className="btn btn-danger pr-3" onClick={() => handleShow(item)}>Xoa nhu cau</button>
+                    {item.isVerify?"": <button className="btn btn-warning pr-3" onClick={() => verifyDemand(item)}>Duyệt nhu cầu</button>}
+                    <button className="btn btn-danger pr-3" onClick={() => handleShow(item)}>Xoá nhu cầu</button>
                 </div>
             </div>)
             }
