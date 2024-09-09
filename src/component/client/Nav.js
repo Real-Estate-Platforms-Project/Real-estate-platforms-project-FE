@@ -52,7 +52,7 @@ function Nav() {
                             </li>
                         </ul>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
-                        <Link className='button-black' to='#'><span className='fw-bold'>Đăng nhập</span></Link>
+                        <Link className='button-black' to='login'><span className='fw-bold'>Đăng nhập</span></Link>
                     </div>
                 </div>
             </nav>
