@@ -23,8 +23,9 @@ function LandingPage() {
                 <div className="search-bar-container">
                     <SearchBar/>
                 </div>
-                <CardEstate/>
+
             </div>
+            <CardEstate/>
         </div>
     );
 }
