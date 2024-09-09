@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useState, useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import * as Yup from "yup";
-import { Formik } from "formik";
+import {Formik} from "formik";
 import * as realEstateService from "../../services/RealEstate";
 import * as addressService from "../../services/AddressService";
-import * as sellerService from "../../services/Seller";
-import { storage } from '../../firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { toast } from "react-toastify";
+import * as sellerService from "../../services/SellerInfor";
+import {storage} from '../../firebase';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {toast} from "react-toastify";
 import RealEstateForm from "../../component/client/RealEstateForm";
 
 // Validation schema
@@ -37,8 +37,7 @@ const validationSchema = Yup.object({
 });
 
 const CreateRealEstate = () => {
-    const { sellerId } = useParams();
-    const [sellerCode, setSellerCode] = useState("");
+   const [seller, setSeller] = useState({});
     const [provinces, setProvinces] = useState([]);
     const [filteredDistricts, setFilteredDistricts] = useState([]);
     const [filteredWards, setFilteredWards] = useState([]);
@@ -52,23 +51,21 @@ const CreateRealEstate = () => {
     useEffect(() => {
         const fetchSeller = async () => {
             try {
-                const seller = await sellerService.getSellerById(sellerId);
-                setSellerCode(seller.code);
+                const seller = await sellerService.SellerInfor();
+               setSeller(seller)
             } catch (error) {
                 toast.error("Không thể tải thông tin khách hàng.");
             }
         };
+        fetchSeller();
+    }, []);
 
-        if (sellerId) {
-            fetchSeller();
-        }
-    }, [sellerId]);
 
     useEffect(() => {
         const fetchProvinces = async () => {
             try {
                 const provinceData = await addressService.getAllProvinces();
-                setProvinces(provinceData.map(p => ({ value: p.code, label: p.name })));
+                setProvinces(provinceData.map(p => ({value: p.code, label: p.name})));
             } catch (error) {
                 console.error("Failed to fetch provinces", error);
             }
@@ -88,7 +85,7 @@ const CreateRealEstate = () => {
         const fetchDistricts = async () => {
             try {
                 const districtData = await addressService.getAllDistricts(selectedProvince.value);
-                setFilteredDistricts(districtData.map(d => ({ value: d.code, label: d.name })));
+                setFilteredDistricts(districtData.map(d => ({value: d.code, label: d.name})));
             } catch (error) {
                 console.error("Failed to fetch districts", error);
             }
@@ -106,7 +103,7 @@ const CreateRealEstate = () => {
         const fetchWards = async () => {
             try {
                 const wardData = await addressService.getAllWards(selectedDistrict.value);
-                setFilteredWards(wardData.map(w => ({ value: w.code, label: w.name })));
+                setFilteredWards(wardData.map(w => ({value: w.code, label: w.name})));
             } catch (error) {
                 console.error("Failed to fetch wards", error);
             }
@@ -137,7 +134,7 @@ const CreateRealEstate = () => {
         setImagePreviews(imageUrls);
     };
 
-    const handleSubmit = async (values, { resetForm }) => {
+    const handleSubmit = async (values, {resetForm}) => {
         try {
             const imageUrls = [];
             if (values.images) {
@@ -150,7 +147,7 @@ const CreateRealEstate = () => {
                 await Promise.all(uploadPromises);
             }
 
-            const realEstateData = { ...values, images: imageUrls };
+            const realEstateData = {...values, images: imageUrls};
             const response = await realEstateService.saveRealEstate(realEstateData);
 
             if (response) {
@@ -189,7 +186,7 @@ const CreateRealEstate = () => {
             {formik => (
                 <RealEstateForm
                     formik={formik}
-                    sellerCode={sellerCode}
+                    seller={seller}
                     provinces={provinces}
                     filteredDistricts={filteredDistricts}
                     filteredWards={filteredWards}

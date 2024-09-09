@@ -22,12 +22,12 @@ function CardEstate() {
     }
 
     return (
-        <div className="container">
+        <div className="container mt-3">
             <div className="card">
                 <div className="container">
                     {/* Kiểm tra nếu không có dữ liệu */}
                     {estate.length === 0 ? (
-                        <p>No real estate properties found.</p>
+                        <p>Không tìm thấy bất động sản nào.</p>
                     ) : (
                         estate.map((item, index) => (
                             <div key={index} className="box">

@@ -5,7 +5,7 @@ import ImagePreview from '../../component/ImagePreview';
 
 const RealEstateForm = ({
                             formik,
-                            sellerCode,
+                            seller,
                             provinces,
                             filteredDistricts,
                             filteredWards,
@@ -47,7 +47,7 @@ const RealEstateForm = ({
             </div>
             <div className="mt-3">
                 <label htmlFor="customerCode" className="form-label">Mã khách hàng</label>
-                <Field type="text" className="form-control" id="customerCode" value={sellerCode || ''} disabled/>
+                <Field type="text" className="form-control" id="customerCode" value={seller.code || ''} disabled/>
             </div>
             <div className="mt-4 d-flex">
                 <label className="form-label me-3 m-0">Loại bất động sản: </label>
@@ -202,18 +202,18 @@ const RealEstateForm = ({
             <h4 className="fw-bold">Thông tin liên hệ</h4>
             <div className="row mt-4">
                 <div className="col-6 ">
-                    <label htmlFor="note" className="form-label">Tên liên hệ</label>
-                    <Field name="name" id="name" className="form-control"/>
+                    <label htmlFor="name" className="form-label">Tên liên hệ</label>
+                    <Field name="name" id="name" className="form-control" value={seller.name || ''}/>
                 </div>
                 <div className="col-6">
-                    <label htmlFor="note" className="form-label">Số điện thoại</label>
-                    <Field name="phone" id="phone" className="form-control"/>
+                    <label htmlFor="phone_number" className="form-label">Số điện thoại</label>
+                    <Field name="phone_number" id="phone_number" className="form-control" value={seller.phoneNumber || ''}/>
                 </div>
             </div>
             <div className="row mt-3 mb-5">
                 <div className="col-6">
-                    <label htmlFor="note" className="form-label">Email</label>
-                    <Field name="phone" id="phone" className="form-control" placeholder="Nhập email"/>
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <Field name="email" id="email" className="form-control" value={seller.email || ''}/>
                 </div>
             </div>
         </div>
