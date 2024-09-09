@@ -11,13 +11,18 @@ import CreateRealEstate from "./page/client/CreateRealEstate";
 import LandingPage from "./component/carousel/LandingPage";
 import Notification from "./component/client/Notification";
 import NotificationDetail from "./component/client/NotificationDetail";
+
+import DemandList from "./component/client/DemandList";
 import Login from "./page/auth/Login";
 import Register from "./page/auth/Register";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
+import Statistics from "./component/admin/Statistics";
+
 
 
 
 function App() {
+
     return (
         <BrowserRouter>
             <Routes>
@@ -26,6 +31,7 @@ function App() {
                 <Route path="/activation-success" element={<ActivationSuccess />} />
                 <Route path="/" element={<Client/>}>
                     {/*<Route path="/" element={<Home/>} />*/}
+                    <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
                     <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                     <Route path="*" element={<NotFound/>}/>
                     <Route path="/" element={<LandingPage/>}/>
