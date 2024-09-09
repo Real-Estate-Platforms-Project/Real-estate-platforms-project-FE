@@ -1,7 +1,4 @@
-import axios from "axios";
 import apiClient from "../configs/axiosConfigs";
-
-const URL_ACCOUNT = "http://localhost:8080/api/auth";
 
 export const updatePassword = async (data) => {
     try {
