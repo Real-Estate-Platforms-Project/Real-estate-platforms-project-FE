@@ -26,7 +26,7 @@ export  const verifyDemand = async  (demand) => {
     try {
         if (!demand.isVerify){
             demand.setIsVerify = true;
-            await axios.put(URL_DEMAND+"/"+demand.id,demand);
+            await axios.put(URL_DEMAND+"/"+demand.id+"/verify",demand);
             return true;
         }
         return false;
