@@ -47,79 +47,79 @@ const Register = () => {
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <div className="card">
-                        <div className="card-body">
-                            <h3 className="text-center">Đăng Ký</h3>
-                            <form onSubmit={formik.handleSubmit}>
-                                <div className="mb-3">
-                                    <label htmlFor="name" className="form-label">Tên người dùng</label>
-                                    <input
-                                        id="name"
-                                        name="name"
-                                        type="text"
-                                        className={`form-control ${formik.touched.name && formik.errors.name ? 'is-invalid' : ''}`}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.name}
-                                    />
-                                    {formik.touched.name && formik.errors.name ? (
-                                        <div className="invalid-feedback">{formik.errors.name}</div>
-                                    ) : null}
-                                </div>
+                    <div className="p-5 shadow rounded-3">
+                        <h3 className="text-center">Đăng Ký</h3>
+                        <form onSubmit={formik.handleSubmit}>
+                            <div className="mb-3">
+                                <label htmlFor="name" className="form-label">Tên người dùng</label>
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    className={`form-control ${formik.touched.name && formik.errors.name ? 'is-invalid' : ''}`}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.name}
+                                />
+                                {formik.touched.name && formik.errors.name ? (
+                                    <div className="invalid-feedback">{formik.errors.name}</div>
+                                ) : null}
+                            </div>
 
-                                <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">Email</label>
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : ''}`}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.email}
-                                    />
-                                    {formik.touched.email && formik.errors.email ? (
-                                        <div className="invalid-feedback">{formik.errors.email}</div>
-                                    ) : null}
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="email" className="form-label">Email</label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : ''}`}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.email}
+                                />
+                                {formik.touched.email && formik.errors.email ? (
+                                    <div className="invalid-feedback">{formik.errors.email}</div>
+                                ) : null}
+                            </div>
 
-                                <div className="mb-3">
-                                    <label htmlFor="password" className="form-label">Mật khẩu</label>
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.password}
-                                    />
-                                    {formik.touched.password && formik.errors.password ? (
-                                        <div className="invalid-feedback">{formik.errors.password}</div>
-                                    ) : null}
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="password" className="form-label">Mật khẩu</label>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.password}
+                                />
+                                {formik.touched.password && formik.errors.password ? (
+                                    <div className="invalid-feedback">{formik.errors.password}</div>
+                                ) : null}
+                            </div>
 
-                                <div className="mb-3">
-                                    <label htmlFor="confirmPassword" className="form-label">Xác nhận mật khẩu</label>
-                                    <input
-                                        id="confirmPassword"
-                                        name="confirmPassword"
-                                        type="password"
-                                        className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'is-invalid' : ''}`}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.confirmPassword}
-                                    />
-                                    {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                                        <div className="invalid-feedback">{formik.errors.confirmPassword}</div>
-                                    ) : null}
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="confirmPassword" className="form-label">Xác nhận mật khẩu</label>
+                                <input
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type="password"
+                                    className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'is-invalid' : ''}`}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.confirmPassword}
+                                />
+                                {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+                                    <div className="invalid-feedback">{formik.errors.confirmPassword}</div>
+                                ) : null}
+                            </div>
 
+                            <div className="text-end">
                                 <button type="submit" className="btn btn-primary" disabled={formik.isSubmitting}>
                                     {formik.isSubmitting ? 'Đang gửi...' : 'Đăng Ký'}
                                 </button>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

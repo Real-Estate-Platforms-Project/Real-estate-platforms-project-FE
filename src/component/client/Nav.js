@@ -1,9 +1,18 @@
 import Logo from "../Logo";
 import MegaMenu from "../MegaMenu";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {getToken, removeToken} from "../../utils/tokenUtils";
 
 
 function Nav() {
+    const token = getToken();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        removeToken();
+        navigate('/login');
+    };
+
     return (
         <div className="shadow-lg py-18px">
             <nav className="navbar navbar-expand-lg py-0">
@@ -52,7 +61,16 @@ function Nav() {
                         </ul>
                         <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
-                        <Link className='button-black' to='#'><span className='fw-bold'>Đăng nhập</span></Link>
+                        {!token && (
+                            <Link className='button-black' to='/login'>
+                                <span className='fw-bold'>Đăng nhập</span>
+                            </Link>
+                        )}
+                        {token && (
+                            <button className='button-black' onClick={handleLogout}>
+                                <span className='fw-bold'>Đăng xuất</span>
+                            </button>
+                        )}
                     </div>
                 </div>
             </nav>
