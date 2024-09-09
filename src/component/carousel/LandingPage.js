@@ -1,10 +1,10 @@
 import SearchBar from "../search/SearchBar";
 import React from "react";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import {Carousel} from "react-bootstrap";
+import {Carousel} from "react-responsive-carousel";
 function LandingPage() {
     return (
-        <div>
+        <div className="custom-search">
             <div className="carousel-container">
                 <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
 
