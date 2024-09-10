@@ -1,0 +1,27 @@
+.admin-dashboard {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.sidebar {
+    padding: 20px;
+    height: 100vh;
+    background-color: #fff7f0; /* Set the background color to #fff7f0 */
+}
+
+.sidebar-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.nav-link {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #000; /* Default color */
+    transition: color 0.3s ease; /* Smooth transition */
+}
+
+.nav-link:hover {
+    background-color: orange; /* Change to orange on hover */
+    border-radius: 5px;
+}
