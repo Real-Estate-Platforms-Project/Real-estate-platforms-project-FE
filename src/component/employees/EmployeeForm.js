@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import {toast} from 'react-toastify';
 
-
-const EmployeeForm = ({ onCloseModal, onSave }) => {
+const EmployeeForm = ({onCloseModal, onSave}) => {
     const [formData, setFormData] = useState({
         code: '',
         name: '',
@@ -25,10 +25,12 @@ const EmployeeForm = ({ onCloseModal, onSave }) => {
         e.preventDefault();
         console.log('Submitted Data:', formData);
         onSave();
+        toast.success('Thêm mới thành công!');
         onCloseModal();
     };
 
     return (
+
         <form onSubmit={handleSubmit}>
             <div className="row">
                 <div className="col-md-6">
@@ -133,7 +135,7 @@ const EmployeeForm = ({ onCloseModal, onSave }) => {
                     onChange={handleChange}
                     className="form-control"
                 >
-                    <option value="">Chọn chức vụ </option>
+                    <option value="">Chọn chức vụ</option>
                     <option value="Trưởng phòng">Trưởng phòng</option>
                     <option value="Kế toán">Kế toán</option>
                     <option value="Nhân viên">Nhân viên</option>
@@ -174,7 +176,8 @@ const EmployeeForm = ({ onCloseModal, onSave }) => {
                 </div>
             </div>
 
-            <button type="submit" className="btn" style={{ backgroundColor: '#FC650B', color: 'white' }}>Lưu</button>
+
+            <button type="submit" className="btn" style={{backgroundColor: '#FC650B', color: 'white'}}>Lưu</button>
         </form>
     );
 };

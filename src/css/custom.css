@@ -136,7 +136,7 @@ li > a {
 .back-to-home {
     background-color: #fff !important;
     color: #000 !important;
-
+    border: 1px solid #bebebe !important;
 }
 
 .back-to-home:hover {

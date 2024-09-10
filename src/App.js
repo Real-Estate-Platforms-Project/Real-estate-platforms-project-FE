@@ -17,7 +17,10 @@ import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
+
 import CreateDemand from "./page/client/CreateDemand";
+
+import Forbidden from "./component/client/Forbidden";
 
 
 function App() {
@@ -36,11 +39,10 @@ function App() {
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+                    <Route path="/403" element={<Forbidden />} />
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
-
-                    <Route path="/admin/employees" element={<EmployeeList />} />
-
+                    <Route path={"/admin/employee"} element={<EmployeeList />} />
                 </Route>
             </Routes>
             <ToastContainer/>

@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
-import {Link, NavLink} from "react-router-dom";
-import {Table, Form, Button, Modal} from 'react-bootstrap';
+import { Button, Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
