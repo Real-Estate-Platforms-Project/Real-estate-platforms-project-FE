@@ -109,17 +109,17 @@
         position: relative;
     }
 
-        .container .box:not(:last-of-type) .bottom:before {
-            content: "Hot";
-            background-color: #ea723d;
-            color: white;
-            font-size: 11px;
-            padding: 4px 7px;
-            position: absolute;
-            left: 20px;
-            top: -40px;
-            z-index: 1;
-        }
+    .container .box:not(:last-of-type) .bottom:before {
+        content: "Hot";
+        background-color: #ea723d;
+        color: white;
+        font-size: 11px;
+        padding: 4px 7px;
+        position: absolute;
+        left: 20px;
+        top: -40px;
+        z-index: 1;
+    }
 
     .container .box .bottom h3 {
         font-size: 15px;
