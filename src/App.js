@@ -17,6 +17,8 @@ import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
+import HomeTransaction from "./component/admin/transaction/HomeTransaction"
+
 
 
 function App() {
@@ -34,12 +36,16 @@ function App() {
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
-
+                    <Route path="/admin/homeTransaction" element={<HomeTransaction/>} />
                     <Route path="/admin/employees" element={<EmployeeList />} />
 
                 </Route>
+
+
+
             </Routes>
             <ToastContainer/>
 
