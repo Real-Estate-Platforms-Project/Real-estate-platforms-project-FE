@@ -62,7 +62,8 @@ const SearchBar = () => {
                         onClick={() => toggleDropdown('type')}
                     >
                         <button className="arrow">
-                            Loại nhà đất <span>{activeDropdown === 'type' ? '▲' : '▼'}</span>
+                            Loại nhà đất <span>{activeDropdown === 'type' ? <i className="bi bi-caret-up"></i> :
+                            <i className="bi bi-caret-down"></i>}</span>
                         </button>
                         {activeDropdown === 'type' && (
                             <div className="dropdown" onClick={(e) => e.stopPropagation()}>
@@ -79,7 +80,8 @@ const SearchBar = () => {
                         onClick={() => toggleDropdown('price')}
                     >
                         <button className="arrow">
-                            Mức giá <span>{activeDropdown === 'price' ? '▲' : '▼'}</span>
+                            Mức giá <span>{activeDropdown === 'price' ? <i className="bi bi-caret-up"></i> :
+                            <i className="bi bi-caret-down"></i>}</span>
                         </button>
                         {activeDropdown === 'price' && (
                             <div className="dropdown" onClick={(e) => e.stopPropagation()}>
@@ -88,7 +90,7 @@ const SearchBar = () => {
                                     <button className="filter-close-btn" onClick={(e) => {
                                         e.stopPropagation();
                                         closeDropdowns();
-                                    }}>✕
+                                    }}><i className="bi bi-x-circle"></i>
                                     </button>
                                 </div>
                                 <div className="filter-body">
@@ -147,7 +149,8 @@ const SearchBar = () => {
                         onClick={() => toggleDropdown('area')}
                     >
                         <button className="arrow">
-                            Diện tích <span>{activeDropdown === 'area' ? '▲' : '▼'}</span>
+                            Diện tích <span>{activeDropdown === 'area' ?
+                            <i className="bi bi-caret-up"></i> : <i className="bi bi-caret-down"></i>}</span>
                         </button>
                         {activeDropdown === 'area' && (
                             <div className="dropdown" onClick={(e) => e.stopPropagation()}>
@@ -156,7 +159,7 @@ const SearchBar = () => {
                                     <button className="filter-close-btn" onClick={(e) => {
                                         e.stopPropagation();
                                         closeDropdowns();
-                                    }}>✕
+                                    }}><i className="bi bi-x-circle"></i>
                                     </button>
                                 </div>
                                 <div className="filter-body">
