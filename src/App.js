@@ -17,6 +17,7 @@ import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
+import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
 
 
@@ -25,7 +26,8 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Authentication/>}/>
-                <Route path="/activation-success" element={<ActivationSuccess />} />
+                <Route path="/activation-success" element={<ActivationSuccess/>}/>
+                <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                 <Route path="/" element={<Client/>}>
                     {/*<Route path="/" element={<Home/>} />*/}
                     <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
