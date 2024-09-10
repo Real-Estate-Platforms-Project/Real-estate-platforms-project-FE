@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import EmployeeService from '../../services/EmployeeService';
 import EmployeeForm from './EmployeeForm';
-import { Modal, Button } from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
@@ -19,11 +19,11 @@ const EmployeeList = () => {
     }, []);
 
     const loadEmployees = () => {
-        EmployeeService.getEmployees().then((response) => setEmployees(response.data));
+        EmployeeService.getEmployees().then((response) => setEmployees(response.data)).catch(console.error);
     };
 
     const handleDelete = (id) => {
-        EmployeeService.deleteEmployee(id).then(() => loadEmployees());
+        EmployeeService.deleteEmployee(id).then(() => loadEmployees()).catch(console.error);
     };
 
     const handleSearch = () => {
@@ -41,7 +41,7 @@ const EmployeeList = () => {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setSearchCriteria((prevState) => ({
             ...prevState,
             [name]: value
@@ -55,7 +55,7 @@ const EmployeeList = () => {
         <div className="container mt-4">
             <div className="d-flex justify-content-end mb-3">
                 <Button
-                    style={{ backgroundColor: '#FC650B', color: 'white' }}
+                    style={{backgroundColor: '#FC650B', color: 'white'}}
                     onClick={handleModalShow}
                 >
                     Thêm mới
@@ -67,7 +67,7 @@ const EmployeeList = () => {
                     <Modal.Title>Thêm nhân viên mới</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <EmployeeForm onCloseModal={handleModalClose} onSave={loadEmployees} />
+                    <EmployeeForm onCloseModal={handleModalClose} onSave={loadEmployees}/>
                 </Modal.Body>
             </Modal>
 
