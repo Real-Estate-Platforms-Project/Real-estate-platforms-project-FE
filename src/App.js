@@ -17,6 +17,7 @@ import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
+import CreateDemand from "./page/client/CreateDemand";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/" element={<Client/>}>
                     {/*<Route path="/" element={<Home/>} />*/}
                     <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
+                    <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                     <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                     <Route path="*" element={<NotFound/>}/>
                     <Route path="/" element={<LandingPage/>}/>

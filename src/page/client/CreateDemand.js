@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as Yup from "yup";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-import * as demandService from "/src/services/DemandService";
+import * as demandService from "../../services/DemandService";
 import * as buyerService from "../../services/BuyerInfor";
 import * as sellerService from "../../services/SellerInfor";
 
@@ -19,22 +19,13 @@ function CreateDemand() {
         minArea:0,
         maxArea:0,
         notes:"",
-        buyer:null
     });
 
     const[buyer,setBuyer]=useState(null)
 
-    useEffect(() => {
-        const fetchBuyer = async () => {
-            try {
-                const buyer = await buyerService.BuyerInfor();
-                setBuyer(buyer)
-            } catch (error) {
-                toast.error("Không thể tải thông tin khách hàng.");
-            }
-        };
-        fetchBuyer();
-    }, []);
+    useEffect(()=>{
+        fetchBuyer()}
+    , []);
 
     const navigate = useNavigate()
     const objectValid = {
@@ -50,6 +41,15 @@ function CreateDemand() {
             .max(10000, "diện tích không được lớn hơn 10000m2")
             .integer("diện tích phải là số nguyên")
     }
+
+    const fetchBuyer = async () => {
+        try {
+            const buyer = await buyerService.BuyerInfor();
+            setBuyer(buyer)
+        } catch (error) {
+            toast.error("Không thể tải thông tin khách hàng.");
+        }
+    };
     const saveDemand = async (value) => {
         let isSuccess = await demandService.saveDemand(value)
         if(isSuccess) {
@@ -61,6 +61,7 @@ function CreateDemand() {
 
     }
 
+    if(buyer){return <>Loading...</>}
     return (
         <>
             <Formik initialValues={form} onSubmit={saveDemand} validationSchema={Yup.object(objectValid)}>
@@ -69,6 +70,8 @@ function CreateDemand() {
                     <div className="mt-3">
                         <label htmlFor="customerCode" className="form-label">Mã khách hàng</label>
                         <Field type="text" className="form-control" id="customerCode" value={buyer.code || ''}
+                               disabled/>
+                        <Field type="hiden" className="form-control" name="buyer_id" value={buyer.id}
                                disabled/>
                     </div>
                     <div className="row mt-3">
@@ -84,7 +87,6 @@ function CreateDemand() {
                     <div className="mt-3">
                         <label htmlFor="title" className="form-label">Tiêu đề</label>
                         <Field as="text" name="note" id="title" className="form-control"/>
-                        <Field type="hidden" name="buyer" value={buyer} className="form-control"/>
                     </div>
                     <div className="mt-4 d-flex">
                         <label className="form-label me-3 m-0">Loại bất động sản: </label>

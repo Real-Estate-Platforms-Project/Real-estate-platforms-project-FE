@@ -5,7 +5,7 @@ export const BuyerInfor = async () => {
         const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
         console.log(token)
 
-        const res = await axios.get(`http://localhost:8080/api/auth/buyer-info`, {
+        const res = await axios.get(`http://localhost:8080/api/admin/buyers/info`, {
             headers: {
                 "Authorization": `Bearer ${token}`,// Thêm token vào header
                 "Content-Type": "application/json",

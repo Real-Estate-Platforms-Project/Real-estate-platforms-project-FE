@@ -59,6 +59,7 @@ function Nav() {
                                 <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin tức</Link>
                             </li>
                         </ul>
+                        <Link className='me-2 button-orange' to='buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cau</span></Link>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
                         <Link className='me-2 button-orange' to='update-password'><span className='fw-bold'>Đổi mật khẩu</span></Link>
                         {!token && (

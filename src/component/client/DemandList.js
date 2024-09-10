@@ -87,14 +87,14 @@ function DemandList() {
                                 class="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
-                        <div className="d-flex justify-content-end mt-3">
+                        {userRoles.contains("ROLE_ADMIN")? <div className="d-flex justify-content-end mt-3">
                             <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>Xoá nhu cầu
                             </button>
                             {item.isVerify ? "" :
                                 <button className="btn btn-primary btn-sm text-white pr-3" onClick={() => verifyDemand(item)}>Duyệt nhu
                                     cầu</button>}
 
-                        </div>
+                        </div>:""}
                     </div>
                 </div>)
             }
