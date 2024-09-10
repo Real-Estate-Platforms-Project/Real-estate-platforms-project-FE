@@ -16,6 +16,9 @@ import DemandList from "./component/client/DemandList";
 import Login from "./page/auth/Login";
 import Register from "./page/auth/Register";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
+import Admin from "./page/layout/Admin";
+import EmployeeList from "./component/employees/EmployeeList";
+
 
 function App() {
     return (
@@ -33,9 +36,12 @@ function App() {
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/admin/employees" element={<EmployeeList />} />
                 </Route>
             </Routes>
             <ToastContainer/>
+
         </BrowserRouter>
     );
 }
