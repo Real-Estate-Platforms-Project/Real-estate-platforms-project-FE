@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useFormik} from 'formik';
@@ -42,16 +42,25 @@ function Authentication() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [justifyActive, setJustifyActive] = useState('login');
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setIsLoggingIn(true);
         try {
             const response = await authService.login(email, password);
             localStorage.setItem('token', response.data.token);
-            toast.success('Đăng nhập thành công!', {theme: "colored", className: styles.customToast});
             navigate('/');
         } catch (error) {
-            toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng nhập.', {theme: "colored", className: styles.customToast});
+            const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
+
+            if (errorMessage.includes("Tài khoản chưa được kích hoạt")) {
+                toast.error(errorMessage, { theme: "colored", className: styles.customToast });
+            } else {
+                toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng nhập.', { theme: "colored", className: styles.customToast });
+            }
+        } finally {
+            setIsLoggingIn(false);
         }
     };
 
@@ -72,11 +81,16 @@ function Authentication() {
         validationSchema,
         onSubmit: async (values, {setSubmitting}) => {
             try {
-                const response = await authService.register(values);
+                await authService.register(values);
                 toast.success('Đăng ký thành công! vui lòng kiểm tra email để kích hoạt tài khoản.', {theme: "colored", className: styles.customToast});
                 setJustifyActive('login');
             } catch (error) {
-                toast.error('Đăng ký thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', {theme: "colored", className: styles.customToast});
+                const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
+                if (errorMessage.includes("Email đã tồn tại!")) {
+                    toast.error(errorMessage, { theme: "colored", className: styles.customToast });
+                } else {
+                    toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', { theme: "colored", className: styles.customToast });
+                }
             } finally {
                 setSubmitting(false);
             }
@@ -133,9 +147,13 @@ function Authentication() {
                                     <a href="!#">Quên mật khẩu?</a>
                                 </div>
 
-                                <MDBBtn className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`}>Đăng nhập</MDBBtn>
+                                <MDBBtn
+                                    className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`}
+                                    disabled={isLoggingIn}>
+                                    {isLoggingIn ? 'Đang đăng nhập...' : 'Đăng nhập'}
+                                </MDBBtn>
                             </form>
-                            <p className="text-center">Bạn chưa có tài khoản? <a className="text-warning" href="#" onClick={() => handleJustifyClick('register')}>Đăng ký ngay</a></p>
+                            <p className="text-center">Bạn chưa có tài khoản? <a className={mdbCustom.primary} href="#" onClick={() => handleJustifyClick('register')}>Đăng ký ngay</a></p>
                         </div>
                         :
                         <form onSubmit={formik.handleSubmit}>
