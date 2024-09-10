@@ -5,19 +5,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
 import "../../css/custom.css"
+import * as buyerService from "../../services/BuyerInfor";
+import * as authService from "../../services/AuthService";
 
 function DemandList() {
     const [demands, setDemands] = useState([]);
     const [selectedDemand, setSelectedDemand] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const[userRoles, setUserRoles] = useState(null);
 
 
     useEffect(() => {
         getAllDemand()
     }, [])
+    useEffect(() => {
+        getAllUserRole()
+    }, [])
 
-    const getAllDemand = async (name) => {
-        let res = await demandService.getAllDemand();
+    const getAllDemand = async (userRoles) => {
+        let res = await demandService.getAllDemand(userRoles);
         console.log(res)
         setDemands(res)
     }
@@ -45,6 +51,16 @@ function DemandList() {
             toast.success("Xoa nhu cau thành công")
         } else {
             toast.error("Xoa thất bại.")
+        }
+    }
+
+    const getAllUserRole = async() => {
+        try {
+            const roles = await authService.getAllUserRoles();
+            setUserRoles(roles)
+        } catch (error) {
+            console.log("Người dùng không có quyền truy cập")
+            // toast.error("Không thể tải thông tin khách hàng.");
         }
     }
 

@@ -2,11 +2,15 @@ import axios from "axios";
 
 const URL_DEMAND = "http://localhost:8080/api/demand"
 
-export const getAllDemand = async () => {
+export const getAllDemand = async (roles) => {
     try {
-        let res = await axios.get(URL_DEMAND);
-        console.log(res.data)
-        return res.data;
+        if(roles.contains("ROLE_ADMIN")){
+            let res = await axios.get(URL_DEMAND+"?_sort=isVerify,createdAt&_order=asc,desc");
+            return res.data;
+        } else {
+            let res = await axios.get(URL_DEMAND+"?isVerify=1&_sort=createdAt&_order=desc");
+            return res.data;
+        }
     } catch (e) {
         return [];
     }
@@ -32,5 +36,15 @@ export  const verifyDemand = async  (demand) => {
         return false;
     } catch (e){
         return false;
+    }
+}
+
+export const saveDemand = async (demand) => {
+    try {
+        await axios.post(URL_DEMAND, demand)
+        return true
+    } catch (e) {
+        console.log(e)
+        return false
     }
 }

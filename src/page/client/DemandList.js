@@ -4,10 +4,14 @@ import { Table, Form, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
 import * as demandService from "/src/services/DemandService";
+import * as buyerService from "../../services/BuyerInfor";
+import * as authService from "../../services/AuthService";
+import {getAllUserRoles} from "../../services/AuthService";
 
 function DemandList() {
     const [demands, setDemands] = useState([]);
-
+    const[userRoles, setUserRoles] = useState(null);
+    const[buyer, setBuyer] = useState(null);
 
 
     useEffect(() => {
@@ -19,6 +23,24 @@ function DemandList() {
         console.log(res)
         setDemands(res)
     }
+    const fetchBuyer = async () => {
+        try {
+            const buyer = await buyerService.BuyerInfor();
+            setBuyer(buyer)
+        } catch (error) {
+            toast.error("Không thể tải thông tin khách hàng.");
+        }
+    };
+    const getAllUserRole = async() => {
+        try {
+            const roles = await authService.getAllUserRoles();
+            setUserRoles(roles)
+        } catch (error) {
+            console.log("Người dùng không có quyền truy cập")
+            // toast.error("Không thể tải thông tin khách hàng.");
+        }
+    }
+
 
     return (
         <>

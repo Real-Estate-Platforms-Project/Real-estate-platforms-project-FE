@@ -47,20 +47,20 @@ function UpdatePassWord() {
                         <div className="mt-3">
                             <label htmlFor="recentPassWord" className="form-label">Mật khẩu hiện tại <span
                                 className="text-danger">*</span></label>
-                            <Field className="form-control " name="recentPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
+                            <Field type="password" className="form-control " name="recentPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
                             {/*<ErrorMessage className="text-danger" name="recentPassWord" component="b" />*/}
                         </div>
 
                         <div className="mt-3">
                             <label htmlFor="newPassWord" className="form-label">Mật khẩu mới<span
                                 className="text-danger">*</span></label>
-                            <Field className="form-control " name="newPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
+                            <Field type="password" className="form-control " name="newPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
                             {/*<ErrorMessage className="text-danger" name="newPassWord" component="b" />*/}
                         </div>
                         <div className="mt-3">
                             <label htmlFor="reEnterPassWord" className="form-label">Nhập lại mật khẩu<span
                                 className="text-danger">*</span></label>
-                            <Field className="form-control " name="reEnterPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
+                            <Field type="password" className="form-control " name="reEnterPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
                             {/*<ErrorMessage className="text-danger" name="reEnterPassWord" component="b" />*/}
                         </div>
                         <div className="text-center mt-4">
