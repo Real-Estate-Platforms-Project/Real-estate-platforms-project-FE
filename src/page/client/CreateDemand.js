@@ -6,7 +6,6 @@ import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
 import * as buyerService from "../../services/BuyerInfor";
-import * as sellerService from "../../services/SellerInfor";
 
 
 
@@ -45,6 +44,7 @@ function CreateDemand() {
     const fetchBuyer = async () => {
         try {
             const buyer = await buyerService.BuyerInfor();
+            console.log(buyer)
             setBuyer(buyer)
         } catch (error) {
             toast.error("Không thể tải thông tin khách hàng.");
