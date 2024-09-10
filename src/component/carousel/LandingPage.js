@@ -3,6 +3,8 @@ import React from "react";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import {Carousel} from "react-responsive-carousel";
 import CardEstate from "../client/CardEstate";
+import Statistics from "../admin/Statistics";
+import StatisticsSection from "../client/StatisticsSection";
 function LandingPage() {
     return (
         <div className="custom-search">
@@ -23,8 +25,10 @@ function LandingPage() {
                 <div className="search-bar-container">
                     <SearchBar/>
                 </div>
-                <CardEstate/>
+
             </div>
+            <StatisticsSection/>
+            <CardEstate/>
         </div>
     );
 }

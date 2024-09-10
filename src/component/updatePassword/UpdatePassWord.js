@@ -1,40 +1,34 @@
 import {useNavigate, Link} from "react-router-dom";
 import * as Yup from "yup";
-import {Formik, Field, ErrorMessage,Form} from "formik";
+import {Formik, Field, ErrorMessage, Form} from "formik";
 import {toast} from "react-toastify";
 import {updatePassword} from "../../services/AccountService";
 
 
 const validationSchema = Yup.object({
     recentPassWord: Yup.string().required("Nhập mật khẩu hiện tại "),
-    newPassWord: Yup.string().required("Nhập mật khẩu mới "),
+    newPassWord: Yup.string().required("Nhập mật khẩu mới ").matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/," Mật khẩu yêu có độ tối thiểu 6 ký tự bao gồm chữ , số, ký tự đặc biệt"),
     reEnterPassWord: Yup.string().required("Nhập lại mật khẩu mới "),
-
 })
 
 function UpdatePassWord() {
-
     const navigate = new useNavigate();
-
-    const handleSubmit = (data) => {
-        try {
-            let isSuccess = updatePassword(data)
-            if (isSuccess) {
-                toast.success("Cập nhật thành công", {theme : "colored"})
-                navigate("/login")
-            } else {
-                toast.error("Cập nhật như thất bại", {theme : "colored"})
-            }
-        } catch (e) {
-            toast.error("Lỗi hệ thống", {theme : "colored"})
+    const handleSubmit = async (data) => {
+        let status = await updatePassword(data)
+        if (status) {
+            toast.success("Cập nhật thành công", {theme: "colored"})
+            navigate("/login")
+        } else {
+            toast.success("Mật khẩu không đúng", {theme: "colored"})
         }
     }
+
     return (
         <div className="form-update-account-real-estate py-4">
             <Formik initialValues={{
                 recentPassword: '',
-                newPassWord:'',
-                reEnterPassWord:''
+                newPassWord: '',
+                reEnterPassWord: ''
             }
             }
                     onSubmit={handleSubmit}
@@ -47,24 +41,29 @@ function UpdatePassWord() {
                         <div className="mt-3">
                             <label htmlFor="recentPassWord" className="form-label">Mật khẩu hiện tại <span
                                 className="text-danger">*</span></label>
-                            <Field className="form-control " name="recentPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
-                            {/*<ErrorMessage className="text-danger" name="recentPassWord" component="b" />*/}
+                            <Field type="password" className="form-control " name="recentPassWord"
+                                   placeholder="Mật khẩu hiện tại của bạn"/>
+                            <ErrorMessage className="text-danger" name="recentPassWord" component="b"/>
                         </div>
 
                         <div className="mt-3">
                             <label htmlFor="newPassWord" className="form-label">Mật khẩu mới<span
                                 className="text-danger">*</span></label>
-                            <Field className="form-control " name="newPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
-                            {/*<ErrorMessage className="text-danger" name="newPassWord" component="b" />*/}
+                            <Field type="password" className="form-control " name="newPassWord"
+                                   placeholder="Mật khẩu hiện tại của bạn"/>
+                            <ErrorMessage className="text-danger" name="newPassWord" component="b"/>
                         </div>
                         <div className="mt-3">
                             <label htmlFor="reEnterPassWord" className="form-label">Nhập lại mật khẩu<span
                                 className="text-danger">*</span></label>
-                            <Field className="form-control " name="reEnterPassWord" placeholder="Mật khẩu hiện tại của bạn"/>
-                            {/*<ErrorMessage className="text-danger" name="reEnterPassWord" component="b" />*/}
+                            <Field type="password" className="form-control " name="reEnterPassWord"
+                                   placeholder="Mật khẩu hiện tại của bạn"/>
+                            <ErrorMessage className="text-danger" name="reEnterPassWord" component="b"/>
                         </div>
                         <div className="text-center mt-4">
-                            <button type="submit" className="btn btn-sm btn-outline-dark w-50 fw-bold">Thay đổi mật khẩu</button>
+                            <button type="submit" className="btn btn-sm btn-outline-dark w-50 fw-bold">Thay đổi mật
+                                khẩu
+                            </button>
                             <Link className="btn btn-sm btn-outline-dark w-50 fw-bold" to="/">Hủy</Link>
                         </div>
                     </div>
