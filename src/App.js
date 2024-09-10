@@ -34,8 +34,11 @@ function App() {
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
-                    <Route path="/admin" element={<Admin />} />
+                </Route>
+                <Route path="/admin" element={<Admin/>}>
+
                     <Route path="/admin/employees" element={<EmployeeList />} />
+
                 </Route>
             </Routes>
             <ToastContainer/>
