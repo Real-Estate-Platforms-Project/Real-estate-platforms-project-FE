@@ -62,6 +62,7 @@ function Nav() {
                         </ul>
                         <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
+                        <Link className='me-2 button-orange' to='update-password'><span className='fw-bold'>Đổi mật khẩu</span></Link>
                         {!token && (
                             <Link className='button-black' to='/login'>
                                 <span className='fw-bold'>Đăng nhập</span>
