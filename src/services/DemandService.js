@@ -42,6 +42,7 @@ export  const verifyDemand = async  (demand) => {
 export const saveDemand = async (demand) => {
     try {
         await axios.post(URL_DEMAND, demand)
+        console.log(demand)
         return true
     } catch (e) {
         console.log(e)
