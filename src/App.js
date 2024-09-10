@@ -11,10 +11,13 @@ import CreateRealEstate from "./page/client/CreateRealEstate";
 import LandingPage from "./component/carousel/LandingPage";
 import Notification from "./component/client/Notification";
 import NotificationDetail from "./component/client/NotificationDetail";
-import UpdatePassWord from "./component/login/UpdatePassWord";
+import UpdatePassWord from "./component/updatePassword/UpdatePassWord";
 import DemandList from "./component/client/DemandList";
 import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
+import Admin from "./page/layout/Admin";
+import EmployeeList from "./component/employees/EmployeeList";
+
 
 function App() {
     return (
@@ -32,8 +35,14 @@ function App() {
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
                 </Route>
+                <Route path="/admin" element={<Admin/>}>
+
+                    <Route path="/admin/employees" element={<EmployeeList />} />
+
+                </Route>
             </Routes>
             <ToastContainer/>
+
         </BrowserRouter>
     );
 }
