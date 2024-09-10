@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useFormik} from 'formik';
@@ -43,13 +43,19 @@ function Authentication() {
     const navigate = useNavigate();
     const [justifyActive, setJustifyActive] = useState('login');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoggingIn(true);
         try {
             const response = await authService.login(email, password);
-            localStorage.setItem('token', response.data.token);
+            if (rememberMe) {
+                localStorage.setItem('token', response.data.token);
+            } else {
+                sessionStorage.setItem('token', response.data.token);
+            }
             navigate('/');
         } catch (error) {
             const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
@@ -80,6 +86,11 @@ function Authentication() {
         },
         validationSchema,
         onSubmit: async (values, {setSubmitting}) => {
+            if (!termsAccepted) {
+                toast.warning('Bạn cần đồng ý với các chính sách và điều khoản để tiếp tục!', { theme: "colored", className: styles.customToast });
+                setSubmitting(false);
+                return;
+            }
             try {
                 await authService.register(values);
                 toast.success('Đăng ký thành công! vui lòng kiểm tra email để kích hoạt tài khoản.', {theme: "colored", className: styles.customToast});
@@ -142,8 +153,13 @@ function Authentication() {
                                 />
 
                                 <div className="d-flex justify-content-between mx-4 mb-4">
-                                    <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault'
-                                                 label='Ghi nhớ đăng nhập!'/>
+                                    <MDBCheckbox
+                                        name='rememberMe'
+                                        id='rememberMe'
+                                        label='Ghi nhớ đăng nhập!'
+                                        checked={rememberMe}
+                                        onChange={() => setRememberMe(!rememberMe)}
+                                    />
                                     <a href="!#">Quên mật khẩu?</a>
                                 </div>
 
@@ -221,8 +237,10 @@ function Authentication() {
                                 <MDBCheckbox
                                     name='flexCheck'
                                     id='flexCheckDefault1'
-                                    label='Tôi đã đọc và đồng ý với các điều khoản.'
+                                    checked={termsAccepted}
+                                    onChange={() => setTermsAccepted(!termsAccepted)}
                                 />
+                                <label htmlFor="">Tôi đã đọc và đồng ý với các <a href="/terms-and-polocies" target="_blank">chính sách và điều khoản</a>.</label>
                             </div>
 
                             <MDBBtn className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`} type="submit" disabled={formik.isSubmitting}>

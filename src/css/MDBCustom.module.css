@@ -9,7 +9,6 @@
     border-color: #FC650B;
 }
 
-/* Button.module.css */
 .btnCustomWarning {
     background-color: #FC650B !important;
     border-color: #FC650B !important;
@@ -23,4 +22,9 @@
 
 .primary {
     color: #FC650B;
+}
+
+.bgPrimaryCustom {
+    background-color: #FC650B !important;
+    color: #fff !important;
 }

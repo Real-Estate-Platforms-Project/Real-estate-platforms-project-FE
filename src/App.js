@@ -1,8 +1,8 @@
 import './App.css';
 import './css/custom.css';
 import "./css/SearchBar.css";
-import { ToastContainer } from "react-toastify";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {ToastContainer} from "react-toastify";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Client from './page/layout/Client';
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,6 +17,7 @@ import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
+import TermsAndPolicies from "./page/client/TermsAndPolicies";
 
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Authentication/>}/>
-                <Route path="/activation-success" element={<ActivationSuccess />} />
+                <Route path="/activation-success" element={<ActivationSuccess/>}/>
+                <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                 <Route path="/" element={<Client/>}>
                     {/*<Route path="/" element={<Home/>} />*/}
                     <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
@@ -37,7 +39,7 @@ function App() {
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
 
-                    <Route path="/admin/employees" element={<EmployeeList />} />
+                    <Route path="/admin/employees" element={<EmployeeList/>}/>
 
                 </Route>
             </Routes>
