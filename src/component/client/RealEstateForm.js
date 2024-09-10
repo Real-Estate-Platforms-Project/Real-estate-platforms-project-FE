@@ -175,28 +175,25 @@ const RealEstateForm = ({
                 <ErrorMessage name="status" component="div" className="text-danger"/>
             </div>
             {formik.values.type === "Nhà ở" && (
-                <div className="mt-4">
-                    <div className="row">
-                        <div className="col">
-                            <label htmlFor="floors" className="form-label">Số tầng</label>
-                            <Field type="number" name="floor" id="floors" className="form-control"
-                                   placeholder="VD: 2"/>
-                            <ErrorMessage name="floor" component="div" className="text-danger"/>
-                        </div>
-                        <div className="col">
-                            <label htmlFor="bathrooms" className="form-label">Số phòng vệ sinh</label>
-                            <Field type="number" name="toilet" id="bathrooms" className="form-control"
-                                   placeholder="VD: 3"/>
-                            <ErrorMessage name="toilet" component="div" className="text-danger"/>
-                        </div>
+            <div className="mt-4">
+                <div className="row">
+                    <div className="col">
+                        <label htmlFor="floor" className="form-label">Số tầng</label>
+                        <Field type="number" name="floor" id="floor" className="form-control" placeholder="VD: 2"/>
+                        <ErrorMessage name="floor" component="div" className="text-danger"/>
                     </div>
-                    <div className="mt-3">
-                        <label htmlFor="bedrooms" className="form-label">Số phòng ngủ</label>
-                        <Field type="number" name="bedroom" id="bedrooms" className="form-control"
-                               placeholder="VD: 4"/>
-                        <ErrorMessage name="bedroom" component="div" className="text-danger"/>
+                    <div className="col">
+                        <label htmlFor="toilet" className="form-label">Số phòng vệ sinh</label>
+                        <Field type="number" name="toilet" id="toilet" className="form-control" placeholder="VD: 3"/>
+                        <ErrorMessage name="toilet" component="div" className="text-danger"/>
                     </div>
                 </div>
+                <div className="mt-3">
+                    <label htmlFor="bedroom" className="form-label">Số phòng ngủ</label>
+                    <Field type="number" name="bedroom" id="bedroom" className="form-control" placeholder="VD: 4"/>
+                    <ErrorMessage name="bedroom" component="div" className="text-danger"/>
+                </div>
+            </div>
             )}
             <div className="mt-3">
                 <label htmlFor="note" className="form-label">Ghi chú thêm</label>
