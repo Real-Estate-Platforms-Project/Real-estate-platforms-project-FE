@@ -1,12 +1,10 @@
 import {useState, useEffect} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import {Formik} from "formik";
 import * as realEstateService from "../../services/RealEstate";
 import * as addressService from "../../services/AddressService";
-import * as sellerService from "../../services/SellerInfor";
-import {storage} from '../../firebase';
-import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import * as sellerService from "../../services/Seller";
 import {toast} from "react-toastify";
 import RealEstateForm from "../../component/client/RealEstateForm";
 
@@ -23,21 +21,13 @@ const validationSchema = Yup.object({
     provinceCode: Yup.string().required("Cần nhập thông tin này"),
     districtCode: Yup.string().required("Cần nhập thông tin này"),
     wardCode: Yup.string().required("Cần nhập thông tin này"),
-    images: Yup.mixed().required("Cần chọn ít nhất 3 ảnh").test(
-        "fileSize",
-        "Kích thước ảnh quá lớn",
-        value => !value || Array.from(value).every(file => file.size <= 5 * 1024 * 1024) // 5MB limit
-    ).test(
-        "fileType",
-        "Chỉ chấp nhận các định dạng ảnh (.jpg, .jpeg, .png)",
-        value => !value || Array.from(value).every(file => ["image/jpeg", "image/png"].includes(file.type))
-    ).test('fileCount', 'Cần chọn ít nhất 3 ảnh', (value) => {
-        return value && value.length >= 3;
-    }),
+    bedroom: Yup.number().required("Cần nhập thông tin này"),
+    floor: Yup.number().required("Cần nhập thông tin này"),
+    toilet: Yup.number().required("Cần nhập thông tin này"),
 });
 
 const CreateRealEstate = () => {
-   const [seller, setSeller] = useState({});
+    const [seller, setSeller] = useState({});
     const [provinces, setProvinces] = useState([]);
     const [filteredDistricts, setFilteredDistricts] = useState([]);
     const [filteredWards, setFilteredWards] = useState([]);
@@ -45,14 +35,14 @@ const CreateRealEstate = () => {
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [selectedWard, setSelectedWard] = useState(null);
     const [selectedDemandType, setSelectedDemandType] = useState("Bán");
-    const [imagePreviews, setImagePreviews] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSeller = async () => {
             try {
-                const seller = await sellerService.SellerInfor();
-               setSeller(seller)
+                const seller = await sellerService.SellerInfo();
+                console.log(seller)
+                setSeller(seller);
             } catch (error) {
                 toast.error("Không thể tải thông tin khách hàng.");
             }
@@ -128,32 +118,12 @@ const CreateRealEstate = () => {
 
     const handleDemandTypeChange = (type) => setSelectedDemandType(type);
 
-    const handleImageChange = (event) => {
-        const files = event.currentTarget.files;
-        const imageUrls = Array.from(files).map(file => URL.createObjectURL(file));
-        setImagePreviews(imageUrls);
-    };
-
-    const handleSubmit = async (values, {resetForm}) => {
+    const handleSubmit = async (values) => {
         try {
-            const imageUrls = [];
-            if (values.images) {
-                const uploadPromises = Array.from(values.images).map(async (file) => {
-                    const storageRef = ref(storage, `images/${file.name}`);
-                    await uploadBytes(storageRef, file);
-                    const url = await getDownloadURL(storageRef);
-                    imageUrls.push(url);
-                });
-                await Promise.all(uploadPromises);
-            }
-
-            const realEstateData = {...values, images: imageUrls};
-            const response = await realEstateService.saveRealEstate(realEstateData);
-
+            const response = await realEstateService.saveRealEstate({...values, sellerId: seller.id});
+            console.log(response)
             if (response) {
                 toast.success("Thêm mới thành công");
-                resetForm();
-                setImagePreviews([]);
                 navigate("/");
             } else {
                 toast.error("Thêm mới thất bại");
@@ -162,6 +132,7 @@ const CreateRealEstate = () => {
             toast.error("Đã xảy ra lỗi trong quá trình xử lý.");
         }
     };
+
 
     return (
         <Formik
@@ -178,7 +149,9 @@ const CreateRealEstate = () => {
                 districtCode: "",
                 wardCode: "",
                 note: "",
-                images: null,
+                bedroom: "",
+                floor: "",
+                toilet: "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -194,12 +167,10 @@ const CreateRealEstate = () => {
                     selectedDistrict={selectedDistrict}
                     selectedWard={selectedWard}
                     selectedDemandType={selectedDemandType}
-                    imagePreviews={imagePreviews}
                     handleProvinceChange={handleProvinceChange}
                     handleDistrictChange={handleDistrictChange}
                     handleWardChange={handleWardChange}
                     handleDemandTypeChange={handleDemandTypeChange}
-                    handleImageChange={handleImageChange}
                 />
             )}
         </Formik>

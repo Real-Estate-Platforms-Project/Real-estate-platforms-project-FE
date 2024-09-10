@@ -1,7 +1,6 @@
 import {Link} from "react-router-dom";
 import {Field, ErrorMessage} from "formik";
 import Select from "react-select";
-import ImagePreview from '../../component/ImagePreview';
 
 const RealEstateForm = ({
                             formik,
@@ -13,12 +12,10 @@ const RealEstateForm = ({
                             selectedDistrict,
                             selectedWard,
                             selectedDemandType,
-                            imagePreviews,
                             handleProvinceChange,
                             handleDistrictChange,
                             handleWardChange,
                             handleDemandTypeChange,
-                            handleImageChange
                         }) => (
     <form onSubmit={formik.handleSubmit} className="form-create-real-estate pt-4">
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white">
@@ -34,6 +31,7 @@ const RealEstateForm = ({
                 >
                     Bán
                 </button>
+
                 <button
                     type="button"
                     className={`btn btn-sm w-50 fw-bold lease ${selectedDemandType === "Cho thuê" ? "btn-dark" : "btn-outline-dark"}`}
@@ -69,7 +67,10 @@ const RealEstateForm = ({
                     <Select
                         id="provinceCode"
                         options={provinces}
-                        onChange={handleProvinceChange}
+                        onChange={(option) => {
+                            handleProvinceChange(option);
+                            formik.setFieldValue("provinceCode", option ? option.value : "");
+                        }}
                         value={selectedProvince}
                         placeholder="Chọn"
                     />
@@ -80,7 +81,10 @@ const RealEstateForm = ({
                     <Select
                         id="districtCode"
                         options={filteredDistricts}
-                        onChange={handleDistrictChange}
+                        onChange={(option) => {
+                            handleDistrictChange(option);
+                            formik.setFieldValue("districtCode", option ? option.value : "");
+                        }}
                         value={selectedDistrict}
                         placeholder="Chọn"
                     />
@@ -93,7 +97,10 @@ const RealEstateForm = ({
                     <Select
                         id="wardCode"
                         options={filteredWards}
-                        onChange={handleWardChange}
+                        onChange={(option) => {
+                            handleWardChange(option);
+                            formik.setFieldValue("wardCode", option ? option.value : "");
+                        }}
                         value={selectedWard}
                         placeholder="Chọn"
                     />
@@ -167,6 +174,30 @@ const RealEstateForm = ({
                 />
                 <ErrorMessage name="status" component="div" className="text-danger"/>
             </div>
+            {formik.values.type === "Nhà ở" && (
+                <div className="mt-4">
+                    <div className="row">
+                        <div className="col">
+                            <label htmlFor="floors" className="form-label">Số tầng</label>
+                            <Field type="number" name="floor" id="floors" className="form-control"
+                                   placeholder="VD: 2"/>
+                            <ErrorMessage name="floor" component="div" className="text-danger"/>
+                        </div>
+                        <div className="col">
+                            <label htmlFor="bathrooms" className="form-label">Số phòng vệ sinh</label>
+                            <Field type="number" name="toilet" id="bathrooms" className="form-control"
+                                   placeholder="VD: 3"/>
+                            <ErrorMessage name="toilet" component="div" className="text-danger"/>
+                        </div>
+                    </div>
+                    <div className="mt-3">
+                        <label htmlFor="bedrooms" className="form-label">Số phòng ngủ</label>
+                        <Field type="number" name="bedroom" id="bedrooms" className="form-control"
+                               placeholder="VD: 4"/>
+                        <ErrorMessage name="bedroom" component="div" className="text-danger"/>
+                    </div>
+                </div>
+            )}
             <div className="mt-3">
                 <label htmlFor="note" className="form-label">Ghi chú thêm</label>
                 <Field as="textarea" name="note" id="note" className="form-control" style={{height: 125, fontSize: 15}}
@@ -182,20 +213,7 @@ const RealEstateForm = ({
                 <li>Mô tả ảnh tối đa 45 kí tự.</li>
             </ul>
             <div className="mt-3">
-                <input
-                    type="file"
-                    id="images"
-                    name="images"
-                    className="form-control"
-                    accept="image/jpeg, image/png"
-                    multiple
-                    onChange={(event) => {
-                        formik.setFieldValue("images", event.currentTarget.files);
-                        handleImageChange(event);
-                    }}
-                />
-                <ImagePreview imagePreviews={imagePreviews}/>
-                <ErrorMessage name="images" component="div" className="text-danger mt-2"/>
+
             </div>
         </div>
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white mt-2">
@@ -207,7 +225,8 @@ const RealEstateForm = ({
                 </div>
                 <div className="col-6">
                     <label htmlFor="phone_number" className="form-label">Số điện thoại</label>
-                    <Field name="phone_number" id="phone_number" className="form-control" value={seller.phoneNumber || ''}/>
+                    <Field name="phone_number" id="phone_number" className="form-control"
+                           value={seller.phoneNumber || ''}/>
                 </div>
             </div>
             <div className="row mt-3 mb-5">
@@ -219,7 +238,7 @@ const RealEstateForm = ({
         </div>
         <div className="w-50 mx-auto p-0 bg-white handle-submit" style={{marginTop: -65}}>
             <div className="d-flex justify-content-between shadow-sm p-4 mt-4">
-                <Link to="/" className="btn btn-secondary me-2 fw-bold back-to-home">Quay lại</Link>
+                <Link to="/" className="btn me-2 fw-bold back-to-home">Quay lại</Link>
                 <button type="submit" className="btn button-search text-white fw-bold">Hoàn thành</button>
             </div>
         </div>
