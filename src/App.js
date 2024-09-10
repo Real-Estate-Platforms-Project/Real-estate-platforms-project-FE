@@ -13,8 +13,7 @@ import Notification from "./component/client/Notification";
 import NotificationDetail from "./component/client/NotificationDetail";
 import UpdatePassWord from "./component/login/UpdatePassWord";
 import DemandList from "./component/client/DemandList";
-import Login from "./page/auth/Login";
-import Register from "./page/auth/Register";
+import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
@@ -24,8 +23,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/register" element={<Register/>}/>
+                <Route path="/login" element={<Authentication/>}/>
                 <Route path="/activation-success" element={<ActivationSuccess />} />
                 <Route path="/" element={<Client/>}>
                     {/*<Route path="/" element={<Home/>} />*/}
