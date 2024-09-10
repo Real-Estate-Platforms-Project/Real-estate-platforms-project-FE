@@ -1,8 +1,8 @@
 import './App.css';
 import './css/custom.css';
 import "./css/SearchBar.css";
-import {ToastContainer} from "react-toastify";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Client from './page/layout/Client';
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -18,6 +18,7 @@ import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
+import Forbidden from "./component/client/Forbidden";
 
 
 function App() {
@@ -36,11 +37,10 @@ function App() {
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+                    <Route path="/403" element={<Forbidden />} />
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
-
-                    <Route path="/admin/employees" element={<EmployeeList/>}/>
-
+                    <Route path={"/admin/employee"} element={<EmployeeList />} />
                 </Route>
             </Routes>
             <ToastContainer/>

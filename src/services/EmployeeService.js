@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/employees';
+const API_URL = 'http://localhost:8080/api/admin/employees';
 
 const getEmployees = () => axios.get(API_URL);
 const addEmployee = (employee) => axios.post(API_URL, employee);
