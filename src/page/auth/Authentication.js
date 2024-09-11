@@ -19,6 +19,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import styles from '../../css/Toastify.module.css';
 import mdbCustom from '../../css/MDBCustom.module.css'
 import Logo from '../../component/Logo.js'
+import Cookies from 'js-cookie';
+
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -52,10 +54,11 @@ function Authentication() {
         try {
             const response = await authService.login(email, password);
             if (rememberMe) {
-                localStorage.setItem('token', response.data.token);
+                Cookies.set('token', response.data.token, { expires: 7 });
             } else {
-                sessionStorage.setItem('token', response.data.token);
+                Cookies.set('token', response.data.token);
             }
+            console.log(Cookies.get('token'));
             navigate('/');
         } catch (error) {
             const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
