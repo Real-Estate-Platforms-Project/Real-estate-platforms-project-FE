@@ -21,9 +21,30 @@ const validationSchema = Yup.object({
     provinceCode: Yup.string().required("Cần nhập thông tin này"),
     districtCode: Yup.string().required("Cần nhập thông tin này"),
     wardCode: Yup.string().required("Cần nhập thông tin này"),
-    bedroom: Yup.number().required("Cần nhập thông tin này"),
-    floor: Yup.number().required("Cần nhập thông tin này"),
-    toilet: Yup.number().required("Cần nhập thông tin này"),
+    floor: Yup.number().test(
+        "is-required-if-nha-o",
+        "Cần nhập thông tin này",
+        function (value) {
+            const { type } = this.parent;
+            return type !== "Nhà ở" || (value && value > 0);
+        }
+    ),
+    toilet: Yup.number().test(
+        "is-required-if-nha-o",
+        "Cần nhập thông tin này",
+        function (value) {
+            const { type } = this.parent;
+            return type !== "Nhà ở" || (value && value > 0);
+        }
+    ),
+    bedroom: Yup.number().test(
+        "is-required-if-nha-o",
+        "Cần nhập thông tin này",
+        function (value) {
+            const { type } = this.parent;
+            return type !== "Nhà ở" || (value && value > 0);
+        }
+    ),
 });
 
 const CreateRealEstate = () => {
