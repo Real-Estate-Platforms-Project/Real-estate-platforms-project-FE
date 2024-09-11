@@ -251,7 +251,6 @@ function Authentication() {
                 </MDBTabsContent>
             </MDBContainer>
         </div>
-
     );
 }
 

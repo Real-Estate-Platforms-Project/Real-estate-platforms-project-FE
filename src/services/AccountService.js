@@ -13,7 +13,3 @@ export const updatePassword = async (data) => {
         return false;
     }
 };
-
-
-
-
