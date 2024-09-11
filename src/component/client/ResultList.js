@@ -3,6 +3,8 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 const ResultsList = ({results, loading, error, currentPage, totalPages, handlePageChange}) => {
+    const demandType = results.length > 0 ? results[0].demandType : null;
+
     return (
         <div className="results-section">
             {loading ? (
@@ -14,8 +16,14 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
             ) : (
                 <div className="card">
                     <div className="container row">
-
+                        <div> {/* Hiển thị tiêu đề theo demandType */}
+                            {demandType === 'Bán' ? (
+                                <h3>Nhà Đất Bán</h3>
+                            ) : demandType === 'Cho thuê' ? (
+                                <h3>Nhà Đất Cho thuê</h3>
+                            ) : null}</div>
                         {results.map((item, index) => (
+
                             <div key={index} className="box col-3">
                                 <Link to="/404" className="view-property-link">
                                     <div className="top">
