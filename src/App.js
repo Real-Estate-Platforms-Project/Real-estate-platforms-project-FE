@@ -15,6 +15,7 @@ import UpdatePassWord from "./component/login/UpdatePassWord";
 import DemandList from "./component/client/DemandList";
 import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
+import EstateListing from "./page/client/EstateListing";
 
 function App() {
     return (
@@ -31,7 +32,9 @@ function App() {
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+                    <Route path="/estate-list" element={<EstateListing/>}/>
                 </Route>
+
             </Routes>
             <ToastContainer/>
         </BrowserRouter>

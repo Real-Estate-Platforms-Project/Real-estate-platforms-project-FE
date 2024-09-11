@@ -18,10 +18,18 @@ function CardEstate() {
         try {
             let data = await estateService.findRealEstate();
             console.log(data);
-            setEstate(data);
-            setFilteredEstate(data);
+            if (Array.isArray(data)) { // Kiểm tra nếu dữ liệu là mảng
+                setEstate(data);
+                setFilteredEstate(data);
+            } else {
+                console.error("Expected an array but received:", data);
+                setEstate([]);
+                setFilteredEstate([]);
+            }
         } catch (error) {
             console.error("Failed to fetch real estate data", error);
+            setEstate([]);
+            setFilteredEstate([]);
         }
     }
     const handleLocationChange = (location) => {
@@ -41,7 +49,7 @@ function CardEstate() {
         <div className="container mt-3">
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2>Bất động sản nổi bật</h2>
-                <Link to="" className="text-decoration-none text-warning">
+                <Link to="/estate-list" className="text-decoration-none text-warning">
                     Tất cả →
                 </Link>
             </div>
