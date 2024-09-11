@@ -19,6 +19,8 @@ import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
+import BuyerList from "./component/customer/BuyerList";
+import CustomerAddForm from "./component/customer/CustomerAddForm";
 
 
 function App() {
@@ -41,10 +43,11 @@ function App() {
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                     <Route path={"/admin/employee"} element={<EmployeeList />} />
+                    <Route path={"/admin/buyers"} element={<BuyerList />} />
+                    <Route path="/admin/customers/add" element={<CustomerAddForm />} />
                 </Route>
             </Routes>
             <ToastContainer/>
-
         </BrowserRouter>
     );
 }
