@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const SellerInfor = async () => {
+export const SellerInfo = async () => {
     try {
         const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
         console.log(token)
@@ -17,3 +17,5 @@ export const SellerInfor = async () => {
         throw e;
     }
 };
+
+

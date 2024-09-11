@@ -2,9 +2,12 @@ import '../../css/Card.css';
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as estateService from '../../services/RealEstate';
+import {Button} from "react-bootstrap";
 
 function CardEstate() {
     const [estate, setEstate] = useState([])
+    const [selectedLocation, setSelectedLocation] = useState(''); // Default location
+    const [filteredEstate, setFilteredEstate] = useState([]);
 
     useEffect(() => {
         getAllEstate();
@@ -16,21 +19,63 @@ function CardEstate() {
             let data = await estateService.findRealEstate();
             console.log(data);
             setEstate(data);
+            setFilteredEstate(data);
         } catch (error) {
             console.error("Failed to fetch real estate data", error);
         }
     }
+    const handleLocationChange = (location) => {
+        setSelectedLocation(location);
+        if (location === 'all') {
+            setFilteredEstate(estate);
+        } else {
+            const filtered = estate.filter(item =>
+                item.location && item.location.toLowerCase().includes(location.toLowerCase())
+            );
+            setFilteredEstate(filtered);
+        }
+    };
+    const displayEstates = filteredEstate.slice(0, 6);
 
     return (
         <div className="container mt-3">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2>Bất động sản nổi bật</h2>
+                <Link to="" className="text-decoration-none text-warning">
+                    Tất cả →
+                </Link>
+            </div>
+            <div className="mb-4 d-flex">
+                <Button
+                    variant={selectedLocation === 'all' ? 'primary' : 'light'}
+                    onClick={() => handleLocationChange('all')}
+                    className="me-2"
+                >
+                    Khu vực nổi bật
+                </Button>
+                <Button
+                    variant={selectedLocation === 'Trung tâm' ? 'primary' : 'light'}
+                    onClick={() => handleLocationChange('Trung tâm')}
+                    className="me-2"
+                >
+                    Khu vực trung tâm
+                </Button>
+                <Button
+                    variant={selectedLocation === 'Ngoại ô' ? 'primary' : 'light'}
+                    onClick={() => handleLocationChange('Ngoại ô')}
+                    className="me-2"
+                >
+                    Khu vực ngoại ô
+                </Button>
+            </div>
             <div className="card">
-                <div className="container">
+                <div className="container row">
                     {/* Kiểm tra nếu không có dữ liệu */}
-                    {estate.length === 0 ? (
+                    {displayEstates.length === 0 ? (
                         <p>Không tìm thấy bất động sản nào.</p>
                     ) : (
-                        estate.map((item, index) => (
-                            <div key={index} className="box">
+                        displayEstates.map((item, index) => (
+                            <div key={index} className="box col-3">
                                 <Link to="/404" className="view-property-link">
                                     <div className="top">
                                         <img

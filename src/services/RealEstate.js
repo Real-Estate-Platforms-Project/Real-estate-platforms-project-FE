@@ -7,10 +7,10 @@ export const saveRealEstate = async (realEstate) => {
         await axios.post(URL_REAL_ESTATE, realEstate);
         return true;
     } catch (e) {
-        console.log(e);
         return false;
     }
 };
+
 export const findRealEstate = async () => {
     try{
        let res = await axios.get(URL_REAL_ESTATE+"/findAll");
