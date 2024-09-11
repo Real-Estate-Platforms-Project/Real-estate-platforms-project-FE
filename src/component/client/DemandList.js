@@ -5,25 +5,25 @@ import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
 import "../../css/custom.css"
 import * as buyerService from "../../services/BuyerInfor";
-import * as authService from "../../services/AuthService";
+import * as accountService from "../../services/AccountService";
 
 function DemandList() {
     const [demands, setDemands] = useState([]);
     const [selectedDemand, setSelectedDemand] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const[userRoles, setUserRoles] = useState(null);
+    const [userRoles, setUserRoles] = useState(null);
 
 
     useEffect(() => {
-        getAllDemand()
-    }, [])
+        getAllDemand(userRoles)
+    }, [userRoles])
+
     useEffect(() => {
-        getAllUserRole()
+        getAllRoles()
     }, [])
 
-    const getAllDemand = async (userRoles) => {
+    const getAllDemand = async (roles) => {
         let res = await demandService.getAllDemand(userRoles);
-        console.log(res)
         setDemands(res)
     }
 
@@ -31,6 +31,11 @@ function DemandList() {
         setSelectedDemand(demand);
         setShowModal(true);
     };
+
+    const getAllRoles = async ()=>{
+        let res = await accountService.getAllRoles()
+        setUserRoles(res)
+    }
 
     const verifyDemand = async (demand) => {
         let isVerify = await demandService.verifyDemand(demand);
@@ -53,16 +58,7 @@ function DemandList() {
         }
     }
 
-    const getAllUserRole = async() => {
-        try {
-            const roles = await authService.getAllUserRoles();
-            setUserRoles(roles)
-        } catch (error) {
-            console.log("Người dùng không có quyền truy cập")
-            // toast.error("Không thể tải thông tin khách hàng.");
-        }
-    }
-
+    if (!demands) {return <>No data</>}
     return (
         <div className="container m-auto mt-5 p-4 row">
             {demands.map((item) =>
@@ -86,14 +82,15 @@ function DemandList() {
                                 class="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
-                        {userRoles.contains("ROLE_ADMIN")? <div className="d-flex justify-content-end mt-3">
+                        {(userRoles.includes("ROLE_ADMIN") || userRoles.includes("ROLE_ADMIN"))?
+                        <div className="d-flex justify-content-end mt-3">
                             <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>Xoá nhu cầu
                             </button>
                             {item.isVerify ? "" :
                                 <button className="btn btn-primary btn-sm text-white pr-3" onClick={() => verifyDemand(item)}>Duyệt nhu
                                     cầu</button>}
-
-                        </div>:""}
+                        </div>:""
+                        }
                     </div>
                 </div>)
             }

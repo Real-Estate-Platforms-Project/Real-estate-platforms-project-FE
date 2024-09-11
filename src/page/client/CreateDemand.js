@@ -18,7 +18,7 @@ function CreateDemand() {
         minArea:0,
         maxArea:0,
         notes:"",
-        buyer_id:0,
+        buyerId:0
     });
 
     const[buyer,setBuyer]=useState(null)
@@ -56,10 +56,12 @@ function CreateDemand() {
         }
     };
     const saveDemand = async (value) => {
+        console.log(value)
+        value.buyerId=buyer.id;
         let isSuccess = await demandService.saveDemand(value)
         if(isSuccess) {
             toast.success("Thêm mới nhu cầu thành công")
-            navigate("/home")
+            navigate("/")
         } else {
             toast.error("Thêm mới nhu cầu thất bại.")
         }
@@ -73,10 +75,8 @@ function CreateDemand() {
                 <Form className='container mt-5 shadow-sm p-3 rounded w-50 bg-white'>
                     <h4 className="fw-bold text-center">Thông tin nhu cầu bất động sản</h4>
                     <div className="mt-3">
-                        <label htmlFor="customerCode" className="form-label">Mã khách hàng</label>
-                        <Field type="text" className="form-control" id="customerCode" value={buyer.code || ''}
-                               disabled/>
-                        <Field type="hidden" className="form-control" name="buyer" value={buyer}
+                        <label htmlFor="buyerCode" className="form-label">Mã khách hàng</label>
+                        <Field type="text" className="form-control" id="buyerCode" name="buyerCode" value={buyer.code}
                                disabled/>
                     </div>
                     <div className="row mt-3">
@@ -143,10 +143,10 @@ function CreateDemand() {
                                placeholder="Nhập mô tả chi tiết về nhu cầu của bạn. Ví dụ: Khu nhà có vị trí thuận lợi, gần công viên, gần trường học,..."/>
                         <ErrorMessage name="note" component="div" className="text-danger"/>
                     </div>
-                     <div className="d-flex justify-content-between shadow-sm p-4 mt-4">
-                            <Link to="/" className="btn btn-secondary me-2 fw-bold back-to-home">Quay lại</Link>
-                            <button type="submit" className="btn button-search text-white fw-bold">Hoàn thành</button>
-                        </div>
+                    <div className="d-flex justify-content-between shadow-sm p-4 mt-4">
+                        <Link to="/" className="btn btn-secondary me-2 fw-bold back-to-home">Quay lại</Link>
+                        <button type="submit" className="btn button-search text-white fw-bold">Hoàn thành</button>
+                    </div>
                 </Form>
             </Formik>
 
