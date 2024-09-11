@@ -21,22 +21,27 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/admin/personal" >
+                    <Link className="nav-link" to="/admin/personal">
                         <i className="bi bi-person"></i> Cá nhân
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/admin/employee" >
+                    <Link className="nav-link" to="/admin/employee">
                         <i className="bi bi-people"></i> Quản lý nhân viên
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="#" >
+                    <Link className="nav-link" to="#">
                         <i className="bi bi-building"></i> Bất động sản
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="#" >
+                    <Link className="nav-link" to='admin/danh-sach-nhu-cau'>
+                        <i className="bi bi-building"></i> Nhu cầu Bất động sản
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="#">
                         <i className="bi bi-credit-card"></i> Giao dịch
                     </Link>
                 </li>

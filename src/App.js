@@ -30,7 +30,6 @@ function App() {
                 <Route path="/activation-success" element={<ActivationSuccess/>}/>
                 <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                 <Route path="/" element={<Client/>}>
-                    {/*<Route path="/" element={<Home/>} />*/}
                     <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                     <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
@@ -43,6 +42,7 @@ function App() {
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                     <Route path={"/admin/employee"} element={<EmployeeList />} />
+                    <Route path="admin/danh-sach-nhu-cau" element={<DemandList/>}/>
                 </Route>
             </Routes>
             <ToastContainer/>

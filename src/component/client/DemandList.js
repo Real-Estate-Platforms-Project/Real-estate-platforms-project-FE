@@ -60,9 +60,9 @@ function DemandList() {
 
     if (!demands) {return <>No data</>}
     return (
-        <div className="container m-auto mt-5 p-4 row">
+        <div className="container m-auto mt-5 p-3 row">
             {demands.map((item) =>
-                <div className="shadow-sm rounded col-4 mx-2" key={item.id}>
+                <div className="shadow-sm rounded col-3 mx-2" key={item.id}>
                     <div className="x p-3">
                         <h5 className="card-title fw-bold">{item.title}</h5>
                         <p className="card-text mt-3">{item.notes}</p>
@@ -82,7 +82,7 @@ function DemandList() {
                                 class="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
-                        {(userRoles.includes("ROLE_ADMIN") || userRoles.includes("ROLE_ADMIN"))?
+                        {(userRoles.includes("ROLE_ADMIN") || userRoles.includes("ROLE_EMPLOYEE"))?
                         <div className="d-flex justify-content-end mt-3">
                             <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>Xoá nhu cầu
                             </button>
