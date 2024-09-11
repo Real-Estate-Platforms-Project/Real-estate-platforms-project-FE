@@ -1,20 +1,20 @@
 import React from 'react';
-import '../../css/NotFound.css';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import '../../css/Forbidden.css';
 
-
-const NotFound = () => {
+const Forbidden = () => {
     const navigate = useNavigate();
 
     const handleNavigateHome = () => {
         navigate('/');
     };
+
     return (
         <div className="not-found">
             <div className="content">
-                <img src="/images/404error.svg" alt="404 Error" className="astronaut-image"/>
-                <h1 className="notFound">404</h1>
-                <p className="notFound">Ối! Trang bạn đang tìm kiếm không tồn tại.</p>
+                <img src="/images/trang403.png" alt="403 ForBidden" className="astronaut-images"/>
+                <h1 className="forbidden">403</h1>
+                <p className="forbidden">Bạn không có quyền truy cập trang web này.</p>
             </div>
             <div>
                 <button className='btn btn-outline-dark fw-bold' style={{padding: 10}} onClick={handleNavigateHome}>
@@ -25,4 +25,5 @@ const NotFound = () => {
     );
 };
 
-export default NotFound;
+export default Forbidden;
+

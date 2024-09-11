@@ -9,7 +9,6 @@
     border-color: #FC650B;
 }
 
-/* Button.module.css */
 .btnCustomWarning {
     background-color: #FC650B !important;
     border-color: #FC650B !important;
@@ -19,4 +18,13 @@
 .btnCustomWarning:hover {
     background-color: #e85d00 !important;
     border-color: #e85d00 !important;
+}
+
+.primary {
+    color: #FC650B;
+}
+
+.bgPrimaryCustom {
+    background-color: #FC650B !important;
+    color: #fff !important;
 }

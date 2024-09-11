@@ -11,21 +11,28 @@ import CreateRealEstate from "./page/client/CreateRealEstate";
 import LandingPage from "./component/carousel/LandingPage";
 import Notification from "./component/client/Notification";
 import NotificationDetail from "./component/client/NotificationDetail";
-import UpdatePassWord from "./component/login/UpdatePassWord";
+import UpdatePassWord from "./component/updatePassword/UpdatePassWord";
 import DemandList from "./component/client/DemandList";
 import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
+import TermsAndPolicies from "./page/client/TermsAndPolicies";
+import CreateDemand from "./page/client/CreateDemand";
 import EstateListing from "./page/client/EstateListing";
+import Forbidden from "./component/client/Forbidden";
+import Admin from "./page/layout/Admin";
+import EmployeeList from "./component/employees/EmployeeList";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Authentication/>}/>
-                <Route path="/activation-success" element={<ActivationSuccess />} />
+                <Route path="/activation-success" element={<ActivationSuccess/>}/>
+                <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                 <Route path="/" element={<Client/>}>
                     {/*<Route path="/" element={<Home/>} />*/}
                     <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
+                    <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                     <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                     <Route path="*" element={<NotFound/>}/>
                     <Route path="/" element={<LandingPage/>}/>
@@ -33,8 +40,11 @@ function App() {
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
                     <Route path="/estate-list" element={<EstateListing/>}/>
+                    <Route path="/403" element={<Forbidden />} />
                 </Route>
-
+                <Route path="/admin" element={<Admin/>}>
+                    <Route path={"/admin/employee"} element={<EmployeeList />} />
+                </Route>
             </Routes>
             <ToastContainer/>
         </BrowserRouter>
