@@ -5,7 +5,14 @@ import {Carousel} from "react-responsive-carousel";
 import CardEstate from "../client/CardEstate";
 import Statistics from "../admin/Statistics";
 import StatisticsSection from "../client/StatisticsSection";
+import {useNavigate} from "react-router-dom";
 function LandingPage() {
+    const navigate = useNavigate();
+
+    const handleSearch = (filters) => {
+        // Điều hướng đến trang /estate-list cùng với các filters
+        navigate('/estate-list', { state: { filters } });
+    };
     return (
         <div className="custom-search">
             <div className="carousel-container">
@@ -23,7 +30,7 @@ function LandingPage() {
                     </div>
                 </Carousel>
                 <div className="search-bar-container">
-                    <SearchBar/>
+                    <SearchBar onSearch={handleSearch} />
                 </div>
 
             </div>
