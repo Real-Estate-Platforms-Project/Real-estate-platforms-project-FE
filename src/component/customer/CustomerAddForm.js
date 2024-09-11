@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const CustomerAddForm = () => {
+    const [name, setName] = useState('');
     const [customer, setCustomer] = useState({
         name: '',
         email: '',
