@@ -100,7 +100,7 @@ function Authentication() {
                 if (errorMessage.includes("Email đã tồn tại!")) {
                     toast.error(errorMessage, { theme: "colored", className: styles.customToast });
                 } else {
-                    toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', { theme: "colored", className: styles.customToast });
+                    toast.error('Đăng ký thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', { theme: "colored", className: styles.customToast });
                 }
             } finally {
                 setSubmitting(false);

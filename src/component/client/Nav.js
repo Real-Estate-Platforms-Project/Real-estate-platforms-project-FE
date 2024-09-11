@@ -1,7 +1,7 @@
 import Logo from "../Logo";
 import MegaMenu from "../MegaMenu";
 import {Link, useNavigate} from "react-router-dom";
-import {getToken, removeToken} from "../../utils/tokenUtils";
+import {getToken, removeToken} from "../../utils/storage";
 import ListingMenu from "../ListingMenu";
 
 

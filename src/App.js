@@ -19,6 +19,7 @@ import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
+import ProtectedRoute from "./component/ProtectedRoute";
 
 
 function App() {
@@ -36,8 +37,11 @@ function App() {
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
-                    <Route path="/update-password" element={<UpdatePassWord/>}/>
+
                     <Route path="/403" element={<Forbidden />} />
+                    <Route element={<ProtectedRoute/>}>
+                        <Route path="/update-password" element={<UpdatePassWord/>}/>
+                    </Route>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                     <Route path={"/admin/employee"} element={<EmployeeList />} />
