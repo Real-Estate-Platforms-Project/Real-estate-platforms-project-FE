@@ -15,12 +15,12 @@ import UpdatePassWord from "./component/updatePassword/UpdatePassWord";
 import DemandList from "./component/client/DemandList";
 import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
+import TermsAndPolicies from "./page/client/TermsAndPolicies";
+import CreateDemand from "./page/client/CreateDemand";
+import EstateListing from "./page/client/EstateListing";
+import Forbidden from "./component/client/Forbidden";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
-import CreateDemand from "./page/client/CreateDemand";
-import TermsAndPolicies from "./page/client/TermsAndPolicies";
-import Forbidden from "./component/client/Forbidden";
-
 
 function App() {
     return (
@@ -39,6 +39,7 @@ function App() {
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+                    <Route path="/estate-list" element={<EstateListing/>}/>
                     <Route path="/403" element={<Forbidden />} />
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
@@ -46,7 +47,6 @@ function App() {
                 </Route>
             </Routes>
             <ToastContainer/>
-
         </BrowserRouter>
     );
 }
