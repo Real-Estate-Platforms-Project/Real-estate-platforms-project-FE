@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import * as statisticsService from "/src/services/StatisticsService";
+import {useEffect, useState} from "react";
+import * as statisticsService from "../../services/StatisticsService";
 
 function Statistics() {
     const [years, setYears] = useState([]);
@@ -31,8 +31,14 @@ function Statistics() {
             if (statistic === "demand" && statisticBy === "year" && selectedYear) {
                 res = await statisticsService.getStatisticDemandByYear(selectedYear);
             }
-            // Bạn có thể thêm các điều kiện khác tương tự để gọi các API khác nhau dựa trên loại thống kê và thời gian
-            // Ví dụ: getStatisticRevenueByYear, getStatisticTransactionByMonth, etc.
+
+            if (statistic === "demand" && statisticBy === "month" && selectedYear && selectedMonth) {
+                res = await statisticsService.getStatisticDemandByMonth(selectedYear, selectedMonth);
+            }
+
+            if (statistic === "demand" && statisticBy === "day" && selectedYear && selectedMonth) {
+                res = await statisticsService.getStatisticDemandByMonth(selectedYear, selectedMonth);
+            }
             console.log(res);
             setResultStatistics(res);
         } catch (error) {
@@ -42,13 +48,13 @@ function Statistics() {
 
     const handleViewClick = () => {
         if (statistic && statisticBy) {
-            getStatisticData(); // ✅ Gọi API khi cả hai lựa chọn đều được chọn
+            getStatisticData();
         } else {
             alert("Vui lòng chọn đầy đủ loại thống kê và thời gian thống kê");
         }
     };
 
-    const handleStatisticTypeChange = (e) => {
+    const handleStatisticChange = (e) => {
         setStatistic(e.target.value);
     };
 
@@ -65,7 +71,7 @@ function Statistics() {
                         <select
                             className="select form-select"
                             value={statistic}
-                            onChange={handleStatisticTypeChange}
+                            onChange={handleStatisticChange}
                         >
                             <option value="" disabled hidden>Thống kê</option>
                             <option value="transactions">Số giao dịch</option>
@@ -148,11 +154,11 @@ function Statistics() {
                         <div className="row mt-3">
                             <div className="col-md-5">
                                 <label className="label">Từ ngày:</label>
-                                <input type="date" id="startDate" className="form-control" />
+                                <input type="date" id="startDate" className="form-control"/>
                             </div>
                             <div className="col-md-5">
                                 <label className="label">Đến ngày:</label>
-                                <input type="date" id="endDate" className="form-control" />
+                                <input type="date" id="endDate" className="form-control"/>
                             </div>
                             <div className="col-md-2 mt-4">
                                 <button className="btn btn-primary" onClick={handleViewClick}>Xem</button>
@@ -161,41 +167,71 @@ function Statistics() {
                     )}
                 </div>
             </div>
-            <div>
-                <table className="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Order ID</th>
-                        <th>Product Name</th>
-                        <th>Purchase Date</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total Amount</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {resultStatistics.map((item, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{item.code}</td>
-                                <td>{item.title}</td>
-                                <td>{item.nameBuyer}</td>
-                                <td>{item.type}</td>
-                                <td>{item.realEstateType}</td>
-                                <td>{item.region}</td>
-                                <td>{item.minArea}</td>
-                                <td>{item.maxArea}</td>
-                                <td>{item.createdAt}</td>
-                                <td>{item.notes}</td>
-                                <td>{item.isVerify ? "Đã xác nhận" : "Chưa xác nhận"}</td>
-                                <td>{item.isDeleted ? "Đã xóa" : "Hoạt động"}</td>
-                            </tr>
-                        )
-                    )}
-                    </tbody>
-                </table>
-            </div>
+            {statistic === 'demand' && (
+                <div>
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã Code</th>
+                            <th>Tiêu Đề</th>
+                            <th>Người Yêu Cầu</th>
+                            <th>Loại Dịch Vụ</th>
+                            <th>Loại Bất Động Sản</th>
+                            <th>Khu Vực</th>
+                            <th>Diện Tích</th>
+                            <th>Ngày Tạo</th>
+                            <th>Ghi Chú</th>
+                            <th>Xác Nhận</th>
+                            <th>Trạng Thái</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {resultStatistics.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.code}</td>
+                                    <td>{item.title}</td>
+                                    <td>{item.nameBuyer}</td>
+                                    <td>{item.type}</td>
+                                    <td>{item.realEstateType}</td>
+                                    <td>{item.region}</td>
+                                    <td>{item.minArea} - {item.maxArea} m2</td>
+                                    <td>{item.createdAt}</td>
+                                    <td>{item.notes}</td>
+                                    <td>{item.isVerify ? "Đã xác nhận" : "Chưa xác nhận"}</td>
+                                    <td>{item.isDeleted ? "Đã xóa" : "Hoạt động"}</td>
+                                </tr>
+                            )
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+            {statistic === 'transactions' && (
+                <div>
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã Giao Dịch</th>
+                            <th>Mã Nhân Viên</th>
+                            <th>Bên Mua</th>
+                            <th>Bên Bán</th>
+                            <th>Mã Bất Động Sản</th>
+                            <th>Số tiền</th>
+                            <th>Ngày Giao Dịch</th>
+                            <th>Tỷ Lệ Hoa Hồng</th>
+                            {/*<th>Ghi Chú</th>*/}
+                            {/*<th>Xác Nhận</th>*/}
+                            {/*<th>Trạng Thái</th>*/}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 }

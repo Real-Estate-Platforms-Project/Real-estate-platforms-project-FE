@@ -12,3 +12,13 @@ export const getStatisticDemandByYear = async (year) => {
         return [];
     }
 }
+export const getStatisticDemandByMonth = async (year, month) => {
+    try {
+        let res = await axios.get(`${URL_STATISTICS}/demands/month`, {
+            params: { year, month }
+        });
+        return res.data;
+    } catch (e) {
+        return [];
+    }
+}
