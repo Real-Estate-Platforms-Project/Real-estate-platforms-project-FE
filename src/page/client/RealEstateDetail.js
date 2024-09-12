@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import "../../css/RealEstateDetail.css"
-import * as realEstateService from "../../services/RealEstate";
+import * as realEstateService from "../../services/RealEstateService";
 import {useParams} from "react-router-dom";
 
 

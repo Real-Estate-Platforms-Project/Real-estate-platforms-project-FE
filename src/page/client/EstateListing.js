@@ -1,7 +1,7 @@
 import SearchBar from "../../component/search/SearchBar";
 import React, {useEffect} from "react";
 import {useLocation} from "react-router-dom";
-import * as realEstateService from "../../services/RealEstate";
+import * as realEstateService from "../../services/RealEstateService";
 import ResultsList from "../../component/client/ResultList";
 function EstateListing() {
     const location = useLocation();

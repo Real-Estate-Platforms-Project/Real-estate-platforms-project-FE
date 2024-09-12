@@ -22,6 +22,10 @@ const EmployeeList = () => {
         EmployeeService.getEmployees().then((response) => setEmployees(response.data));
     };
 
+    const ListEmployees = () => {
+        EmployeeService.ListEmployees().then((response) => setEmployees(response.data));
+    };
+
     const handleDelete = (id) => {
         EmployeeService.deleteEmployee(id).then(() => loadEmployees());
     };

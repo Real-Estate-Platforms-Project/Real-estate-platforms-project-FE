@@ -1,27 +1,33 @@
-import {useEffect, useState} from "react";
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import {toast} from "react-toastify";
-import {Navigate, useNavigate} from "react-router-dom";
-import * as transactionService from "..//..//..//services/TransactionService"
+import { Formik } from "formik";
+import * as transactionService from "../../../services/TransactionService";
+import { toast } from "react-toastify";
+import TransactionForm from "../transaction/TransactionForm";
+import EmployeeService from '../../../services/EmployeeService';
+import RealEstateService from '../../../services/RealEstateService';
 
-function TransactionCreate () {
-    const [form , setForm] = useState({
-        code: "",
-        employee: "",
-        buyer: "",
-        seller: "",
-        realEstate: "",
-        amount: "",
-        createAt: "",
-        commissionFee: ""
-    })
-    
+const TransactionCreate = () => {
+    const [employees, setEmployees] = useState([]);
+    const [realEstates, setRealEstates] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+            let employeeData = await EmployeeService.ListEmployees();
+            setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.name })));
+            const realEstateData = await RealEstateService.getRealEstates();
+            setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
+    };
 
     const validationSchema = Yup.object().shape({
         code: Yup.string()
-            .required("Mã đơn hàng không được để trống")
-            .max(10, "Mã đơn hàng không được quá 10 ký tự"),
+            .required("Mã giao dịch không được để trống")
+            .max(10, "Mã giao dịch không được quá 10 ký tự"),
         employeeId: Yup.number()
             .required("Mã nhân viên không được để trống")
             .positive("Mã nhân viên phải là số dương")
@@ -55,16 +61,26 @@ function TransactionCreate () {
         isDeleted: Yup.boolean()
             .required("Trường này không được để trống")
     });
-    
+
     const saveTransaction = async (value) => {
-        let isSuccess = await transactionService.saveTransaction(value);
-        if(isSuccess) {
-            toast.success("thêm mới thành công");
-            Navigate("/api/transactions");
-        } else {
-            toast.success("thêm mới thất bại")
+        console.log("Dữ liệu gửi đi:", value);  // Log dữ liệu để kiểm tra
+
+        try {
+            const isSuccess = await transactionService.saveTransaction(value);
+            console.log("Kết quả:", isSuccess);  // Log kết quả từ API
+            if (isSuccess) {
+                toast.success("Thêm mới thành công");
+                navigate("/admin/homeTransactions"); // Chỉ navigate khi thành công
+            } else {
+                toast.error("Thêm mới thất bại");
+            }
+        } catch (error) {
+            console.error("Error saving transaction:", error);
+            toast.error("Đã xảy ra lỗi");
         }
-    }
+    };
+
+
 
     return (
         <Formik
@@ -78,68 +94,23 @@ function TransactionCreate () {
                 createAt: "",
                 commissionFee: "",
                 description: "",
-                status: "",
+                status: "pending",
                 isDeleted: false
             }}
             validationSchema={validationSchema}
             onSubmit={saveTransaction}
+
         >
             {formik => (
-                <Form>
-                    <div className="form-group">
-                        <label>Mã giao dịch</label>
-                        <Field name="code" type="text" className="form-control" />
-                        <ErrorMessage name="code" component="div" className="text-danger" />
-                    </div>
+                <TransactionForm
+                    formik={formik}
+                    employees={employees}  
+                    realEstates={realEstates}
 
-                    <div className="form-group">
-                        <label>Mã giao dịch</label>
-                        <Field name="code" type="text" className="form-control" />
-                        <ErrorMessage name="code" component="div" className="text-danger" />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>Mã giao dịch</label>
-                        <Field name="code" type="text" className="form-control" />
-                        <ErrorMessage name="code" component="div" className="text-danger" />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>Mã giao dịch</label>
-                        <Field name="code" type="text" className="form-control" />
-                        <ErrorMessage name="code" component="div" className="text-danger" />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>Mã giao dịch</label>
-                        <Field name="code" type="text" className="form-control" />
-                        <ErrorMessage name="code" component="div" className="text-danger" />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>Mã giao dịch</label>
-                        <Field name="code" type="text" className="form-control" />
-                        <ErrorMessage name="code" component="div" className="text-danger" />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>Mã giao dịch</label>
-                        <Field name="code" type="text" className="form-control" />
-                        <ErrorMessage name="code" component="div" className="text-danger" />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>Mã giao dịch</label>
-                        <Field name="code" type="text" className="form-control" />
-                        <ErrorMessage name="code" component="div" className="text-danger" />
-                    </div>
-                    
-                    
-                    <button type="submit" className="btn btn-primary">Lưu</button>
-                </Form>
+                />
             )}
         </Formik>
     );
-}
+};
 
-    export default TransactionCreate;
+export default TransactionCreate;

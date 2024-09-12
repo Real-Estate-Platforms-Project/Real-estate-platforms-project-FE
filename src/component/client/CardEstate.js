@@ -1,7 +1,7 @@
 import '../../css/Card.css';
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
-import * as estateService from '../../services/RealEstate';
+import * as estateService from '../../services/RealEstateService';
 
 function CardEstate() {
     const [estate, setEstate] = useState([])

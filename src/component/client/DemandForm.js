@@ -1,7 +1,6 @@
 import {Link} from "react-router-dom";
 import {Field, ErrorMessage} from "formik";
-import Select from "react-select";
-import ImagePreview from '../../component/ImagePreview';
+
 
 const RealEstateForm = ({
                             formik,

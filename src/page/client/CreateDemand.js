@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Field, ErrorMessage } from "formik";
 import Select from "react-select";
-import * as realEstateService from "../../services/RealEstate";
+import * as realEstateService from "../../services/RealEstateService";
 import { toast } from "react-toastify";
 
 const validationSchema  = Yup.object({

@@ -20,3 +20,26 @@ export const findRealEstate = async () => {
     }
 }
 
+async function getRealEstates() {
+    let response = null
+    await axios({
+        url: `http://localhost:8080/api/real-estate`,
+        headers: {
+            Accept: 'application/json'
+        },
+        method: 'GET'
+    })
+        .then((res) => {
+            response = res
+        })
+        .catch((e) => {
+            response = e.response
+        })
+
+    return response.data
+}
+export default {
+    saveRealEstate,
+    findRealEstate,
+    getRealEstates
+}
