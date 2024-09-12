@@ -1,4 +1,4 @@
-import apiClient from "../configs/axiosConfigs";
+import apiClient from "../configs/AxiosConfigs";
 
 export const updatePassword = async (data) => {
     try {

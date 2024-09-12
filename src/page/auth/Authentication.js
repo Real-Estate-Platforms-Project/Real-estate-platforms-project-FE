@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
@@ -19,8 +19,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import styles from '../../css/Toastify.module.css';
 import mdbCustom from '../../css/MDBCustom.module.css'
 import Logo from '../../component/Logo.js'
-import Cookies from 'js-cookie';
-
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -42,7 +40,6 @@ const validationSchema = Yup.object({
 function Authentication() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
     const [justifyActive, setJustifyActive] = useState('login');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [termsAccepted, setTermsAccepted] = useState(false);
@@ -54,12 +51,11 @@ function Authentication() {
         try {
             const response = await authService.login(email, password);
             if (rememberMe) {
-                Cookies.set('token', response.data.token, { expires: 7 });
+                localStorage.setItem('token', response.data.token);
             } else {
-                Cookies.set('token', response.data.token);
+                sessionStorage.setItem('token', response.data.token);
             }
-            console.log(Cookies.get('token'));
-            navigate('/');
+            window.location.href="/";
         } catch (error) {
             const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
 

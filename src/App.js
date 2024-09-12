@@ -1,8 +1,8 @@
 import './App.css';
 import './css/custom.css';
 import "./css/SearchBar.css";
-import { ToastContainer } from "react-toastify";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {ToastContainer} from "react-toastify";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Client from './page/layout/Client';
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,10 +19,19 @@ import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
+import {useDispatch} from "react-redux";
+import {useEffect} from "react";
+import {fetchUser} from "./redux/FetchUser";
 import ProtectedRoute from "./component/ProtectedRoute";
 
 
 function App() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchUser());
+    }, [dispatch]);
+
     return (
         <BrowserRouter>
             <Routes>
@@ -32,23 +41,23 @@ function App() {
                 <Route path="/" element={<Client/>}>
                     {/*<Route path="/" element={<Home/>} />*/}
                     <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
-                    <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                     <Route path="*" element={<NotFound/>}/>
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
-
-                    <Route path="/403" element={<Forbidden />} />
+                    <Route path="/403" element={<Forbidden/>}/>
+                    <Route element={<ProtectedRoute requiredRoles={['ROLE_SELLER']} />}>
+                        <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
+                    </Route>
                     <Route element={<ProtectedRoute/>}>
                         <Route path="/update-password" element={<UpdatePassWord/>}/>
                     </Route>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
-                    <Route path={"/admin/employee"} element={<EmployeeList />} />
+                    <Route path={"/admin/employee"} element={<EmployeeList/>}/>
                 </Route>
             </Routes>
             <ToastContainer/>
-
         </BrowserRouter>
     );
 }
