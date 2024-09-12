@@ -5,7 +5,6 @@ import ListingMenu from "../ListingMenu";
 import {useSelector} from "react-redux";
 import Logout from "../Logout";
 
-
 function Nav() {
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 

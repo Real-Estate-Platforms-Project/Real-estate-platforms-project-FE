@@ -7,6 +7,8 @@ import * as addressService from "../../services/AddressService";
 import * as sellerService from "../../services/Seller";
 import {toast} from "react-toastify";
 import RealEstateForm from "../../component/client/RealEstateForm";
+import {storage} from '../../configs/ConfigFirebase';
+import {getDownloadURL, ref as storageRef, uploadBytes} from "firebase/storage";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -25,7 +27,7 @@ const validationSchema = Yup.object({
         "is-required-if-nha-o",
         "Cần nhập thông tin này",
         function (value) {
-            const { type } = this.parent;
+            const {type} = this.parent;
             return type !== "Nhà ở" || (value && value > 0);
         }
     ),
@@ -33,7 +35,7 @@ const validationSchema = Yup.object({
         "is-required-if-nha-o",
         "Cần nhập thông tin này",
         function (value) {
-            const { type } = this.parent;
+            const {type} = this.parent;
             return type !== "Nhà ở" || (value && value > 0);
         }
     ),
@@ -41,7 +43,7 @@ const validationSchema = Yup.object({
         "is-required-if-nha-o",
         "Cần nhập thông tin này",
         function (value) {
-            const { type } = this.parent;
+            const {type} = this.parent;
             return type !== "Nhà ở" || (value && value > 0);
         }
     ),
@@ -56,13 +58,13 @@ const CreateRealEstate = () => {
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [selectedWard, setSelectedWard] = useState(null);
     const [selectedDemandType, setSelectedDemandType] = useState("Bán");
+    const [imageUrl, setImageUrl] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSeller = async () => {
             try {
                 const seller = await sellerService.SellerInfo();
-                console.log(seller)
                 setSeller(seller);
             } catch (error) {
                 toast.error("Không thể tải thông tin khách hàng.");
@@ -128,6 +130,30 @@ const CreateRealEstate = () => {
         setSelectedWard(null);
     };
 
+    const handleUploadFile = (file, setFieldValue) => {
+        if (!file) {
+            console.error("No file selected");
+            return;
+        }
+        const imageRef = storageRef(storage, `/files/${file.name}`); // Reference to Firebase Storage path
+        // Upload the file
+        uploadBytes(imageRef, file)
+            .then((snapshot) => {
+                // Get the download URL after uploading
+                return getDownloadURL(snapshot.ref);
+            })
+            .then((url) => {
+                // Set the image URL in Formik's field
+                setImageUrl(url);  // To preview or store it
+                setFieldValue("imageUrl", url);  // Set the value in Formik's form
+                toast.success("File uploaded successfully");
+            })
+            .catch((error) => {
+                console.error("Error uploading file:", error);
+                toast.error("File upload failed");
+            });
+    };
+
     const handleDistrictChange = (selectedOption) => {
         setSelectedDistrict(selectedOption);
         setSelectedWard(null);
@@ -141,8 +167,11 @@ const CreateRealEstate = () => {
 
     const handleSubmit = async (values) => {
         try {
-            const response = await realEstateService.saveRealEstate({...values, sellerId: seller.id});
-            console.log(response)
+            const response = await realEstateService.saveRealEstate({
+                ...values,
+                imageUrl: values.imageUrl, // The image URL is automatically included in the form data
+                sellerId: seller.id
+            });
             if (response) {
                 toast.success("Thêm mới thành công");
                 navigate("/");
@@ -153,7 +182,6 @@ const CreateRealEstate = () => {
             toast.error("Đã xảy ra lỗi trong quá trình xử lý.");
         }
     };
-
 
     return (
         <Formik
@@ -173,6 +201,7 @@ const CreateRealEstate = () => {
                 bedroom: "",
                 floor: "",
                 toilet: "",
+                imageUrl: "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -192,6 +221,7 @@ const CreateRealEstate = () => {
                     handleDistrictChange={handleDistrictChange}
                     handleWardChange={handleWardChange}
                     handleDemandTypeChange={handleDemandTypeChange}
+                    handleUploadFile={handleUploadFile}
                 />
             )}
         </Formik>
