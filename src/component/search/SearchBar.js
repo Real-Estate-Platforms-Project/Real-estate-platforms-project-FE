@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-const SearchBar = ({onSearch,initialTab='Bán'}) => {
+const SearchBar = ({onSearch,initialTab='Bán,Cho thuê'}) => {
     const navigate = useNavigate();
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [priceRange, setPriceRange] = useState({ min: '', max:'' });
@@ -76,10 +76,11 @@ const SearchBar = ({onSearch,initialTab='Bán'}) => {
                 ...(areaRange.min && { minArea: parseInt(areaRange.min, 10) }),
                 ...(areaRange.max && { maxArea: parseInt(areaRange.max, 10) }),
                 ...(address && { address }),
-                demandType : activeTab === 'Cho thuê' ? 'Cho thuê' : 'Bán',
+                demandType: activeTab === 'Bán,Cho thuê' ? 'Bán,Cho thuê' : activeTab === 'Bán' ? 'Bán' : 'Cho thuê',
+
 
             };
-
+        console.log(filters.demandType)
         if (window.location.pathname !== '/estate-list') {
             navigate('/estate-list', { state: { filters,activeTab } });
         } else {
@@ -88,15 +89,21 @@ const SearchBar = ({onSearch,initialTab='Bán'}) => {
 
 
     };
-    const handlePageChange = (newPage) => {
-        if (newPage >= 0 && newPage < totalPages) {
-            handleSearch(newPage);
+    useEffect(() => {
+        if (window.location.pathname === '/estate-list') {
+            handleSearch();  // Gọi lại tìm kiếm mỗi khi activeTab thay đổi
         }
-    };
+    }, [activeTab]);
     return (
 
         <div className="search-bar">
             <div className="tabs">
+                <button
+                    className={`tab ${activeTab === 'Bán,Cho thuê' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('Bán,Cho thuê')}
+                >
+                    Toàn bộ
+                </button>
                 <button
                     className={`tab ${activeTab === 'Bán' ? 'active' : ''}`}
                     onClick={() => setActiveTab('Bán')}
@@ -109,6 +116,7 @@ const SearchBar = ({onSearch,initialTab='Bán'}) => {
                 >
                     Nhà đất cho thuê
                 </button>
+
             </div>
             <div className="search-bar">
                 <input
@@ -212,10 +220,10 @@ const SearchBar = ({onSearch,initialTab='Bán'}) => {
                                     <label><input type="radio" name="price" value="500-800"
                                                   checked={selectedPriceOption === '500-800'}
                                                   onChange={handlePriceOptionChange}/> 500 - 800 triệu</label>
-                                    <label><input type="radio" name="price" value="800-1b"
+                                    <label><input type="radio" name="price" value="800-1000"
                                                   checked={selectedPriceOption === '800-1b'}
                                                   onChange={handlePriceOptionChange}/> 800 triệu - 1 tỷ</label>
-                                    <label><input type="radio" name="price" value="1-2b"
+                                    <label><input type="radio" name="price" value="1000-2000"
                                                   checked={selectedPriceOption === '1-2b'}
                                                   onChange={handlePriceOptionChange}/> 1 - 2 tỷ</label>
                                 </div>
