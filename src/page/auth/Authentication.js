@@ -161,7 +161,7 @@ function Authentication() {
                                         checked={rememberMe}
                                         onChange={() => setRememberMe(!rememberMe)}
                                     />
-                                    <a href="forget-password">Quên mật khẩu?</a>
+                                    <a href="/forget-password">Quên mật khẩu?</a>
 
                                 </div>
 

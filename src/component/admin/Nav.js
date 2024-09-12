@@ -20,11 +20,11 @@ const Nav = () => {
                 <Logo width="200px"/>.
             </Link>
             <ul className="nav flex-column">
-                {/*<li className="nav-item">*/}
-                {/*    <Link className="nav-link" to={"/admin"}>*/}
-                {/*        <i className="bi bi-speedometer2"></i> Bảng điều khiển*/}
-                {/*    </Link>*/}
-                {/*</li>*/}
+                <li className="nav-item">
+                    <Link className="nav-link" to={"/admin"}>
+                        <i className="bi bi-speedometer2"></i> Bảng điều khiển
+                    </Link>
+                </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/admin/personal">
                         <i className="bi bi-person"></i> Cá nhân
@@ -67,6 +67,11 @@ const Nav = () => {
                 <li className="nav-item">
                     <Link className="nav-link" to="#">
                         <i className="bi bi-building"></i> Bất động sản
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to='/admin/danh-sach-nhu-cau'>
+                        <i className="bi bi-building"></i> Nhu cầu Bất động sản
                     </Link>
                 </li>
                 <li className="nav-item">
