@@ -22,7 +22,8 @@ import Forbidden from "./component/client/Forbidden";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
 import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/admin/NotificationDisplay";
-
+import BuyerList from "./component/customer/BuyerList";
+import CustomerAddForm from "./component/customer/CustomerAddForm";
 function App() {
     return (
         <BrowserRouter>
@@ -45,6 +46,8 @@ function App() {
                     <Route path="/admin" element={<Admin/>}>
                         <Route path={"/admin/employee"} element={<EmployeeList />} />
                         <Route path={"/admin/notification"} element={<NotificationAdmin />}/>
+                        <Route path={"/admin/buyers"} element={<BuyerList />} />
+                        <Route path="/admin/customers/add" element={<CustomerAddForm />} />
                     </Route>
                 </Routes>
                 <ToastContainer/>
