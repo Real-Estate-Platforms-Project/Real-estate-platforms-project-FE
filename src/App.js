@@ -24,15 +24,13 @@ import {useEffect} from "react";
 import {fetchUser} from "./redux/FetchUser";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
-import {WebSocketProvider} from './services/SocketNotification';
-import NotificationDisplay from "./component/admin/NotificationDisplay";
+
+import { WebSocketProvider } from './services/SocketNotification';
+import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
-
 import RealEstateDetail from "./page/client/RealEstateDetail";
-
 import CreateDemand from "./page/client/CreateDemand";
-
 import UpdatePassWord from "./component/password/UpdatePassWord";
 import GetAndConfirmEmail from "./component/password/GetAndConfirmEmail";
 import ConfirmEmail from "./component/password/ConfirmEmail";
@@ -55,8 +53,6 @@ function App() {
                 <NotificationDisplay/>
                 <Routes>
                     <Route path="/confirm-email" element={<ConfirmEmail/>}/>
-
-
                     <Route path="/login" element={<Authentication/>}/>
                     <Route path="/activation-success" element={<ActivationSuccess/>}/>
                     <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
@@ -77,8 +73,7 @@ function App() {
                         <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                         <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                     </Route>
-
-                    <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                    {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
                         <Route path="/admin" element={<Admin/>}>
                             <Route path={"/admin/employee"} element={<EmployeeList/>}/>
                             <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
@@ -87,9 +82,8 @@ function App() {
                             <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
                             <Route path="/admin/statistics" element={<Statistics/>}/>
                             <Route path="/admin/sellers" element={<SellerList/>}/>
-
                         </Route>
-                    </Route>
+                    {/*</Route>*/}
                 </Routes>
                 <ToastContainer/>
             </WebSocketProvider>
