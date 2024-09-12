@@ -70,7 +70,7 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to='admin/danh-sach-nhu-cau'>
+                    <Link className="nav-link" to='/admin/danh-sach-nhu-cau'>
                         <i className="bi bi-building"></i> Nhu cầu Bất động sản
                     </Link>
                 </li>

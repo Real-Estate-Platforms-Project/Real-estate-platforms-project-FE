@@ -4,14 +4,14 @@ const URL_DEMAND = "http://localhost:8080/api/demand"
 
 export const getAllDemand = async (userRoles) => {
     try {
-        if(userRoles.includes("ROLE_ADMIN") || userRoles.includes("ROLE_EMPLOYEE")){
-            let res = await axios.get(URL_DEMAND+"?_sort=isVerify,createdAt&_order=asc,desc");
-            return res.data;
-        } else {
-            let res = await axios.get(URL_DEMAND+"?isVerify=1&_sort=createdAt&_order=desc");
-            console.log(res.data)
-            return res.data;
-        }
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        let res = await axios.get(URL_DEMAND,{
+            headers: {
+                "Authorization": `Bearer ${token}`,// Thêm token vào header
+                "Content-Type": "application/json",
+            }
+        })
+        return res.data
     } catch (e) {
         console.log(e)
     }
@@ -19,6 +19,7 @@ export const getAllDemand = async (userRoles) => {
 
 export const searchDemand = async (filters) => {
     try {
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
         // Lọc các tham số không có giá trị (null, undefined, hoặc '')
         const filteredFilters = Object.fromEntries(
             Object.entries(filters).filter(([_, value]) => value !== null && value !== undefined && value !== '')
@@ -26,8 +27,12 @@ export const searchDemand = async (filters) => {
 
         // Tạo query string từ các tham số đã lọc
         const params = new URLSearchParams(filteredFilters).toString();
-        const response = await axios.get(`${URL_DEMAND}/search?${params}`);
-        console.log(params)
+        const response = await axios.get(`${URL_DEMAND}/search?${params}`,{
+            headers: {
+                "Authorization": `Bearer ${token}`,// Thêm token vào header
+                "Content-Type": "application/json",
+            }
+        });
         return response.data;
     } catch (error) {
         console.error('Failed to fetch real estate data', error);
@@ -37,7 +42,13 @@ export const searchDemand = async (filters) => {
 
 export  const deleteDemand = async (id) => {
     try {
-        await axios.delete(URL_DEMAND + "/" + id);
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        await axios.delete(URL_DEMAND + "/" + id,{
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            });
         return true;
     } catch (e) {
         return false;
@@ -46,12 +57,14 @@ export  const deleteDemand = async (id) => {
 
 export  const verifyDemand = async  (demand) => {
     try {
-        if (!demand.isVerify){
-            demand.setIsVerify = true;
-            await axios.put(URL_DEMAND+"/"+demand.id+"/verify",demand);
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+            await axios.put(URL_DEMAND+"/"+demand.id+"/verify",demand,{
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            });
             return true;
-        }
-        return false;
     } catch (e){
         return false;
     }
@@ -59,7 +72,14 @@ export  const verifyDemand = async  (demand) => {
 
 export const saveDemand = async (demand) => {
     try {
-        await axios.post(URL_DEMAND, demand)
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        console.log(token)
+        await axios.post(URL_DEMAND, demand,{
+            headers: {
+                "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+            }
+        })
         return true
     } catch (e) {
         return false
