@@ -36,7 +36,6 @@ export const deleteNotification = async (id) => {
 
 export const addNotification = async (notification) => {
     try {
-        console.log(notification)
         const response = await axios.post(URL_ACTION_NOTIFICATION, notification);
         return response.data;
     } catch (error) {

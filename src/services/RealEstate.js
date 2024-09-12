@@ -11,11 +11,22 @@ export const saveRealEstate = async (realEstate) => {
     }
 };
 
+export const getRealEstateById = async (id) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/real-estate/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching real estate data:", error);
+        throw error;
+    }
+};
+
 export const findRealEstate = async () => {
-    try{
-       let res = await axios.get(URL_REAL_ESTATE+"/findAll");
+    try {
+        let res = await axios.get(URL_REAL_ESTATE + "/findAll");
+        console.log(res);
         return res.data;
-    }catch(e){
+    } catch (e) {
         return [];
     }
 }
@@ -36,3 +47,4 @@ export const searchRealEstate = async (filters) => {
         throw error;
     }
 };
+

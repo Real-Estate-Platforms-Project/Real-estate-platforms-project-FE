@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {useWebSocket} from '../../services/SocketNotification';
+// NotificationAdmin.jsx
+import React, { useEffect, useState } from 'react';
 import * as notificationService from '../../services/NotificationService';
 import '../../css/Notification.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Modal from './Modal';
 import CreateNotification from './CreateNotification';
 import EditNotificationModal from './EditNotification';
-
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 function NotificationAdmin() {
     const [title, setTitle] = useState("");
@@ -125,7 +124,7 @@ function NotificationAdmin() {
                     </thead>
                     <tbody>
                     {notificationsList.map((item) => (
-                        <tr key={item.id}> {/* Đảm bảo rằng `key` là duy nhất */}
+                        <tr key={item.id}>
                             <td>
                                 <img src={item.image} alt={item.title} className="article-image"/>
                             </td>
@@ -140,8 +139,7 @@ function NotificationAdmin() {
                             <td>
                                 <div className="d-flex gap-2">
                                     <button className='me-2 button-orange' onClick={() => handleEdit(item.id)}>Sửa</button>
-                                    <button className='me-2 button-orange' onClick={() => openDeleteModal(item.id)}>Xóa
-                                    </button>
+                                    <button className='me-2 button-orange' onClick={() => openDeleteModal(item.id)}>Xóa</button>
                                 </div>
                             </td>
                         </tr>
