@@ -19,32 +19,36 @@ import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
-
+import NotificationAdmin from "./component/admin/NotificationAdmin";
+import { WebSocketProvider } from './services/SocketNotification';
+import NotificationDisplay from "./component/admin/NotificationDisplay";
 
 function App() {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<Authentication/>}/>
-                <Route path="/activation-success" element={<ActivationSuccess/>}/>
-                <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
-                <Route path="/" element={<Client/>}>
-                    {/*<Route path="/" element={<Home/>} />*/}
-                    <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
-                    <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
-                    <Route path="*" element={<NotFound/>}/>
-                    <Route path="/" element={<LandingPage/>}/>
-                    <Route path="/notification" element={<Notification/>}/>
-                    <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
-                    <Route path="/update-password" element={<UpdatePassWord/>}/>
-                    <Route path="/403" element={<Forbidden />} />
-                </Route>
-                <Route path="/admin" element={<Admin/>}>
-                    <Route path={"/admin/employee"} element={<EmployeeList />} />
-                </Route>
-            </Routes>
-            <ToastContainer/>
-
+            <WebSocketProvider>
+                <NotificationDisplay />
+                <Routes>
+                    <Route path="/login" element={<Authentication/>}/>
+                    <Route path="/activation-success" element={<ActivationSuccess/>}/>
+                    <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
+                    <Route path="/" element={<Client/>}>
+                        <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
+                        <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
+                        <Route path="*" element={<NotFound/>}/>
+                        <Route path="/" element={<LandingPage/>}/>
+                        <Route path="/notification" element={<Notification/>}/>
+                        <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
+                        <Route path="/update-password" element={<UpdatePassWord/>}/>
+                        <Route path="/403" element={<Forbidden />} />
+                    </Route>
+                    <Route path="/admin" element={<Admin/>}>
+                        <Route path={"/admin/employee"} element={<EmployeeList />} />
+                        <Route path={"/admin/notification"} element={<NotificationAdmin />}/>
+                    </Route>
+                </Routes>
+                <ToastContainer/>
+            </WebSocketProvider>
         </BrowserRouter>
     );
 }
