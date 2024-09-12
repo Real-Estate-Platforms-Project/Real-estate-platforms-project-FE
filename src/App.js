@@ -71,7 +71,7 @@ function App() {
                         <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                         <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                     </Route>
-                    <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                    {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
                         <Route path="/admin" element={<Admin/>}>
                             <Route path={"/admin/employee"} element={<EmployeeList/>}/>
                             <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
@@ -80,7 +80,7 @@ function App() {
                             <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
                             <Route path="/admin/statistics" element={<Statistics/>}/>
                         </Route>
-                    </Route>
+                    {/*</Route>*/}
                 </Routes>
                 <ToastContainer/>
             </WebSocketProvider>
