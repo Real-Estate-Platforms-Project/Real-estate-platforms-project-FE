@@ -9,6 +9,7 @@ const initialState = {
 };
 
 const userReducer = (state = initialState, action) => {
+    console.log("user reducer", action.payload);
     switch (action.type) {
         case FETCH_USER_SUCCESS:
             return {
@@ -27,7 +28,7 @@ const userReducer = (state = initialState, action) => {
                 status: 'error'
             };
         default:
-            return state;
+            return {...state, status: "done"};
     }
 };
 

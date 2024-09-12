@@ -7,6 +7,7 @@ const ProtectedRoute = ({ requiredRoles }) => {
 
     const { isAuthenticated, roles, status } = useSelector((state) => state.information);
     const roleNames = roles.map(role => role.name);
+    console.log("xxxxxxxxxxxxxxxx")
 
     if (status === 'idle') {
         return <Loading/>
