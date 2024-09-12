@@ -1,4 +1,4 @@
-import apiClient from "../configs/axiosConfigs";
+import apiClient from "../configs/AxiosConfigs";
 import axios from "axios";
 import {date} from "yup";
 import data from "bootstrap/js/src/dom/data";
@@ -61,19 +61,28 @@ export const UpdateForgetPassword = async (data, token) => {
 
 export const getAllRoles = async () => {
     try {
-        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
-        const res = await axios.get(`http://localhost:8080/api/auth/get-roles`, {
-            headers: {
-                "Authorization": `Bearer ${token}`,// Thêm token vào header
-                "Content-Type": "application/json",
-            }
-        });
-        let roles = res.data.map((value) => value.name)
-        return roles
-    } catch (e) {
-        console.error("Error fetching buyer data:", e);
-        throw e;
+
+        const token = localStorage.getItem("token");
+        if (token != null) {
+            const res = await axios.get(`http://localhost:8080/api/auth/get-roles`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            });
+            return res.data.map((value) => value.name)
+        }
+        return [];
+
     }
+    catch
+        (e)
+        {
+            console.error("Error fetching buyer data:", e);
+            return []
+        }
+
+
 };
 
 
