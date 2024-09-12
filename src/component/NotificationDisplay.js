@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useWebSocket } from '../../services/SocketNotification';
+import { useWebSocket } from '../services/SocketNotification';
 import { toast } from 'react-toastify';
 
 const NotificationDisplay = () => {

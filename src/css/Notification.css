@@ -60,7 +60,7 @@
 
 .article-link:hover {
     text-decoration: underline;
-    color: red;
+    color: #ff5722;;
 }
 
 .article-image {
@@ -76,4 +76,9 @@
     color: white;
     width: 150px;
     height: 45px;
+}
+
+.button-orange:hover {
+    background-color: #ff5722;
+    color: white;
 }

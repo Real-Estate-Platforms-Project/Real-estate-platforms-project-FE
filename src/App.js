@@ -21,7 +21,7 @@ import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
 import { WebSocketProvider } from './services/SocketNotification';
-import NotificationDisplay from "./component/admin/NotificationDisplay";
+import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
 function App() {

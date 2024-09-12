@@ -44,3 +44,17 @@ export const addNotification = async (notification) => {
         throw error;
     }
 }
+
+export const updateNotification = async (notification) => {
+    try {
+        const url = `${URL_ACTION_NOTIFICATION}/${notification.id}`;
+        console.log(notification)
+        const response = await axios.put(url, notification);
+        console.log(response.data)
+
+        return response.data;
+    } catch (error) {
+        console.error('Error updating notification:', error);
+        throw error;
+    }
+}
