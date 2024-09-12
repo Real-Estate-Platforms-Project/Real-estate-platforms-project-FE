@@ -42,16 +42,31 @@ function Authentication() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [justifyActive, setJustifyActive] = useState('login');
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setIsLoggingIn(true);
         try {
             const response = await authService.login(email, password);
-            localStorage.setItem('token', response.data.token);
-            toast.success('Đăng nhập thành công!', {theme: "colored", className: styles.customToast});
+            if (rememberMe) {
+                localStorage.setItem('token', response.data.token);
+            } else {
+                sessionStorage.setItem('token', response.data.token);
+            }
             navigate('/');
         } catch (error) {
-            toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng nhập.', {theme: "colored", className: styles.customToast});
+            const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
+
+            if (errorMessage.includes("Tài khoản chưa được kích hoạt")) {
+                toast.error(errorMessage, { theme: "colored", className: styles.customToast });
+            } else {
+                toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng nhập.', { theme: "colored", className: styles.customToast });
+            }
+        } finally {
+            setIsLoggingIn(false);
         }
     };
 
@@ -71,12 +86,22 @@ function Authentication() {
         },
         validationSchema,
         onSubmit: async (values, {setSubmitting}) => {
+            if (!termsAccepted) {
+                toast.warning('Bạn cần đồng ý với các chính sách và điều khoản để tiếp tục!', { theme: "colored", className: styles.customToast });
+                setSubmitting(false);
+                return;
+            }
             try {
-                const response = await authService.register(values);
+                await authService.register(values);
                 toast.success('Đăng ký thành công! vui lòng kiểm tra email để kích hoạt tài khoản.', {theme: "colored", className: styles.customToast});
                 setJustifyActive('login');
             } catch (error) {
-                toast.error('Đăng ký thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', {theme: "colored", className: styles.customToast});
+                const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
+                if (errorMessage.includes("Email đã tồn tại!")) {
+                    toast.error(errorMessage, { theme: "colored", className: styles.customToast });
+                } else {
+                    toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', { theme: "colored", className: styles.customToast });
+                }
             } finally {
                 setSubmitting(false);
             }
@@ -128,14 +153,25 @@ function Authentication() {
                                 />
 
                                 <div className="d-flex justify-content-between mx-4 mb-4">
-                                    <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault'
-                                                 label='Ghi nhớ đăng nhập!'/>
-                                    <a href="/forget-password">Quên mật khẩu?</a>
+
+                                    <MDBCheckbox
+                                        name='rememberMe'
+                                        id='rememberMe'
+                                        label='Ghi nhớ đăng nhập!'
+                                        checked={rememberMe}
+                                        onChange={() => setRememberMe(!rememberMe)}
+                                    />
+                                    <a href="forget-password">Quên mật khẩu?</a>
+
                                 </div>
 
-                                <MDBBtn className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`}>Đăng nhập</MDBBtn>
+                                <MDBBtn
+                                    className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`}
+                                    disabled={isLoggingIn}>
+                                    {isLoggingIn ? 'Đang đăng nhập...' : 'Đăng nhập'}
+                                </MDBBtn>
                             </form>
-                            <p className="text-center">Bạn chưa có tài khoản? <a className="text-warning" href="#" onClick={() => handleJustifyClick('register')}>Đăng ký ngay</a></p>
+                            <p className="text-center">Bạn chưa có tài khoản? <a className={mdbCustom.primary} href="#" onClick={() => handleJustifyClick('register')}>Đăng ký ngay</a></p>
                         </div>
                         :
                         <form onSubmit={formik.handleSubmit}>
@@ -203,8 +239,10 @@ function Authentication() {
                                 <MDBCheckbox
                                     name='flexCheck'
                                     id='flexCheckDefault1'
-                                    label='Tôi đã đọc và đồng ý với các điều khoản.'
+                                    checked={termsAccepted}
+                                    onChange={() => setTermsAccepted(!termsAccepted)}
                                 />
+                                <label htmlFor="">Tôi đã đọc và đồng ý với các <a href="/terms-and-polocies" target="_blank">chính sách và điều khoản</a>.</label>
                             </div>
 
                             <MDBBtn className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`} type="submit" disabled={formik.isSubmitting}>

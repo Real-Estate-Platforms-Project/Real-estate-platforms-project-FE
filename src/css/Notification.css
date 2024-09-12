@@ -68,5 +68,12 @@
 }
 
 .article-image:hover {
-    transform: scale(1.1);
+    transform: scale(1.1)   ;
+}
+
+#color-button-btn {
+    background-color: #ff5722;
+    color: white;
+    width: 150px;
+    height: 45px;
 }
