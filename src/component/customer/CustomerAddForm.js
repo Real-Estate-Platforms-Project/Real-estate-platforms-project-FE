@@ -17,6 +17,7 @@ const validationSchema = yup.object().shape({
     customerType: yup.string().matches(/^(buyer|seller)$/, 'Loại khách hàng phải là Người mua hoặc Người bán').required('Loại khách hàng không được để trống'),
 });
 
+
 const CustomerAddForm = () => {
     const [emailExists, setEmailExists] = useState(false);
 
