@@ -2,16 +2,21 @@ import axios from "axios";
 
 const URL_DEMAND = "http://localhost:8080/api/demand"
 
-export const getAllDemand = async (userRoles) => {
+export const getAllDemand = async () => {
     try {
         const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
-        let res = await axios.get(URL_DEMAND,{
-            headers: {
-                "Authorization": `Bearer ${token}`,// Thêm token vào header
-                "Content-Type": "application/json",
-            }
-        })
+        if(token!= null) {
+            let res = await axios.get(URL_DEMAND, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            })
+            return res.data
+        }
+        let res = await axios.get(URL_DEMAND)
         return res.data
+
     } catch (e) {
         console.log(e)
     }
@@ -27,15 +32,19 @@ export const searchDemand = async (filters) => {
 
         // Tạo query string từ các tham số đã lọc
         const params = new URLSearchParams(filteredFilters).toString();
-        const response = await axios.get(`${URL_DEMAND}/search?${params}`,{
-            headers: {
-                "Authorization": `Bearer ${token}`,// Thêm token vào header
-                "Content-Type": "application/json",
-            }
-        });
-        return response.data;
+        if(token != null) {
+            const response = await axios.get(`${URL_DEMAND}/search?${params}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            });
+            return response.data;
+        }
+        const response = await axios.get(`${URL_DEMAND}/search?${params}`)
+        return response.data
     } catch (error) {
-        console.error('Failed to fetch real estate data', error);
+        console.error('Failed to fetch demand data', error);
         throw error;
     }
 }
@@ -73,7 +82,6 @@ export  const verifyDemand = async  (demand) => {
 export const saveDemand = async (demand) => {
     try {
         const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
-        console.log(token)
         await axios.post(URL_DEMAND, demand,{
             headers: {
                 "Authorization": `Bearer ${token}`,// Thêm token vào header

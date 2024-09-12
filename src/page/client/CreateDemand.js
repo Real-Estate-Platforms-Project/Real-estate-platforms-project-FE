@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
 import * as buyerService from "../../services/BuyerInfor";
+import Forbidden from "../../component/client/Forbidden";
 
 
 
@@ -48,14 +49,12 @@ function CreateDemand() {
     const fetchBuyer = async () => {
         try {
             const buyer = await buyerService.BuyerInfor();
-            console.log(buyer)
             setBuyer(buyer)
         } catch (error) {
             toast.error("Không thể tải thông tin khách hàng.");
         }
     };
     const saveDemand = async (value) => {
-        console.log(value)
         let isSuccess = await demandService.saveDemand(value)
         if(isSuccess) {
             toast.success("Thêm mới nhu cầu thành công")
@@ -67,7 +66,7 @@ function CreateDemand() {
     }
 
 
-    if(!buyer){return <>Loading...</>}
+    if(!buyer){return <Forbidden/>}
     return (
         <>
             <Formik initialValues={form} onSubmit={saveDemand} validationSchema={Yup.object(objectValid)}>
@@ -99,14 +98,14 @@ function CreateDemand() {
                         <label className="form-label me-3 m-0">Loại bất động sản: </label>
                         <div role="group" className="d-flex">
                             <div className="form-check me-5 my-0">
-                                <Field type="radio" name="realEstateType" value="Nhà ở" id="typeHouse"
+                                <Field type="radio" name="realEstateType" value="Nha o" id="typeHouse"
                                        className="form-check-input"/>
                                 <label htmlFor="typeHouse" className="form-check-label">Nhà ở</label>
                             </div>
                             <div className="form-check my-0">
-                                <Field type="radio" name="realEstateType" value="Đất" id="typeLand"
+                                <Field type="radio" name="realEstateType" value="Dat" id="typeLand"
                                        className="form-check-input"/>
-                                <label htmlFor="typeLand" className="form-check-label">Đất</label>
+                                <label htmlFor="typeLand" className="form-check-label">Dat</label>
                             </div>
                         </div>
                         <ErrorMessage name="realEstateType" component="div" className="text-danger"/>
@@ -116,8 +115,8 @@ function CreateDemand() {
                             <label htmlFor="region" className="form-label">Khu vực</label>
                             <Field as="select" name="region" id="region" className="form-select" placeholder="Chọn">
                                 <option>Chọn</option>
-                                <option value="Trung tâm">Trung tâm</option>
-                                <option value="Ngoại ô">Ngoại ô</option>
+                                <option value="Trung tam">Trung tâm</option>
+                                <option value="Ngoai o">Ngoại ô</option>
                                 <option value="Nông thôn">Nông thôn</option>
                             </Field>
                             <ErrorMessage name="region" component="div" className="text-danger"/>
