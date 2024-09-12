@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NotFound from "./component/client/404";
 import CreateRealEstate from "./page/client/CreateRealEstate";
-import LandingPage from "./component/carousel/LandingPage";
 import Notification from "./component/client/Notification";
 import NotificationDetail from "./component/client/NotificationDetail";
 import DemandList from "./component/client/DemandList";
@@ -16,7 +15,6 @@ import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
-
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
 import {useDispatch} from "react-redux";
@@ -31,6 +29,8 @@ import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
 import RealEstateDetail from "./page/client/RealEstateDetail";
 import CreateDemand from "./page/client/CreateDemand";
+import Home from "./page/client/Home";
+import PostingRegulations from "./page/client/PostingRegulations";
 import UpdatePassWord from "./component/password/UpdatePassWord";
 import GetAndConfirmEmail from "./component/password/GetAndConfirmEmail";
 import ConfirmEmail from "./component/password/ConfirmEmail";
@@ -64,7 +64,8 @@ function App() {
                         <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                         </Route>
                         <Route path="*" element={<NotFound/>}/>
-                        <Route path="/" element={<LandingPage/>}/>
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/docs/quy-dinh-dang-tin-chung" element={<PostingRegulations/>}/>
                         <Route path="/notification" element={<Notification/>}/>
                         <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                         <Route path="/update-password" element={<UpdatePassWord/>}/>
@@ -87,7 +88,6 @@ function App() {
                 </Routes>
                 <ToastContainer/>
             </WebSocketProvider>
-
         </BrowserRouter>
     );
 }

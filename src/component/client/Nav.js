@@ -9,7 +9,7 @@ function Nav() {
     const isAuthenticated = useSelector((state) => state.information.isAuthenticated);
 
     return (
-        <div className="shadow-lg">
+        <div>
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid">
                     <Link className="navbar-brand" to='/'><Logo width={'128px'}/></Link>

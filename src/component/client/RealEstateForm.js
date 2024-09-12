@@ -108,10 +108,10 @@ const RealEstateForm = ({
                     <ErrorMessage name="wardCode" component="div" className="text-danger"/>
                 </div>
                 <div className="col">
-                    <label htmlFor="contend" className="form-label">Số nhà/Đường/Ấp/Khu</label>
-                    <Field type="text" name="contend" id="contend" className="form-control"
+                    <label htmlFor="address" className="form-label">Số nhà/Đường/Ấp/Khu</label>
+                    <Field type="text" name="address" id="address" className="form-control"
                            placeholder="VD: 12/5 Núi Thành"/>
-                    <ErrorMessage name="contend" component="div" className="text-danger"/>
+                    <ErrorMessage name="address" component="div" className="text-danger"/>
                 </div>
             </div>
             <div className="row mt-3">

@@ -136,17 +136,13 @@ const CreateRealEstate = () => {
             return;
         }
         const imageRef = storageRef(storage, `/files/${file.name}`); // Reference to Firebase Storage path
-        // Upload the file
         uploadBytes(imageRef, file)
             .then((snapshot) => {
-                // Get the download URL after uploading
                 return getDownloadURL(snapshot.ref);
             })
             .then((url) => {
-                // Set the image URL in Formik's field
-                setImageUrl(url);  // To preview or store it
-                setFieldValue("imageUrl", url);  // Set the value in Formik's form
-                toast.success("File uploaded successfully");
+                setImageUrl(url);
+                setFieldValue("imageUrl", url);
             })
             .catch((error) => {
                 console.error("Error uploading file:", error);
