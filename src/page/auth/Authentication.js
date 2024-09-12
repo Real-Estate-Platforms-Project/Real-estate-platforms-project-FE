@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
@@ -40,7 +40,6 @@ const validationSchema = Yup.object({
 function Authentication() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
     const [justifyActive, setJustifyActive] = useState('login');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [termsAccepted, setTermsAccepted] = useState(false);
@@ -56,7 +55,7 @@ function Authentication() {
             } else {
                 sessionStorage.setItem('token', response.data.token);
             }
-            navigate('/');
+            window.location.href="/";
         } catch (error) {
             const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
 
@@ -100,7 +99,7 @@ function Authentication() {
                 if (errorMessage.includes("Email đã tồn tại!")) {
                     toast.error(errorMessage, { theme: "colored", className: styles.customToast });
                 } else {
-                    toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', { theme: "colored", className: styles.customToast });
+                    toast.error('Đăng ký thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', { theme: "colored", className: styles.customToast });
                 }
             } finally {
                 setSubmitting(false);
@@ -253,7 +252,6 @@ function Authentication() {
                 </MDBTabsContent>
             </MDBContainer>
         </div>
-
     );
 }
 
