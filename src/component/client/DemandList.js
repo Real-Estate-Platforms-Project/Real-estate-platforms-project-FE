@@ -5,9 +5,7 @@ import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
 import "../../css/custom.css"
 import * as accountService from "../../services/AccountService";
-import SearchBar from "../search/SearchBar";
 import SearchBarDemand from "../search/SearchBarDemand";
-import * as realEstateService from "../../services/RealEstate";
 import {useLocation} from "react-router-dom";
 
 function DemandList() {
@@ -24,8 +22,8 @@ function DemandList() {
 
 
     useEffect(() => {
-        getAllDemand(userRoles)
-    }, [userRoles])
+        getAllDemand()
+    }, [])
 
     useEffect(() => {
         getAllRoles()
@@ -36,8 +34,8 @@ function DemandList() {
     }, [])
 
 
-    const getAllDemand = async (roles) => {
-        let res = await demandService.getAllDemand(userRoles);
+    const getAllDemand = async () => {
+        let res = await demandService.getAllDemand();
         setDemands(res)
     }
 
@@ -77,7 +75,6 @@ function DemandList() {
         setError(null);
         try {
             const response = await demandService.searchDemand(filters);
-            console.log(response)
             setDemands(response);
         } catch (error) {
             console.error('Error fetching search results:', error);
@@ -88,10 +85,12 @@ function DemandList() {
         }
     };
 
-    // const handlePageChange = (newPage) => {handleSearch(location.state?.filters, newPage)};
-
     if (!demands) {
-        return <>No data</>
+        return <><div className="custom-search w-75" style={{justifyContent: "center", margin: "auto"}}>
+            <SearchBarDemand onSearch={handleSearch}/>
+        </div>
+            <h3 className="text-center">Không có nhu cầu</h3>
+            </>
     }
     return (
         <div className="container m-auto mt-5 p-3 justify-content-center row">
@@ -121,6 +120,7 @@ function DemandList() {
                                 class="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
+
                         {(userRoles.includes("ROLE_ADMIN") || userRoles.includes("ROLE_EMPLOYEE")) ?
                             <div className="d-flex justify-content-end mt-3">
                                 <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>Xoá
@@ -135,21 +135,6 @@ function DemandList() {
                     </div>
                 </div>)
             }
-            {/*<div className="pagination">*/}
-            {/*    <button*/}
-            {/*        onClick={() => handlePageChange(currentPage - 1)}*/}
-            {/*        disabled={currentPage === 0}*/}
-            {/*    >*/}
-            {/*        Trang trước*/}
-            {/*    </button>*/}
-            {/*    <span>Trang {currentPage + 1} / {totalPages}</span>*/}
-            {/*    <button*/}
-            {/*        onClick={() => handlePageChange(currentPage + 1)}*/}
-            {/*        disabled={currentPage === totalPages - 1}*/}
-            {/*    >*/}
-            {/*        Trang sau*/}
-            {/*    </button>*/}
-            {/*</div>*/}
 
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
