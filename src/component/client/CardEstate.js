@@ -89,7 +89,7 @@
                             <p>Không tìm thấy bất động sản nào.</p>
                         ) : (
                             displayEstates.map((item, index) => (
-                                <div key={index} className="box col-3">
+                                <div key={index} className="box col-auto">
                                     <Link to="/404" className="view-property-link">
                                         <div className="top">
                                             <img
