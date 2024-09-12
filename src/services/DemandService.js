@@ -17,6 +17,24 @@ export const getAllDemand = async (userRoles) => {
     }
 }
 
+export const searchDemand = async (filters) => {
+    try {
+        // Lọc các tham số không có giá trị (null, undefined, hoặc '')
+        const filteredFilters = Object.fromEntries(
+            Object.entries(filters).filter(([_, value]) => value !== null && value !== undefined && value !== '')
+        );
+
+        // Tạo query string từ các tham số đã lọc
+        const params = new URLSearchParams(filteredFilters).toString();
+        const response = await axios.get(`${URL_DEMAND}/search?${params}`);
+        console.log(params)
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch real estate data', error);
+        throw error;
+    }
+}
+
 export  const deleteDemand = async (id) => {
     try {
         await axios.delete(URL_DEMAND + "/" + id);

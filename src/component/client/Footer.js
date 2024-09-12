@@ -50,13 +50,13 @@ function Footer() {
                         </ul>
                     </div>
                     <div className='col-4'>
-                        <div className="address-section">
+                        <div className="contend-section">
                             <strong>Chi nhánh TP. Hồ Chí Minh</strong>
                             <span>Tầng 3, Tháp B tòa nhà Viettel Complex, 285 Cách Mạng Tháng</span>
                             <span>Tám, Phường 12, Quận 10, TP. Hồ Chí Minh</span>
                             <span>Hotline: 1900 1881 - Mobile: 0904 893 279</span>
                         </div>
-                        <div className="address-section">
+                        <div className="contend-section">
                             <strong>Chi nhánh Đà Nẵng</strong>
                             <span>Tầng 9, tòa nhà Vĩnh Trung Plaza, số 255 – 257 Hùng Vương,</span>
                             <span>phường Vĩnh Trung, quận Thanh Khê, TP. Đà Nẵng</span>
