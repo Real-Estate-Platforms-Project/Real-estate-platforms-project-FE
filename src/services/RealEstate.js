@@ -21,7 +21,6 @@ export const findRealEstate = async () => {
 }
 export const searchRealEstate = async (filters) => {
     try {
-        // Lọc các tham số không có giá trị (null, undefined, hoặc '')
         const filteredFilters = Object.fromEntries(
             Object.entries(filters).filter(([_, value]) => value !== null && value !== undefined && value !== '')
         );
