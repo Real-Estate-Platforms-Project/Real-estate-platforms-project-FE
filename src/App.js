@@ -87,6 +87,7 @@ function App() {
                             <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
                             <Route path="/admin/statistics" element={<Statistics/>}/>
                             <Route path="/admin/sellers" element={<SellerList/>}/>
+
                         </Route>
                     </Route>
                 </Routes>
