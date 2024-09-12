@@ -68,6 +68,7 @@ function CreateDemand() {
 
     }
 
+
     if(!buyer){return <>Loading...</>}
     return (
         <>
@@ -75,8 +76,8 @@ function CreateDemand() {
                 <Form className='container mt-5 shadow-sm p-3 rounded w-50 bg-white'>
                     <h4 className="fw-bold text-center">Thông tin nhu cầu bất động sản</h4>
                     <div className="mt-3">
-                        <label htmlFor="buyerCode" className="form-label">Mã khách hàng</label>
-                        <Field type="text" className="form-control" id="buyerCode" name="buyerCode" value={buyer.code}
+                        <label htmlFor="buyerCode" className="form-label">Khách hàng</label>
+                        <Field type="text" className="form-control" id="buyerCode" name="buyerCode" value={buyer.name}
                                disabled/>
                     </div>
                     <div className="row mt-3">

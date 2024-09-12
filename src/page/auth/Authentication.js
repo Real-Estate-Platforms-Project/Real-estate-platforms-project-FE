@@ -153,6 +153,7 @@ function Authentication() {
                                 />
 
                                 <div className="d-flex justify-content-between mx-4 mb-4">
+
                                     <MDBCheckbox
                                         name='rememberMe'
                                         id='rememberMe'
@@ -160,7 +161,8 @@ function Authentication() {
                                         checked={rememberMe}
                                         onChange={() => setRememberMe(!rememberMe)}
                                     />
-                                    <a href="!#">Quên mật khẩu?</a>
+                                    <a href="/forget-password">Quên mật khẩu?</a>
+
                                 </div>
 
                                 <MDBBtn
