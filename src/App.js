@@ -34,6 +34,7 @@ import UpdatePassWord from "./component/password/UpdatePassWord";
 import GetAndConfirmEmail from "./component/password/GetAndConfirmEmail";
 import ConfirmEmail from "./component/password/ConfirmEmail";
 import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
+import SellerList from "./component/customer/SellerList";
 
 
 function App() {
@@ -43,8 +44,6 @@ function App() {
                 <NotificationDisplay/>
                 <Routes>
                     <Route path="/confirm-email" element={<ConfirmEmail/>}/>
-
-
                     <Route path="/login" element={<Authentication/>}/>
                     <Route path="/activation-success" element={<ActivationSuccess/>}/>
                     <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
@@ -63,14 +62,13 @@ function App() {
                         <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                     </Route>
                     <Route path="/admin" element={<Admin/>}>
-
                         <Route path={"/admin/employee"} element={<EmployeeList />} />
                         <Route path={"/admin/notification"} element={<NotificationAdmin />}/>
                         <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path={"/admin/buyers"} element={<BuyerList />} />
                         <Route path="/admin/customers/add" element={<CustomerAddForm />} />
                         <Route path="/admin/statistics" element={<Statistics />} />
-
+                        <Route path="/admin/sellers" element={<SellerList />} />
                     </Route>
                 </Routes>
                 <ToastContainer/>

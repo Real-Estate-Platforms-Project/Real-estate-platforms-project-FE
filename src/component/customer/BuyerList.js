@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getAllBuyers, searchBuyers, getBuyerById } from '../../services/BuyerService';
-import { Modal, Toast, Table, Button, Container, Row, Col, Form, Card } from 'react-bootstrap';
+import { Modal, Toast, Table, Button, Container, Row, Col, Form, Card, InputGroup, Pagination } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
-import { FaSearch, FaEye } from 'react-icons/fa';
+import { FaSearch, FaEye, FaIdCard, FaUser, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css';
+import '../../css/PaginationStyles.css';
 
 const BuyerList = () => {
     const [buyers, setBuyers] = useState([]);
@@ -16,6 +17,9 @@ const BuyerList = () => {
         email: '',
         phoneNumber: ''
     });
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
 
     useEffect(() => {
         loadBuyers();
@@ -62,6 +66,9 @@ const BuyerList = () => {
         }
     };
 
+    const currentBuyers = buyers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const totalPages = Math.ceil(buyers.length / itemsPerPage);
+
     return (
         <Container className="mt-4">
             <ToastContainer position="top-end" className="p-3">
@@ -106,92 +113,138 @@ const BuyerList = () => {
                 </Modal.Body>
             </Modal>
 
-            <Card className="shadow-sm p-3 mb-4 bg-white rounded">
-                <Row className="mb-3 justify-content-center">
-                    <Col md={2} className="mb-2">
-                        <Form.Control
-                            type="text"
-                            name="code"
-                            placeholder="Mã Người Mua"
-                            value={searchCriteria.code}
-                            onChange={handleInputChange}
-                        />
+            <Card className="shadow-sm p-4 mb-4 bg-white rounded">
+                <Row className="justify-content-between align-items-center">
+                    <Col md={2} xs={12} className="mb-2">
+                        <InputGroup>
+                            <InputGroup.Text className="bg-white border-end-0">
+                                <FaIdCard className="text-secondary" />
+                            </InputGroup.Text>
+                            <Form.Control
+                                type="text"
+                                name="code"
+                                placeholder="Mã Người Mua"
+                                value={searchCriteria.code}
+                                onChange={handleInputChange}
+                                className="border-start-0"
+                            />
+                        </InputGroup>
                     </Col>
-                    <Col md={2} className="mb-2">
-                        <Form.Control
-                            type="text"
-                            name="name"
-                            placeholder="Tên Người Mua"
-                            value={searchCriteria.name}
-                            onChange={handleInputChange}
-                        />
+                    <Col md={2} xs={12} className="mb-2">
+                        <InputGroup>
+                            <InputGroup.Text className="bg-white border-end-0">
+                                <FaUser className="text-secondary" />
+                            </InputGroup.Text>
+                            <Form.Control
+                                type="text"
+                                name="name"
+                                placeholder="Tên Người Mua"
+                                value={searchCriteria.name}
+                                onChange={handleInputChange}
+                                className="border-start-0"
+                            />
+                        </InputGroup>
                     </Col>
-                    <Col md={2} className="mb-2">
-                        <Form.Control
-                            type="text"
-                            name="email"
-                            placeholder="Email"
-                            value={searchCriteria.email}
-                            onChange={handleInputChange}
-                        />
+                    <Col md={2} xs={12} className="mb-2">
+                        <InputGroup>
+                            <InputGroup.Text className="bg-white border-end-0">
+                                <FaEnvelope className="text-secondary" />
+                            </InputGroup.Text>
+                            <Form.Control
+                                type="text"
+                                name="email"
+                                placeholder="Email"
+                                value={searchCriteria.email}
+                                onChange={handleInputChange}
+                                className="border-start-0"
+                            />
+                        </InputGroup>
                     </Col>
-                    <Col md={2} className="mb-2">
-                        <Form.Control
-                            type="text"
-                            name="phoneNumber"
-                            placeholder="Số điện thoại"
-                            value={searchCriteria.phoneNumber}
-                            onChange={handleInputChange}
-                        />
+                    <Col md={2} xs={12} className="mb-2">
+                        <InputGroup>
+                            <InputGroup.Text className="bg-white border-end-0">
+                                <FaPhoneAlt className="text-secondary" />
+                            </InputGroup.Text>
+                            <Form.Control
+                                type="text"
+                                name="phoneNumber"
+                                placeholder="Số điện thoại"
+                                value={searchCriteria.phoneNumber}
+                                onChange={handleInputChange}
+                                className="border-start-0"
+                            />
+                        </InputGroup>
                     </Col>
-                    <Col md={2} className="mb-2 d-flex justify-content-center">
+                    <Col md={2} xs={12} className="mb-2">
                         <Button
                             style={{ backgroundColor: '#ff6b35', borderColor: '#ff6b35' }}
                             className="w-100 text-white"
                             onClick={handleSearch}
                         >
-                            <FaSearch /> Tìm kiếm
+                            <FaSearch className="me-2" /> Tìm kiếm
                         </Button>
                     </Col>
                 </Row>
             </Card>
 
             {buyers.length > 0 ? (
-                <Table striped hover responsive="sm" className="align-middle shadow-sm rounded">
-                    <thead style={{ backgroundColor: '#ff6b35', color: 'white' }}>
-                    <tr>
-                        <th>Mã người mua</th>
-                        <th>Họ tên</th>
-                        <th>Ngày sinh</th>
-                        <th>Giới tính</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
-                        <th>Hành động</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {buyers.map((buyer) => (
-                        <tr key={buyer.id}>
-                            <td>{buyer.code}</td>
-                            <td>{buyer.name}</td>
-                            <td>{buyer.dob}</td>
-                            <td>{buyer.gender}</td>
-                            <td>{buyer.phoneNumber}</td>
-                            <td>{buyer.email}</td>
-                            <td>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    style={{ color: '#ff6b35', borderColor: '#ff6b35' }}
-                                    onClick={() => handleModalShow(buyer.id)}
-                                >
-                                    <FaEye /> Xem
-                                </Button>
-                            </td>
+                <>
+                    <Table striped hover responsive="sm" className="align-middle shadow-sm rounded">
+                        <thead style={{ backgroundColor: '#ff6b35', color: 'white' }}>
+                        <tr>
+                            <th>Mã người mua</th>
+                            <th>Họ tên</th>
+                            <th>Ngày sinh</th>
+                            <th>Giới tính</th>
+                            <th>Số điện thoại</th>
+                            <th>Email</th>
+                            <th>Hành động</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                        {currentBuyers.map((buyer) => (
+                            <tr key={buyer.id}>
+                                <td>{buyer.code}</td>
+                                <td>{buyer.name}</td>
+                                <td>{buyer.dob}</td>
+                                <td>{buyer.gender}</td>
+                                <td>{buyer.phoneNumber}</td>
+                                <td>{buyer.email}</td>
+                                <td>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        style={{ color: '#ff6b35', borderColor: '#ff6b35', marginRight: '5px' }}
+                                        onClick={() => handleModalShow(buyer.id)}
+                                    >
+                                        <FaEye /> Xem
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                    <Pagination className="pagination-custom justify-content-end mt-3">
+                        <Pagination.Prev
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        />
+                        {Array.from({ length: totalPages }, (_, i) => (
+                            <Pagination.Item
+                                key={i + 1}
+                                active={i + 1 === currentPage}
+                                onClick={() => setCurrentPage(i + 1)}
+                                className={i + 1 === currentPage ? 'active-page' : ''}
+                            >
+                                {i + 1}
+                            </Pagination.Item>
+                        ))}
+                        <Pagination.Next
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        />
+                    </Pagination>
+                </>
             ) : (
                 <div className="text-center">
                     <p style={{ color: '#ff6b35', marginTop: '10px' }}>Không có người mua nào cả.</p>

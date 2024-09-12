@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { addCustomer, checkEmailExists } from '../../services/CustomerService';
+import '../../css/CustomerAddForm.css';
 
 const validationSchema = yup.object().shape({
     name: yup.string().min(2, 'Tên phải có ít nhất 2 ký tự').max(155, 'Tên không được vượt quá 155 ký tự').required('Tên không được để trống'),
@@ -16,7 +17,6 @@ const validationSchema = yup.object().shape({
     idCard: yup.string().matches(/^[0-9]{9,12}$/, 'ID card phải có từ 9 đến 12 chữ số').required('ID card không được để trống'),
     customerType: yup.string().matches(/^(buyer|seller)$/, 'Loại khách hàng phải là Người mua hoặc Người bán').required('Loại khách hàng không được để trống'),
 });
-
 
 const CustomerAddForm = () => {
     const [emailExists, setEmailExists] = useState(false);
@@ -33,7 +33,6 @@ const CustomerAddForm = () => {
             customerType: '',
         },
         validationSchema: validationSchema,
-
         onSubmit: async (values, { resetForm }) => {
             try {
                 if (!emailExists) {
@@ -63,15 +62,15 @@ const CustomerAddForm = () => {
     return (
         <Container className="my-5">
             <ToastContainer />
-            <Card className="shadow border-0">
-                <Card.Header className="text-white text-center" style={{ backgroundColor: '#FC650C', borderRadius: '0.375rem 0.375rem 0 0' }}>
+            <Card className="shadow-sm border-0 custom-card">
+                <Card.Header className="text-white text-center custom-card-header">
                     <h4 className="mb-0">Thêm Khách Hàng Mới</h4>
                 </Card.Header>
-                <Card.Body className="p-4">
+                <Card.Body className="p-5">
                     <Form onSubmit={formik.handleSubmit}>
-                        <Row className="g-3">
+                        <Row className="g-4">
                             <Col md={6}>
-                                <FloatingLabel label="Họ tên">
+                                <FloatingLabel controlId="formName" label="Họ tên">
                                     <Form.Control
                                         type="text"
                                         name="name"
@@ -80,7 +79,6 @@ const CustomerAddForm = () => {
                                         onBlur={formik.handleBlur}
                                         isInvalid={formik.touched.name && formik.errors.name}
                                         placeholder="Họ tên"
-                                        className="rounded"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {formik.errors.name}
@@ -88,7 +86,7 @@ const CustomerAddForm = () => {
                                 </FloatingLabel>
                             </Col>
                             <Col md={6}>
-                                <FloatingLabel label="Email">
+                                <FloatingLabel controlId="formEmail" label="Email">
                                     <Form.Control
                                         type="email"
                                         name="email"
@@ -101,7 +99,6 @@ const CustomerAddForm = () => {
                                         }}
                                         isInvalid={formik.touched.email && (formik.errors.email || emailExists)}
                                         placeholder="Email"
-                                        className="rounded"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {formik.errors.email || (emailExists && 'Email đã tồn tại')}
@@ -109,9 +106,9 @@ const CustomerAddForm = () => {
                                 </FloatingLabel>
                             </Col>
                         </Row>
-                        <Row className="g-3 mt-3">
+                        <Row className="g-4 mt-3">
                             <Col md={4}>
-                                <FloatingLabel label="Ngày sinh">
+                                <FloatingLabel controlId="formDob" label="Ngày sinh">
                                     <Form.Control
                                         type="date"
                                         name="dob"
@@ -120,7 +117,6 @@ const CustomerAddForm = () => {
                                         onBlur={formik.handleBlur}
                                         isInvalid={formik.touched.dob && formik.errors.dob}
                                         placeholder="Ngày sinh"
-                                        className="rounded"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {formik.errors.dob}
@@ -128,14 +124,13 @@ const CustomerAddForm = () => {
                                 </FloatingLabel>
                             </Col>
                             <Col md={4}>
-                                <FloatingLabel label="Giới tính">
+                                <FloatingLabel controlId="formGender" label="Giới tính">
                                     <Form.Select
                                         name="gender"
                                         value={formik.values.gender}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         isInvalid={formik.touched.gender && formik.errors.gender}
-                                        className="rounded"
                                     >
                                         <option value="">Chọn giới tính</option>
                                         <option value="Nam">Nam</option>
@@ -147,7 +142,7 @@ const CustomerAddForm = () => {
                                 </FloatingLabel>
                             </Col>
                             <Col md={4}>
-                                <FloatingLabel label="Số điện thoại">
+                                <FloatingLabel controlId="formPhoneNumber" label="Số điện thoại">
                                     <Form.Control
                                         type="text"
                                         name="phoneNumber"
@@ -156,7 +151,6 @@ const CustomerAddForm = () => {
                                         onBlur={formik.handleBlur}
                                         isInvalid={formik.touched.phoneNumber && formik.errors.phoneNumber}
                                         placeholder="Số điện thoại"
-                                        className="rounded"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {formik.errors.phoneNumber}
@@ -164,9 +158,9 @@ const CustomerAddForm = () => {
                                 </FloatingLabel>
                             </Col>
                         </Row>
-                        <Row className="g-3 mt-3">
+                        <Row className="g-4 mt-3">
                             <Col md={6}>
-                                <FloatingLabel label="Địa chỉ">
+                                <FloatingLabel controlId="formAddress" label="Địa chỉ">
                                     <Form.Control
                                         type="text"
                                         name="address"
@@ -175,7 +169,6 @@ const CustomerAddForm = () => {
                                         onBlur={formik.handleBlur}
                                         isInvalid={formik.touched.address && formik.errors.address}
                                         placeholder="Địa chỉ"
-                                        className="rounded"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {formik.errors.address}
@@ -183,7 +176,7 @@ const CustomerAddForm = () => {
                                 </FloatingLabel>
                             </Col>
                             <Col md={6}>
-                                <FloatingLabel label="ID Card">
+                                <FloatingLabel controlId="formIdCard" label="ID Card">
                                     <Form.Control
                                         type="text"
                                         name="idCard"
@@ -192,7 +185,6 @@ const CustomerAddForm = () => {
                                         onBlur={formik.handleBlur}
                                         isInvalid={formik.touched.idCard && formik.errors.idCard}
                                         placeholder="ID Card"
-                                        className="rounded"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {formik.errors.idCard}
@@ -200,14 +192,13 @@ const CustomerAddForm = () => {
                                 </FloatingLabel>
                             </Col>
                         </Row>
-                        <FloatingLabel label="Loại khách hàng" className="mt-3">
+                        <FloatingLabel controlId="formCustomerType" label="Loại khách hàng" className="mt-3">
                             <Form.Select
                                 name="customerType"
                                 value={formik.values.customerType}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={formik.touched.customerType && formik.errors.customerType}
-                                className="rounded"
                             >
                                 <option value="">Chọn loại khách hàng</option>
                                 <option value="buyer">Người mua</option>
@@ -218,7 +209,7 @@ const CustomerAddForm = () => {
                             </Form.Control.Feedback>
                         </FloatingLabel>
                         <div className="d-flex justify-content-end mt-4">
-                            <Button variant="primary" type="submit" style={{ backgroundColor: '#FC650B', borderColor: '#FC650B' }}>
+                            <Button variant="primary" type="submit" className="custom-submit-btn">
                                 Thêm Khách Hàng
                             </Button>
                         </div>

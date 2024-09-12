@@ -1,0 +1,115 @@
+.custom-card {
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.form-floating .form-control,
+.form-floating .form-select {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-floating {
+    margin-bottom: 1rem;
+}
+
+.form-floating .form-control:focus,
+.form-floating .form-select:focus {
+    box-shadow: none;
+    border-color: #ff6b35;
+}
+
+.form-floating .form-control::placeholder,
+.form-floating .form-select::placeholder {
+    opacity: 0;
+}
+
+.form-floating .form-control:not(:placeholder-shown):focus::placeholder,
+.form-floating .form-select:not(:placeholder-shown):focus::placeholder {
+    opacity: 0.5;
+}
+
+.form-floating .form-control:not(:placeholder-shown),
+.form-floating .form-select:not(:placeholder-shown) {
+    padding-top: 1.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.custom-card-header {
+    background-color: #ff6b35; /* Màu nền header */
+    padding: 20px;
+}
+
+.custom-submit-btn {
+    background-color: #ff6b35;
+    border-color: #ff6b35;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    color: #fff;
+}
+
+.custom-submit-btn:hover {
+    background-color: #e65b30;
+    border-color: #e65b30;
+}
+
+.form-select {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+    color: #333;
+}
+
+.form-select:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+    outline: none;
+}
+
+.form-select option {
+    padding: 10px;
+}
+
+.form-select:hover {
+    border-color: #ff6b35;
+}
+
+.form-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+    color: #333;
+    width: 100%;
+    cursor: pointer;
+}
+
+.form-select:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+    outline: none;
+}
+
+.form-select option {
+    padding: 10px;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-select option:hover {
+    background-color: #ff6b35;
+    color: #fff;
+}
