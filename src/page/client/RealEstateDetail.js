@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import "../../css/RealEstateDetail.css"
-import * as realEstateService from "../../services/RealEstateService";
+import * as realEstateService from "../../services/RealEstate";
 import {useParams} from "react-router-dom";
 
 
@@ -48,7 +48,7 @@ function RealEstateDetail() {
                                     src="https://file4.batdongsan.com.vn/resize/1275x717/2023/10/19/20231019104327-6df8_wm.jpg"
                                     style={{width: 300, height: 430}} alt=""/>
                             </div>
-                                <div className="background-real-estate-detail"></div>
+                            <div className="background-real-estate-detail"></div>
                         </div>
                         <h4 className="mt-4 fw-bold text-black">{realEstate.demandType} <span className="text-lowercase">{realEstate.type}</span> tại
                             {" " + realEstate.address}, {realEstate.ward.name}, {realEstate.district.name}, {realEstate.province.name}

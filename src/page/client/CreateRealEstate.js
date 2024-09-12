@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import * as realEstateService from "../../services/RealEstateService";
+import * as realEstateService from "..//..//services/RealEstateService";
 import * as addressService from "../../services/AddressService";
 import * as sellerService from "../../services/Seller";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';

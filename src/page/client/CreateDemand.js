@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
-import * as buyerService from "../../services/BuyerInfor";
+import * as buyerService from "..//..//services/BuyerInfor";
 import Forbidden from "../../component/client/Forbidden";
 
 

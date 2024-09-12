@@ -3,7 +3,7 @@ import { getAllBuyers, searchBuyers } from '../../services/BuyerService';
 import { Modal, Toast} from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import { FaSearch, FaEye } from 'react-icons/fa';
-import '../../css/BuyerList.css';
+
 
 const BuyerList = () => {
     const [buyers, setBuyers] = useState([]);

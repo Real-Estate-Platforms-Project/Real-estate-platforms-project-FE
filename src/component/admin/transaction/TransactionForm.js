@@ -33,6 +33,7 @@ const TransactionForm = ({formik, employees, realEstates}) => {
                     onChange={(option) => formik.setFieldValue("realEstateId", option.value)}
                     value={realEstates.find(option => option.value === formik.values.realEstateId)}
                     placeholder="Chọn bất động sản"
+                    isDisabled={false}
                 />
                 <ErrorMessage name="realEstateId" component="div" className="text-danger"/>
             </div>
