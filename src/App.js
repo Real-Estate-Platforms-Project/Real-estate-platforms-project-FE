@@ -19,6 +19,7 @@ import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
+import Statistics from "./component/admin/Statistics";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                     <Route path={"/admin/employee"} element={<EmployeeList />} />
+                    <Route path={"/admin/statistics"} element={<Statistics/>}/>
                 </Route>
             </Routes>
             <ToastContainer/>

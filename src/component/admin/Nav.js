@@ -41,6 +41,11 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li className="nav-item">
+                    <Link className="nav-link" to="/admin/statistics" >
+                        <i className="bi bi-credit-card"></i> Thống kê
+                    </Link>
+                </li>
+                <li className="nav-item">
                     <Link className="nav-link" to="#">
                         <i className="bi bi-bell"></i> Thông báo
                     </Link>
