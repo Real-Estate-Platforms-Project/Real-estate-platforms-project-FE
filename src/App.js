@@ -18,6 +18,7 @@ import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
 import HomeTransaction from "./component/admin/transaction/HomeTransaction"
+import TransactionCreate from './component/admin/transaction/TransactionCreact';
 
 
 
@@ -41,6 +42,8 @@ function App() {
                 <Route path="/admin" element={<Admin/>}>
                     <Route path="/admin/homeTransaction" element={<HomeTransaction/>} />
                     <Route path="/admin/employees" element={<EmployeeList />} />
+                    <Route path="/admin/employees/create" element={<TransactionCreate/>}/>
+
 
                 </Route>
 

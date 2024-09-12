@@ -12,3 +12,12 @@ export const getAllHome = async (searchTransactionCode, ) => {
         return [];
     }
 }
+
+export const saveTransaction = async (transaction) => {
+    try {
+        await axios.post(URL_TRANSACTION, transaction);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}

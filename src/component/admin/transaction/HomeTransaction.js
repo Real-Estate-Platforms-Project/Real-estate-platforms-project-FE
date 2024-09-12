@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import * as transactionService from "..//..//..//services/TransactionService";
+import { Link } from 'react-router-dom'; // Thêm import này để dùng Link
+
 
 
 import {
@@ -29,9 +31,8 @@ function HomeTransaction() {
         <div class=" py-5">
             <div>
                 <h2>Quản lý giao dịch</h2>
-                <Button variant="contained" color="primary" style={{marginBottom: "20px"}}>
-                    + Thêm Giao Dịch
-                </Button>
+                <Link to="/admin/employees/create" className="btn btn-success mb-3">Thêm mới</Link> {/* Nút Thêm mới */}
+
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
