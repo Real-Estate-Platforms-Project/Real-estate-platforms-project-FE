@@ -36,6 +36,7 @@ import UpdatePassWord from "./component/password/UpdatePassWord";
 import GetAndConfirmEmail from "./component/password/GetAndConfirmEmail";
 import ConfirmEmail from "./component/password/ConfirmEmail";
 import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
+import EstateListing from "./page/client/EstateListing";
 import ProtectedRoute from "./component/ProtectedRoute";
 
 
@@ -58,16 +59,17 @@ function App() {
                     <Route path="/" element={<Client/>}>
                         <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
                         <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
+                        <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
+                        <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                         <Route path="*" element={<NotFound/>}/>
                         <Route path="/" element={<LandingPage/>}/>
                         <Route path="/notification" element={<Notification/>}/>
                         <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
+                        <Route path="/update-password" element={<UpdatePassWord/>}/>
                         <Route path="/403" element={<Forbidden/>}/>
+                        <Route path="/estate-list" element={<EstateListing/>}/>
                         <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                         <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
-                        <Route path="/update-password" element={<UpdatePassWord/>}/>
-                        <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
-                        <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                     </Route>
                     <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
                         <Route path="/admin" element={<Admin/>}>
