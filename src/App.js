@@ -24,6 +24,10 @@ import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/admin/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
+import CreateDemand from "./page/client/CreateDemand";
+
+
+
 function App() {
     return (
         <BrowserRouter>
@@ -35,6 +39,7 @@ function App() {
                     <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                     <Route path="/" element={<Client/>}>
                         <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
+                        <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                         <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                         <Route path="*" element={<NotFound/>}/>
                         <Route path="/" element={<LandingPage/>}/>
@@ -46,6 +51,7 @@ function App() {
                     <Route path="/admin" element={<Admin/>}>
                         <Route path={"/admin/employee"} element={<EmployeeList />} />
                         <Route path={"/admin/notification"} element={<NotificationAdmin />}/>
+                        <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path={"/admin/buyers"} element={<BuyerList />} />
                         <Route path="/admin/customers/add" element={<CustomerAddForm />} />
                     </Route>

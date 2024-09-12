@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import * as realEstateService from '../../services/RealEstate';
-import { Range } from 'react-range';
 import {useNavigate} from "react-router-dom";
 const SearchBar = ({onSearch,initialTab='Bán'}) => {
     const navigate = useNavigate();

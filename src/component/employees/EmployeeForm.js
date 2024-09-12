@@ -10,7 +10,7 @@ const EmployeeForm = ({onCloseModal, onSave}) => {
         phone: '',
         email: '',
         position: '',
-        address: '',
+        contend: '',
         role: 'Nhân viên'
     });
 
@@ -147,8 +147,8 @@ const EmployeeForm = ({onCloseModal, onSave}) => {
                 <label className="form-label">Địa chỉ</label>
                 <input
                     type="text"
-                    name="address"
-                    value={formData.address}
+                    name="contend"
+                    value={formData.contend}
                     onChange={handleChange}
                     className="form-control"
                     placeholder="Nhập địa chỉ"
