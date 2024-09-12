@@ -8,6 +8,11 @@ import Logo from "../Logo";
 const Nav = () => {
     const [activeSection, setActiveSection] = useState('dashboard');
 
+    const [isCustomerManagementOpen, setIsCustomerManagementOpen] = useState(false);
+
+    const toggleCustomerManagement = () => {
+        setIsCustomerManagementOpen(!isCustomerManagementOpen);
+    };
 
     return (
         <Col md={2} className="sidebar">
@@ -29,6 +34,35 @@ const Nav = () => {
                     <Link className="nav-link" to="/admin/employee">
                         <i className="bi bi-people"></i> Quản lý nhân viên
                     </Link>
+                </li>
+                <li className="nav-item">
+                    <Link
+                        className="nav-link"
+                        to="#"
+                        onClick={toggleCustomerManagement}
+                        aria-expanded={isCustomerManagementOpen}
+                    >
+                        <i className="bi bi-briefcase"></i> Quản lý khách hàng
+                    </Link>
+                    {isCustomerManagementOpen && (
+                        <ul className="nav flex-column ms-3">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin/buyers">
+                                    <i className="bi bi-person"></i> Người mua
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin/sellers">
+                                    <i className="bi bi-person"></i> Người bán
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin/customers/add">
+                                    <i className="bi bi-plus"></i> Thêm mới
+                                </Link>
+                            </li>
+                        </ul>
+                    )}
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="#">

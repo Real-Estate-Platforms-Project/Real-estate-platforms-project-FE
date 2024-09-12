@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-const SearchBar = ({onSearch}) => {
+const SearchBar = ({onSearch,initialTab='Bán'}) => {
     const navigate = useNavigate();
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [priceRange, setPriceRange] = useState({ min: '', max:'' });
     const [selectedPriceOption, setSelectedPriceOption] = useState('all');
     const [areaRange, setAreaRange] = useState({ min: '', max: '' });
     const [selectedAreaOption, setSelectedAreaOption] = useState('all');
-    const [activeTab, setActiveTab] = useState('sell'); // State to manage active tab
+    const [activeTab, setActiveTab] = useState(initialTab);
     const [selectedLocations, setSelectedLocations] = useState([]);
     const [displayText, setDisplayText] = useState('Vị trí');
     const [address, setAddress] = useState('');
 
+    useEffect(() => {
+        setActiveTab(initialTab);
+    }, [initialTab]);
     const [totalPages, setTotalPages] = useState(0);
     const handlePriceRangeChange = (e) => {
         const { name, value } = e.target;
@@ -73,14 +76,13 @@ const SearchBar = ({onSearch}) => {
                 ...(areaRange.min && { minArea: parseInt(areaRange.min, 10) }),
                 ...(areaRange.max && { maxArea: parseInt(areaRange.max, 10) }),
                 ...(address && { address }),
+                demandType : activeTab === 'Cho thuê' ? 'Cho thuê' : 'Bán',
+
             };
-        console.log('Filters:', filters);
 
         if (window.location.pathname !== '/estate-list') {
-            // Chuyển hướng chỉ khi không ở trang EstateListing
-            navigate('/estate-list', { state: { filters } });
+            navigate('/estate-list', { state: { filters,activeTab } });
         } else {
-            // Nếu đang ở trang EstateListing thì gọi onSearch
             onSearch(filters);
         }
 
@@ -96,14 +98,14 @@ const SearchBar = ({onSearch}) => {
         <div className="search-bar">
             <div className="tabs">
                 <button
-                    className={`tab ${activeTab === 'sell' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('sell')}
+                    className={`tab ${activeTab === 'Bán' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('Bán')}
                 >
                     Nhà đất bán
                 </button>
                 <button
-                    className={`tab ${activeTab === 'rent' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('rent')}
+                    className={`tab ${activeTab === 'Cho thuê' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('Cho thuê')}
                 >
                     Nhà đất cho thuê
                 </button>
@@ -129,6 +131,14 @@ const SearchBar = ({onSearch}) => {
                     </button>
                     {activeDropdown === 'type' && (
                         <div className="dropdown" onClick={(e) => e.stopPropagation()}>
+                            <div className="filter-header">
+                                <h3>Vị trí</h3>
+                                <button className="filter-close-btn" onClick={(e) => {
+                                    e.stopPropagation();
+                                    closeDropdowns();
+                                }}><i className="bi bi-x-circle"></i>
+                                </button>
+                            </div>
                             <label>
                                 <input
                                     type="checkbox"
@@ -146,6 +156,9 @@ const SearchBar = ({onSearch}) => {
                                 /> Ngoại ô
                             </label>
                             <div className="filter-footer">
+                                <button className="reset-btn"
+                                        onClick={() => setDisplayText('Vị trí')&setSelectedLocations([])}>Đặt lại
+                                </button>
                                 <button className="apply-btn" onClick={applyLocationFilter}>Áp dụng</button>
                             </div>
                         </div>
