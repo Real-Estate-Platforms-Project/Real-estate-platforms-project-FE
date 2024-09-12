@@ -18,7 +18,6 @@ function CreateDemand() {
         minArea:0,
         maxArea:0,
         notes:"",
-        buyerId:0
     });
 
     const[buyer,setBuyer]=useState(null)
@@ -57,7 +56,6 @@ function CreateDemand() {
     };
     const saveDemand = async (value) => {
         console.log(value)
-        value.buyerId=buyer.id;
         let isSuccess = await demandService.saveDemand(value)
         if(isSuccess) {
             toast.success("Thêm mới nhu cầu thành công")
