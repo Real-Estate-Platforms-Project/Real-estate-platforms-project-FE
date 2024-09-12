@@ -19,6 +19,7 @@ import EmployeeList from "./component/employees/EmployeeList";
 
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
+import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
 import {WebSocketProvider} from './services/SocketNotification';
 import NotificationDisplay from "./component/admin/NotificationDisplay";
@@ -68,6 +69,7 @@ function App() {
                         <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path={"/admin/buyers"} element={<BuyerList />} />
                         <Route path="/admin/customers/add" element={<CustomerAddForm />} />
+                        <Route path="/admin/statistics" element={<Statistics />} />
 
                     </Route>
                 </Routes>
