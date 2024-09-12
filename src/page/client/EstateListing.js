@@ -15,7 +15,7 @@ function EstateListing() {
         setError(null);
         try {
             const response = await realEstateService.searchRealEstate({ ...filters, page, size: 6 });
-            setResults(response.content || []);
+            setResults(response.content|| []);
             setTotalPages(response.totalPages || 0);
             setCurrentPage(page);
         } catch (error) {
@@ -26,13 +26,13 @@ function EstateListing() {
             setLoading(false);
         }
     };
-    const activeTab = location.state?.activeTab || 'Bán';
+    const activeTab = location.state?.activeTab || 'Bán,Cho thuê';
 
     useEffect(() => {
-        // Lấy filters từ location.state nếu có
         const filters = location.state?.filters || {};
-        handleSearch(filters); // Gọi handleSearch với filters từ state
-    }, [location.state]); // Chỉ chạy khi location.state thay đổi
+        handleSearch(filters);
+    }, [location.state]);
+
     return(
         <>
             <div className="custom-search w-75 mt-3" style={{justifyContent:"center",margin:"auto"}}>
