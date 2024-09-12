@@ -1,47 +1,59 @@
-import '../../css/Card.css';
-import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
-import * as estateService from '../../services/RealEstate';
-import {Button} from "react-bootstrap";
+    import '../../css/Card.css';
+    import {Link} from "react-router-dom";
+    import {useEffect, useState} from "react";
+    import * as estateService from '../../services/RealEstate';
+    import {Button} from "react-bootstrap";
 
-function CardEstate() {
-    const [estate, setEstate] = useState([])
-    const [selectedLocation, setSelectedLocation] = useState(''); // Default location
-    const [filteredEstate, setFilteredEstate] = useState([]);
+    function CardEstate() {
+        const [estate, setEstate] = useState([])
+        const [selectedLocation, setSelectedLocation] = useState('all');
+        const [filteredEstate, setFilteredEstate] = useState([]);
 
-    useEffect(() => {
-        getAllEstate();
-    }, []);
+        useEffect(() => {
+            getAllEstate();
+        }, []);
 
-    // Hàm gọi API và xử lý lỗi
-    const getAllEstate = async () => {
-        try {
-            let data = await estateService.findRealEstate();
-            console.log(data);
-            setEstate(data);
-            setFilteredEstate(data);
-        } catch (error) {
-            console.error("Failed to fetch real estate data", error);
+
+        const getAllEstate = async () => {
+            try {
+                let data = await estateService.findRealEstate();
+                console.log(data);
+                if (Array.isArray(data)) {
+                    handleLocationChange('all');
+                    setEstate(data);
+                    setFilteredEstate(data);
+
+
+                } else {
+                    console.error("Expected an array but received:", data);
+                    setEstate([]);
+                    setFilteredEstate([]);
+                }
+            } catch (error) {
+                console.error("Failed to fetch real estate data", error);
+                setEstate([]);
+                setFilteredEstate([]);
+            }
         }
-    }
-    const handleLocationChange = (location) => {
-        setSelectedLocation(location);
-        if (location === 'all') {
-            setFilteredEstate(estate);
-        } else {
-            const filtered = estate.filter(item =>
-                item.location && item.location.toLowerCase().includes(location.toLowerCase())
-            );
-            setFilteredEstate(filtered);
-        }
-    };
-    const displayEstates = filteredEstate.slice(0, 6);
+        const handleLocationChange = (location) => {
+            setSelectedLocation(location);
+            console.log(location)
+            if (location === 'all') {
+                setFilteredEstate(estate);
+            } else {
+                const filtered = estate.filter(item =>
+                    item.location && item.location.toLowerCase().includes(location.toLowerCase())
+                );
+                setFilteredEstate(filtered);
+            }
+        };
+        const displayEstates = filteredEstate.slice(0, 6);
 
     return (
         <div className="container mt-3">
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2>Bất động sản nổi bật</h2>
-                <Link to="" className="text-decoration-none text-warning">
+                <Link to="/estate-list" className="text-decoration-none text-warning">
                     Tất cả →
                 </Link>
             </div>
@@ -76,7 +88,7 @@ function CardEstate() {
                     ) : (
                         displayEstates.map((item, index) => (
                             <div key={index} className="box col-3">
-                                <Link to="/404" className="view-property-link">
+                                <Link to={`/real-estate-detail/${item.id}`} className="view-property-link">
                                     <div className="top">
                                         <img
                                             src="https://cdn.pixabay.com/photo/2014/07/10/17/18/large-home-389271__340.jpg"
