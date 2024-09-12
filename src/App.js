@@ -25,11 +25,14 @@ import NotificationDisplay from "./component/admin/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
 
+import RealEstateDetail from "./page/client/RealEstateDetail";
+
+import CreateDemand from "./page/client/CreateDemand";
+
 import UpdatePassWord from "./component/password/UpdatePassWord";
 import GetAndConfirmEmail from "./component/password/GetAndConfirmEmail";
 import ConfirmEmail from "./component/password/ConfirmEmail";
 import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
-import CreateDemand from "./page/client/CreateDemand";
 
 
 function App() {
@@ -45,6 +48,7 @@ function App() {
                     <Route path="/activation-success" element={<ActivationSuccess/>}/>
                     <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                     <Route path="/" element={<Client/>}>
+                        <Route path="/real-estate-detail/:id" element={<RealEstateDetail />} />
                         <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                         <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>

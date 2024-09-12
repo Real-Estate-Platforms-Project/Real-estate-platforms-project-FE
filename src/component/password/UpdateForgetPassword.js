@@ -1,8 +1,10 @@
-import {useNavigate, Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import {Formik, Field, ErrorMessage, Form} from "formik";
 import {toast} from "react-toastify";
-import {UpdateForgetPassword, UpdatePassword} from "../../services/AccountService";
+import {UpdateForgetPassword} from "../../services/AccountService";
+import Logo from "../Logo";
+import React from "react";
 
 
 const validationSchema = Yup.object({
@@ -40,6 +42,9 @@ function UpdateForgetPassWord() {
 
                 <Form>
                     <div className="shadow m-auto w-50 rounded p-4 bg-white">
+                        <Link to="/" className="d-flex justify-content-center mt-5">
+                            <Logo width="200px"/>.
+                        </Link>
                         <h4 className="fw-bold">Cập nhật tài khoảng</h4>
 
 
