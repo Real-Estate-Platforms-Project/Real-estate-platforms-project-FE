@@ -5,6 +5,7 @@ const initialState = {
     isAuthenticated: false,
     roles: [],
     error: null,
+    status: 'idle'
 };
 
 const userReducer = (state = initialState, action) => {
@@ -15,6 +16,7 @@ const userReducer = (state = initialState, action) => {
                 isAuthenticated: true,
                 roles: action.payload.roles,
                 error: null,
+                status: 'success'
             };
         case FETCH_USER_FAIL:
             return {
@@ -22,6 +24,7 @@ const userReducer = (state = initialState, action) => {
                 isAuthenticated: false,
                 roles: [],
                 error: action.payload,
+                status: 'error'
             };
         default:
             return state;

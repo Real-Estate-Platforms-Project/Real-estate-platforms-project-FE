@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import Logout from "../Logout";
 
 function Nav() {
-    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.information.isAuthenticated);
 
     return (
         <div className="shadow-lg">
@@ -68,10 +68,10 @@ function Nav() {
                             </Link>
                         )}
                         {isAuthenticated && (
-                            <div>
-                                <Link className='me-2 button-orange' to='update-password'><span className='fw-bold'>Đổi mật khẩu</span></Link>
-                                <Logout />
-                            </div>
+                            <Link className='me-2 button-orange' to='update-password'><span className='fw-bold'>Đổi mật khẩu</span></Link>
+                        )}
+                        {isAuthenticated && (
+                            <Logout/>
                         )}
                     </div>
                 </div>

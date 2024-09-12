@@ -9,6 +9,7 @@ export default function Logout() {
         dispatch({
             type: "resetUser"
         })
+        window.location.href='/login';
     }
 
     return (

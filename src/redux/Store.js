@@ -3,7 +3,7 @@ import { thunk } from 'redux-thunk';
 import userReducer from "./UserReducer";
 
 const reducer = combineReducers({
-    user: userReducer,
+    information: userReducer,
 });
 
 const store = createStore(

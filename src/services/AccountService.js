@@ -1,4 +1,4 @@
-import apiClient from "../configs/axiosConfigs";
+import apiClient from "../configs/AxiosConfigs";
 import axios from "axios";
 
 const URL_BASE = "http://localhost:8080/api/auth";
