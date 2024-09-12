@@ -3,7 +3,13 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 const ResultsList = ({results, loading, error, currentPage, totalPages, handlePageChange}) => {
-    const demandType = results.length > 0 ? results[0].demandType : null;
+
+    const Ban = results.some(item => item.demandType === 'Bán');
+    const ChoThue = results.some(item => item.demandType === 'Cho thuê');
+
+    const demandType = Ban && ChoThue ? "Bán,Cho thuê" : Ban ? "Bán" : ChoThue ? "Cho thuê" : "Bán,Cho thuê";
+
+    console.log(demandType)
 
     return (
         <div className="results-section">
@@ -21,7 +27,10 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                 <h3>Nhà Đất Bán</h3>
                             ) : demandType === 'Cho thuê' ? (
                                 <h3>Nhà Đất Cho thuê</h3>
-                            ) : null}</div>
+                            ) : (
+                                <h3>Nhà Đất</h3>
+
+                            )}</div>
                         {results.map((item, index) => (
 
                             <div key={index} className="box col-3">
@@ -38,35 +47,66 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                     </div>
                                 </Link>
                                 <div className="bottom">
-                                    <h3>{item?.province?.name || 'Unknown Province'}</h3>
-                                    <p>{item?.note || 'No additional information available.'}</p>
-                                    <div className="advants">
-                                        <div>
-                                            <span>Bedrooms</span>
-                                            <div>
-                                                <i className="fas fa-th-large"></i>
-                                                <span>{item?.realEstateDetail?.bedroom || 'N/A'}</span>
+                                    {item.type ==='Nhà'?(
+                                        <>
+                                            <h3><b>Địa chỉ :</b> {item?.address || 'Unknown Province'}</h3>
+                                            <p><b>Mô tả : </b> {item?.note || 'No additional information available.'}
+                                            </p>
+                                            <div className="advants">
+                                                <div>
+                                                    <span>Phòng ngủ</span>
+                                                    <div>
+                                                        <i className="fas fa-th-large"></i>
+                                                        <span>{item?.realEstateDetail?.bedroom || 'N/A'}</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span>Nhà tắm</span>
+                                                    <div>
+                                                        <i className="fas fa-shower"></i>
+                                                        <span>{item?.realEstateDetail?.toilet || 'N/A'}</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span>Diện tích</span>
+                                                    <div>
+                                                        <i className="fas fa-vector-square"></i>
+                                                        <span>{item?.area || 'N/A'} m²</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <span>Bathrooms</span>
-                                            <div>
-                                                <i className="fas fa-shower"></i>
-                                                <span>{item?.realEstateDetail?.toilet || 'N/A'}</span>
+                                            <div className="price">
+                                                <span>For Sale</span>
+                                                <span>${item?.price || 'Contact for price'}</span>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <span>Area</span>
-                                            <div>
-                                                <i className="fas fa-vector-square"></i>
-                                                <span>{item?.area || 'N/A'} m²</span>
+                                        </>
+                                    ):(
+                                        <>
+                                            <h3><b>Địa chỉ :</b>{item?.address || 'Unknown Province'}</h3>
+                                            <p><b>Mô tả : </b>{item?.note || 'No additional information available.'}</p>
+                                            <div className="advants">
+                                                <div>
+                                                    <span>Diện tích</span>
+                                                    <div>
+                                                        <i className="fas fa-vector-square"></i>
+                                                        <span>{item?.area || 'N/A'} m²</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span>Giá trên m²</span>
+                                                    <div>
+                                                        <i className="fas fa-vector-square"></i>
+                                                        <span>{item?.price /item.area || 'N/A'} /m²</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="price">
-                                        <span>For Sale</span>
-                                        <span>${item?.price || 'Contact for price'}</span>
-                                    </div>
+                                            <div className="price">
+                                                <span>For Sale</span>
+                                                <span>${item?.price || 'Contact for price'}</span>
+                                            </div>
+                                        </>
+                                    )}
+
                                 </div>
                             </div>
 

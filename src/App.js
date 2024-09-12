@@ -34,6 +34,7 @@ import UpdatePassWord from "./component/password/UpdatePassWord";
 import GetAndConfirmEmail from "./component/password/GetAndConfirmEmail";
 import ConfirmEmail from "./component/password/ConfirmEmail";
 import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
+import EstateListing from "./page/client/EstateListing";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
                         <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                         <Route path="/update-password" element={<UpdatePassWord/>}/>
                         <Route path="/403" element={<Forbidden/>}/>
+                        <Route path="/estate-list" element={<EstateListing/>}/>
                         <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                         <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                     </Route>
