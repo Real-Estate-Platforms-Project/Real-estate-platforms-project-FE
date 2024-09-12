@@ -3,8 +3,19 @@ import React from "react";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import {Carousel} from "react-responsive-carousel";
 import CardEstate from "../client/CardEstate";
+import Statistics from "../admin/Statistics";
+import StatisticsSection from "../client/StatisticsSection";
+import {useNavigate} from "react-router-dom";
 function LandingPage() {
+    const navigate = useNavigate();
+
+    const handleSearch = (filters,activeTab) => {
+        console.log(activeTab)
+        navigate('/estate-list', { state: { filters,activeTab } });
+
+    };
     return (
+        <>
         <div className="custom-search">
             <div className="carousel-container">
                 <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
@@ -21,11 +32,14 @@ function LandingPage() {
                     </div>
                 </Carousel>
                 <div className="search-bar-container">
-                    <SearchBar/>
+                    <SearchBar onSearch={handleSearch} />
                 </div>
-                <CardEstate/>
+
             </div>
         </div>
+            <StatisticsSection/>
+            <CardEstate/>
+        </>
     );
 }
 

@@ -1,85 +1,102 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import EmployeeList from '../../component/employees/EmployeeList';  // Nhập thành phần EmployeeList
+import EmployeeList from '../../component/employees/EmployeeList';
 import '../../css/AdminNav.css';
 import {Link} from "react-router-dom";
 import Logo from "../Logo";
 
-const Admin = () => {
+const Nav = () => {
     const [activeSection, setActiveSection] = useState('dashboard');
 
-    const renderContent = () => {
-        switch (activeSection) {
-            case 'dashboard':
-                return <div>Nội dung Dashboard</div>;
-            case 'employees':
-                return <EmployeeList />;
-            case 'personal':
-                return <div>Nội dung Personal</div>;
-            case 'realestate':
-                return <div>Nội dung Real Estate</div>;
-            case 'transactions':
-                return <div>Nội dung Transactions</div>;
-            case 'notifications':
-                return <div>Nội dung Notifications</div>;
-            case 'support':
-                return <div>Nội dung Support</div>;
-            default:
-                return <div>Chọn một phần</div>;
-        }
+    const [isCustomerManagementOpen, setIsCustomerManagementOpen] = useState(false);
+
+    const toggleCustomerManagement = () => {
+        setIsCustomerManagementOpen(!isCustomerManagementOpen);
     };
 
     return (
-        <Container fluid className="admin-dashboard">
-            <Row>
-                <Col md={2} className="sidebar">
-                    <Link to="/" className="d-flex justify-content-center mt-5">
-                        <Logo width="200px"/>.
+        <Col md={2} className="sidebar">
+            <Link to="/" className="d-flex justify-content-center mt-5">
+                <Logo width="200px"/>.
+            </Link>
+            <ul className="nav flex-column">
+                <li className="nav-item">
+                    <Link className="nav-link" to={"/admin"}>
+                        <i className="bi bi-speedometer2"></i> Bảng điều khiển
                     </Link>
-                    <ul className="nav flex-column">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="#" onClick={() => setActiveSection('dashboard')}>
-                                <i className="bi bi-speedometer2"></i> Dashboard
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="#" onClick={() => setActiveSection('personal')}>
-                                <i className="bi bi-person"></i> Personal
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="#" onClick={() => setActiveSection('employees')}>
-                                <i className="bi bi-people"></i> Employees
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="#" onClick={() => setActiveSection('realestate')}>
-                                <i className="bi bi-building"></i> Real Estate
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="#" onClick={() => setActiveSection('transactions')}>
-                                <i className="bi bi-credit-card"></i> Transactions
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="#" onClick={() => setActiveSection('notifications')}>
-                                <i className="bi bi-bell"></i> Notifications
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="#" onClick={() => setActiveSection('support')}>
-                                <i className="bi bi-headset"></i> Support
-                            </Link>
-                        </li>
-                    </ul>
-                </Col>
-                <Col md={10}>
-                    {renderContent()}
-                </Col>
-            </Row>
-        </Container>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/admin/personal">
+                        <i className="bi bi-person"></i> Cá nhân
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/admin/employee">
+                        <i className="bi bi-people"></i> Quản lý nhân viên
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link
+                        className="nav-link"
+                        to="#"
+                        onClick={toggleCustomerManagement}
+                        aria-expanded={isCustomerManagementOpen}
+                    >
+                        <i className="bi bi-briefcase"></i> Quản lý khách hàng
+                    </Link>
+                    {isCustomerManagementOpen && (
+                        <ul className="nav flex-column ms-3">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin/buyers">
+                                    <i className="bi bi-person"></i> Người mua
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin/sellers">
+                                    <i className="bi bi-person"></i> Người bán
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin/customers/add">
+                                    <i className="bi bi-plus"></i> Thêm mới
+                                </Link>
+                            </li>
+                        </ul>
+                    )}
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="#">
+                        <i className="bi bi-building"></i> Bất động sản
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to='/admin/danh-sach-nhu-cau'>
+                        <i className="bi bi-building"></i> Nhu cầu Bất động sản
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/admin/statistics" >
+                        <i className="bi bi-credit-card"></i> Thống kê
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="#">
+                        <i className="bi bi-credit-card"></i> Giao dịch
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/admin/notification">
+                        <i className="bi bi-bell"></i> Thông báo
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="#">
+                        <i className="bi bi-headset"></i> Hỗ trợ
+                    </Link>
+                </li>
+            </ul>
+        </Col>
     );
 };
 
-export default Admin;
+export default Nav;

@@ -1,0 +1,84 @@
+html {
+    font-size: 14px;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa phân trang */
+    align-items: center;
+    margin-top: 30px; /* Tăng khoảng cách với phần trên */
+    gap: 10px; /* Khoảng cách giữa các nút phân trang */
+
+    .page-numbers {
+        display: flex;
+        justify-content: center; /* Căn giữa nội dung */
+        align-items: center; /* Căn giữa nội dung */
+        text-align: center;
+        padding: .8rem; /* Tăng kích thước nút */
+        border-radius: 50%; /* Tạo hình tròn */
+        width: 2.5rem; /* Kích thước lớn hơn */
+        height: 2.5rem;
+        font-size: 1.1rem; /* Chữ to hơn */
+        font-weight: 700;
+        line-height: 1.1rem;
+        margin: 0.4rem;
+        border: 1px solid #f4f6fa;
+        background: #f4f6fa;
+        transition: all 0.3s;
+
+        @media(max-width: 480px) {
+            width: 2.2rem; /* Điều chỉnh cho màn hình nhỏ hơn */
+            height: 2.2rem;
+            font-size: 1rem;
+            padding: 0.5rem;
+        }
+
+        &.current {
+            color: #fff;
+            background: #ea723d; /* Màu sắc hiện tại */
+        }
+
+        &:hover:not(.current) {
+            color: #fff;
+            background: #ea723d; /* Hiệu ứng hover */
+        }
+
+        i {
+            font-size: 1.1em;
+            line-height: 0.8em;
+        }
+    }
+
+    .prev, .next {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem; /* Kích thước mũi tên lớn hơn */
+        padding: 0.5rem;
+        color: #333;
+        border-radius: 50%;
+        transition: background 0.3s;
+        &:hover {
+            background: #ea723d;
+            color: white;
+        }
+        &:disabled {
+            color: #ccc; /* Màu khi vô hiệu hóa */
+            cursor: not-allowed;
+            background: none;
+        }
+    }
+
+    &.pagination--left {
+        justify-content: flex-start;
+    }
+
+    &.pagination--center {
+        justify-content: center;
+    }
+
+    &.pagination--right {
+        justify-content: flex-end;
+    }
+}

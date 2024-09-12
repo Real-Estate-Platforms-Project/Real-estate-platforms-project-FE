@@ -4,33 +4,92 @@ const URL_DEMAND = "http://localhost:8080/api/demand"
 
 export const getAllDemand = async () => {
     try {
-        let res = await axios.get(URL_DEMAND);
-        console.log(res.data)
-        return res.data;
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        if(token!= null) {
+            let res = await axios.get(URL_DEMAND, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            })
+            return res.data
+        }
+        let res = await axios.get(URL_DEMAND)
+        return res.data
+
     } catch (e) {
-        return [];
+        console.log(e)
+    }
+}
+
+export const searchDemand = async (filters) => {
+    try {
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        // Lọc các tham số không có giá trị (null, undefined, hoặc '')
+        const filteredFilters = Object.fromEntries(
+            Object.entries(filters).filter(([_, value]) => value !== null && value !== undefined && value !== '')
+        );
+
+        // Tạo query string từ các tham số đã lọc
+        const params = new URLSearchParams(filteredFilters).toString();
+        if(token != null) {
+            const response = await axios.get(`${URL_DEMAND}/search?${params}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            });
+            return response.data;
+        }
+        const response = await axios.get(`${URL_DEMAND}/search?${params}`)
+        return response.data
+    } catch (error) {
+        console.error('Failed to fetch demand data', error);
+        throw error;
     }
 }
 
 export  const deleteDemand = async (id) => {
     try {
-        await axios.delete(URL_DEMAND + "/" + id);
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        await axios.delete(URL_DEMAND + "/" + id,{
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            });
         return true;
     } catch (e) {
-        console.log(e)
         return false;
     }
 }
 
 export  const verifyDemand = async  (demand) => {
     try {
-        if (!demand.isVerify){
-            demand.setIsVerify = true;
-            await axios.put(URL_DEMAND+"/"+demand.id+"/verify",demand);
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+            await axios.put(URL_DEMAND+"/"+demand.id+"/verify",demand,{
+                headers: {
+                    "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+                }
+            });
             return true;
-        }
-        return false;
     } catch (e){
         return false;
+    }
+}
+
+export const saveDemand = async (demand) => {
+    try {
+        const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        await axios.post(URL_DEMAND, demand,{
+            headers: {
+                "Authorization": `Bearer ${token}`,// Thêm token vào header
+                    "Content-Type": "application/json",
+            }
+        })
+        return true
+    } catch (e) {
+        return false
     }
 }
