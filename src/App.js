@@ -58,7 +58,9 @@ function App() {
                         <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
                         <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
+                        <Route element={<ProtectedRoute/>}>
                         <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
+                        </Route>
                         <Route path="*" element={<NotFound/>}/>
                         <Route path="/" element={<LandingPage/>}/>
                         <Route path="/notification" element={<Notification/>}/>
@@ -69,7 +71,6 @@ function App() {
                         <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                         <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                     </Route>
-                    <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
                         <Route path="/admin" element={<Admin/>}>
                             <Route path={"/admin/employee"} element={<EmployeeList/>}/>
                             <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
@@ -77,7 +78,7 @@ function App() {
                             <Route path={"/admin/buyers"} element={<BuyerList/>}/>
                             <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
                             <Route path="/admin/statistics" element={<Statistics/>}/>
-                        </Route>
+
                     </Route>
                 </Routes>
                 <ToastContainer/>
