@@ -130,7 +130,7 @@ function Authentication() {
                                 <div className="d-flex justify-content-between mx-4 mb-4">
                                     <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault'
                                                  label='Ghi nhớ đăng nhập!'/>
-                                    <a href="!#">Quên mật khẩu?</a>
+                                    <a href="/forget-password">Quên mật khẩu?</a>
                                 </div>
 
                                 <MDBBtn className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`}>Đăng nhập</MDBBtn>

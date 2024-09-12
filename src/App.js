@@ -11,18 +11,23 @@ import CreateRealEstate from "./page/client/CreateRealEstate";
 import LandingPage from "./component/carousel/LandingPage";
 import Notification from "./component/client/Notification";
 import NotificationDetail from "./component/client/NotificationDetail";
-import UpdatePassWord from "./component/updatePassword/UpdatePassWord";
 import DemandList from "./component/client/DemandList";
 import Authentication from "./page/auth/Authentication";
 import ActivationSuccess from "./page/auth/ConfirmEmail";
 import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
+import UpdatePassWord from "./component/password/UpdatePassWord";
+import GetAndConfirmEmail from "./component/password/GetAndConfirmEmail";
+import ConfirmEmail from "./component/password/ConfirmEmail";
+import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
 
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/confirm-email" element={<ConfirmEmail/>}/>
+                <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                 <Route path="/login" element={<Authentication/>}/>
                 <Route path="/activation-success" element={<ActivationSuccess />} />
                 <Route path="/" element={<Client/>}>
@@ -34,6 +39,7 @@ function App() {
                     <Route path="/notification" element={<Notification/>}/>
                     <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+                    <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
 
