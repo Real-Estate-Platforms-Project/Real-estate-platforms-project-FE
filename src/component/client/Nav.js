@@ -58,7 +58,7 @@ function Nav() {
                                     tức</Link>
                             </li>
                         </ul>
-                        <Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cau</span></Link>
+                        <Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>
                         <Link className='me-2 button-orange' to='sellernet/dang-tin'><span
                             className='fw-bold'>Đăng tin</span></Link>
 

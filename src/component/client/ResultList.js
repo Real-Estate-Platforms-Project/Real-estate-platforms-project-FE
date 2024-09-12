@@ -9,8 +9,9 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
 
     const demandType = Ban && ChoThue ? "Bán,Cho thuê" : Ban ? "Bán" : ChoThue ? "Cho thuê" : "Bán,Cho thuê";
 
-    console.log(demandType)
-
+    const formatPrice = (price) => {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " VND";
+    }
     return (
         <div className="results-section">
             {loading ? (
@@ -33,7 +34,7 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                             )}</div>
                         {results.map((item, index) => (
 
-                            <div key={index} className="box col-3">
+                            <div key={index} className="box row-cols-auto">
                                 <Link to="/404" className="view-property-link">
                                     <div className="top">
                                         <img
@@ -47,7 +48,7 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                     </div>
                                 </Link>
                                 <div className="bottom">
-                                    {item.type ==='Nhà'?(
+                                    {item.type === 'Nhà' ? (
                                         <>
                                             <h3><b>Địa chỉ :</b> {item?.address || 'Unknown Province'}</h3>
                                             <p><b>Mô tả : </b> {item?.note || 'No additional information available.'}
@@ -77,10 +78,10 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                             </div>
                                             <div className="price">
                                                 <span>For Sale</span>
-                                                <span>${item?.price || 'Contact for price'}</span>
+                                                <span>{formatPrice(item?.price) || 'Contact for price'}</span>
                                             </div>
                                         </>
-                                    ):(
+                                    ) : (
                                         <>
                                             <h3><b>Địa chỉ :</b>{item?.address || 'Unknown Province'}</h3>
                                             <p><b>Mô tả : </b>{item?.note || 'No additional information available.'}</p>
@@ -96,34 +97,45 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                                     <span>Giá trên m²</span>
                                                     <div>
                                                         <i className="fas fa-vector-square"></i>
-                                                        <span>{item?.price /item.area || 'N/A'} /m²</span>
+                                                        <span>{formatPrice(item?.price / item.area) || 'N/A'} /m²</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="price">
                                                 <span>For Sale</span>
-                                                <span>${item?.price || 'Contact for price'}</span>
+                                                <span>{formatPrice(item?.price) || 'Contact for price'}</span>
                                             </div>
                                         </>
                                     )}
 
                                 </div>
+
                             </div>
 
                         ))}
-                        <div className="pagination">
+                        <div className="pagination pagination--center">
                             <button
+                                className="prev page-numbers"
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 0}
                             >
-                                Trang trước
+                                <i className="fas fa-angle-left"></i>
                             </button>
-                            <span>Trang {currentPage + 1} / {totalPages}</span>
+                            {[...Array(totalPages).keys()].map((page) => (
+                                <span
+                                    key={page}
+                                    className={`page-numbers ${page === currentPage ? 'current' : ''}`}
+                                    onClick={() => handlePageChange(page)}
+                                >
+                                    {page + 1}
+                                </span>
+                            ))}
                             <button
+                                className="next page-numbers"
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages - 1}
                             >
-                                Trang sau
+                                <i className="fas fa-angle-right"></i>
                             </button>
                         </div>
                     </div>
