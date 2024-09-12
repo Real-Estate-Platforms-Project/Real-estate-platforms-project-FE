@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/admin/buyers';
+const API_URL = 'http://localhost:8080/api/admin/sellers';
 
-export const getAllBuyers = async () => {
+export const getAllSellers = async () => {
     try {
         const response = await axios.get(API_URL);
         return response.data;
@@ -12,7 +12,7 @@ export const getAllBuyers = async () => {
     }
 };
 
-export const getBuyerById = async (id) => {
+export const getSellerById = async (id) => {
     try {
         const response = await axios.get(`${API_URL}/${id}`);
         return response.data;
@@ -22,13 +22,14 @@ export const getBuyerById = async (id) => {
     }
 };
 
-export const searchBuyers = async (searchCriteria) => {
+
+export const searchSellers = async (searchCriteria) => {
     try {
         const params = new URLSearchParams(searchCriteria).toString();
         const response = await axios.get(`${API_URL}?${params}`);
         return response.data;
     } catch (error) {
-        console.error('Error searching buyers:', error);
+        console.error('Error searching sellers:', error);
         throw error;
     }
 };
