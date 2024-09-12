@@ -16,9 +16,8 @@ function UpdateForgetPassWord() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
-    const navigate = new useNavigate();
+    const navigate = useNavigate();
     const handleSubmit = async (data) => {
-        alert(token)
         let status = await UpdateForgetPassword(data,token)
         if (status) {
             toast.success("Cập nhật thành công", {theme: "colored"})

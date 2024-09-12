@@ -19,8 +19,6 @@ function GetAndConfirmEmail() {
 
     const onSubmit = async (values) => {
         try {
-
-            alert(values.email)
             await createToken(values.email);
             toast.success(' Vui lòng kiểm tra email để tiến hành cập nhật tài khoản.', {
                 theme: "colored",
