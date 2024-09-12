@@ -26,6 +26,7 @@ function EstateListing() {
             setLoading(false);
         }
     };
+    const activeTab = location.state?.activeTab || 'Bán';
 
     useEffect(() => {
         // Lấy filters từ location.state nếu có
@@ -35,7 +36,7 @@ function EstateListing() {
     return(
         <>
             <div className="custom-search w-75 mt-3" style={{justifyContent:"center",margin:"auto"}}>
-                <SearchBar onSearch={handleSearch} />
+                <SearchBar onSearch={handleSearch} initialTab={activeTab} />
             </div>
             <ResultsList
                 results={results}

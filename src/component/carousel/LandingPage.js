@@ -9,9 +9,10 @@ import {useNavigate} from "react-router-dom";
 function LandingPage() {
     const navigate = useNavigate();
 
-    const handleSearch = (filters) => {
-        // Điều hướng đến trang /estate-list cùng với các filters
-        navigate('/estate-list', { state: { filters } });
+    const handleSearch = (filters,activeTab) => {
+        console.log(activeTab)
+        navigate('/estate-list', { state: { filters,activeTab } });
+
     };
     return (
         <div className="custom-search">
