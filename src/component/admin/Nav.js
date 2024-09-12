@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import EmployeeList from '../../component/employees/EmployeeList';
 import '../../css/AdminNav.css';
@@ -75,7 +75,7 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="#">
+                    <Link className="nav-link" to="/admin/notification">
                         <i className="bi bi-bell"></i> Thông báo
                     </Link>
                 </li>
