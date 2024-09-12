@@ -44,7 +44,6 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("oooooooooooooooooooooooooooo")
         dispatch(fetchUser());
     }, [dispatch]);
 
