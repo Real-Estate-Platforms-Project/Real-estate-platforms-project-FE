@@ -1,0 +1,214 @@
+.customModalOverlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.customModalContent {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 500px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.customModalHeader {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.customModalTitle {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.customModalFooter {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.customModalFooter .customBtn {
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin-left: 10px;
+}
+
+.customBtn {
+    height: 33px;
+}
+
+.customConfirmButton {
+    background-color: #ff5722;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.customConfirmButton:hover {
+    background-color: #e64a19;
+}
+
+.customModalForm {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.customFormGroup {
+    margin-bottom: 20px;
+}
+
+.customModalLabel {
+    font-weight: bold;
+    color: rgba(5, 5, 5, 0.94);
+    text-align: left;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.customFormControl {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    width: 400px;
+}
+
+textarea.customFormControl {
+    resize: vertical;
+}
+
+.customImagePreviewContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.customImagePreviewWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.customImagePreview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.customRemoveImageButton:hover {
+    background-color: darkred;
+}
+
+input[type="file"] {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="file"]:hover {
+    border-color: #ff5722;
+}
+
+.customFormControl:focus {
+    border-color: #ff5722;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+}
+
+.customFileInputContainer {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.customFileInput {
+    display: none !important;
+}
+
+.customFileInputLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 10px;
+    margin-left: 15px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    text-align: center;
+    width: 200px;
+}
+
+.customFileInputLabel:hover {
+    background-color: #e9ecef;
+    border-color: #ff5722;
+}
+
+.customFileInputText {
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.customImagePreviewWrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.customImagePreview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.customRemoveImageButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.customRemoveImageButton:hover {
+    background-color: darkred;
+}
+
+
+

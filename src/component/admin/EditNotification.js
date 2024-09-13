@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik, Field, Form as FormikForm, ErrorMessage } from 'formik';
-import '../../css/ModalCreate.css';
+import '../../css/ModalCreate.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const validationSchema = Yup.object({
