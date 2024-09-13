@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import authService from '../../services/AuthService';
+import * as accountService from '../../services/AccountService';
 import {
     MDBBtn,
     MDBCheckbox,
@@ -19,6 +20,10 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import styles from '../../css/Toastify.module.css';
 import mdbCustom from '../../css/MDBCustom.module.css'
 import Logo from '../../component/Logo.js'
+import Loading from "../../component/Loading";
+import {useDispatch} from "react-redux";
+import {setToken} from "../../redux/UserReducer";
+import {checkDateToChangePassword, checkExpiryDate} from "../../services/AccountService";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -38,24 +43,42 @@ const validationSchema = Yup.object({
 });
 
 function Authentication() {
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [justifyActive, setJustifyActive] = useState('login');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         setIsLoggingIn(true);
         try {
+            let res = await accountService.checkIsDeleted(email);
+            if (res) {
+                toast.error("Tài khoản đã bị vô hiệu hóa")
+                return true
+            }
             const response = await authService.login(email, password);
+
             if (rememberMe) {
                 localStorage.setItem('token', response.data.token);
             } else {
                 sessionStorage.setItem('token', response.data.token);
             }
-            window.location.href="/";
+
+            let checkDateToChangePassword = await accountService.checkDateToChangePassword(email);
+            if (checkDateToChangePassword) {
+                toast.error(`Tài khoản của bạn chưa thay đổi sau 30 ngày, thay đổi ngay hoặc tài khoản sẽ bị vô hiệu hóa `)
+                return true
+            }
+
+            await dispatch(setToken(response.data.token));
+            navigate("/");
         } catch (error) {
             const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
 
@@ -68,6 +91,16 @@ function Authentication() {
             setIsLoggingIn(false);
         }
     };
+
+    useEffect(() => {
+        let timer;
+        if (isLoading) {
+            timer = setTimeout(() => {
+                setIsLoading(false);
+            }, 4000);
+        }
+        return () => clearTimeout(timer);
+    }, [isLoading]);
 
     const handleJustifyClick = (value) => {
         if (value === justifyActive) {
@@ -109,6 +142,7 @@ function Authentication() {
 
     return (
         <div className="container">
+            {isLoading ? <Loading /> : null}
             <Link to="/" className="d-flex justify-content-center mt-5">
                 <Logo width="200px"/>.
             </Link>

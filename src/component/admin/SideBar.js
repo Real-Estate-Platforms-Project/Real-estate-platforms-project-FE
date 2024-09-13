@@ -72,7 +72,7 @@ const SideBar = () => {
                     </Link>
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="#">
+                    <Link className="custom-nav-link" to="/admin/notification">
                         <i className="bi bi-bell"></i> Thông báo
                     </Link>
                 </li>
