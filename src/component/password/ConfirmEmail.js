@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Player} from '@lottiefiles/react-lottie-player';
 import lottieSuccess from '../../lottie/success.json';
@@ -32,7 +32,7 @@ const ConfirmEmail = () => {
                     setLoading(false);
                     const timer = setInterval(() => {
                         setCountdown(prevCountdown => prevCountdown - 1);
-                    }, 3000);
+                    }, 1000);
 
                     setTimeout(() => {
                         navigate(`/update-forget-password?token=${token}`);
