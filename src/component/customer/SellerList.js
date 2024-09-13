@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { getAllBuyers, searchBuyers, getBuyerById } from '../../services/BuyerService';
+import { getAllSellers, getSellerById, searchSellers } from '../../services/SellerService';
 import { Modal, Toast, Table, Button, Container, Row, Col, Form, Card, InputGroup, Pagination } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import { FaSearch, FaEye, FaIdCard, FaUser, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../css/PaginationStyles.css';
 
-const BuyerList = () => {
-    const [buyers, setBuyers] = useState([]);
+const SellerList = () => {
+    const [sellers, setSellers] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedBuyer, setSelectedBuyer] = useState(null);
+    const [selectedSeller, setSelectedSeller] = useState(null);
     const [showToast, setShowToast] = useState(false);
     const [searchCriteria, setSearchCriteria] = useState({
         code: '',
@@ -22,22 +22,22 @@ const BuyerList = () => {
     const itemsPerPage = 5;
 
     useEffect(() => {
-        loadBuyers();
+        loadSellers();
     }, []);
 
-    const loadBuyers = () => {
-        getAllBuyers()
+    const loadSellers = () => {
+        getAllSellers()
             .then((data) => {
-                setBuyers(data);
+                setSellers(data);
                 setShowToast(data.length === 0);
             })
             .catch(console.error);
     };
 
     const handleSearch = () => {
-        searchBuyers(searchCriteria)
+        searchSellers(searchCriteria)
             .then((data) => {
-                setBuyers(data);
+                setSellers(data);
                 setShowToast(data.length === 0);
             })
             .catch(console.error);
@@ -53,21 +53,21 @@ const BuyerList = () => {
 
     const handleModalClose = () => {
         setShowModal(false);
-        setSelectedBuyer(null);
+        setSelectedSeller(null);
     };
 
-    const handleModalShow = async (buyerId) => {
+    const handleModalShow = async (sellerId) => {
         try {
-            const buyer = await getBuyerById(buyerId);
-            setSelectedBuyer(buyer);
+            const seller = await getSellerById(sellerId);
+            setSelectedSeller(seller);
             setShowModal(true);
         } catch (error) {
-            console.error('Error fetching buyer details:', error);
+            console.error('Error fetching seller details:', error);
         }
     };
 
-    const currentBuyers = buyers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-    const totalPages = Math.ceil(buyers.length / itemsPerPage);
+    const currentSellers = sellers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const totalPages = Math.ceil(sellers.length / itemsPerPage);
 
     return (
         <Container className="mt-4">
@@ -82,31 +82,31 @@ const BuyerList = () => {
                     <Toast.Header closeButton>
                         <strong className="me-auto">Thông báo</strong>
                     </Toast.Header>
-                    <Toast.Body>Không có người mua nào cả.</Toast.Body>
+                    <Toast.Body>Không có người bán nào cả.</Toast.Body>
                 </Toast>
             </ToastContainer>
 
             <Modal show={showModal} onHide={handleModalClose} centered>
-                <Modal.Header closeButton style={{ backgroundColor: '#ff6b35', color: 'white' }}>
-                    <Modal.Title>Thông tin chi tiết người mua</Modal.Title>
+                <Modal.Header closeButton style={{ backgroundColor: '#FF6B35', color: 'white' }}>
+                    <Modal.Title>Thông tin chi tiết người bán</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {selectedBuyer ? (
-                        <Card className="border-0">
-                            <Card.Body>
-                                <Card.Title style={{ color: '#ff6b35' }}>{selectedBuyer.name}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">Mã: {selectedBuyer.code}</Card.Subtitle>
+                    {selectedSeller ? (
+                        <div className="card border-0">
+                            <div className="card-body">
+                                <h5 className="card-title" style={{ color: '#FF6B35' }}>{selectedSeller.name}</h5>
+                                <h6 className="card-subtitle mb-2 text-muted">Mã: {selectedSeller.code}</h6>
                                 <ul className="list-group list-group-flush">
-                                    <li className="list-group-item"><strong>Ngày sinh:</strong> {selectedBuyer.dob}</li>
-                                    <li className="list-group-item"><strong>Giới tính:</strong> {selectedBuyer.gender}</li>
-                                    <li className="list-group-item"><strong>Số điện thoại:</strong> {selectedBuyer.phoneNumber}</li>
-                                    <li className="list-group-item"><strong>Email:</strong> {selectedBuyer.email}</li>
-                                    <li className="list-group-item"><strong>Địa chỉ:</strong> {selectedBuyer.address}</li>
-                                    <li className="list-group-item"><strong>ID Card:</strong> {selectedBuyer.idCard}</li>
-                                    <li className="list-group-item"><strong>Loại khách hàng:</strong> {selectedBuyer.customerType === 'buyer' ? 'Người mua' : 'Người bán'}</li>
+                                    <li className="list-group-item"><strong>Ngày sinh:</strong> {selectedSeller.dob}</li>
+                                    <li className="list-group-item"><strong>Giới tính:</strong> {selectedSeller.gender}</li>
+                                    <li className="list-group-item"><strong>Số điện thoại:</strong> {selectedSeller.phoneNumber}</li>
+                                    <li className="list-group-item"><strong>Email:</strong> {selectedSeller.email}</li>
+                                    <li className="list-group-item"><strong>Địa chỉ:</strong> {selectedSeller.address}</li>
+                                    <li className="list-group-item"><strong>ID Card:</strong> {selectedSeller.idCard}</li>
+                                    <li className="list-group-item"><strong>Loại khách hàng:</strong> {selectedSeller.customerType === 'seller' ? 'Người bán' : 'Người mua'}</li>
                                 </ul>
-                            </Card.Body>
-                        </Card>
+                            </div>
+                        </div>
                     ) : (
                         <p>Không có thông tin để hiển thị.</p>
                     )}
@@ -123,7 +123,7 @@ const BuyerList = () => {
                             <Form.Control
                                 type="text"
                                 name="code"
-                                placeholder="Mã Người Mua"
+                                placeholder="Mã Người Bán"
                                 value={searchCriteria.code}
                                 onChange={handleInputChange}
                                 className="border-start-0"
@@ -138,7 +138,7 @@ const BuyerList = () => {
                             <Form.Control
                                 type="text"
                                 name="name"
-                                placeholder="Tên Người Mua"
+                                placeholder="Tên Người Bán"
                                 value={searchCriteria.name}
                                 onChange={handleInputChange}
                                 className="border-start-0"
@@ -187,12 +187,12 @@ const BuyerList = () => {
                 </Row>
             </Card>
 
-            {buyers.length > 0 ? (
+            {sellers.length > 0 ? (
                 <>
                     <Table striped hover responsive="sm" className="align-middle shadow-sm rounded">
-                        <thead style={{ backgroundColor: '#ff6b35', color: 'white' }}>
+                        <thead style={{backgroundColor: '#ff6b35', color: 'white'}}>
                         <tr>
-                            <th>Mã người mua</th>
+                            <th>Mã người bán</th>
                             <th>Họ tên</th>
                             <th>Ngày sinh</th>
                             <th>Giới tính</th>
@@ -202,20 +202,20 @@ const BuyerList = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {currentBuyers.map((buyer) => (
-                            <tr key={buyer.id}>
-                                <td>{buyer.code}</td>
-                                <td>{buyer.name}</td>
-                                <td>{buyer.dob}</td>
-                                <td>{buyer.gender}</td>
-                                <td>{buyer.phoneNumber}</td>
-                                <td>{buyer.email}</td>
+                        {currentSellers.map((seller) => (
+                            <tr key={seller.id}>
+                                <td>{seller.code}</td>
+                                <td>{seller.name}</td>
+                                <td>{seller.dob}</td>
+                                <td>{seller.gender}</td>
+                                <td>{seller.phoneNumber}</td>
+                                <td>{seller.email}</td>
                                 <td>
                                     <Button
                                         variant="outline"
                                         size="sm"
                                         style={{ color: '#ff6b35', borderColor: '#ff6b35', marginRight: '5px' }}
-                                        onClick={() => handleModalShow(buyer.id)}
+                                        onClick={() => handleModalShow(seller.id)}
                                     >
                                         <FaEye /> Xem
                                     </Button>
@@ -234,7 +234,6 @@ const BuyerList = () => {
                                 key={i + 1}
                                 active={i + 1 === currentPage}
                                 onClick={() => setCurrentPage(i + 1)}
-                                className={i + 1 === currentPage ? 'active-page' : ''}
                             >
                                 {i + 1}
                             </Pagination.Item>
@@ -247,11 +246,11 @@ const BuyerList = () => {
                 </>
             ) : (
                 <div className="text-center">
-                    <p style={{ color: '#ff6b35', marginTop: '10px' }}>Không có người mua nào cả.</p>
+                    <p style={{ color: '#FC650B', marginTop: '10px' }}>Không có người bán nào cả.</p>
                 </div>
             )}
         </Container>
     );
 };
 
-export default BuyerList;
+export default SellerList;

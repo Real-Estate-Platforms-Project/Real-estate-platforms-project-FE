@@ -1,17 +1,12 @@
 import Logo from "../Logo";
 import MegaMenu from "../MegaMenu";
-import {Link, useNavigate} from "react-router-dom";
-import {getToken, removeToken} from "../../utils/tokenUtils";
+import {Link} from "react-router-dom";
 import ListingMenu from "../ListingMenu";
+import {useSelector} from "react-redux";
+import Logout from "../Logout";
 
 function Nav() {
-    const token = getToken();
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-        removeToken();
-        navigate('/login');
-    };
+    const isAuthenticated = useSelector((state) => state.information.isAuthenticated);
 
     return (
         <div className="shadow-lg">
@@ -28,15 +23,16 @@ function Nav() {
                             <li className="nav-item dropdown me-4">
                                 <Link className="nav-link dropdown-toggle text-dark" role="button" data-bs-toggle="dropdown"
                                    aria-expanded="false" to="#">
-                                    Home
-                                </Link>
+                                    Trang chủ
                                 <ul className="dropdown-menu">
                                     <MegaMenu/>
                                 </ul>
+                                </Link>
                             </li>
                             <li className="nav-item dropdown me-4">
-                                <Link className="nav-link dropdown-toggle text-dark" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false" to="#">
+                                <Link className="nav-link dropdown-toggle text-dark" role="button"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false" to="#">
                                     Listing
                                 </Link>
                                 <ul className="dropdown-menu">
@@ -56,27 +52,30 @@ function Nav() {
                                 <Link className="nav-link text-dark" aria-disabled="true" to="#">Property</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin tức</Link>
+                                <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin
+                                    tức</Link>
                             </li>
                         </ul>
-                        <Link className='me-2 button-orange' to='buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>
-                        <Link className='me-2 button-orange' to='sellernet/dang-tin'><span className='fw-bold'>Đăng tin</span></Link>
-                        <Link className='me-2 button-orange' to='update-password'><span className='fw-bold'>Đổi mật khẩu</span></Link>
-                        {!token && (
+                        <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
+                        <Link className='me-2 button-orange' to='sellernet/dang-tin'><span
+                            className='fw-bold'>Đăng tin</span></Link>
+
+                        {!isAuthenticated && (
                             <Link className='button-black' to='/login'>
                                 <span className='fw-bold'>Đăng nhập</span>
                             </Link>
                         )}
-                        {token && (
-                            <button className='button-black' onClick={handleLogout}>
-                                <span className='fw-bold'>Đăng xuất</span>
-                            </button>
+                        {isAuthenticated && (
+                            <Link className='me-2 button-orange' to='update-password'><span className='fw-bold'>Đổi mật khẩu</span></Link>
+                        )}
+                        {isAuthenticated && (
+                            <Logout/>
                         )}
                     </div>
                 </div>
             </nav>
         </div>
-    );
+    )
 }
 
 export default Nav;

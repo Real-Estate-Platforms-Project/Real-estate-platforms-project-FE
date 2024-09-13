@@ -5,7 +5,7 @@ export default function StatisticsSection() {
     return (
         <>
         <div className="py-5 mt-3 mb-5"  style={{ backgroundColor: '#FFF7F0' }}>
-            <Container>
+            <div className="container">
                 <Row className="justify-content-center text-center">
                     <Col md={3} className="d-flex flex-column align-items-center gap-2">
                         <div className="d-flex justify-content-center align-items-center bg-white rounded-circle shadow-sm" style={{ width: '70px', height: '70px' }}>
@@ -13,9 +13,7 @@ export default function StatisticsSection() {
                         </div>
                         <h4 className="fw-bold mt-3">$15.4M</h4>
                         <p className="text-secondary">
-                            Owned from
-                            <br />
-                            Properties transactions
+                           Lượng giao dịch trong tháng
                         </p>
                     </Col>
 
@@ -51,7 +49,7 @@ export default function StatisticsSection() {
                         <p className="text-secondary">Regular Clients</p>
                     </Col>
                 </Row>
-            </Container>
+            </div>
         </div>
         </>
     );

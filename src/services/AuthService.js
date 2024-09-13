@@ -1,5 +1,4 @@
 import axios from "axios";
-import apiClient from "../configs/axiosConfigs";
 
 const URL_AUTH_BASE = "http://localhost:8080/api/auth";
 
@@ -10,8 +9,8 @@ const login = (email, password) => {
     });
 };
 
-const register = (data) => {
-    return axios.post(`${URL_AUTH_BASE}/register`, {
+const register = async (data) => {
+    return await axios.post(`${URL_AUTH_BASE}/register`, {
         name: data.name,
         email: data.email,
         password: data.password,
@@ -20,7 +19,7 @@ const register = (data) => {
 };
 
 const confirmRegister = async (token) => {
-    return axios.get(`${URL_AUTH_BASE}/confirm?token=${token}`)
+    return await axios.get(`${URL_AUTH_BASE}/confirm?token=${token}`)
 }
 
 const authService = {

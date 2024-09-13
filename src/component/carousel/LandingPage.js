@@ -15,6 +15,7 @@ function LandingPage() {
 
     };
     return (
+        <>
         <div className="custom-search">
             <div className="carousel-container">
                 <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
@@ -35,9 +36,10 @@ function LandingPage() {
                 </div>
 
             </div>
+        </div>
             <StatisticsSection/>
             <CardEstate/>
-        </div>
+        </>
     );
 }
 

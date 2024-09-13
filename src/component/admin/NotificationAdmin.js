@@ -1,18 +1,21 @@
+// NotificationAdmin.jsx
 import React, { useEffect, useState } from 'react';
-import { useWebSocket } from '../../services/SocketNotification';
 import * as notificationService from '../../services/NotificationService';
 import '../../css/Notification.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from "react-router-dom";
 import Modal from './Modal';
 import CreateNotification from './CreateNotification';
+import EditNotificationModal from './EditNotification';
 import { toast } from "react-toastify";
 
 function NotificationAdmin() {
     const [title, setTitle] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
     const [notificationToDelete, setNotificationToDelete] = useState(null);
+    const [notificationToEdit, setNotificationToEdit] = useState(null);
     const [notificationsList, setNotificationsList] = useState([]);
 
     useEffect(() => {
@@ -33,7 +36,9 @@ function NotificationAdmin() {
     };
 
     const handleEdit = (id) => {
-        console.log(`Edit notification with ID: ${id}`);
+        const notification = notificationsList.find(n => n.id === id);
+        setNotificationToEdit(notification);
+        setShowEditModal(true);
     };
 
     const handleDelete = async (id) => {
@@ -78,6 +83,18 @@ function NotificationAdmin() {
         }
     };
 
+    const handleUpdateNotification = async (updatedNotification) => {
+        try {
+            await notificationService.updateNotification(updatedNotification);
+            getNotifications(title);
+            toast.success("Cập nhật thông báo thành công!");
+            setShowEditModal(false);
+        } catch (error) {
+            console.error('Failed to update notification', error);
+            toast.error("Cập nhật thông báo thất bại!");
+        }
+    };
+
     return (
         <div className="notification-container">
             <div>
@@ -107,9 +124,9 @@ function NotificationAdmin() {
                     </thead>
                     <tbody>
                     {notificationsList.map((item) => (
-                        <tr key={item.id}> {/* Đảm bảo rằng `key` là duy nhất */}
+                        <tr key={item.id}>
                             <td>
-                                <img src={item.image} alt={item.title} className="article-image" />
+                                <img src={item.image} alt={item.title} className="article-image"/>
                             </td>
                             <td>
                                 <Link to={`/notificationDetail/${item.id}`} className="article-link">
@@ -121,8 +138,8 @@ function NotificationAdmin() {
                             <td>{item.contend}</td>
                             <td>
                                 <div className="d-flex gap-2">
-                                    <button className="btn btn-warning" onClick={() => handleEdit(item.id)}>Sửa</button>
-                                    <button className="btn btn-danger" onClick={() => openDeleteModal(item.id)}>Xóa</button>
+                                    <button className='me-2 button-orange' onClick={() => handleEdit(item.id)}>Sửa</button>
+                                    <button className='me-2 button-orange' onClick={() => openDeleteModal(item.id)}>Xóa</button>
                                 </div>
                             </td>
                         </tr>
@@ -142,6 +159,13 @@ function NotificationAdmin() {
                 show={showAddModal}
                 onClose={closeAddModal}
                 onAdd={handleAddNotification}
+            />
+
+            <EditNotificationModal
+                show={showEditModal}
+                onClose={() => setShowEditModal(false)}
+                onUpdate={handleUpdateNotification}
+                notification={notificationToEdit}
             />
         </div>
     );

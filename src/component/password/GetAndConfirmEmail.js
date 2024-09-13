@@ -34,7 +34,7 @@ function GetAndConfirmEmail() {
 
 
     return (
-        <div className="container w-25 border-bottom">
+        <div className="m-auto mb-10 w-25 border-bottom">
             <Link to="/" className="d-flex justify-content-center mt-5">
                 <Logo width="200px"/>.
             </Link>
