@@ -46,6 +46,7 @@ function DemandList() {
 
     const getAllRoles = async () => {
         let res = await accountService.getAllRoles()
+        console.log(res)
         setUserRoles(res)
     }
 
