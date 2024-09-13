@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useFormik} from 'formik';
@@ -20,6 +20,9 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import styles from '../../css/Toastify.module.css';
 import mdbCustom from '../../css/MDBCustom.module.css'
 import Logo from '../../component/Logo.js'
+import Loading from "../../component/Loading";
+import {useDispatch} from "react-redux";
+import {setToken} from "../../redux/UserReducer";
 import {checkDateToChangePassword, checkExpiryDate} from "../../services/AccountService";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -40,16 +43,19 @@ const validationSchema = Yup.object({
 });
 
 function Authentication() {
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [justifyActive, setJustifyActive] = useState('login');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
     const handleLogin = async (e) => {
         e.preventDefault();
-
+        setIsLoading(true);
         setIsLoggingIn(true);
         try {
             let res = await accountService.checkIsDeleted(email);
@@ -65,31 +71,36 @@ function Authentication() {
                 sessionStorage.setItem('token', response.data.token);
             }
 
-            navigate('/');
-
             let checkDateToChangePassword = await accountService.checkDateToChangePassword(email);
             if (checkDateToChangePassword) {
                 toast.error(`Tài khoản của bạn chưa thay đổi sau 30 ngày, thay đổi ngay hoặc tài khoản sẽ bị vô hiệu hóa `)
                 return true
             }
 
-            // window.location.href="/";
-
+            await dispatch(setToken(response.data.token));
+            navigate("/");
         } catch (error) {
             const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
 
             if (errorMessage.includes("Tài khoản chưa được kích hoạt")) {
-                toast.error(errorMessage, {theme: "colored", className: styles.customToast});
+                toast.error(errorMessage, { theme: "colored", className: styles.customToast });
             } else {
-                toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng nhập.', {
-                    theme: "colored",
-                    className: styles.customToast
-                });
+                toast.error('Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin đăng nhập.', { theme: "colored", className: styles.customToast });
             }
         } finally {
             setIsLoggingIn(false);
         }
     };
+
+    useEffect(() => {
+        let timer;
+        if (isLoading) {
+            timer = setTimeout(() => {
+                setIsLoading(false);
+            }, 4000);
+        }
+        return () => clearTimeout(timer);
+    }, [isLoading]);
 
     const handleJustifyClick = (value) => {
         if (value === justifyActive) {
@@ -108,29 +119,20 @@ function Authentication() {
         validationSchema,
         onSubmit: async (values, {setSubmitting}) => {
             if (!termsAccepted) {
-                toast.warning('Bạn cần đồng ý với các chính sách và điều khoản để tiếp tục!', {
-                    theme: "colored",
-                    className: styles.customToast
-                });
+                toast.warning('Bạn cần đồng ý với các chính sách và điều khoản để tiếp tục!', { theme: "colored", className: styles.customToast });
                 setSubmitting(false);
                 return;
             }
             try {
                 await authService.register(values);
-                toast.success('Đăng ký thành công! vui lòng kiểm tra email để kích hoạt tài khoản.', {
-                    theme: "colored",
-                    className: styles.customToast
-                });
+                toast.success('Đăng ký thành công! vui lòng kiểm tra email để kích hoạt tài khoản.', {theme: "colored", className: styles.customToast});
                 setJustifyActive('login');
             } catch (error) {
                 const errorMessage = typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data);
                 if (errorMessage.includes("Email đã tồn tại!")) {
-                    toast.error(errorMessage, {theme: "colored", className: styles.customToast});
+                    toast.error(errorMessage, { theme: "colored", className: styles.customToast });
                 } else {
-                    toast.error('Đăng ký thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', {
-                        theme: "colored",
-                        className: styles.customToast
-                    });
+                    toast.error('Đăng ký thất bại! Vui lòng kiểm tra lại thông tin đăng ký.', { theme: "colored", className: styles.customToast });
                 }
             } finally {
                 setSubmitting(false);
@@ -140,6 +142,7 @@ function Authentication() {
 
     return (
         <div className="container">
+            {isLoading ? <Loading /> : null}
             <Link to="/" className="d-flex justify-content-center mt-5">
                 <Logo width="200px"/>.
             </Link>
@@ -149,7 +152,7 @@ function Authentication() {
                         <MDBTabsLink
                             onClick={() => handleJustifyClick('login')}
                             active={justifyActive === 'login'}
-                            className={`${justifyActive === 'login' ? mdbCustom.activeTab : ''} fw-bold`}>
+                        className={`${justifyActive === 'login' ? mdbCustom.activeTab : ''} fw-bold`}>
                             Đăng nhập
                         </MDBTabsLink>
                     </MDBTabsItem>
@@ -201,9 +204,7 @@ function Authentication() {
                                     {isLoggingIn ? 'Đang đăng nhập...' : 'Đăng nhập'}
                                 </MDBBtn>
                             </form>
-                            <p className="text-center">Bạn chưa có tài khoản? <a className={mdbCustom.primary} href="#"
-                                                                                 onClick={() => handleJustifyClick('register')}>Đăng
-                                ký ngay</a></p>
+                            <p className="text-center">Bạn chưa có tài khoản? <a className={mdbCustom.primary} href="#" onClick={() => handleJustifyClick('register')}>Đăng ký ngay</a></p>
                         </div>
                         :
                         <form onSubmit={formik.handleSubmit}>
@@ -274,13 +275,10 @@ function Authentication() {
                                     checked={termsAccepted}
                                     onChange={() => setTermsAccepted(!termsAccepted)}
                                 />
-                                <label htmlFor="">Tôi đã đọc và đồng ý với các <a href="/terms-and-polocies"
-                                                                                  target="_blank">chính sách và điều
-                                    khoản</a>.</label>
+                                <label htmlFor="">Tôi đã đọc và đồng ý với các <a href="/terms-and-polocies" target="_blank">chính sách và điều khoản</a>.</label>
                             </div>
 
-                            <MDBBtn className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`} type="submit"
-                                    disabled={formik.isSubmitting}>
+                            <MDBBtn className={`mb-4 w-100 ${mdbCustom.btnCustomWarning}`} type="submit" disabled={formik.isSubmitting}>
                                 {formik.isSubmitting ? 'Đang gửi...' : 'Đăng ký'}
                             </MDBBtn>
                         </form>

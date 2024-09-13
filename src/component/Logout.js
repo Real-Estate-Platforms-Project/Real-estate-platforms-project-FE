@@ -1,20 +1,18 @@
-import {removeToken} from "../utils/storage";
 import {useDispatch} from "react-redux";
+import {logout} from "../redux/UserReducer";
+import {useNavigate} from "react-router-dom";
 
 export default function Logout() {
     const dispatch = useDispatch();
-
-    const handleLogout = () => {
-        removeToken();
-        dispatch({
-            type: "resetUser"
-        })
-        window.location.href='/login';
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        await dispatch(logout());
+        navigate("/login");
     }
 
     return (
-        <button className='button-black'>
-            <span className='fw-bold' onClick={handleLogout}>Đăng xuất</span>
+        <button onClick={handleLogout} className='button-black'>
+            <span className='fw-bold'>Đăng xuất</span>
         </button>
     )
 }

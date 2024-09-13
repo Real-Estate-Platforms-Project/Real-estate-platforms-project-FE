@@ -6,7 +6,11 @@ import {useSelector} from "react-redux";
 import Logout from "../Logout";
 
 function Nav() {
-    const isAuthenticated = useSelector((state) => state.information.isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const roles = useSelector((state) => state.auth.roles);
+    const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' ||role.name === 'ROLE_EMPLOYEE')
+    console.log(isSeller)
+
 
     return (
         <div>
@@ -59,8 +63,8 @@ function Nav() {
                             </li>
                         </ul>
                         <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
-                        <Link className='me-2 button-orange' to='sellernet/dang-tin'><span
-                            className='fw-bold'>Đăng tin</span></Link>
+                        {isSeller && (<Link className='me-2 button-orange' to='sellernet/dang-tin'><span
+                            className='fw-bold'>Đăng tin</span></Link>)}
 
                         {!isAuthenticated && (
                             <Link className='button-black' to='/login'>
@@ -76,8 +80,8 @@ function Nav() {
                     </div>
                 </div>
             </nav>
-
-        </div>)
+        </div>
+    );
 }
 
 export default Nav;

@@ -20,9 +20,9 @@ const validationSchema = Yup.object({
 const AddNotificationModal = ({show, onClose, onAdd}) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
-    const user = useSelector(state => state.information.user);
+    const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch();
-    const isAuthenticated = useSelector(state => state.information.isAuthenticated);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
     useEffect(() => {
         if (isAuthenticated && !user) {
