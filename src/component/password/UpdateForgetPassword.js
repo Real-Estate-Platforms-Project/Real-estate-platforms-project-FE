@@ -16,9 +16,8 @@ function UpdateForgetPassWord() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
-    const navigate = new useNavigate();
+    const navigate = useNavigate();
     const handleSubmit = async (data) => {
-        alert(token)
         let status = await UpdateForgetPassword(data,token)
         if (status) {
             toast.success("Cập nhật thành công", {theme: "colored"})
@@ -42,10 +41,10 @@ function UpdateForgetPassWord() {
 
                 <Form>
                     <div className="shadow m-auto w-50 rounded p-4 bg-white">
-                        <Link to="/" className="d-flex justify-content-center mt-5">
+                        <Link to="/" className="d-flex justify-content-center">
                             <Logo width="200px"/>.
                         </Link>
-                        <h4 className="fw-bold">Cập nhật tài khoảng</h4>
+                        <h4 className="fw-bold">Cập nhật tài khoản</h4>
 
 
                         <div className="mt-3">
