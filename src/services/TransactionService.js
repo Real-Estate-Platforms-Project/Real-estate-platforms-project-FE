@@ -16,7 +16,9 @@ export const getAllHome = async (searchTransactionCode, ) => {
 
 export const saveTransaction = async (transaction) => {
     try {
+        console.log("du lieu 1", transaction);
         const response = await axios.post(URL_TRANSACTION, transaction);
+        console.log("dữ liệu", response)
         return response.status === 200;
     } catch (e) {
         console.error(e);

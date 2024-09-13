@@ -18,8 +18,9 @@ const TransactionCreate = () => {
     }, []);
 
     const fetchData = async () => {
+        console.log("dhfgdh");
             let employeeData = await EmployeeService.ListEmployees();
-            setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.name })));
+            setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.code })));
             const realEstateData = await RealEstateService.getRealEstates();
             setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
     };
@@ -63,14 +64,14 @@ const TransactionCreate = () => {
     });
 
     const saveTransaction = async (value) => {
-        console.log("Dữ liệu gửi đi:", value);  // Log dữ liệu để kiểm tra
+        console.log("Dữ liệu gửi đi:", value);  
 
         try {
             const isSuccess = await transactionService.saveTransaction(value);
-            console.log("Kết quả:", isSuccess);  // Log kết quả từ API
+            console.log("Kết quả:", isSuccess); 
             if (isSuccess) {
                 toast.success("Thêm mới thành công");
-                navigate("/admin/homeTransactions"); // Chỉ navigate khi thành công
+                navigate("/admin/homeTransactions"); 
             } else {
                 toast.error("Thêm mới thất bại");
             }

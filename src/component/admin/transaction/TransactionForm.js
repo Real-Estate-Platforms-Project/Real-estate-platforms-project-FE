@@ -1,8 +1,9 @@
-import {Field, ErrorMessage} from "formik";
 import Select from "react-select";
 import React from "react";
+import { ErrorMessage, Field } from "formik";
 
 const TransactionForm = ({formik, employees, realEstates}) => {
+
     return (
         <form onSubmit={formik.handleSubmit} className="form-create-transaction">
             <div className="form-group">
