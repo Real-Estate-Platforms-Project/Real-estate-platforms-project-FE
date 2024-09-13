@@ -18,9 +18,10 @@ export const checkDateToChangePassword = async (email) => {
 export const checkIsDeleted = async (email) => {
     try {
         const res = await axios.get(`${URL_BASE}/checkIsDeleted/${email}`);
-        return res.data;
+
+        return !!res.data;
     } catch (e) {
-        return "Lỗi rồi"
+        return "Lỗi cc rồi"
     }
 }
 export const UpdatePassword = async (data, token) => {
