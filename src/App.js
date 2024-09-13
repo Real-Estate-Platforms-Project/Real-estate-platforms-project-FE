@@ -72,7 +72,6 @@ function App() {
                             requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_BUYER', 'ROLE_SELLER']}/>}>
                             <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                             <Route path="/update-password" element={<UpdatePassWord/>}/>
-                            <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                             <Route path="/edit/:id" element={<EditDemand/>} />
                         </Route>
                         <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
@@ -80,7 +79,7 @@ function App() {
                         </Route>
                         <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
                         <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
-
+                        <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                         <Route path="*" element={<NotFound/>}/>
                         <Route path="/" element={<Home/>}/>
                         <Route path="/docs/quy-dinh-dang-tin-chung" element={<PostingRegulations/>}/>

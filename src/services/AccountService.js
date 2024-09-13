@@ -5,15 +5,11 @@ import data from "bootstrap/js/src/dom/data";
 
 
 const URL_BASE = "http://localhost:8080/api/auth";
-export const UpdatePassword = async (data, token) => {
-    try {
-        await apiClient.put(`/auth/updatePassWord?token=${token}`, {
-            recentPassWord: data.recentPassWord, newPassWord: data.newPassWord, reEnterPassWord: data.reEnterPassWord
 
 export const checkDateToChangePassword = async (email) => {
     try {
         const res = await axios.get(`${URL_BASE}/checkDateToChangePassword/${email}`);
-       return res.data;
+        return res.data;
     } catch (e) {
         return "Lỗi catch rồi"
     }
@@ -22,9 +18,18 @@ export const checkDateToChangePassword = async (email) => {
 export const checkIsDeleted = async (email) => {
     try {
         const res = await axios.get(`${URL_BASE}/checkIsDeleted/${email}`);
-        return res.data;
+        let isTrue = res.data;
+        if (isTrue) {
+            alert(isTrue+"/service");
+            return true;
+        } else if(!isTrue) {
+            alert(isTrue+"/dknasdkj");
+            return false;
+        } else {
+            return "Không tồn tại";
+        }
     } catch (e) {
-        return "Lỗi rồi"
+        return "Không tồn tạiaaaaa";
     }
 }
 export const UpdatePassword = async (data, token) => {
@@ -51,7 +56,9 @@ export const createToken = async (email) => {
 export const UpdateForgetPassword = async (data, token) => {
     try {
         await axios.put(`${URL_BASE}/updateForgetPassword?token=${token}`, {
-            recentPassWord: data.recentPassWord, newPassWord: data.newPassWord, reEnterPassWord: data.reEnterPassWord
+            recentPassWord: data.recentPassWord,
+            newPassWord: data.newPassWord,
+            reEnterPassWord: data.reEnterPassWord
         });
         return true;
     } catch (error) {
@@ -75,30 +82,12 @@ export const getAllRoles = async () => {
             return res.data.map((value) => value.name)
         }
         return [];
-<<<<<<< HEAD
-    } catch (e) {
+
+    } catch
+        (e) {
         console.error("Error fetching buyer data:", e);
         return []
     }
-};
-=======
-
-    }
-    catch
-        (e)
-        {
-            console.error("Error fetching buyer data:", e);
-            return []
-        }
 
 
 };
-
-
-
-
-
-
-
-
->>>>>>> 56805695711514266903970cb688040ad6772ac7
