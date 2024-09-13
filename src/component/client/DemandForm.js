@@ -1,7 +1,6 @@
 import {Link} from "react-router-dom";
 import {Field, ErrorMessage} from "formik";
 
-
 const RealEstateForm = ({
                             formik,
                             buyer,

@@ -43,12 +43,14 @@ function RealEstateDetail() {
                 {realEstate ? (
                     <div className="w-75 p-4">
                         <div className="text-center position-relative">
-                            <div className="image-real-estate-detail">
+                            <div className="image-real-estate-detail" >
                                 <img
-                                    src="https://file4.batdongsan.com.vn/resize/1275x717/2023/10/19/20231019104327-6df8_wm.jpg"
-                                    style={{width: 300, height: 430}} alt=""/>
+                                    src={realEstate.images[0].name}
+                                    style={{width: 300, height: 430}}
+                                    alt="Real Estate"
+                                />
                             </div>
-                            <div className="background-real-estate-detail"></div>
+                            <div className="background-real-estate-detail" style={{ backgroundImage: `url(${realEstate.images[0].name})` }}></div>
                         </div>
                         <h4 className="mt-4 fw-bold text-black">{realEstate.demandType} <span className="text-lowercase">{realEstate.type}</span> tại
                             {" " + realEstate.address}, {realEstate.ward.name}, {realEstate.district.name}, {realEstate.province.name}

@@ -3,8 +3,15 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 const ResultsList = ({results, loading, error, currentPage, totalPages, handlePageChange}) => {
-    const demandType = results.length > 0 ? results[0].demandType : null;
 
+    const Ban = results.some(item => item.demandType === 'Bán');
+    const ChoThue = results.some(item => item.demandType === 'Cho thuê');
+
+    const demandType = Ban && ChoThue ? "Bán,Cho thuê" : Ban ? "Bán" : ChoThue ? "Cho thuê" : "Bán,Cho thuê";
+
+    const formatPrice = (price) => {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " VND";
+    }
     return (
         <div className="results-section">
             {loading ? (
@@ -21,14 +28,17 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                 <h3>Nhà Đất Bán</h3>
                             ) : demandType === 'Cho thuê' ? (
                                 <h3>Nhà Đất Cho thuê</h3>
-                            ) : null}</div>
+                            ) : (
+                                <h3>Nhà Đất</h3>
+
+                            )}</div>
                         {results.map((item, index) => (
 
-                            <div key={index} className="box col-3">
-                                <Link to="/404" className="view-property-link">
+                            <div key={index} className="box row-cols-auto">
+                                <Link to={`/real-estate-detail/${item.id}`} className="view-property-link">
                                     <div className="top">
                                         <img
-                                            src="https://cdn.pixabay.com/photo/2014/07/10/17/18/large-home-389271__340.jpg"
+                                            src={item.images[0]?.name || ""}
                                             alt="Real estate"
                                         />
                                         <span>
@@ -38,52 +48,94 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                     </div>
                                 </Link>
                                 <div className="bottom">
-                                    <h3>{item?.province?.name || 'Unknown Province'}</h3>
-                                    <p>{item?.note || 'No additional information available.'}</p>
-                                    <div className="advants">
-                                        <div>
-                                            <span>Bedrooms</span>
-                                            <div>
-                                                <i className="fas fa-th-large"></i>
-                                                <span>{item?.realEstateDetail?.bedroom || 'N/A'}</span>
+                                    {item.type === 'Nhà' ? (
+                                        <>
+                                            <h3><b>Địa chỉ :</b> {item?.address || 'Unknown Province'}</h3>
+                                            <p><b>Mô tả : </b> {item?.note || 'No additional information available.'}
+                                            </p>
+                                            <div className="advants">
+                                                <div>
+                                                    <span>Phòng ngủ</span>
+                                                    <div>
+                                                        <i className="fas fa-th-large"></i>
+                                                        <span>{item?.realEstateDetail?.bedroom || 'N/A'}</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span>Nhà tắm</span>
+                                                    <div>
+                                                        <i className="fas fa-shower"></i>
+                                                        <span>{item?.realEstateDetail?.toilet || 'N/A'}</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span>Diện tích</span>
+                                                    <div>
+                                                        <i className="fas fa-vector-square"></i>
+                                                        <span>{item?.area || 'N/A'} m²</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <span>Bathrooms</span>
-                                            <div>
-                                                <i className="fas fa-shower"></i>
-                                                <span>{item?.realEstateDetail?.toilet || 'N/A'}</span>
+                                            <div className="price">
+                                                <span>For Sale</span>
+                                                <span>{formatPrice(item?.price) || 'Contact for price'}</span>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <span>Area</span>
-                                            <div>
-                                                <i className="fas fa-vector-square"></i>
-                                                <span>{item?.area || 'N/A'} m²</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <h3><b>Địa chỉ :</b>{item?.address || 'Unknown Province'}</h3>
+                                            <p><b>Mô tả : </b>{item?.note || 'No additional information available.'}</p>
+                                            <div className="advants">
+                                                <div>
+                                                    <span>Diện tích</span>
+                                                    <div>
+                                                        <i className="fas fa-vector-square"></i>
+                                                        <span>{item?.area || 'N/A'} m²</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span>Giá trên m²</span>
+                                                    <div>
+                                                        <i className="fas fa-vector-square"></i>
+                                                        <span>{formatPrice(item?.price / item.area) || 'N/A'} /m²</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="price">
-                                        <span>For Sale</span>
-                                        <span>${item?.price || 'Contact for price'}</span>
-                                    </div>
+                                            <div className="price">
+                                                <span>For Sale</span>
+                                                <span>{formatPrice(item?.price) || 'Contact for price'}</span>
+                                            </div>
+                                        </>
+                                    )}
+
                                 </div>
+
                             </div>
 
                         ))}
-                        <div className="pagination">
+                        <div className="pagination pagination--center">
                             <button
+                                className="prev page-numbers"
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 0}
                             >
-                                Trang trước
+                                <i className="fas fa-angle-left"></i>
                             </button>
-                            <span>Trang {currentPage + 1} / {totalPages}</span>
+                            {[...Array(totalPages).keys()].map((page) => (
+                                <span
+                                    key={page}
+                                    className={`page-numbers ${page === currentPage ? 'current' : ''}`}
+                                    onClick={() => handlePageChange(page)}
+                                >
+                                    {page + 1}
+                                </span>
+                            ))}
                             <button
+                                className="next page-numbers"
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages - 1}
                             >
-                                Trang sau
+                                <i className="fas fa-angle-right"></i>
                             </button>
                         </div>
                     </div>

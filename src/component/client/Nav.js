@@ -1,102 +1,83 @@
-import React, {useEffect, useState} from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import EmployeeList from '../../component/employees/EmployeeList';
-import '../../css/AdminNav.css';
-import {Link} from "react-router-dom";
 import Logo from "../Logo";
+import MegaMenu from "../MegaMenu";
+import {Link} from "react-router-dom";
+import ListingMenu from "../ListingMenu";
+import {useSelector} from "react-redux";
+import Logout from "../Logout";
 
-const Nav = () => {
-    const [activeSection, setActiveSection] = useState('dashboard');
-
-    const [isCustomerManagementOpen, setIsCustomerManagementOpen] = useState(false);
-
-    const toggleCustomerManagement = () => {
-        setIsCustomerManagementOpen(!isCustomerManagementOpen);
-    };
+function Nav() {
+    const isAuthenticated = useSelector((state) => state.information.isAuthenticated);
 
     return (
-        <Col md={2} className="sidebar">
-            <Link to="/" className="d-flex justify-content-center mt-5">
-                <Logo width="200px"/>.
-            </Link>
-            <ul className="nav flex-column">
-                <li className="nav-item">
-                    <Link className="nav-link" to="/admin">
-                        <i className="bi bi-speedometer2"></i> Bảng điều khiển
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/admin/personal">
-                        <i className="bi bi-person"></i> Cá nhân
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/admin/employee">
-                        <i className="bi bi-people"></i> Quản lý nhân viên
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link
-                        className="nav-link"
-                        to="#"
-                        onClick={toggleCustomerManagement}
-                        aria-expanded={isCustomerManagementOpen}
-                    >
-                        <i className="bi bi-briefcase"></i> Quản lý khách hàng
-                    </Link>
-                    {isCustomerManagementOpen && (
-                        <ul className="nav flex-column ms-3">
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/admin/buyers">
-                                    <i className="bi bi-person"></i> Người mua
+        <div>
+            <nav className="navbar navbar-expand-lg">
+                <div className="container-fluid">
+                    <Link className="navbar-brand" to='/'><Logo width={'128px'}/></Link>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="align-items-baseline mt-2 collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav mb-2 mb-lg-0 justify-content-center flex-grow-1">
+                            <li className="nav-item dropdown me-4">
+                                <Link className="nav-link dropdown-toggle text-dark" role="button"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false" to="#">
+                                    Trang chủ
+                                    <ul className="dropdown-menu">
+                                        <MegaMenu/>
+                                    </ul>
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/admin/sellers">
-                                    <i className="bi bi-person"></i> Người bán
+                            <li className="nav-item dropdown me-4">
+                                <Link className="nav-link dropdown-toggle text-dark" role="button"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false" to="#">
+                                    Listing
                                 </Link>
+                                <ul className="dropdown-menu">
+                                    <ListingMenu/>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown me-4">
+                                <Link className="nav-link dropdown-toggle text-dark" role="button"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false" to='#'>
+                                    Agents
+                                </Link>
+                                <ul className="dropdown-menu">
+                                    <MegaMenu/>
+                                </ul>
+                            </li>
+                            <li className="nav-item me-4">
+                                <Link className="nav-link text-dark" aria-disabled="true" to="#">Property</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/admin/customers/add">
-                                    <i className="bi bi-plus"></i> Thêm mới
-                                </Link>
+                                <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin
+                                    tức</Link>
                             </li>
                         </ul>
-                    )}
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="#">
-                        <i className="bi bi-building"></i> Bất động sản
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to='/admin/danh-sach-nhu-cau'>
-                        <i className="bi bi-building"></i> Nhu cầu Bất động sản
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/admin/statistics" >
-                        <i className="bi bi-credit-card"></i> Thống kê
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="#">
-                        <i className="bi bi-credit-card"></i> Giao dịch
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/admin/notification">
-                        <i className="bi bi-bell"></i> Thông báo
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="#">
-                        <i className="bi bi-headset"></i> Hỗ trợ
-                    </Link>
-                </li>
-            </ul>
-        </Col>
-    );
-};
+                        <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
+                        <Link className='me-2 button-orange' to='sellernet/dang-tin'><span
+                            className='fw-bold'>Đăng tin</span></Link>
+
+                        {!isAuthenticated && (
+                            <Link className='button-black' to='/login'>
+                                <span className='fw-bold'>Đăng nhập</span>
+                            </Link>
+                        )}
+                        {isAuthenticated && (
+                            <Link className='me-2 button-orange' to='update-password'><span className='fw-bold'>Đổi mật khẩu</span></Link>
+                        )}
+                        {isAuthenticated && (
+                            <Logout/>
+                        )}
+                    </div>
+                </div>
+            </nav>
+
+        </div>)
+}
 
 export default Nav;

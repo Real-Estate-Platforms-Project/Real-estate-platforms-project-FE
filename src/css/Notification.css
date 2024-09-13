@@ -1,11 +1,10 @@
-.notification-container {
+.notification-container-ky {
     padding: 20px;
 }
 
-.search-bar {
-    margin-bottom: 20px;
+.search-bar-ky {
+    height: 45px;
 }
-
 .search-bar input {
     width: 100%;
     padding: 10px;
@@ -14,10 +13,6 @@
     font-size: 16px;
 }
 
-.notifications-list {
-    display: flex;
-    flex-direction: column;
-}
 
 .article {
     display: flex;
@@ -63,7 +58,7 @@
 
 .article-link:hover {
     text-decoration: underline;
-    color: red;
+    color: #ff5722;;
 }
 
 .article-image {
@@ -71,5 +66,17 @@
 }
 
 .article-image:hover {
-    transform: scale(1.1);
+    transform: scale(1.1)   ;
+}
+
+#color-button-btn {
+    background-color: #ff5722;
+    color: white;
+    width: 150px;
+    height: 45px;
+}
+
+.button-orange:hover {
+    background-color: #ff5722;
+    color: white;
 }

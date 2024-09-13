@@ -79,14 +79,14 @@ function NotificationAdmin() {
     };
 
     return (
-        <div className="notification-container">
+        <div className="notification-container-ky">
             <div>
                 <h2>Thông báo đến khách hàng</h2>
             </div>
             <div className="d-flex align-items-center gap-2">
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-control search-bar-ky "
                     placeholder="Tìm kiếm theo tiêu đề..."
                     value={title}
                     onChange={handleSearchChange}
