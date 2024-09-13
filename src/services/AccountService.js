@@ -1,10 +1,31 @@
 import apiClient from "../configs/AxiosConfigs";
 import axios from "axios";
+import {date} from "yup";
+import data from "bootstrap/js/src/dom/data";
+
 
 const URL_BASE = "http://localhost:8080/api/auth";
-export const UpdatePassword = async (data,token) => {
+
+export const checkDateToChangePassword = async (email) => {
     try {
-       await apiClient.put(`/auth/updatePassWord?token=${token}`, {
+        const res = await axios.get(`${URL_BASE}/checkDateToChangePassword/${email}`);
+       return res.data;
+    } catch (e) {
+        return "Lỗi catch rồi"
+    }
+}
+
+export const checkIsDeleted = async (email) => {
+    try {
+        const res = await axios.get(`${URL_BASE}/checkIsDeleted/${email}`);
+        return res.data;
+    } catch (e) {
+        return "Lỗi rồi"
+    }
+}
+export const UpdatePassword = async (data, token) => {
+    try {
+        await apiClient.put(`/auth/updatePassWord?token=${token}`, {
             recentPassWord: data.recentPassWord,
             newPassWord: data.newPassWord,
             reEnterPassWord: data.reEnterPassWord
@@ -23,7 +44,7 @@ export const ConfirmEmail = async (token) => {
 export const createToken = async (email) => {
     return await axios.post(`${URL_BASE}/createToken/${email}`)
 }
-export const UpdateForgetPassword = async (data,token) => {
+export const UpdateForgetPassword = async (data, token) => {
     try {
         await axios.put(`${URL_BASE}/updateForgetPassword?token=${token}`, {
             recentPassWord: data.recentPassWord,
@@ -40,6 +61,7 @@ export const UpdateForgetPassword = async (data,token) => {
 
 export const getAllRoles = async () => {
     try {
+
         const token = localStorage.getItem("token");
         if (token != null) {
             const res = await axios.get(`http://localhost:8080/api/auth/get-roles`, {
@@ -51,6 +73,7 @@ export const getAllRoles = async () => {
             return res.data.map((value) => value.name)
         }
         return [];
+
     }
     catch
         (e)
@@ -61,6 +84,8 @@ export const getAllRoles = async () => {
 
 
 };
+
+
 
 
 

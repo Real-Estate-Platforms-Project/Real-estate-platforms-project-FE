@@ -24,14 +24,10 @@ function Nav() {
                                 <Link className="nav-link dropdown-toggle text-dark" role="button" data-bs-toggle="dropdown"
                                    aria-expanded="false" to="#">
                                     Trang chủ
-                                <Link className="nav-link dropdown-toggle text-dark" role="button"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false" to="#">
-                                    Home
-                                </Link>
                                 <ul className="dropdown-menu">
                                     <MegaMenu/>
-                                </ul>))
+                                </ul>
+                                </Link>
                             </li>
                             <li className="nav-item dropdown me-4">
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
@@ -79,6 +75,7 @@ function Nav() {
                 </div>
             </nav>
         </div>
+    )
 }
 
 export default Nav;
