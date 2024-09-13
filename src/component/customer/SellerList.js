@@ -87,23 +87,30 @@ const SellerList = () => {
             </ToastContainer>
 
             <Modal show={showModal} onHide={handleModalClose} centered>
-                <Modal.Header closeButton style={{ backgroundColor: '#FF6B35', color: 'white' }}>
+                <Modal.Header closeButton style={{backgroundColor: '#FF6B35', color: 'white'}}>
                     <Modal.Title>Thông tin chi tiết người bán</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {selectedSeller ? (
                         <div className="card border-0">
                             <div className="card-body">
-                                <h5 className="card-title" style={{ color: '#FF6B35' }}>{selectedSeller.name}</h5>
+                                <h5 className="card-title" style={{color: '#FF6B35'}}>{selectedSeller.name}</h5>
                                 <h6 className="card-subtitle mb-2 text-muted">Mã: {selectedSeller.code}</h6>
                                 <ul className="list-group list-group-flush">
-                                    <li className="list-group-item"><strong>Ngày sinh:</strong> {selectedSeller.dob}</li>
-                                    <li className="list-group-item"><strong>Giới tính:</strong> {selectedSeller.gender}</li>
-                                    <li className="list-group-item"><strong>Số điện thoại:</strong> {selectedSeller.phoneNumber}</li>
+                                    <li className="list-group-item"><strong>Ngày sinh:</strong> {selectedSeller.dob}
+                                    </li>
+                                    <li className="list-group-item"><strong>Giới tính:</strong> {selectedSeller.gender}
+                                    </li>
+                                    <li className="list-group-item"><strong>Số điện
+                                        thoại:</strong> {selectedSeller.phoneNumber}</li>
                                     <li className="list-group-item"><strong>Email:</strong> {selectedSeller.email}</li>
-                                    <li className="list-group-item"><strong>Địa chỉ:</strong> {selectedSeller.address}</li>
-                                    <li className="list-group-item"><strong>ID Card:</strong> {selectedSeller.idCard}</li>
-                                    <li className="list-group-item"><strong>Loại khách hàng:</strong> {selectedSeller.customerType === 'seller' ? 'Người bán' : 'Người mua'}</li>
+                                    <li className="list-group-item"><strong>Địa chỉ:</strong> {selectedSeller.address}
+                                    </li>
+                                    <li className="list-group-item"><strong>ID Card:</strong> {selectedSeller.idCard}
+                                    </li>
+                                    <li className="list-group-item"><strong>Loại khách
+                                        hàng:</strong> {selectedSeller.customerType === 'seller' ? 'Người bán' : 'Người mua'}
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -118,7 +125,7 @@ const SellerList = () => {
                     <Col md={2} xs={12} className="mb-2">
                         <InputGroup>
                             <InputGroup.Text className="bg-white border-end-0">
-                                <FaIdCard className="text-secondary" />
+                                <FaIdCard className="text-secondary"/>
                             </InputGroup.Text>
                             <Form.Control
                                 type="text"
@@ -133,7 +140,7 @@ const SellerList = () => {
                     <Col md={2} xs={12} className="mb-2">
                         <InputGroup>
                             <InputGroup.Text className="bg-white border-end-0">
-                                <FaUser className="text-secondary" />
+                                <FaUser className="text-secondary"/>
                             </InputGroup.Text>
                             <Form.Control
                                 type="text"
@@ -148,7 +155,7 @@ const SellerList = () => {
                     <Col md={2} xs={12} className="mb-2">
                         <InputGroup>
                             <InputGroup.Text className="bg-white border-end-0">
-                                <FaEnvelope className="text-secondary" />
+                                <FaEnvelope className="text-secondary"/>
                             </InputGroup.Text>
                             <Form.Control
                                 type="text"
@@ -163,7 +170,7 @@ const SellerList = () => {
                     <Col md={2} xs={12} className="mb-2">
                         <InputGroup>
                             <InputGroup.Text className="bg-white border-end-0">
-                                <FaPhoneAlt className="text-secondary" />
+                                <FaPhoneAlt className="text-secondary"/>
                             </InputGroup.Text>
                             <Form.Control
                                 type="text"
@@ -177,15 +184,17 @@ const SellerList = () => {
                     </Col>
                     <Col md={2} xs={12} className="mb-2">
                         <Button
-                            style={{ backgroundColor: '#ff6b35', borderColor: '#ff6b35' }}
+                            style={{backgroundColor: '#ff6b35', borderColor: '#ff6b35'}}
                             className="w-100 text-white"
                             onClick={handleSearch}
                         >
-                            <FaSearch className="me-2" /> Tìm kiếm
+                            <FaSearch className="me-2"/> Tìm kiếm
                         </Button>
                     </Col>
                 </Row>
             </Card>
+
+            <h4 className="mt-3 mb-4" style={{color: '#ff6b35', textAlign: 'left', fontSize: '2rem'}}>Quản lý Người Bán</h4>
 
             {sellers.length > 0 ? (
                 <>
@@ -214,10 +223,10 @@ const SellerList = () => {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        style={{ color: '#ff6b35', borderColor: '#ff6b35', marginRight: '5px' }}
+                                        style={{color: '#ff6b35', borderColor: '#ff6b35', marginRight: '5px'}}
                                         onClick={() => handleModalShow(seller.id)}
                                     >
-                                        <FaEye /> Xem
+                                        <FaEye/> Xem
                                     </Button>
                                 </td>
                             </tr>
@@ -229,7 +238,7 @@ const SellerList = () => {
                             disabled={currentPage === 1}
                             onClick={() => setCurrentPage(currentPage - 1)}
                         />
-                        {Array.from({ length: totalPages }, (_, i) => (
+                        {Array.from({length: totalPages}, (_, i) => (
                             <Pagination.Item
                                 key={i + 1}
                                 active={i + 1 === currentPage}
@@ -246,7 +255,7 @@ const SellerList = () => {
                 </>
             ) : (
                 <div className="text-center">
-                    <p style={{ color: '#FC650B', marginTop: '10px' }}>Không có người bán nào cả.</p>
+                    <p style={{color: '#FC650B', marginTop: '10px'}}>Không có người bán nào cả.</p>
                 </div>
             )}
         </Container>

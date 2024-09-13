@@ -74,7 +74,7 @@ function App() {
                         <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                     </Route>
                     {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
-                        <Route path="/admin" element={<Admin/>}>
+                     <Route path="/admin" element={<Admin/>}>
                             <Route path={"/admin/employee"} element={<EmployeeList/>}/>
                             <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
                             <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>

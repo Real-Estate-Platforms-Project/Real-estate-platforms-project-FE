@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useFormik} from 'formik';
 import {toast} from 'react-toastify';
-import apiClient from '../../configs/axiosConfigs';
+import apiClient from '../../configs/AxiosConfigs';
 import * as positionService from '../../services/PositionService';
 
 const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {

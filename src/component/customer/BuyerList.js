@@ -86,33 +86,6 @@ const BuyerList = () => {
                 </Toast>
             </ToastContainer>
 
-            <Modal show={showModal} onHide={handleModalClose} centered>
-                <Modal.Header closeButton style={{ backgroundColor: '#ff6b35', color: 'white' }}>
-                    <Modal.Title>Thông tin chi tiết người mua</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedBuyer ? (
-                        <Card className="border-0">
-                            <Card.Body>
-                                <Card.Title style={{ color: '#ff6b35' }}>{selectedBuyer.name}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">Mã: {selectedBuyer.code}</Card.Subtitle>
-                                <ul className="list-group list-group-flush">
-                                    <li className="list-group-item"><strong>Ngày sinh:</strong> {selectedBuyer.dob}</li>
-                                    <li className="list-group-item"><strong>Giới tính:</strong> {selectedBuyer.gender}</li>
-                                    <li className="list-group-item"><strong>Số điện thoại:</strong> {selectedBuyer.phoneNumber}</li>
-                                    <li className="list-group-item"><strong>Email:</strong> {selectedBuyer.email}</li>
-                                    <li className="list-group-item"><strong>Địa chỉ:</strong> {selectedBuyer.address}</li>
-                                    <li className="list-group-item"><strong>ID Card:</strong> {selectedBuyer.idCard}</li>
-                                    <li className="list-group-item"><strong>Loại khách hàng:</strong> {selectedBuyer.customerType === 'buyer' ? 'Người mua' : 'Người bán'}</li>
-                                </ul>
-                            </Card.Body>
-                        </Card>
-                    ) : (
-                        <p>Không có thông tin để hiển thị.</p>
-                    )}
-                </Modal.Body>
-            </Modal>
-
             <Card className="shadow-sm p-4 mb-4 bg-white rounded">
                 <Row className="justify-content-between align-items-center">
                     <Col md={2} xs={12} className="mb-2">
@@ -187,6 +160,8 @@ const BuyerList = () => {
                 </Row>
             </Card>
 
+            <h4 className="mt-3 mb-4" style={{ color: '#ff6b35', textAlign: 'left', fontSize: '2rem' }}>Quản lý Người Mua</h4>
+
             {buyers.length > 0 ? (
                 <>
                     <Table striped hover responsive="sm" className="align-middle shadow-sm rounded">
@@ -250,6 +225,33 @@ const BuyerList = () => {
                     <p style={{ color: '#ff6b35', marginTop: '10px' }}>Không có người mua nào cả.</p>
                 </div>
             )}
+
+            <Modal show={showModal} onHide={handleModalClose} centered>
+                <Modal.Header closeButton style={{ backgroundColor: '#ff6b35', color: 'white' }}>
+                    <Modal.Title>Thông tin chi tiết người mua</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {selectedBuyer ? (
+                        <Card className="border-0">
+                            <Card.Body>
+                                <Card.Title style={{ color: '#ff6b35' }}>{selectedBuyer.name}</Card.Title>
+                                <Card.Subtitle className="mb-2 text-muted">Mã: {selectedBuyer.code}</Card.Subtitle>
+                                <ul className="list-group list-group-flush">
+                                    <li className="list-group-item"><strong>Ngày sinh:</strong> {selectedBuyer.dob}</li>
+                                    <li className="list-group-item"><strong>Giới tính:</strong> {selectedBuyer.gender}</li>
+                                    <li className="list-group-item"><strong>Số điện thoại:</strong> {selectedBuyer.phoneNumber}</li>
+                                    <li className="list-group-item"><strong>Email:</strong> {selectedBuyer.email}</li>
+                                    <li className="list-group-item"><strong>Địa chỉ:</strong> {selectedBuyer.address}</li>
+                                    <li className="list-group-item"><strong>ID Card:</strong> {selectedBuyer.idCard}</li>
+                                    <li className="list-group-item"><strong>Loại khách hàng:</strong> {selectedBuyer.customerType === 'buyer' ? 'Người mua' : 'Người bán'}</li>
+                                </ul>
+                            </Card.Body>
+                        </Card>
+                    ) : (
+                        <p>Không có thông tin để hiển thị.</p>
+                    )}
+                </Modal.Body>
+            </Modal>
         </Container>
     );
 };
