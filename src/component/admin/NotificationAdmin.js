@@ -96,22 +96,22 @@ function NotificationAdmin() {
     };
 
     return (
-        <div className="notification-container">
+        <div className="notification-container-ky">
             <div>
                 <h2>Thông báo đến khách hàng</h2>
             </div>
-            <div className="notification-controls d-flex align-items-center gap-2">
+            <div className="d-flex align-items-center search-bar-ky gap-2">
                 <input
                     type="text"
-                    className="search-input form-control"
+                    className="form-control "
                     placeholder="Tìm kiếm theo tiêu đề..."
                     value={title}
                     onChange={handleSearchChange}
                 />
-                <button onClick={openAddModal} className="btn add-button">Thêm Mới</button>
+                <button onClick={openAddModal} className="btn" id="color-button-btn">Thêm Mới</button>
             </div>
-            <div className="notifications-table-container">
-                <table className="notifications-table table">
+            <div className="notifications-table">
+                <table className="table">
                     <thead>
                     <tr>
                         <th>Hình ảnh</th>
@@ -126,10 +126,10 @@ function NotificationAdmin() {
                     {notificationsList.map((item) => (
                         <tr key={item.id}>
                             <td>
-                                <img src={item.image} alt={item.title} className="notification-image"/>
+                                <img src={item.image} alt={item.title} className="article-image"/>
                             </td>
                             <td>
-                                <Link to={`/notificationDetail/${item.id}`} className="notification-link">
+                                <Link to={`/notificationDetail/${item.id}`} className="article-link">
                                     {item.title}
                                 </Link>
                             </td>
@@ -137,9 +137,9 @@ function NotificationAdmin() {
                             <td>{item.employee ? item.employee.name : 'N/A'}</td>
                             <td>{item.contend}</td>
                             <td>
-                                <div className="action-buttons d-flex gap-2">
-                                    <button className='me-2 edit-button' onClick={() => handleEdit(item.id)}>Sửa</button>
-                                    <button className='me-2 delete-button' onClick={() => openDeleteModal(item.id)}>Xóa</button>
+                                <div className="d-flex gap-2">
+                                    <button className='me-2 button-orange' onClick={() => handleEdit(item.id)}>Sửa</button>
+                                    <button className='me-2 button-orange' onClick={() => openDeleteModal(item.id)}>Xóa</button>
                                 </div>
                             </td>
                         </tr>

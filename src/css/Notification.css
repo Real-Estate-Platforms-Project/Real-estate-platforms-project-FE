@@ -1,8 +1,9 @@
-.notification-container {
+.notification-container-ky {
     padding: 20px;
 }
 
-.notification-controls .search-input {
+
+.search-bar-ky input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -10,55 +11,70 @@
     font-size: 16px;
 }
 
-.notifications-table-container {
-    margin-top: 20px;
-}
 
-.notifications-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.notifications-table th, .notifications-table td {
-    padding: 10px;
+.article {
+    display: flex;
+    margin-bottom: 20px;
     border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
 }
 
-.notification-image {
+.article-image {
     width: 100px;
     height: 100px;
     object-fit: cover;
     margin-right: 20px;
-    transition: transform 0.3s ease;
 }
 
-.notification-image:hover {
-    transform: scale(1.1);
+.article-content {
+    flex: 1;
 }
 
-.notification-link {
+.article-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.article-date {
+    color: #888;
+}
+
+.article-description {
+    margin-top: 10px;
+}
+
+.article-link {
     text-decoration: none;
     color: inherit;
 }
 
-.notification-link:hover {
-    text-decoration: underline;
-    color: #ff5722;
+.article-link img {
+    display: block;
 }
 
-.add-button {
+.article-link:hover {
+    text-decoration: underline;
+    color: #ff5722;;
+}
+
+.article-image {
+    transition: transform 0.3s ease;
+}
+
+.article-image:hover {
+    transform: scale(1.1)   ;
+}
+
+#color-button-btn {
     background-color: #ff5722;
     color: white;
     width: 150px;
     height: 45px;
 }
 
-.edit-button:hover, .delete-button:hover {
-    background-color: #ff5722;
-    color: white;
-}
-
-.action-buttons .edit-button, .action-buttons .delete-button {
+.button-orange:hover {
     background-color: #ff5722;
     color: white;
 }
