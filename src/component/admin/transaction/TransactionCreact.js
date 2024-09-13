@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as transactionService from "../../../services/TransactionService";
 import { toast } from "react-toastify";
 import TransactionForm from "../transaction/TransactionForm";
-import EmployeeService from '../../../services/EmployeeService';
+import EmployeeService from '..//..//..//services/EmployeeService';
 import RealEstateService from '../../../services/RealEstateService';
 
 const TransactionCreate = () => {
@@ -18,11 +18,10 @@ const TransactionCreate = () => {
     }, []);
 
     const fetchData = async () => {
-        console.log("dhfgdh");
-            let employeeData = await EmployeeService.ListEmployees();
+            let employeeData = await EmployeeService.getEmployees();
             setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.code })));
-            const realEstateData = await RealEstateService.getRealEstates();
-            setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
+            // const realEstateData = await RealEstateService.getRealEstates();
+            // setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
     };
 
     const validationSchema = Yup.object().shape({

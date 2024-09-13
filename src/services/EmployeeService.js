@@ -49,3 +49,5 @@ export const updateEmployee = async (employee) => {
         throw e;
     }
 };
+
+export default { getEmployees, deleteEmployee, updateEmployee };
