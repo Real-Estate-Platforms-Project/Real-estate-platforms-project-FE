@@ -60,9 +60,7 @@ function App() {
                         <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
                         <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
-                        <Route element={<ProtectedRoute/>}>
                         <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
-                        </Route>
                         <Route path="*" element={<NotFound/>}/>
                         <Route path="/" element={<Home/>}/>
                         <Route path="/docs/quy-dinh-dang-tin-chung" element={<PostingRegulations/>}/>
