@@ -160,8 +160,7 @@ const BuyerList = () => {
                 </Row>
             </Card>
 
-            {/* Title for managing customers */}
-            <h4 className="mt-3 mb-4" style={{ color: '#ff6b35', textAlign: 'left', fontSize: '2rem' }}>Quản lý Khách Hàng</h4>
+            <h4 className="mt-3 mb-4" style={{ color: '#ff6b35', textAlign: 'left', fontSize: '2rem' }}>Quản lý Người Mua</h4>
 
             {buyers.length > 0 ? (
                 <>

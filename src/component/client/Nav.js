@@ -28,7 +28,7 @@ function Nav() {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <MegaMenu/>
-                                </ul>
+                                </ul>))
                             </li>
                             <li className="nav-item dropdown me-4">
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
@@ -41,9 +41,8 @@ function Nav() {
                                 </ul>
                             </li>
                             <li className="nav-item dropdown me-4">
-                                <Link className="nav-link dropdown-toggle text-dark" role="button"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false" to='#'>
+                                <Link className="nav-link dropdown-toggle text-dark" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false" to='#'>
                                     Agents
                                 </Link>
                                 <ul className="dropdown-menu">
@@ -76,8 +75,7 @@ function Nav() {
                     </div>
                 </div>
             </nav>
-        </div>
-    );
+        </div>)
 }
 
 export default Nav;
