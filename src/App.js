@@ -38,6 +38,8 @@ import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
 import SellerList from "./component/customer/SellerList";
 import EstateListing from "./page/client/EstateListing";
 import ProtectedRoute from "./component/ProtectedRoute";
+import EditDemand from "./page/client/EditDemand";
+import AccountDemand from "./component/client/AcountDemand";
 
 
 function App() {
@@ -61,6 +63,8 @@ function App() {
                         <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                         <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
+                        <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
+                        <Route path="/edit/:id" element={<EditDemand/>} />
                         <Route path="*" element={<NotFound/>}/>
                         <Route path="/" element={<LandingPage/>}/>
                         <Route path="/notification" element={<Notification/>}/>
