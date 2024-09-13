@@ -11,8 +11,8 @@ export default function Logout() {
     }
 
     return (
-        <button className='button-black'>
-            <span className='fw-bold' onClick={handleLogout}>Đăng xuất</span>
+        <button onClick={handleLogout} className='button-black'>
+            <span className='fw-bold'>Đăng xuất</span>
         </button>
     )
 }

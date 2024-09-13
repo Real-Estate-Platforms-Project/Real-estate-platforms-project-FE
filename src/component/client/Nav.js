@@ -7,6 +7,10 @@ import Logout from "../Logout";
 
 function Nav() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const roles = useSelector((state) => state.auth.roles);
+    const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' ||role.name === 'ROLE_EMPLOYEE')
+    console.log(isSeller)
+
 
     return (
         <div className="shadow-lg">
@@ -21,17 +25,14 @@ function Nav() {
                     <div className="align-items-baseline mt-2 collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0 justify-content-center flex-grow-1">
                             <li className="nav-item dropdown me-4">
-                                <Link className="nav-link dropdown-toggle text-dark" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false" to="#">
-                                    Trang chủ
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
                                       data-bs-toggle="dropdown"
                                       aria-expanded="false" to="#">
-                                    Home
+                                    Trang chủ
+                                    <ul className="dropdown-menu">
+                                        <MegaMenu/>
+                                    </ul>
                                 </Link>
-                                <ul className="dropdown-menu">
-                                    <MegaMenu/>
-                                </ul>
                             </li>
                             <li className="nav-item dropdown me-4">
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
@@ -62,8 +63,8 @@ function Nav() {
                             </li>
                         </ul>
                         <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
-                        <Link className='me-2 button-orange' to='sellernet/dang-tin'><span
-                            className='fw-bold'>Đăng tin</span></Link>
+                        {isSeller && (<Link className='me-2 button-orange' to='sellernet/dang-tin'><span
+                            className='fw-bold'>Đăng tin</span></Link>)}
 
                         {!isAuthenticated && (
                             <Link className='button-black' to='/login'>

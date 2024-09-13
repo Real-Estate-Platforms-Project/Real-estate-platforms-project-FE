@@ -82,7 +82,7 @@ function Authentication() {
         if (isLoading) {
             timer = setTimeout(() => {
                 setIsLoading(false);
-            }, 3000); // Hiển thị loading ít nhất 3 giây
+            }, 4000);
         }
         return () => clearTimeout(timer);
     }, [isLoading]);
@@ -108,7 +108,6 @@ function Authentication() {
                 setSubmitting(false);
                 return;
             }
-            setIsLoading(true);
             try {
                 await authService.register(values);
                 toast.success('Đăng ký thành công! vui lòng kiểm tra email để kích hoạt tài khoản.', {theme: "colored", className: styles.customToast});

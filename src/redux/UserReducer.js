@@ -1,6 +1,6 @@
 import {getToken, removeToken} from "../utils/storage";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import apiClient from "../configs/AxiosConfigs";
+import apiClient from "../configs/axiosConfigs";
 
 const initialState = {
     token: getToken(),

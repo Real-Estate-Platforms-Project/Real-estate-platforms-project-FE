@@ -24,7 +24,7 @@ import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
 
-import { WebSocketProvider } from './services/SocketNotification';
+import {WebSocketProvider} from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
@@ -42,16 +42,16 @@ import {fetchUser} from "./redux/UserReducer";
 
 function App() {
     const dispatch = useDispatch();
-    const {status , token } = useSelector(state => state.auth);
+    const {status, token} = useSelector(state => state.auth);
 
     useEffect(() => {
-        if(token !== null) {
+        if (token !== null) {
             dispatch(fetchUser());
         }
     }, [dispatch, token]);
 
-    if(token !== null && status === 'idle') {
-        return <Loading />
+    if (token !== null && status === 'idle') {
+        return <Loading/>
     }
 
     return (
@@ -64,25 +64,31 @@ function App() {
                     <Route path="/activation-success" element={<ActivationSuccess/>}/>
                     <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                     <Route path="/" element={<Client/>}>
-                        <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
-                        <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
-                        <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
-                        <Route element={<ProtectedRoute/>}>
+                        <Route element={<ProtectedRoute
+                            requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_BUYER', 'ROLE_SELLER']}/>}>
+                            <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
+                            <Route path="/update-password" element={<UpdatePassWord/>}/>
+                        </Route>
+                        <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
                             <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                         </Route>
+                        <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
+                        <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path="*" element={<NotFound/>}/>
                         <Route path="/" element={<LandingPage/>}/>
                         <Route path="/notification" element={<Notification/>}/>
                         <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
-                        <Route path="/update-password" element={<UpdatePassWord/>}/>
                         <Route path="/403" element={<Forbidden/>}/>
                         <Route path="/estate-list" element={<EstateListing/>}/>
                         <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                         <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                     </Route>
-                    {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
+
+                    <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
                         <Route path="/admin" element={<Admin/>}>
-                            <Route path={"/admin/employee"} element={<EmployeeList/>}/>
+                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
+                                <Route path={"/admin/employee"} element={<EmployeeList/>}/>
+                            </Route>
                             <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
                             <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
                             <Route path={"/admin/buyers"} element={<BuyerList/>}/>
@@ -90,7 +96,7 @@ function App() {
                             <Route path="/admin/statistics" element={<Statistics/>}/>
                             <Route path="/admin/sellers" element={<SellerList/>}/>
                         </Route>
-                    {/*</Route>*/}
+                    </Route>
                 </Routes>
                 <ToastContainer/>
             </WebSocketProvider>
