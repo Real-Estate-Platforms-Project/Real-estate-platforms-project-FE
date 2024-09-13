@@ -2,8 +2,10 @@
     padding: 20px;
 }
 
-
-.search-bar-ky input {
+.search-bar-ky {
+    height: 45px;
+}
+.search-bar input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
