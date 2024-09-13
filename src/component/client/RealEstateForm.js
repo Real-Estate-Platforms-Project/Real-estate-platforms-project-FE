@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 import {Field, ErrorMessage} from "formik";
 import Select from "react-select";
+import {forEach} from "react-bootstrap/ElementChildren";
 
 const RealEstateForm = ({
                             formik,
@@ -16,7 +17,7 @@ const RealEstateForm = ({
                             handleDistrictChange,
                             handleWardChange,
                             handleDemandTypeChange,
-                            handleUploadFile
+                            handleUploadFiles
                         }) => (
     <form onSubmit={formik.handleSubmit} className="form-create-real-estate pt-4">
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white">
@@ -108,10 +109,10 @@ const RealEstateForm = ({
                     <ErrorMessage name="wardCode" component="div" className="text-danger"/>
                 </div>
                 <div className="col">
-                    <label htmlFor="contend" className="form-label">Số nhà/Đường/Ấp/Khu</label>
-                    <Field type="text" name="contend" id="contend" className="form-control"
+                    <label htmlFor="address" className="form-label">Số nhà/Đường/Ấp/Khu</label>
+                    <Field type="text" name="address" id="address" className="form-control"
                            placeholder="VD: 12/5 Núi Thành"/>
-                    <ErrorMessage name="contend" component="div" className="text-danger"/>
+                    <ErrorMessage name="address" component="div" className="text-danger"/>
                 </div>
             </div>
             <div className="row mt-3">
@@ -211,26 +212,18 @@ const RealEstateForm = ({
                 <li>Mỗi ảnh kích thước tối thiểu 100x100 px, tối đa 15 MB</li>
                 <li>Mô tả ảnh tối đa 45 kí tự.</li>
             </ul>
-            <Field
+            <input
                 type="file"
-                name="image"
                 accept="image/png, image/jpeg"
-                onChange={(event) => {
-                    const file = event.currentTarget.files[0];
-                    if (file) {
-                        handleUploadFile(file, formik.setFieldValue);  // Pass setFieldValue to store the URL
-                    }
-                }}
+                multiple
+                onChange={(e) => handleUploadFiles(e.target.files)}
             />
-            <ErrorMessage name="imageUrl" component="div" className="text-danger"/>
-            <div className="mt-3">
-
-            </div>
+            <ErrorMessage name="imageUrls" component="div" className="text-danger"/>
         </div>
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white mt-2">
             <h4 className="fw-bold">Thông tin liên hệ</h4>
             <div className="row mt-4">
-                <div className="col-6 ">
+            <div className="col-6 ">
                     <label htmlFor="name" className="form-label">Tên liên hệ</label>
                     <Field name="name" id="name" className="form-control" value={seller.name || ''}/>
                 </div>

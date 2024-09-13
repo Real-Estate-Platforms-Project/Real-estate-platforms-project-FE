@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 function Footer() {
     return (
-        <footer className='bg-body-tertiary py-4 mt-2'>
+        <footer className='bg-body-tertiary py-4'>
             <div className="container mt-3">
                 <div className='row justify-content-between'>
                     <div className='mb-2'>
@@ -42,7 +42,7 @@ function Footer() {
                     <div className='col-2'>
                         <h6 className='fs-5'>QUY ĐỊNH</h6>
                         <ul className='list-unstyled footer-list'>
-                            <li><a href="#">Quy định đăng tin</a></li>
+                            <li><Link to="/docs/quy-dinh-dang-tin-chung">Quy định đăng tin</Link></li>
                             <li><a href="#">Quy chế hoạt động</a></li>
                             <li><a href="#">Điều khoản thỏa thuận</a></li>
                             <li><a href="#">Chính sách bảo mật</a></li>

@@ -35,10 +35,10 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                         {results.map((item, index) => (
 
                             <div key={index} className="box row-cols-auto">
-                                <Link to="/404" className="view-property-link">
+                                <Link to={`/real-estate-detail/${item.id}`} className="view-property-link">
                                     <div className="top">
                                         <img
-                                            src="https://cdn.pixabay.com/photo/2014/07/10/17/18/large-home-389271__340.jpg"
+                                            src={item.images[0]?.name || ""}
                                             alt="Real estate"
                                         />
                                         <span>
