@@ -25,9 +25,14 @@ const NotificationDisplay = () => {
 
     useEffect(() => {
         if (notifications.length > 0) {
-            toast.info("Có thông báo mới:" + notifications[0]);
+            console.log("baoly" + notifications)
+            notifications.forEach(notification => {
+                if (notification.id !== currentUserId) {
+                    toast.info(`Có thông báo mới: ${notification.title}`);
+                }
+            });
         }
-    }, [notifications]);
+    }, [notifications, currentUserId]);
 
     return null;
 };

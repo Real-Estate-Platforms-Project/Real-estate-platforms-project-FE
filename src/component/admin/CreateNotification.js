@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik, Field, Form as FormikForm, ErrorMessage } from 'formik';
@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { storage } from '../../configs/ConfigFirebase';
 import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../redux/FetchUser';
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Tiêu đề là bắt buộc'),
@@ -18,6 +20,15 @@ const validationSchema = Yup.object({
 const AddNotificationModal = ({ show, onClose, onAdd }) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const user = useSelector(state => state.information.user);
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector(state => state.information.isAuthenticated);
+
+    useEffect(() => {
+        if (isAuthenticated && !user) {
+            dispatch(fetchUser());
+        }
+    }, [isAuthenticated, user, dispatch]);
 
     const handleAdd = (values) => {
         const newNotification = {
@@ -56,49 +67,49 @@ const AddNotificationModal = ({ show, onClose, onAdd }) => {
     };
 
     return (
-        <Modal show={show} onHide={onClose} className="modal-overlay">
-            <div className="modal-content">
-                <Modal.Header closeButton>
-                    <Modal.Title className="modal-title">Thêm Mới Thông Báo</Modal.Title>
+        <Modal show={show} onHide={onClose} className="custom-modal-overlay">
+            <div className="custom-modal-content">
+                <Modal.Header closeButton className="custom-modal-header">
+                    <Modal.Title className="custom-modal-title">Thêm Mới Thông Báo</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Formik
-                        initialValues={{ title: '', images: '', contend: '', employee: '' }}
+                        initialValues={{ title: '', images: '', contend: '', employee: user ? user.id : '' }}
                         validationSchema={validationSchema}
                         onSubmit={handleAdd}
                     >
                         {({ setFieldValue }) => (
-                            <FormikForm className="modal-form">
-                                <Form.Group controlId="formTitle">
-                                    <Form.Label className="modal-label">Tiêu đề</Form.Label>
+                            <FormikForm className="custom-modal-form">
+                                <Form.Group controlId="formTitle" className="custom-form-group">
+                                    <Form.Label className="custom-modal-label">Tiêu đề</Form.Label>
                                     <Field
                                         type="text"
                                         name="title"
                                         placeholder="Nhập tiêu đề"
-                                        className="form-control"
+                                        className="custom-form-control"
                                     />
                                     <ErrorMessage name="title" component="div" className="text-danger" />
                                 </Form.Group>
 
-                                <Form.Group controlId="formImages">
-                                    <Form.Label className="modal-label">Hình ảnh</Form.Label>
+                                <Form.Group controlId="formImages" className="custom-form-group">
+                                    <Form.Label className="custom-modal-label">Hình ảnh</Form.Label>
                                     <input
                                         type="file"
                                         onChange={(event) => handleFileChange(event, setFieldValue)}
-                                        className="form-control"
+                                        className="custom-form-control"
                                     />
-                                    <ErrorMessage name="image" component="div" className="text-danger" />
+                                    <ErrorMessage name="images" component="div" className="text-danger" />
                                     {selectedImage && (
-                                        <div className="image-preview-wrapper">
+                                        <div className="custom-image-preview-wrapper">
                                             <img
                                                 src={selectedImage}
                                                 alt="Preview"
-                                                className="image-preview"
+                                                className="custom-image-preview"
                                             />
                                             <Button
                                                 variant="danger"
                                                 onClick={handleRemoveImage}
-                                                className="remove-image-button"
+                                                className="custom-remove-image-button"
                                             >
                                                 Xóa
                                             </Button>
@@ -106,34 +117,23 @@ const AddNotificationModal = ({ show, onClose, onAdd }) => {
                                     )}
                                 </Form.Group>
 
-                                <Form.Group controlId="formContend">
-                                    <Form.Label className="modal-label">Mô tả</Form.Label>
+                                <Form.Group controlId="formContend" className="custom-form-group">
+                                    <Form.Label className="custom-modal-label">Mô tả</Form.Label>
                                     <Field
                                         as="textarea"
                                         name="contend"
                                         rows={3}
                                         placeholder="Nhập mô tả"
-                                        className="form-control"
+                                        className="custom-form-control"
                                     />
                                     <ErrorMessage name="contend" component="div" className="text-danger" />
                                 </Form.Group>
 
-                                <Form.Group controlId="formEmployee">
-                                    <Form.Label className="modal-label">Nhân viên</Form.Label>
-                                    <Field
-                                        type="number"
-                                        name="employee"
-                                        placeholder="Nhập ID nhân viên"
-                                        className="form-control"
-                                    />
-                                    <ErrorMessage name="employee" component="div" className="text-danger" />
-                                </Form.Group>
-
-                                <Modal.Footer className="modal-footer">
-                                    <Button variant="secondary" onClick={onClose} className="btn btn-secondary">
+                                <Modal.Footer className="custom-modal-footer">
+                                    <Button variant="secondary" onClick={onClose} className="custom-btn btn-secondary">
                                         Hủy
                                     </Button>
-                                    <Button type="submit" variant="primary" className="confirm-button">
+                                    <Button type="submit" variant="primary" className="custom-confirm-button">
                                         Thêm
                                     </Button>
                                 </Modal.Footer>

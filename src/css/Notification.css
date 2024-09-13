@@ -2,8 +2,7 @@
     padding: 20px;
 }
 
-
-.search-bar input {
+.notification-controls .search-input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -11,74 +10,55 @@
     font-size: 16px;
 }
 
-.notifications-list {
-    display: flex;
-    flex-direction: column;
+.notifications-table-container {
+    margin-top: 20px;
 }
 
-.article {
-    display: flex;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+.notifications-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.notifications-table th, .notifications-table td {
     padding: 10px;
+    border: 1px solid #ddd;
 }
 
-.article-image {
+.notification-image {
     width: 100px;
     height: 100px;
     object-fit: cover;
     margin-right: 20px;
+    transition: transform 0.3s ease;
 }
 
-.article-content {
-    flex: 1;
+.notification-image:hover {
+    transform: scale(1.1);
 }
 
-.article-title {
-    margin: 0;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.article-date {
-    color: #888;
-}
-
-.article-description {
-    margin-top: 10px;
-}
-
-.article-link {
+.notification-link {
     text-decoration: none;
     color: inherit;
 }
 
-.article-link img {
-    display: block;
-}
-
-.article-link:hover {
+.notification-link:hover {
     text-decoration: underline;
-    color: #ff5722;;
+    color: #ff5722;
 }
 
-.article-image {
-    transition: transform 0.3s ease;
-}
-
-.article-image:hover {
-    transform: scale(1.1)   ;
-}
-
-#color-button-btn {
+.add-button {
     background-color: #ff5722;
     color: white;
     width: 150px;
     height: 45px;
 }
 
-.button-orange:hover {
+.edit-button:hover, .delete-button:hover {
+    background-color: #ff5722;
+    color: white;
+}
+
+.action-buttons .edit-button, .action-buttons .delete-button {
     background-color: #ff5722;
     color: white;
 }

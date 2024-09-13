@@ -100,18 +100,18 @@ function NotificationAdmin() {
             <div>
                 <h2>Thông báo đến khách hàng</h2>
             </div>
-            <div className="d-flex align-items-center gap-2">
+            <div className="notification-controls d-flex align-items-center gap-2">
                 <input
                     type="text"
-                    className="form-control"
+                    className="search-input form-control"
                     placeholder="Tìm kiếm theo tiêu đề..."
                     value={title}
                     onChange={handleSearchChange}
                 />
-                <button onClick={openAddModal} className="btn" id="color-button-btn">Thêm Mới</button>
+                <button onClick={openAddModal} className="btn add-button">Thêm Mới</button>
             </div>
-            <div className="notifications-table">
-                <table className="table">
+            <div className="notifications-table-container">
+                <table className="notifications-table table">
                     <thead>
                     <tr>
                         <th>Hình ảnh</th>
@@ -126,10 +126,10 @@ function NotificationAdmin() {
                     {notificationsList.map((item) => (
                         <tr key={item.id}>
                             <td>
-                                <img src={item.image} alt={item.title} className="article-image"/>
+                                <img src={item.image} alt={item.title} className="notification-image"/>
                             </td>
                             <td>
-                                <Link to={`/notificationDetail/${item.id}`} className="article-link">
+                                <Link to={`/notificationDetail/${item.id}`} className="notification-link">
                                     {item.title}
                                 </Link>
                             </td>
@@ -137,9 +137,9 @@ function NotificationAdmin() {
                             <td>{item.employee ? item.employee.name : 'N/A'}</td>
                             <td>{item.contend}</td>
                             <td>
-                                <div className="d-flex gap-2">
-                                    <button className='me-2 button-orange' onClick={() => handleEdit(item.id)}>Sửa</button>
-                                    <button className='me-2 button-orange' onClick={() => openDeleteModal(item.id)}>Xóa</button>
+                                <div className="action-buttons d-flex gap-2">
+                                    <button className='me-2 edit-button' onClick={() => handleEdit(item.id)}>Sửa</button>
+                                    <button className='me-2 delete-button' onClick={() => openDeleteModal(item.id)}>Xóa</button>
                                 </div>
                             </td>
                         </tr>
