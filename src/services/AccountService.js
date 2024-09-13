@@ -18,18 +18,9 @@ export const checkDateToChangePassword = async (email) => {
 export const checkIsDeleted = async (email) => {
     try {
         const res = await axios.get(`${URL_BASE}/checkIsDeleted/${email}`);
-        let isTrue = res.data;
-        if (isTrue) {
-            alert(isTrue+"/service");
-            return true;
-        } else if(!isTrue) {
-            alert(isTrue+"/dknasdkj");
-            return false;
-        } else {
-            return "Không tồn tại";
-        }
+        return !!res.data;
     } catch (e) {
-        return "Không tồn tạiaaaaa";
+        return "Lỗi  rồi"
     }
 }
 export const UpdatePassword = async (data, token) => {
