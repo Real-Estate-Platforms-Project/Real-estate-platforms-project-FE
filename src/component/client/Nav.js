@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import Logout from "../Logout";
 
 function Nav() {
-    const isAuthenticated = useSelector((state) => state.information.isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     return (
         <div className="shadow-lg">

@@ -18,9 +18,8 @@ import Admin from "./page/layout/Admin";
 import EmployeeList from "./component/employees/EmployeeList";
 import TermsAndPolicies from "./page/client/TermsAndPolicies";
 import Forbidden from "./component/client/Forbidden";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {fetchUser} from "./redux/FetchUser";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
 import {WebSocketProvider} from './services/SocketNotification';
@@ -38,14 +37,22 @@ import ConfirmEmail from "./component/password/ConfirmEmail";
 import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
 import EstateListing from "./page/client/EstateListing";
 import ProtectedRoute from "./component/ProtectedRoute";
-
+import Loading from "./component/Loading";
+import {fetchUser} from "./redux/UserReducer";
 
 function App() {
     const dispatch = useDispatch();
+    const {status , token } = useSelector(state => state.auth);
 
     useEffect(() => {
-        dispatch(fetchUser());
-    }, [dispatch]);
+        if(token !== null) {
+            dispatch(fetchUser());
+        }
+    }, [dispatch, token]);
+
+    if(token !== null && status === 'idle') {
+        return <Loading />
+    }
 
     return (
         <BrowserRouter>
@@ -61,7 +68,7 @@ function App() {
                         <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
                         <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                         <Route element={<ProtectedRoute/>}>
-                        <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
+                            <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                         </Route>
                         <Route path="*" element={<NotFound/>}/>
                         <Route path="/" element={<LandingPage/>}/>
