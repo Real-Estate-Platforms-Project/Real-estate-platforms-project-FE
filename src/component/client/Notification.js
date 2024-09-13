@@ -26,7 +26,7 @@ function Notification() {
 
     return (
         <div className="notification-container">
-            <div className="search-bar">
+            <div className="search-bar-client">
                 <input
                     type="text"
                     placeholder="Tìm kiếm theo tiêu đề..."
@@ -34,20 +34,20 @@ function Notification() {
                     onChange={handleSearchChange}
                 />
             </div>
-            <div className="notifications-list">
+            <div className="notifications-list-client">
                 {notification.map((item) => (
-                    <div key={item.id} className="article">
-                        <Link to={`/notificationDetail/${item.id}`} className="article-link">
-                            <img src={item.image} alt={item.title} className="article-image"/>
+                    <div key={item.id} className="article-client">
+                        <Link to={`/notificationDetail/${item.id}`} className="article-link-client">
+                            <img src={item.image} alt={item.title} className="article-image-client"/>
                         </Link>
                         <div className="article-content">
-                            <Link to={`/notificationDetail/${item.id}`} className="article-link">
-                                <h2 className="article-title">{item.title}</h2>
+                            <Link to={`/notificationDetail/${item.id}`} className="article-link-client">
+                                <h2 className="article-title-client">{item.title}</h2>
                             </Link>
-                            <p className="article-date">
+                            <p className="article-date-client">
                                 {item.formattedCreateNotification} · {item.employee.name}
                             </p>
-                            <p className="article-description">{item.contend}</p>
+                            <p className="article-description-client">{item.contend}</p>
                         </div>
                     </div>
                 ))}
