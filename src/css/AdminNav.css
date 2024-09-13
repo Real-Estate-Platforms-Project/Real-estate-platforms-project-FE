@@ -1,27 +1,60 @@
-.admin-dashboard {
-    background-color: #f8f9fa;
-    min-height: 100vh;
-}
-
 .sidebar {
+    background-color: #f8f9fa;
     padding: 20px;
     height: 100vh;
-    background-color: #fff7f0; /* Set the background color to #fff7f0 */
 }
 
-.sidebar-header {
-    font-size: 24px;
-    margin-bottom: 20px;
+.custom-nav {
+    list-style-type: none; /* Remove default list bullets */
+    padding: 0;
+    margin: 0;
 }
 
-.nav-link {
+.custom-nav-item {
+    margin-bottom: 15px;
+}
+
+.custom-nav-link {
+    text-decoration: none;
+    color: #333;
     font-size: 16px;
-    margin-bottom: 10px;
-    color: #000; /* Default color */
-    transition: color 0.3s ease; /* Smooth transition */
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.nav-link:hover {
-    background-color: orange; /* Change to orange on hover */
+.custom-nav-link i {
+    margin-right: 10px;
+}
+
+.custom-nav-link:hover {
+    background-color: #ff8800;
+    color: #fff;
     border-radius: 5px;
+}
+
+.custom-subnav {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.custom-subnav .custom-nav-item {
+    margin-bottom: 10px;
+}
+
+.custom-subnav .custom-nav-link {
+    font-size: 14px;
+    color: #555;
+    padding-left: 20px;
+}
+
+.custom-subnav .custom-nav-link:hover {
+    background-color: #ff8800;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.logo-container {
+    margin-top: -10px;
 }

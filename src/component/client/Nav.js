@@ -21,6 +21,9 @@ function Nav() {
                     <div className="align-items-baseline mt-2 collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0 justify-content-center flex-grow-1">
                             <li className="nav-item dropdown me-4">
+                                <Link className="nav-link dropdown-toggle text-dark" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false" to="#">
+                                    Trang chủ
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
                                       data-bs-toggle="dropdown"
                                       aria-expanded="false" to="#">

@@ -12,7 +12,7 @@ const Forbidden = () => {
     return (
         <div className="not-found">
             <div className="content">
-                <img src="/images/trang403.png" alt="403 ForBidden" className="astronaut-images"/>
+                <img src="/images/Remove-bg.ai_1725959794564.png" alt="403 ForBidden" className="astronaut-images"/>
                 <h1 className="forbidden">403</h1>
                 <p className="forbidden">Bạn không có quyền truy cập trang web này.</p>
             </div>
