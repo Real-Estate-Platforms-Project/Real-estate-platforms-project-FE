@@ -1,4 +1,4 @@
-import apiClient from "../configs/axiosConfigs";
+import apiClient from "../configs/AxiosConfigs";
 import axios from "axios";
 import {date} from "yup";
 import data from "bootstrap/js/src/dom/data";
