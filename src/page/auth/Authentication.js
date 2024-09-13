@@ -4,6 +4,7 @@ import {toast} from 'react-toastify';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import authService from '../../services/AuthService';
+import * as accountService from '../../services/AccountService';
 import {
     MDBBtn,
     MDBCheckbox,
@@ -22,6 +23,7 @@ import Logo from '../../component/Logo.js'
 import Loading from "../../component/Loading";
 import {useDispatch} from "react-redux";
 import {setToken} from "../../redux/UserReducer";
+import {checkDateToChangePassword, checkExpiryDate} from "../../services/AccountService";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -56,12 +58,25 @@ function Authentication() {
         setIsLoading(true);
         setIsLoggingIn(true);
         try {
+            let res = await accountService.checkIsDeleted(email);
+            if (res) {
+                toast.error("Tài khoản đã bị vô hiệu hóa")
+                return true
+            }
             const response = await authService.login(email, password);
+
             if (rememberMe) {
                 localStorage.setItem('token', response.data.token);
             } else {
                 sessionStorage.setItem('token', response.data.token);
             }
+
+            let checkDateToChangePassword = await accountService.checkDateToChangePassword(email);
+            if (checkDateToChangePassword) {
+                toast.error(`Tài khoản của bạn chưa thay đổi sau 30 ngày, thay đổi ngay hoặc tài khoản sẽ bị vô hiệu hóa `)
+                return true
+            }
+
             await dispatch(setToken(response.data.token));
             navigate("/");
         } catch (error) {

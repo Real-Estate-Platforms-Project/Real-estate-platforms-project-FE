@@ -1,8 +1,10 @@
-.notification-container {
+.notification-container-ky {
     padding: 20px;
 }
 
-
+.search-bar-ky {
+    height: 45px;
+}
 .search-bar input {
     width: 100%;
     padding: 10px;
@@ -11,10 +13,6 @@
     font-size: 16px;
 }
 
-.notifications-list {
-    display: flex;
-    flex-direction: column;
-}
 
 .article {
     display: flex;
