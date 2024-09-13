@@ -18,7 +18,7 @@ export const WebSocketProvider = ({ children }) => {
                 stompClient.subscribe('/topic/notifications', (notification) => {
                     const parsedMessage = JSON.parse(notification.body);
                     console.log('Notification received:', parsedMessage);
-                    setNotifications(prev => [parsedMessage, ...prev]); // Cập nhật notifications
+                    setNotifications(prev => [parsedMessage, ...prev]);
                 });
             },
             onStompError: (error) => {
