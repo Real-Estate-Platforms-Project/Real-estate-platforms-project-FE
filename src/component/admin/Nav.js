@@ -21,7 +21,7 @@ const Nav = () => {
             </Link>
             <ul className="nav flex-column">
                 <li className="nav-item">
-                    <Link className="nav-link" to={"/admin"}>
+                    <Link className="nav-link" to="/admin">
                         <i className="bi bi-speedometer2"></i> Bảng điều khiển
                     </Link>
                 </li>

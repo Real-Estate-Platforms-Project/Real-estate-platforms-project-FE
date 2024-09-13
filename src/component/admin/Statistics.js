@@ -11,7 +11,6 @@ function Statistics() {
     const [statistic, setStatistic] = useState('');
     const [statisticBy, setStatisticBy] = useState('');
     const currentYear = new Date().getFullYear();
-    // const [resultStatistics, setResultStatistics] = useState([]);
     const [monthlyStatistics, setMonthlyStatistics] = useState([]);
     const [dailyStatistics, setDailyStatistics] = useState([]);
     const getDaysInMonth = (month, year) => {
