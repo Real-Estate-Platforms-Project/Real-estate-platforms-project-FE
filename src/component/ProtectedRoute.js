@@ -1,17 +1,16 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import Loading from "./Loading";
 
 
 const ProtectedRoute = ({ requiredRoles }) => {
 
-    const { isAuthenticated, roles, status } = useSelector((state) => state.information);
+    const { isAuthenticated, roles, status } = useSelector((state) => state.auth);
     const roleNames = roles.map(role => role.name);
-    console.log("xxxxxxxxxxxxxxxx")
 
-    if (status === 'idle') {
-        return <Loading/>
-    }
+    console.log("ProtectedRoute - isAuthenticated:", isAuthenticated);
+    console.log("ProtectedRoute - roles:", roles);
+    console.log("ProtectedRoute - status:", status);
+
 
     if (!isAuthenticated) {
         return <Navigate to="/login"/>;

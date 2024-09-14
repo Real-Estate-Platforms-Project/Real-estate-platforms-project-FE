@@ -11,6 +11,7 @@
     "@lottiefiles/react-lottie-player": "^3.5.4",
     "@mui/icons-material": "^6.1.0",
     "@mui/material": "^6.1.0",
+    "@reduxjs/toolkit": "^2.2.7",
     "@stomp/stompjs": "^7.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

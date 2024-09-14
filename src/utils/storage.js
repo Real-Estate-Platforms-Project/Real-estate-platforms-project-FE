@@ -5,3 +5,4 @@ export const getToken = () => {
 export const removeToken = () => {
     return localStorage.removeItem('token');
 };
+

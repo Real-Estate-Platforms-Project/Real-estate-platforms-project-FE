@@ -9,7 +9,7 @@ const URL_BASE = "http://localhost:8080/api/auth";
 export const checkDateToChangePassword = async (email) => {
     try {
         const res = await axios.get(`${URL_BASE}/checkDateToChangePassword/${email}`);
-       return res.data;
+        return res.data;
     } catch (e) {
         return "Lỗi catch rồi"
     }
@@ -18,9 +18,9 @@ export const checkDateToChangePassword = async (email) => {
 export const checkIsDeleted = async (email) => {
     try {
         const res = await axios.get(`${URL_BASE}/checkIsDeleted/${email}`);
-        return res.data;
+        return !!res.data;
     } catch (e) {
-        return "Lỗi rồi"
+        return "Lỗi  rồi"
     }
 }
 export const UpdatePassword = async (data, token) => {
@@ -74,21 +74,11 @@ export const getAllRoles = async () => {
         }
         return [];
 
+    } catch
+        (e) {
+        console.error("Error fetching buyer data:", e);
+        return []
     }
-    catch
-        (e)
-        {
-            console.error("Error fetching buyer data:", e);
-            return []
-        }
 
 
 };
-
-
-
-
-
-
-
-

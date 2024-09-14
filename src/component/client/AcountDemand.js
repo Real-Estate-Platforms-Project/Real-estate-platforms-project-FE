@@ -2,17 +2,16 @@ import React, {useEffect, useState} from "react";
 import {Button, Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
+import {Link, useNavigate} from "react-router-dom";
 import * as demandService from "../../services/DemandService";
 import "../../css/custom.css"
-import * as accountService from "../../services/AccountService";
 import SearchBarDemand from "../search/SearchBarDemand";
 import {useLocation} from "react-router-dom";
 
-function DemandList() {
+function AccountDemand() {
     const [demands, setDemands] = useState([]);
     const [selectedDemand, setSelectedDemand] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [userRoles, setUserRoles] = useState(null);
 
     const location = useLocation();
     const [loading, setLoading] = React.useState(false);
@@ -22,20 +21,17 @@ function DemandList() {
 
 
     useEffect(() => {
-        getAllDemand()
+        getAccountDemand()
     }, [])
 
-    useEffect(() => {
-        getAllRoles()
-    }, [])
 
     useEffect(() => {
         handleSearch()
     }, [])
 
 
-    const getAllDemand = async () => {
-        let res = await demandService.getAllDemand();
+    const getAccountDemand = async () => {
+        let res = await demandService.getAccountDemand();
         setDemands(res)
     }
 
@@ -44,13 +40,7 @@ function DemandList() {
         setShowModal(true);
     };
 
-    const getAllRoles = async () => {
-        let res = await accountService.getAllRoles()
-        console.log(res)
-        setUserRoles(res)
-    }
-
-    const verifyDemand = async (demand) => {
+    const editDemand = async (demand) => {
         let isVerify = await demandService.verifyDemand(demand);
         if (isVerify) {
             demand.isVerify = true
@@ -75,7 +65,7 @@ function DemandList() {
         setLoading(true);
         setError(null);
         try {
-            const response = await demandService.searchAccountDemand(filters);
+            const response = await demandService.searchDemand(filters);
             setDemands(response);
         } catch (error) {
             console.error('Error fetching search results:', error);
@@ -87,11 +77,12 @@ function DemandList() {
     };
 
     if (!demands) {
-        return <><div className="custom-search w-75" style={{justifyContent: "center", margin: "auto"}}>
-            <SearchBarDemand onSearch={handleSearch}/>
-        </div>
+        return <>
+            <div className="custom-search w-75" style={{justifyContent: "center", margin: "auto"}}>
+                <SearchBarDemand onSearch={handleSearch}/>
+            </div>
             <h3 className="text-center">Không có nhu cầu</h3>
-            </>
+        </>
     }
     return (
         <div className="container m-auto mt-5 p-3 justify-content-center row">
@@ -121,18 +112,17 @@ function DemandList() {
                                 className="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
-
-                        {(userRoles.includes("ROLE_ADMIN") || userRoles.includes("ROLE_EMPLOYEE")) ?
-                            <div className="d-flex justify-content-end mt-3">
-                                <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>Xoá
-                                    nhu cầu
-                                </button>
-                                {item.isVerify ? "" :
-                                    <button className="btn btn-primary btn-sm text-white pr-3"
-                                            onClick={() => verifyDemand(item)}>Duyệt nhu
-                                        cầu</button>}
-                            </div> : ""
-                        }
+                        {!item.isVerify? <h6 className="card-subtitle mb-3 text-muted text-warning" style={{fontStyle:"italic"}}>Nhu cầu đang chờ phê duyệt</h6>:""}
+                        <div className="d-flex justify-content-end mt-3">
+                            <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>
+                                Xoá nhu cầu
+                            </button>
+                            <Link to={`/edit/${item.id}`}>
+                            <button className="btn btn-primary btn-sm text-white pr-3">
+                                Chỉnh sửa nhu cầu
+                            </button>
+                            </Link>
+                        </div>
                     </div>
                 </div>)
             }
@@ -155,4 +145,4 @@ function DemandList() {
     )
 }
 
-    export default DemandList;
+export default AccountDemand;
