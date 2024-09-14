@@ -42,7 +42,7 @@
 
 .userList {
     top: 120%;
-    left: 0;
+    right: 0;
     opacity: 0;
     visibility: hidden;
     width: 230px;
@@ -60,4 +60,8 @@
     opacity: 1;
     visibility: visible;
     top:100%
+}
+
+.loginBtn {
+    background-color: #FC650B;
 }

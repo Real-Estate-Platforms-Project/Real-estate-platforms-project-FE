@@ -28,9 +28,8 @@ function Nav() {
                     <div className="align-items-baseline mt-2 collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0 justify-content-center flex-grow-1">
                             <li className="nav-item dropdown me-4">
-                                <Link className="nav-link dropdown-toggle text-dark" role="button"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false" to="#">
+                                <Link className="nav-link text-dark" role="button"
+                                      aria-expanded="false" to="/">
                                     Trang chủ
                                 </Link>
                             </li>
@@ -65,11 +64,11 @@ function Nav() {
                             </li>
                         </ul>
                         <Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>
-                        {isSeller && (<Link className='me-2 button-orange' to='sellernet/dang-tin'><span
+                        {isSeller && (<Link className='me-2 button-orange me-5' to='sellernet/dang-tin'><span
                             className='fw-bold'>Đăng tin</span></Link>)}
 
                         {!isAuthenticated && (
-                            <Link className='button-black' to='/login'>
+                            <Link className={`btn ${styles.loginBtn}`} to='/login'>
                                 <span className='fw-bold'>Đăng nhập</span>
                             </Link>
                         )}
