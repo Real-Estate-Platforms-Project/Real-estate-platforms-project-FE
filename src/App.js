@@ -37,8 +37,12 @@ import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
 import SellerList from "./component/customer/SellerList";
 import EstateListing from "./page/client/EstateListing";
 import ProtectedRoute from "./component/ProtectedRoute";
+
+import EditDemand from "./page/client/EditDemand";
+import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
+
 
 function App() {
     const dispatch = useDispatch();
@@ -50,55 +54,56 @@ function App() {
         }
     }, [dispatch, token]);
 
-    if (token !== null && status === 'idle') {
-        return <Loading/>
-    }
-
     return (
         <BrowserRouter>
             <WebSocketProvider>
                 <NotificationDisplay/>
-                <Routes>
-                    <Route path="/confirm-email" element={<ConfirmEmail/>}/>
-                    <Route path="/login" element={<Authentication/>}/>
-                    <Route path="/activation-success" element={<ActivationSuccess/>}/>
-                    <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
-                    <Route path="/" element={<Client/>}>
-                        <Route element={<ProtectedRoute
-                            requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_BUYER', 'ROLE_SELLER']}/>}>
-                            <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
-                            <Route path="/update-password" element={<UpdatePassWord/>}/>
-                        </Route>
-                        <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
-                            <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
-                        </Route>
-                        <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
-                        <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
-                        <Route path="*" element={<NotFound/>}/>
-                        <Route path="/" element={<Home/>}/>
-                        <Route path="/docs/quy-dinh-dang-tin-chung" element={<PostingRegulations/>}/>
-                        <Route path="/notification" element={<Notification/>}/>
-                        <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
-                        <Route path="/403" element={<Forbidden/>}/>
-                        <Route path="/estate-list" element={<EstateListing/>}/>
-                        <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
-                        <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
-                    </Route>
-
-                    <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
-                        <Route path="/admin" element={<Admin/>}>
-                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
-                                <Route path={"/admin/employee"} element={<EmployeeList/>}/>
+                {
+                    token !== null && status === 'idle' ? <Loading/> :
+                        <Routes>
+                            <Route path="/confirm-email" element={<ConfirmEmail/>}/>
+                            <Route path="/login" element={<Authentication/>}/>
+                            <Route path="/activation-success" element={<ActivationSuccess/>}/>
+                            <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
+                            <Route path="/" element={<Client/>}>
+                                <Route element={<ProtectedRoute
+                                    requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_BUYER', 'ROLE_SELLER']}/>}>
+                                    <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
+                                    <Route path="/update-password" element={<UpdatePassWord/>}/>
+                                </Route>
+                                <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
+                                    <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
+                                </Route>
+                                <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
+                                <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
+                                <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
+                                <Route path="*" element={<NotFound/>}/>
+                                <Route path="/" element={<Home/>}/>
+                                <Route path="/docs/quy-dinh-dang-tin-chung" element={<PostingRegulations/>}/>
+                                <Route path="/notification" element={<Notification/>}/>
+                                <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
+                                <Route path="/403" element={<Forbidden/>}/>
+                                <Route path="/estate-list" element={<EstateListing/>}/>
+                                <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
+                                <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                             </Route>
-                            <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
-                            <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
-                            <Route path={"/admin/buyers"} element={<BuyerList/>}/>
-                            <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
-                            <Route path="/admin/statistics" element={<Statistics/>}/>
-                            <Route path="/admin/sellers" element={<SellerList/>}/>
-                        </Route>
-                    </Route>
-                </Routes>
+
+                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                                <Route path="/admin" element={<Admin/>}>
+                                    <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
+                                        <Route path={"/admin/employee"} element={<EmployeeList/>}/>
+                                    </Route>
+                                    <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
+                                    <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
+                                    <Route path={"/admin/buyers"} element={<BuyerList/>}/>
+                                    <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
+                                    <Route path="/admin/statistics" element={<Statistics/>}/>
+                                    <Route path="/admin/sellers" element={<SellerList/>}/>
+                                </Route>
+                            </Route>
+                        </Routes>
+
+                }
                 <ToastContainer/>
             </WebSocketProvider>
 
