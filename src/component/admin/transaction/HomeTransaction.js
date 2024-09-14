@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import * as transactionService from "..//..//..//services/TransactionService";
-import { Link } from 'react-router-dom'; 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Button,
-    Paper,
-    Menu,
-    MenuItem,
-    IconButton
-} from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import * as transactionService from "../../../services/TransactionService";
+import { Button, TableRow, TableCell } from "@mui/material";
 import swal from "sweetalert2";
+import '..//..//..//css/Transaction.css'
+import { Link } from 'react-router-dom';
 
 
 function HomeTransaction() {
     const [transactions, setTransactions] = useState([]);
-    const [anchorEl, setAnchorEl] = useState(null);  // Menu anchor
-    const [selectedTransaction, setSelectedTransaction] = useState(null); // Selected transaction
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -31,16 +17,6 @@ function HomeTransaction() {
 
         fetchTransactions();
     }, []);
-
-    const handleMenuOpen = (event, transaction) => {
-        setAnchorEl(event.currentTarget);  // Set the anchor for the menu
-        setSelectedTransaction(transaction);  // Save the selected transaction
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);  // Close the menu
-        setSelectedTransaction(null);  // Clear the selected transaction
-    };
 
     const handleDelete = async (id) => {
         const swalWithBootstrapButtons = swal.mixin({
@@ -65,102 +41,118 @@ function HomeTransaction() {
                 if (isDeleted) {
                     swalWithBootstrapButtons.fire(
                         "Đã xóa!",
-                        "Sản phẩm của bạn đã được xóa.",
+                        "Giao dịch của bạn đã được xóa.",
                         "success"
                     );
-                    setTransactions(transactions.filter(product => product.id !== id));
+                    setTransactions(transactions.filter(transaction => transaction.id !== id));
                 } else {
                     swalWithBootstrapButtons.fire(
                         "Lỗi",
-                        "Xóa sản phẩm không thành công.",
+                        "Xóa giao dịch không thành công.",
                         "error"
                     );
                 }
             } else if (result.dismiss === swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
                     "Đã hủy",
-                    "Sản phẩm của bạn vẫn an toàn :)",
+                    "Giao dịch của bạn vẫn an toàn :)",
                     "error"
                 );
             }
         });
     };
 
-
     const handleEdit = (transaction) => {
         console.log("Sửa giao dịch:", transaction);
-        handleMenuClose();
-    };
-
-    const handleViewDetails = (transaction) => {
-        console.log("Xem chi tiết giao dịch:", transaction);
-        handleMenuClose();
     };
 
     return (
-        <div className="col-md-10">
+        <div className="table-transaction">
+            <h3 className="transaction-heading">Danh Sách Giao Dịch Bất Động Sản</h3>
             <div>
-                <h2>Quản lý giao dịch</h2>
                 <Link to="/admin/homeTransactions/create" className="btn btn-success mb-3">Thêm mới</Link>
+            </div>
 
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Mã giao dịch</TableCell>
-                                <TableCell>Mã nhân viên</TableCell>
-                                <TableCell>Bên mua</TableCell>
-                                <TableCell>Bên bán</TableCell>
-                                <TableCell>Mã BĐS</TableCell>
-                                <TableCell>Số tiền</TableCell>
-                                <TableCell>Ngày giao dịch</TableCell>
-                                <TableCell>Tỷ lệ hoa hồng</TableCell>
-                                <TableCell>Thao tác</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {Array.isArray(transactions) && transactions.length > 0 ? (
-                                transactions.map((transaction) => (
-                                    <TableRow key={transaction.id}>
-                                        <TableCell>{transaction.code}</TableCell>
-                                        <TableCell>{transaction.employee}</TableCell>
-                                        <TableCell>{transaction.buyer}</TableCell>
-                                        <TableCell>{transaction.seller}</TableCell>
-                                        <TableCell>{transaction.realEstate}</TableCell>
-                                        <TableCell>{transaction.amount}</TableCell>
-                                        <TableCell>{transaction.createAt}</TableCell>
-                                        <TableCell>{transaction.commissionFee}</TableCell>
-                                        <TableCell>
-                                            <IconButton onClick={(event) => handleMenuOpen(event, transaction)}>
-                                                <MoreVertIcon />
-                                            </IconButton>
+            <div className="search-bar-client">
+                <input
+                    type="text"
+                    placeholder="Tìm kiếm theo tiêu đề..."
+                />
+                <button className="btn btn-outline-info btn-sm">
+                    <i className="bi bi-search"></i>
+                </button>
+            </div>
 
-                                            <Menu
-                                                anchorEl={anchorEl}
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleMenuClose}
-                                            >
-                                                <MenuItem onClick={() => handleViewDetails(selectedTransaction)}>
-                                                    Xem chi tiết
-                                                </MenuItem>
-                                                <MenuItem onClick={() => handleEdit(selectedTransaction)}>
-                                                    Sửa
-                                                </MenuItem>
-                                                <MenuItem onClick={() => handleDelete(selectedTransaction.id)}>
-                                                    Xóa
-                                                </MenuItem>
-                                            </Menu>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={9}>Không có dữ liệu</TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+            <table className="table table-hover table-bordered transaction">
+
+                <thead className="thead-transaction">
+
+                <tr>
+                    <th>STT</th>
+                    <th>Mã giao dịch</th>
+                    <th>Mã Nhân Viên</th>
+                    <th>Bên Mua</th>
+                    <th>Bên Bán</th>
+                    <th>Mã BĐS</th>
+                    <th>Số Tiền</th>
+                    <th>Ngày Giao Dịch</th>
+                    <th>Tỷ Lệ Hoa Hồng</th>
+                    <th>Thao Tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                {transactions.length > 0 ? (
+                    transactions.map((transaction, index) => (
+                        <TableRow key={transaction.id}>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{transaction.code}</TableCell>
+                            <TableCell>{transaction.employee}</TableCell>
+                            <TableCell>{transaction.buyer}</TableCell>
+                            <TableCell>{transaction.seller}</TableCell>
+                            <TableCell>{transaction.realEstate}</TableCell>
+                            <TableCell>{transaction.amount}</TableCell>
+                            <TableCell>{transaction.createAt}</TableCell>
+                            <TableCell>{transaction.commissionFee}</TableCell>
+                            <TableCell>
+                                <Button
+                                    className="btn btn-info btn-sm me-2"
+                                    onClick={() => handleEdit(transaction)}
+                                >
+                                    Sửa
+                                </Button>
+                                <Button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => handleDelete(transaction.id)}
+                                >
+                                    Xoá
+                                </Button>
+
+                                <Button
+                                    className="btn btn-warning btn-sm"
+                                    onClick={() => handleDelete(transaction.id)}
+                                >
+                                    xem chi tiết
+                                </Button>
+                            </TableCell>
+
+
+                        </TableRow>
+                    ))
+                ) : (
+                    <TableRow>
+                        <TableCell colSpan={9}>Không có dữ liệu</TableCell>
+                    </TableRow>
+
+                )}
+                </tbody>
+            </table>
+            <div className="text-center mt-3">
+
+                <Button className="btn btn-success btn-sm">
+                    <i className="bi bi-arrow-bar-down"></i>
+                    XEM THÊM
+                    <i className="bi bi-arrow-bar-down"></i>
+                </Button>
             </div>
         </div>
     );
