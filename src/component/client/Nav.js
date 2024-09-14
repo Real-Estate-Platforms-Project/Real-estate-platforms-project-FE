@@ -4,11 +4,13 @@ import {Link} from "react-router-dom";
 import ListingMenu from "../ListingMenu";
 import {useSelector} from "react-redux";
 import Logout from "../Logout";
+import styles from "../../css/NavClient.module.css"
 
 function Nav() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const roles = useSelector((state) => state.auth.roles);
-    const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' ||role.name === 'ROLE_EMPLOYEE')
+    const user = useSelector((state) => state.auth.user);
+    const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' || role.name === 'ROLE_EMPLOYEE')
     console.log(isSeller)
 
 
@@ -29,10 +31,10 @@ function Nav() {
                                       data-bs-toggle="dropdown"
                                       aria-expanded="false" to="#">
                                     Trang chủ
-                                    <ul className="dropdown-menu">
-                                        <MegaMenu/>
-                                    </ul>
                                 </Link>
+                                <ul className="dropdown-menu">
+                                    <MegaMenu/>
+                                </ul>
                             </li>
                             <li className="nav-item dropdown me-4">
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
@@ -62,21 +64,49 @@ function Nav() {
                                     tức</Link>
                             </li>
                         </ul>
-                        <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
-                        {isSeller && (<Link className='me-2 button-orange' to='sellernet/dang-tin'><span
-                            className='fw-bold'>Đăng tin</span></Link>)}
-
                         {!isAuthenticated && (
                             <Link className='button-black' to='/login'>
                                 <span className='fw-bold'>Đăng nhập</span>
                             </Link>
                         )}
+
                         {isAuthenticated && (
-                            <Link className='me-2 button-orange' to='update-password'><span className='fw-bold'>Đổi mật khẩu</span></Link>
+                            <>
+                                <div className={`position-relative me-4 ${styles.user}`}>
+                                    <div className={`d-flex ${styles.headerUser}`}>
+                                        <p className={`me-3 fw-bold`}>{user.name}</p>
+                                        <i className="fa-solid fa-user fs-4"></i>
+                                    </div>
+                                    <div className={`position-absolute shadow rounded-3 ${styles.userList}`}>
+                                        <h6 className={`text-center mt-4 fw-bold`}>{user.name}</h6>
+                                        <hr/>
+                                        <ul className="list-unstyled mx-auto mt-3 w-75">
+                                            <li>
+                                                <Link to="#" className={styles.link}>
+                                                    <i className="fa-solid fa-user-gear"></i>
+                                                    <span>Thông tin cá nhân</span>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to="#" className={styles.link}>
+                                                    <i className="fa-solid fa-clock-rotate-left"></i>
+                                                    <span>Lịch sử giao dịch</span>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to={'update-password'} className={styles.link}>
+                                                    <i className="fa-solid fa-key"></i>
+                                                    <span>Đổi mật khẩu</span>
+                                                </Link>
+                                            </li>
+                                            <Logout/>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </>
                         )}
-                        {isAuthenticated && (
-                            <Logout/>
-                        )}
+                        {isSeller && (<Link className='button-orange' to='sellernet/dang-tin'><span
+                            className='fw-bold'>Đăng tin</span></Link>)}
                     </div>
                 </div>
             </nav>
