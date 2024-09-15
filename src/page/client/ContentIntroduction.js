@@ -1,5 +1,3 @@
-
-
 function ContentIntroduction() {
     return (
         <div className="container-sm text-center my-5 d-flex content-box-introduction">
