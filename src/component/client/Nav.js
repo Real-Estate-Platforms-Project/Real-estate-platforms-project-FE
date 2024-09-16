@@ -16,7 +16,7 @@ function Nav() {
 
 
     return (
-        <div>
+        <div className="shadow-lg">
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid">
                     <Link className="navbar-brand" to='/'><Logo width={'128px'}/></Link>
