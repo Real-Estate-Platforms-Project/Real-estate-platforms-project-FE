@@ -1,7 +1,6 @@
 import {Link} from "react-router-dom";
 import {Field, ErrorMessage} from "formik";
 import Select from "react-select";
-import {forEach} from "react-bootstrap/ElementChildren";
 
 const RealEstateForm = ({
                             formik,
@@ -48,6 +47,12 @@ const RealEstateForm = ({
             <div className="mt-3">
                 <label htmlFor="customerCode" className="form-label">Mã khách hàng</label>
                 <Field type="text" className="form-control" id="customerCode" value={seller.code || ''} disabled/>
+            </div>
+            <div className="mt-3">
+                <label htmlFor="title" className="form-label">Tiêu đề <span className="text-danger">*</span></label>
+                <Field type="text" name="title" id="title" className="form-control"
+                       placeholder="Nhà cho thuê khu Thảo Điền quận 2 siêu hot"/>
+                <ErrorMessage name="title" component="div" className="text-danger"/>
             </div>
             <div className="mt-4 d-flex">
                 <label className="form-label me-3 m-0">Loại bất động sản: </label>
@@ -180,19 +185,21 @@ const RealEstateForm = ({
                 <div className="mt-4">
                     <div className="row">
                         <div className="col">
-                            <label htmlFor="floor" className="form-label">Số tầng</label>
+                            <label htmlFor="floor" className="form-label">Số tầng <span className="text-danger">*</span></label>
                             <Field type="number" name="floor" id="floor" className="form-control" placeholder="VD: 2"/>
                             <ErrorMessage name="floor" component="div" className="text-danger"/>
                         </div>
                         <div className="col">
-                            <label htmlFor="toilet" className="form-label">Số phòng vệ sinh</label>
+                            <label htmlFor="toilet" className="form-label">Số phòng vệ sinh <span
+                                className="text-danger">*</span></label>
                             <Field type="number" name="toilet" id="toilet" className="form-control"
                                    placeholder="VD: 3"/>
                             <ErrorMessage name="toilet" component="div" className="text-danger"/>
                         </div>
                     </div>
                     <div className="mt-3">
-                        <label htmlFor="bedroom" className="form-label">Số phòng ngủ</label>
+                        <label htmlFor="bedroom" className="form-label">Số phòng ngủ <span
+                            className="text-danger">*</span></label>
                         <Field type="number" name="bedroom" id="bedroom" className="form-control" placeholder="VD: 4"/>
                         <ErrorMessage name="bedroom" component="div" className="text-danger"/>
                     </div>
@@ -223,7 +230,7 @@ const RealEstateForm = ({
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white mt-2">
             <h4 className="fw-bold">Thông tin liên hệ</h4>
             <div className="row mt-4">
-            <div className="col-6 ">
+                <div className="col-6 ">
                     <label htmlFor="name" className="form-label">Tên liên hệ</label>
                     <Field name="name" id="name" className="form-control" value={seller.name || ''}/>
                 </div>
