@@ -50,12 +50,12 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
                     return true;
                 }
 
-                const passwordCheck = await accountService.checkDateToChangePassword(values.email);
+                const passwordCheck = await accountService.checkDateToChangePassword();
                 if (passwordCheck) {
                     let expiryDate= await accountService.getExpiryDate();
                     let expiryDateConvert= moment(expiryDate).format('DD-MM-YYYY');
-                    toast.error(`Tài khoản của bạn chưa thay đổi sau 30 ngày, thay đổi ngay hoặc tài khoản sẽ bị vô hiệu hóa `)
-                    toast.error(`Hạn chót thay đổi : ${expiryDateConvert}`)
+                    toast.error(`Tài khoản của bạn chưa thay đổi sau 30 ngày, thay đổi hoặc tài khoản sẽ bị vô hiệu hóa `)
+                    toast.error(`Hạn cuối thay đổi : ${expiryDateConvert}`)
                 }
 
                 dispatch(setToken(response.data.token));
