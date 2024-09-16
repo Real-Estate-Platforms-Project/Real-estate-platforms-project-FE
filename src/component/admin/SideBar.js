@@ -63,7 +63,7 @@ const SideBar = () => {
                 </li>
                 <li className="custom-nav-item">
                     <Link className="custom-nav-link" to="/admin/danh-sach-nhu-cau">
-                        <i className="bi bi-building"></i> Danh sách nhu    
+                        <i className="bi bi-building"></i> Danh sách nhu cầu
                     </Link>
                 </li>
                 <li className="custom-nav-item">
