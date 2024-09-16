@@ -1,0 +1,93 @@
+.headerUser{
+    color: #FC650B;
+}
+
+.notification {
+    color: #FC650B;
+    cursor: pointer;
+}
+
+.notification:hover {
+    background-color: #e8e8e8;
+}
+
+.user {
+    top: 8px;
+}
+
+.user li {
+    cursor: pointer;
+}
+
+.logout, .logout i {
+    color: #cc0303 !important;
+}
+
+.logout:hover {
+    opacity: 0.8;
+}
+
+.userList ul li i {
+    width: 20px;
+    margin-right: 14px;
+}
+
+.link, .logout {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.link:hover {
+    background-color: #dfdfdf;
+    border-radius: 4px;
+    color: #FC650B;
+}
+
+.logout:hover {
+    background-color: #dfdfdf;
+    border-radius: 4px;
+}
+
+.userList {
+    top: 120%;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+    width: 230px;
+    background-color: #f8f8f8;
+    z-index: 1000;
+    transition: 0.3s;
+}
+
+.userList h6 {
+    color: #FC650B;
+}
+
+.user:hover .userList {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    top:100%
+}
+
+.loginBtn {
+    background-color: #FC650B;
+    border-radius: 8px;
+    color: #fff;
+    padding: 7px 14px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.loginBtn:hover {
+    background-color: #ff7f34;
+    color: #ffffff;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(2px);
+}

@@ -1,0 +1,65 @@
+
+.activeTab {
+    color: #FC650B !important;
+    border-color: #FC650B !important ;
+}
+
+.showTab {
+    color: #FC650B;
+    border-color: #FC650B;
+}
+
+.btnCustomWarning {
+    background-color: #FC650B !important;
+    border-color: #FC650B !important;
+    color: #fff !important;
+}
+
+.btnCustomWarning:hover {
+    background-color: #e85d00 !important;
+    border-color: #e85d00 !important;
+}
+
+.primary {
+    color: #FC650B;
+}
+
+.bgPrimaryCustom {
+    background-color: #FC650B !important;
+    color: #fff !important;
+}
+
+.formContainer {
+    min-width: 380px;
+}
+
+.formInputLogin {
+    border-radius: 6px !important;
+    border: 1px solid #ccc !important;
+    height: 46px !important;
+}
+
+.formInputLogin:focus {
+    border-color: #FC650B !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px rgba(252, 101, 11, 1) !important;
+}
+
+.formInputRegister {
+    width: 100% !important;
+    border-radius: 6px !important;
+    border: 1px solid #ccc !important;
+}
+
+.formInputRegister:focus {
+    border-color: #FC650B !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px rgba(252, 101, 11, 1) !important;
+}
+
+.showPasswordInput {
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+}
