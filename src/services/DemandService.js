@@ -78,6 +78,7 @@ export const searchAccountDemand = async (filters) => {
 
         // Tạo query string từ các tham số đã lọc
         const params = new URLSearchParams(filteredFilters).toString();
+        console.log(params)
         if(token != null) {
             const response = await axios.get(`${URL_DEMAND}/account/search?${params}`, {
                 headers: {

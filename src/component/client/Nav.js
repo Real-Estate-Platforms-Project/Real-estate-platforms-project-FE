@@ -45,7 +45,6 @@ function Nav() {
                                     <ListingMenu/>
                                 </ul>
                             </li>
-
                             <li className="nav-item dropdown me-4">
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
                                       data-bs-toggle="dropdown"
