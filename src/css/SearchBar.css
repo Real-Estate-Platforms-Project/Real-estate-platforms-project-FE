@@ -84,17 +84,8 @@
         position: relative;
         flex: 1; /* Các ô chọn chiếm diện tích đồng đều */
         display: flex;
-
-
-    }
-    .option:hover,
-    .option.active {
-        border: 1px solid black;
-        border-radius: 4px;
     }
     .option .arrow {
-        display: flex;
-        align-items: center; /* Để mũi tên và chữ thẳng hàng */
         justify-content: space-between; /* Tạo khoảng cách đều giữa chữ và mũi tên */
         padding: 10px 15px ; /* Điều chỉnh khoảng cách xung quanh */
         width: 100%; /* Điều chỉnh độ rộng theo ý muốn */
@@ -114,11 +105,9 @@
 
     .dropdown {
         position: absolute;
-        top: 38px;
+        top: 42px;
         left: 0;
         background: white;
-        border: 1px solid #ccc;
-        border-radius: 4px;
         padding: 10px;
         display: flex;
         flex-direction: column;
@@ -127,9 +116,6 @@
         width: 100%;
     }
 
-    .arrow {
-        margin-left: 5px;
-    }
 
     .range {
         display: flex;
