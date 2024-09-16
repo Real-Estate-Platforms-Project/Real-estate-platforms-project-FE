@@ -2,6 +2,7 @@ import apiClient from "../configs/AxiosConfigs";
 import axios from "axios";
 import {date} from "yup";
 import data from "bootstrap/js/src/dom/data";
+import {getToken} from "../utils/storage";
 
 
 const URL_BASE = "http://localhost:8080/api/auth";
@@ -71,7 +72,7 @@ export const UpdateForgetPassword = async (data, token) => {
 export const getAllRoles = async () => {
     try {
 
-        const token = localStorage.getItem("token");
+        const token = getToken();
         if (token != null) {
             const res = await axios.get(`http://localhost:8080/api/auth/get-roles`, {
                 headers: {
