@@ -93,7 +93,7 @@ function Nav() {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to={'update-password'} className={styles.link}>
+                                                <Link to='update-password' className={styles.link}>
                                                     <i className="fa-solid fa-key"></i>
                                                     <span>Đổi mật khẩu</span>
                                                 </Link>

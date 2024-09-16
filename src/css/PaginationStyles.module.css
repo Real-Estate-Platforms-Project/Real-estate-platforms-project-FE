@@ -1,0 +1,71 @@
+/* PaginationStyles.module.css */
+.paginationCustom {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 20px;
+}
+
+.pageItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px; /* Điều chỉnh kích thước để chứa chữ dài hơn */
+    height: 45px; /* Đảm bảo kích thước bằng nhau để tròn */
+    border: 2px solid #e0e0e0; /* Màu viền nhẹ nhàng */
+    border-radius: 50%; /* Tạo nút tròn */
+    font-weight: bold;
+    color: #b0b0b0; /* Màu chữ mặc định */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px; /* Kích thước chữ phù hợp */
+}
+
+.pageItemActive {
+    background-color: #ff6b35;
+    color: white;
+    border: none; /* Xóa viền khi nút được chọn */
+}
+
+.pageItemDisabled {
+    opacity: 0.5; /* Giảm độ sáng khi nút bị disable */
+    pointer-events: none; /* Không cho phép click vào nút bị disable */
+}
+
+.searchContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.searchInput {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.searchInput:focus {
+    border-color: #ff6b35;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 107, 53, 0.25);
+}
+
+.searchButton {
+    padding: 10px 20px;
+    background-color: #ff6b35;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.searchButton:hover {
+    background-color: #e65b30;
+}
