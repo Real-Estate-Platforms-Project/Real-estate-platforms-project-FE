@@ -14,9 +14,8 @@ function Nav() {
     const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' || role.name === 'ROLE_EMPLOYEE')
     console.log(isAuthenticated)
 
-
     return (
-        <div>
+        <div className="shadow-lg">
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid">
                     <Link className="navbar-brand" to='/'><Logo width={'128px'}/></Link>
@@ -94,7 +93,7 @@ function Nav() {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to={'update-password'} className={styles.link}>
+                                                <Link to='update-password' className={styles.link}>
                                                     <i className="fa-solid fa-key"></i>
                                                     <span>Đổi mật khẩu</span>
                                                 </Link>

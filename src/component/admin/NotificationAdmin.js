@@ -78,6 +78,7 @@ function NotificationAdmin() {
 
     const handleAddNotification = async (newNotification) => {
         try {
+            console.log(newNotification)
             await notificationService.addNotification(newNotification);
             getNotifications(title);
             toast.success("Thêm thông báo thành công!");
