@@ -34,29 +34,26 @@ function GetAndConfirmEmail() {
 
 
     return (
-        <div className="m-auto mb-10 w-25 border-bottom">
-            <Link to="/" className="d-flex justify-content-center mt-5">
-                <Logo width="200px"/>.
-            </Link>
+        <div className="m-auto mt-5 mb-10 w-25 border-bottom">
+            {/*<Link to="/" className="d-flex justify-content-center mt-5">*/}
+            {/*    <Logo width="200px"/>.*/}
+            {/*</Link>*/}
             <Formik initialValues={{email: ''}}
                     validationSchema={validationSchema}
 
                     onSubmit={onSubmit}>
                 <Form>
-                    <div className="shadow p-2 mt-2 rounded ">
-                        <div className="mt-2  border-bottom"><h5>Tìm tài khoản của bạn</h5></div>
+                    <div className="shadow p-4 mt-2 rounded ">
+                        <div className="mt-2 border-bottom"><h5>Tìm tài khoản của bạn</h5></div>
                         <div className="mt-2">
                             <p>Vui lòng nhập email để chúng tôi tìm kiếm tài khoản của bạn.</p>
                         </div>
                         <div className="mt-2">
-
                             <div className="mt-3">
-
                                 <Field type="email" className="form-control " name="email"
                                        placeholder="VD : abc@gmail.com"/>
                                 <ErrorMessage className="text-danger" name="email" component="b"/>
                             </div>
-
                             <div className="mt-2 border-top d-flex justify-content-end">
                                 <div className="mt-2 me-1"><a href="/login"
                                                               className="btn btn-outline-warning">Hủy</a></div>
