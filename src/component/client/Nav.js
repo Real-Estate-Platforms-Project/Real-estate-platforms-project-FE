@@ -11,9 +11,7 @@ function Nav() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const roles = useSelector((state) => state.auth.roles);
     const user = useSelector((state) => state.auth.user);
-    const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' || role.name === 'ROLE_EMPLOYEE')
-    console.log(isAuthenticated)
-
+    const isSeller = roles.some(role => ['ROLE_SELLER', 'ROLE_ADMIN', 'ROLE_EMPLOYEE'].includes(role.name));
 
     return (
         <div>
@@ -70,21 +68,23 @@ function Nav() {
                             <Link className={`${styles.loginBtn}`} to='/login'>
                                 <span className='fw-bold'>Đăng nhập</span>
                             </Link>
+
                         )}
-                        <div className={`d-flex ms-3 p-2 rounded-3 ${styles.notification}`}>
-                            <i className="fa-solid fa-bell fs-4"></i>
-                        </div>
+
                         {isAuthenticated && (
                             <>
-                                <div className={`position-relative ms-5 me-4 ${styles.user}`}>
+                                <div className={`d-flex ms-3 p-2 rounded-3 ${styles.notification}`}>
+                                    <i className="fa-solid fa-bell fs-4"></i>
+                                </div>
+                                <div className={`position-relative ms-5 ${styles.user}`}>
                                     <div className={`d-flex ${styles.headerUser}`}>
-                                        <p className={`me-3 fw-bold`}>{user.name}</p>
+                                        <p className={`me-2 fw-bold`}>{user.name}</p>
                                         <i className="fa-solid fa-user fs-4"></i>
                                     </div>
-                                    <div className={`position-absolute shadow rounded-3 ${styles.userList}`}>
-                                        <h6 className={`text-center mt-4 fw-bold`}>{user.name}</h6>
+                                    <div className={`position-absolute shadow-sm rounded-1 p-3 ${styles.userList}`}>
+                                        <h6 className={`text-center mt-1`}>{user.email}</h6>
                                         <hr/>
-                                        <ul className="list-unstyled mx-auto mt-3 w-75">
+                                        <ul className="list-unstyled mb-0">
                                             <li>
                                                 <Link to="#" className={styles.link}>
                                                     <i className="fa-solid fa-user-gear"></i>

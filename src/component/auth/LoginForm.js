@@ -53,9 +53,15 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
                 if (passwordCheck) {
                     toast.error('Tài khoản của bạn cần thay đổi mật khẩu ngay!');
                 }
-
                 dispatch(setToken(response.data.token));
+                const roles = response.data.authorities;
+                const isAdmin = roles.some(role => ['ROLE_EMPLOYEE', 'ROLE_ADMIN'].includes(role.authority));
+                if (isAdmin) {
+                    navigate('/admin')
+                    return;
+                }
                 navigate("/");
+
             } catch (error) {
                 const errorMessage = error.response?.data;
                 toast.error(errorMessage, {
@@ -93,7 +99,8 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
                         placeholder="Nhập mật khẩu..."
                         {...formik.getFieldProps('password')}
                     />
-                    <span className={`position-absolute ${styles.showPasswordInput}`} onClick={() => setShowPassword(!showPassword)}
+                    <span className={`position-absolute ${styles.showPasswordInput}`}
+                          onClick={() => setShowPassword(!showPassword)}
                           style={{cursor: 'pointer'}}>
                             {showPassword ? (<i className="fa-solid fa-eye-slash"></i>) : (
                                 <i className="fa-solid fa-eye"></i>)}
