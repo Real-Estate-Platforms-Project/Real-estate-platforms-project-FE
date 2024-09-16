@@ -179,15 +179,18 @@ const SearchBar = ({onSearch,initialTab='Bán,Cho thuê'}) => {
                 </button>
 
             </div>
-            <div className="search-bar">
-                <input
-                    type="text"
-                    className="search-input"
-                    placeholder="🔍 Nhập địa chỉ tìm kiếm"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                />
-                <button className="search-button-inside" onClick={handleSearch}>Tìm kiếm</button>
+            <div className="search-bar d-flex my-2">
+                <div className="w-25 search-input-icon">
+                    <i className="bi bi-search"></i>
+                    <input
+                        type="text"
+                        className="search-input "
+                        placeholder="Nhập địa chỉ tìm kiếm"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                    />
+                </div>
+                <button className="search-button-inside btn btn-sm btn-black me-4" onClick={handleSearch}>Tìm kiếm</button>
             </div>
             <div className="search-options">
                 <div

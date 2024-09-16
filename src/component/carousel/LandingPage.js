@@ -2,9 +2,6 @@ import SearchBar from "../search/SearchBar";
 import React from "react";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import {Carousel} from "react-responsive-carousel";
-import CardEstate from "../client/CardEstate";
-import Statistics from "../admin/Statistics";
-import StatisticsSection from "../client/StatisticsSection";
 import {useNavigate} from "react-router-dom";
 function LandingPage() {
     const navigate = useNavigate();
@@ -15,19 +12,17 @@ function LandingPage() {
 
     };
     return (
-        <>
         <div className="custom-search">
             <div className="carousel-container">
                 <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
-
                     <div>
                         <img
-                            src="https://img4.thuthuatphanmem.vn/uploads/2020/12/26/anh-background-mau-cam-do_052540153.jpg"
+                            src="https://datdichvu.net/wp-content/uploads/2022/03/BANNER-BAT-DONG-SAN-AE-LAND1.gif"
                             alt="Slide 1"/>
                     </div>
                     <div>
                         <img
-                            src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474102HPI/anh-background-mau-cam-chat_052540049.jpg"
+                            src="https://ktmt.vnmediacdn.com/images/2022/12/28/30-1672212326-anh-2.jpg"
                             alt="Slide 2"/>
                     </div>
                 </Carousel>
@@ -37,9 +32,6 @@ function LandingPage() {
 
             </div>
         </div>
-            <StatisticsSection/>
-            <CardEstate/>
-        </>
     );
 }
 

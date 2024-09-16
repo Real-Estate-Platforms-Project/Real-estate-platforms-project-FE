@@ -1,20 +1,21 @@
-import {removeToken} from "../utils/storage";
 import {useDispatch} from "react-redux";
+import {logout} from "../redux/UserReducer";
+import {useNavigate} from "react-router-dom";
+import styles from "../css/NavClient.module.css";
 
 export default function Logout() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const handleLogout = () => {
-        removeToken();
-        dispatch({
-            type: "resetUser"
-        })
-        window.location.href='/login';
+    const handleLogout = async () => {
+        await dispatch(logout());
+        navigate("/login");
     }
 
     return (
-        <button className='button-black'>
-            <span className='fw-bold' onClick={handleLogout}>Đăng xuất</span>
-        </button>
-    )
+        <li className={styles.logout} onClick={handleLogout}>
+            <i className="fa-solid fa-right-from-bracket"></i>
+            <span>Đăng xuất</span>
+        </li>
+    );
 }

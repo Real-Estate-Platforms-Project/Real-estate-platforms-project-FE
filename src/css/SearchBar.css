@@ -4,11 +4,24 @@
     .search-bar {
         display: flex;
         flex-direction: column;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 10px;
+        background: rgb(255 255 255 / 55%);
+        padding: 20px;
         border-radius: 5px;
         position: relative;
         z-index: 10;
+        justify-content: space-between;
+    }
+
+    .search-input-icon {
+        background: white;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    .bi-search {
+        position: absolute;
+        top: 26px;
+        left: 30px;
     }
 
     .tabs {
@@ -45,12 +58,15 @@
     }
 
     .search-input {
-        width: 100%; /* Ô input chiếm toàn bộ chiều rộng của container */
-        padding: 8px 40px 8px 10px; /* Tạo không gian cho nút tìm kiếm bên trong */
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước ô input */
+        height: 35px;
+        width: 680px;
+        padding: 8px 40px 8px 10px;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        margin-left: 25px;
     }
+
     .search-bar label input{
         width: 20%!important;
 
@@ -59,27 +75,17 @@
     .search-button-inside {
         position: absolute;
         right: 10px;
-        border: none;
-        background: none;
-        cursor: pointer;
-        font-size: 16px;
+        border-radius: 5px;
+        height: 34px;
+        margin-top: 1px;
     }
 
     .option {
         position: relative;
         flex: 1; /* Các ô chọn chiếm diện tích đồng đều */
         display: flex;
-
-
-    }
-    .option:hover,
-    .option.active {
-        border: 1px solid black;
-        border-radius: 4px;
     }
     .option .arrow {
-        display: flex;
-        align-items: center; /* Để mũi tên và chữ thẳng hàng */
         justify-content: space-between; /* Tạo khoảng cách đều giữa chữ và mũi tên */
         padding: 10px 15px ; /* Điều chỉnh khoảng cách xung quanh */
         width: 100%; /* Điều chỉnh độ rộng theo ý muốn */
@@ -99,11 +105,9 @@
 
     .dropdown {
         position: absolute;
-        top: 38px;
+        top: 42px;
         left: 0;
         background: white;
-        border: 1px solid #ccc;
-        border-radius: 4px;
         padding: 10px;
         display: flex;
         flex-direction: column;
@@ -112,9 +116,6 @@
         width: 100%;
     }
 
-    .arrow {
-        margin-left: 5px;
-    }
 
     .range {
         display: flex;
@@ -129,14 +130,6 @@
     }
 
 
-    .search-button-inside {
-        padding: 10px 15px;
-        background-color: #181b18;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
 
     .filter-wrapper {
         display: flex;
@@ -270,9 +263,5 @@
     .carousel-root {
         width: 100%;
     }
-
-
-
-
 
 }

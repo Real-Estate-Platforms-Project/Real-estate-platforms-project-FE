@@ -39,7 +39,6 @@
 }
 
 .background-real-estate-detail {
-    background-image: url(https://file4.batdongsan.com.vn/resize/1275x717/2023/10/19/20231019104327-6df8_wm.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     position: absolute;
@@ -48,8 +47,67 @@
     bottom: 0;
     right: 0;
     left: 0;
+
 }
 
 .image-real-estate-detail{
+    object-fit: cover;
     backdrop-filter: blur(5px);
+
+}
+
+.active-image {
+   border: #1e1f22 solid 2px;
+    border-radius: 6px;
+}
+
+.icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.tooltip {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    width: max-content;
+    font-size: 12px;
+}
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.icon-wrapper:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.bi-heart-fill {
+    color: red;
 }

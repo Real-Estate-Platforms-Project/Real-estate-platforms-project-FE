@@ -3,6 +3,8 @@ import * as Yup from "yup";
 import {Formik, Field, ErrorMessage, Form} from "formik";
 import {toast} from "react-toastify";
 import {UpdatePassword} from "../../services/AccountService";
+import Logo from "../Logo";
+import React from "react";
 
 
 const validationSchema = Yup.object({
@@ -12,7 +14,7 @@ const validationSchema = Yup.object({
 })
 
 function UpdatePassWord() {
-    const navigate = new useNavigate();
+    const navigate = useNavigate();
     const handleSubmit = async (data) => {
         let status = await UpdatePassword(data)
         if (status) {
@@ -25,6 +27,7 @@ function UpdatePassWord() {
 
     return (
         <div className="form-update-account-real-estate py-4">
+
             <Formik initialValues={{
                 recentPassword: '',
                 newPassWord: '',
@@ -37,7 +40,10 @@ function UpdatePassWord() {
 
                 <Form>
                     <div className="shadow m-auto w-50 rounded p-4 bg-white">
-                        <h4 className="fw-bold">Cập nhật tài khoảng</h4>
+                        <Link to="/" className="d-flex justify-content-center">
+                            <Logo width="200px"/>.
+                        </Link>
+                        <h4 className="fw-bold">Cập nhật tài khoản</h4>
                         <div className="mt-3">
                             <label htmlFor="recentPassWord" className="form-label">Mật khẩu hiện tại <span
                                 className="text-danger">*</span></label>

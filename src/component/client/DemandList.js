@@ -46,6 +46,7 @@ function DemandList() {
 
     const getAllRoles = async () => {
         let res = await accountService.getAllRoles()
+        console.log(res)
         setUserRoles(res)
     }
 
@@ -74,7 +75,7 @@ function DemandList() {
         setLoading(true);
         setError(null);
         try {
-            const response = await demandService.searchDemand(filters);
+            const response = await demandService.searchAccountDemand(filters);
             setDemands(response);
         } catch (error) {
             console.error('Error fetching search results:', error);
@@ -111,13 +112,13 @@ function DemandList() {
                                 <span className="ms-2">{item.type}</span>
                             </h6>
                             <h6 className="card-subtitle mb-2 text-muted "><i
-                                class="fa-solid fa-house"></i> {item.realEstateType}
+                                className="fa-solid fa-house"></i> {item.realEstateType}
                             </h6>
                             <h6 className="card-subtitle mb-2 text-muted "><i
-                                class="fa-solid fa-location-dot"></i> {item.region}
+                                className="fa-solid fa-location-dot"></i> {item.region}
                             </h6>
                             <h6 className="card-subtitle mb-2 text-muted"><i
-                                class="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
+                                className="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
 

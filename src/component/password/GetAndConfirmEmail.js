@@ -19,8 +19,6 @@ function GetAndConfirmEmail() {
 
     const onSubmit = async (values) => {
         try {
-
-            alert(values.email)
             await createToken(values.email);
             toast.success(' Vui lòng kiểm tra email để tiến hành cập nhật tài khoản.', {
                 theme: "colored",
@@ -36,7 +34,7 @@ function GetAndConfirmEmail() {
 
 
     return (
-        <div className="container w-25 border-bottom">
+        <div className="m-auto mb-10 w-25 border-bottom">
             <Link to="/" className="d-flex justify-content-center mt-5">
                 <Logo width="200px"/>.
             </Link>
