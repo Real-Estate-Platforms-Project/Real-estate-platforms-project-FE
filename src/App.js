@@ -67,6 +67,8 @@ function App() {
                             <Route path="/login" element={<Authentication/>}/>
                             <Route path="/activation-success" element={<ActivationSuccess/>}/>
                             <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
+                            <Route path="/homeTransactions" element={<HomeTransaction/>} />
+                            <Route path="/homeTransactions/create" element={<TransactionCreate/>}/>
                             <Route path="/" element={<Client/>}>
                                 <Route element={<ProtectedRoute
                                     requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_BUYER', 'ROLE_SELLER']}/>}>
@@ -101,8 +103,8 @@ function App() {
                                     <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
                                     <Route path="/admin/statistics" element={<Statistics/>}/>
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
-                                    <Route path="/admin/homeTransactions" element={<HomeTransaction/>} />
-                                    <Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/>
+                                    {/* <Route path="/admin/homeTransactions" element={<HomeTransaction/>} />
+                                    <Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/> */}
                                 </Route>
                             </Route>
                         </Routes>

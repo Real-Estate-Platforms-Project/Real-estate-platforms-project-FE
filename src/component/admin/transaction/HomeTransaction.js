@@ -8,15 +8,29 @@ import { Link } from 'react-router-dom';
 
 function HomeTransaction() {
     const [transactions, setTransactions] = useState([]);
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [searchKeyword, setSearchKeyword] = useState("");
+
+    const handleSearch = async () => {
+        setLoading(true);
+        const data = await transactionService.searchTransactionCodeAndDescription(searchKeyword);
+        setTransactions(data);
+        setLoading(false);
+    }
+
+    const fetchTransactions = async (page) => {
+        setLoading(true);
+        const data =  await transactionService.getAllHome(page);
+        setTransactions(prevTransactions => [...prevTransactions , ...data.content]);
+        setTotalPages(data.totalPages);
+        setLoading(false);
+    }
 
     useEffect(() => {
-        const fetchTransactions = async () => {
-            const data = await transactionService.getAllHome();
-            setTransactions(data.content);
-        };
-
-        fetchTransactions();
-    }, []);
+        fetchTransactions(page);
+    }, [page]);
 
     const handleDelete = async (id) => {
         const swalWithBootstrapButtons = swal.mixin({
@@ -44,7 +58,10 @@ function HomeTransaction() {
                         "Giao dịch của bạn đã được xóa.",
                         "success"
                     );
-                    setTransactions(transactions.filter(transaction => transaction.id !== id));
+                    
+                    const data = await transactionService.getAllHome();
+                setTransactions(data.content.slice(0, 5));
+
                 } else {
                     swalWithBootstrapButtons.fire(
                         "Lỗi",
@@ -62,6 +79,14 @@ function HomeTransaction() {
         });
     };
 
+    const handleLoadMore  = () => {
+        if(page < totalPages - 1) {
+            setPage(prevPage =>  prevPage  + 1);
+        }
+
+        console.log('dữ liệu 3', handleLoadMore)
+    }
+
     const handleEdit = (transaction) => {
         console.log("Sửa giao dịch:", transaction);
     };
@@ -76,9 +101,12 @@ function HomeTransaction() {
             <div className="search-bar-client">
                 <input
                     type="text"
-                    placeholder="Tìm kiếm theo tiêu đề..."
+                    placeholder="Tìm kiếm theo tiêu đề hoặc mô tả..."
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+
                 />
-                <button className="btn btn-outline-info btn-sm">
+                <button className="btn btn-outline-info btn-sm" onClick={handleSearch}>
                     <i className="bi bi-search"></i>
                 </button>
             </div>
@@ -147,13 +175,15 @@ function HomeTransaction() {
                 </tbody>
             </table>
             <div className="text-center mt-3">
-
-                <Button className="btn btn-success btn-sm">
-                    <i className="bi bi-arrow-bar-down"></i>
-                    XEM THÊM
-                    <i className="bi bi-arrow-bar-down"></i>
+                <Button className="btn btn-success btn-sm" onClick={handleLoadMore} disabled={loading}>
+                    {loading ? "Đang tải..." : (
+                        <>
+                            <i className="bi bi-arrow-bar-down"></i> XEM THÊM <i className="bi bi-arrow-bar-down"></i>
+                        </>
+                    )}
                 </Button>
             </div>
+
         </div>
     );
 }

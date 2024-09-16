@@ -1,3 +1,4 @@
+import { Code, Search } from "@mui/icons-material";
 import axios from "axios";
 
 const URL_TRANSACTION = "http://localhost:8080/api/transactions"
@@ -35,4 +36,17 @@ export const deleteTransaction = async (id) => {
         return false;
     }
 }
+
+export const searchTransactionCodeAndDescription = async (keyword) => {
+    try {
+        let query = `/search/${keyword}`; 
+        console.log('Query:', query); 
+        let res = await axios.get(URL_TRANSACTION + query);
+        console.log('Response:', res.data);
+        return res.data.content;  
+    } catch (e) {
+        console.log("Lỗi khi truy xuất giao dịch:", e);
+        return [];
+    }
+};
 

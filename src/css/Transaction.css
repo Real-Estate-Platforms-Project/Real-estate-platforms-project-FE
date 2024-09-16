@@ -177,3 +177,20 @@ tbody tr:hover {
 }
 
 
+
+/* Hiệu ứng trượt vào từ bên trái cho các dòng mới */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Áp dụng hiệu ứng trượt cho các dòng giao dịch mới */
+.new-transaction {
+    animation: slideInLeft 0.6s ease-in-out;
+}

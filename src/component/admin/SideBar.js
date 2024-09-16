@@ -67,8 +67,6 @@ const SideBar = () => {
                     </Link>
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="#">
-
                     <Link className="custom-nav-link" to="/admin/homeTransactions">
                         <i className="bi bi-credit-card"></i> Giao dịch
                     </Link>
