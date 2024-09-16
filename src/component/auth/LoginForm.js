@@ -9,6 +9,7 @@ import {useDispatch} from 'react-redux';
 import {setToken} from '../../redux/UserReducer';
 import toastCustom from '../../css/Toastify.module.css';
 import styles from '../../css/Auth.module.css';
+import moment from "moment/moment";
 
 const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -37,23 +38,26 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
             try {
                 const response = await authService.login(values.email, values.password);
 
+
                 if (rememberMe) {
                     localStorage.setItem('token', response.data.token);
                 } else {
                     sessionStorage.setItem('token', response.data.token);
                 }
-
-                const isDeleted = await accountService.checkIsDeleted();
-
-                if (isDeleted) {
+                const res = await accountService.checkIsDeleted();
+                if (res) {
                     toast.error("Tài khoản đã bị vô hiệu hóa");
-                    return;
+                    return true;
                 }
 
-                const passwordCheck = await accountService.checkDateToChangePassword(values.email);
+                const passwordCheck = await accountService.checkDateToChangePassword();
                 if (passwordCheck) {
-                    toast.error('Tài khoản của bạn cần thay đổi mật khẩu ngay!');
+                    let expiryDate= await accountService.getExpiryDate();
+                    let expiryDateConvert= moment(expiryDate).format('DD-MM-YYYY');
+                    toast.error(`Tài khoản của bạn chưa thay đổi sau 30 ngày, thay đổi hoặc tài khoản sẽ bị vô hiệu hóa `)
+                    toast.error(`Hạn cuối thay đổi : ${expiryDateConvert}`)
                 }
+
                 dispatch(setToken(response.data.token));
                 const roles = response.data.authorities;
                 const isAdmin = roles.some(role => ['ROLE_EMPLOYEE', 'ROLE_ADMIN'].includes(role.authority));
@@ -62,7 +66,6 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
                     return;
                 }
                 navigate("/");
-
             } catch (error) {
                 const errorMessage = error.response?.data;
                 toast.error(errorMessage, {
@@ -100,8 +103,7 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
                         placeholder="Nhập mật khẩu..."
                         {...formik.getFieldProps('password')}
                     />
-                    <span className={`position-absolute ${styles.showPasswordInput}`}
-                          onClick={() => setShowPassword(!showPassword)}
+                    <span className={`position-absolute ${styles.showPasswordInput}`} onClick={() => setShowPassword(!showPassword)}
                           style={{cursor: 'pointer'}}>
                             {showPassword ? (<i className="fa-solid fa-eye-slash"></i>) : (
                                 <i className="fa-solid fa-eye"></i>)}

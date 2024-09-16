@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as notificationService from '../../services/NotificationService';
-import '../../css/Notification.css';
-import {Link} from "react-router-dom";
+import styles from '../../css/NotificationClient.module.css';
+import { Link } from "react-router-dom";
 
 function Notification() {
     const [notification, setNotification] = useState([]);
@@ -15,6 +15,7 @@ function Notification() {
         let res = await notificationService.getAllNotification(title);
         if (res.length > 0) {
             setNotification(res);
+            console.log(res)
         } else {
             setNotification([]);
         }
@@ -25,29 +26,39 @@ function Notification() {
     }
 
     return (
-        <div className="notification-container">
-            <div className="search-bar-client">
+        <div className={styles.notificationContainer}>
+            <div className={styles.searchBar}>
                 <input
                     type="text"
                     placeholder="Tìm kiếm theo tiêu đề..."
                     value={title}
                     onChange={handleSearchChange}
+                    className={styles.searchInput}
                 />
             </div>
-            <div className="notifications-list-client">
+            <div className={styles.notificationsList}>
                 {notification.map((item) => (
-                    <div key={item.id} className="article-client">
-                        <Link to={`/notificationDetail/${item.id}`} className="article-link-client">
-                            <img src={item.image} alt={item.title} className="article-image-client"/>
+                    <div key={item.id} className={styles.notificationItem}>
+                        <Link to={`/notificationDetail/${item.id}`} className={styles.articleLink}>
+                            <div className={styles.articleImages}>
+                                {item.images.map((image) => (
+                                    <img
+                                        src={image.imageUrl}
+                                        alt={item.title}
+                                        className={styles.articleImage}
+                                        key={image.imageUrl}
+                                    />
+                                ))}
+                            </div>
                         </Link>
-                        <div className="article-content">
-                            <Link to={`/notificationDetail/${item.id}`} className="article-link-client">
-                                <h2 className="article-title-client">{item.title}</h2>
+                        <div className={styles.articleContent}>
+                            <Link to={`/notificationDetail/${item.id}`} className={styles.articleLink}>
+                                <h2 className={styles.articleTitle}>{item.title}</h2>
                             </Link>
-                            <p className="article-date-client">
+                            <p className={styles.articleDate}>
                                 {item.formattedCreateNotification} · {item.employee.name}
                             </p>
-                            <p className="article-description-client">{item.contend}</p>
+                            <p className={styles.articleDescription}>{item.contend}</p>
                         </div>
                     </div>
                 ))}
