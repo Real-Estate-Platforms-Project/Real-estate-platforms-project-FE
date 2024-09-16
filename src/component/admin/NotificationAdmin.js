@@ -17,7 +17,8 @@ function NotificationAdmin() {
     const [notificationToDelete, setNotificationToDelete] = useState(null);
     const [notificationToEdit, setNotificationToEdit] = useState(null);
     const [notificationsList, setNotificationsList] = useState([]);
-    const [selectedImage, setSelectedImage] = useState(null); // Trạng thái để theo dõi ảnh được chọn
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [deleteNotificationTitle, setDeleteNotificationTitle] = useState("");
 
     useEffect(() => {
         getNotifications(title);
@@ -42,9 +43,9 @@ function NotificationAdmin() {
         setShowEditModal(true);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async () => {
         try {
-            await notificationService.deleteNotification(id);
+            await notificationService.deleteNotification(notificationToDelete.id);
             getNotifications(title);
             setShowModal(false);
             toast.success("Xóa thông báo thành công!");
@@ -55,13 +56,16 @@ function NotificationAdmin() {
     };
 
     const openDeleteModal = (id) => {
-        setNotificationToDelete(id);
+        const notification = notificationsList.find(n => n.id === id);
+        setNotificationToDelete(notification);
+        setDeleteNotificationTitle(notification.title);
         setShowModal(true);
     };
 
     const closeModal = () => {
         setShowModal(false);
         setNotificationToDelete(null);
+        setDeleteNotificationTitle("");
     };
 
     const openAddModal = () => {
@@ -174,8 +178,8 @@ function NotificationAdmin() {
             <Modal
                 show={showModal}
                 onClose={closeModal}
-                onConfirm={() => handleDelete(notificationToDelete)}
-                message="Bạn có chắc chắn muốn xóa thông báo này?"
+                onConfirm={handleDelete}
+                message={`Bạn có chắc chắn muốn xóa thông báo có tiêu đề "${deleteNotificationTitle}"?`} // Display title in the message
             />
 
             <CreateNotification

@@ -165,7 +165,6 @@ const EditNotificationModal = ({ show, onClose, onUpdate, notification }) => {
                 </div>
             </Modal>
 
-            {/* Modal to view large image */}
             <Modal show={showImageModal} onHide={() => setShowImageModal(false)} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>Xem Ảnh</Modal.Title>

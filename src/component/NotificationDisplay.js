@@ -7,9 +7,12 @@ import { fetchUser } from '../redux/FetchUser';
 const NotificationDisplay = () => {
     const dispatch = useDispatch();
     const { notifications } = useWebSocket();
-    const user = useSelector(state => state.information.user);
-    const isAuthenticated = useSelector(state => state.information.isAuthenticated);
+    const user = useSelector(state => state.auth.user);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const [currentUserId, setCurrentUserId] = useState(null);
+    console.log("baoly1" + user)
+    console.log("baoly1" + isAuthenticated)
+    console.log("baoly1" + currentUserId)
 
     useEffect(() => {
         if (isAuthenticated && !user) {
@@ -24,8 +27,8 @@ const NotificationDisplay = () => {
     }, [user]);
 
     useEffect(() => {
+        console.log("baoly1" + notifications.length)
         if (notifications.length > 0) {
-            console.log("baoly" + notifications)
             notifications.forEach(notification => {
                 if (notification.id !== currentUserId) {
                     toast.info(`Có thông báo mới: ${notification.title}`);

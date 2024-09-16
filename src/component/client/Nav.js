@@ -4,9 +4,14 @@ import {Link} from "react-router-dom";
 import ListingMenu from "../ListingMenu";
 import {useSelector} from "react-redux";
 import Logout from "../Logout";
+import AccountDetail from "../AccountDetail";
 
 function Nav() {
-    const isAuthenticated = useSelector((state) => state.information.isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const roles = useSelector((state) => state.auth.roles);
+    const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' ||role.name === 'ROLE_EMPLOYEE')
+    console.log(isSeller)
+
 
     return (
         <div>
@@ -25,42 +30,41 @@ function Nav() {
                                       data-bs-toggle="dropdown"
                                       aria-expanded="false" to="#">
                                     Trang chủ
-                                    <ul className="dropdown-menu">
-                                        <MegaMenu/>
-                                    </ul>
                                 </Link>
                             </li>
                             <li className="nav-item dropdown me-4">
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
                                       data-bs-toggle="dropdown"
                                       aria-expanded="false" to="#">
-                                    Listing
+                                    Danh sách
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <ListingMenu/>
                                 </ul>
                             </li>
+
                             <li className="nav-item dropdown me-4">
                                 <Link className="nav-link dropdown-toggle text-dark" role="button"
                                       data-bs-toggle="dropdown"
-                                      aria-expanded="false" to='#'>
-                                    Agents
+                                      aria-expanded="false" to="#">
+                                    Tài khoản
                                 </Link>
                                 <ul className="dropdown-menu">
-                                    <MegaMenu/>
+                                    <AccountDetail/>
                                 </ul>
                             </li>
+
                             <li className="nav-item me-4">
-                                <Link className="nav-link text-dark" aria-disabled="true" to="#">Property</Link>
+                                <Link className="nav-link text-dark" aria-disabled="true" to="#">Tài khoản</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin
                                     tức</Link>
                             </li>
                         </ul>
-                        <Link className='me-2 button-orange' to='buyernet/danh-sach-nhu-cau'><span className='fw-bold'>Danh sach nhu cau</span></Link>
-                        <Link className='me-2 button-orange' to='sellernet/dang-tin'><span
-                            className='fw-bold'>Đăng tin</span></Link>
+                        <Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>
+                        {isSeller && (<Link className='me-2 button-orange' to='sellernet/dang-tin'><span
+                            className='fw-bold'>Đăng tin</span></Link>)}
 
                         {!isAuthenticated && (
                             <Link className='button-black' to='/login'>
@@ -76,8 +80,8 @@ function Nav() {
                     </div>
                 </div>
             </nav>
-
-        </div>)
+        </div>
+    )
 }
 
 export default Nav;

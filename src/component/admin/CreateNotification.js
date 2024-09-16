@@ -15,15 +15,14 @@ const validationSchema = Yup.object({
     images: Yup.array().of(Yup.string().required('Cần chọn một hình ảnh')).min(1, 'Cần chọn ít nhất một hình ảnh'),
     contend: Yup.string().required('Mô tả là bắt buộc'),
 });
-
-const AddNotificationModal = ({ show, onClose, onAdd }) => {
+const AddNotificationModal = ({show, onClose, onAdd}) => {
     const [selectedImages, setSelectedImages] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
     const [showLargeImage, setShowLargeImage] = useState(false);
     const [largeImageUrl, setLargeImageUrl] = useState('');
-    const user = useSelector(state => state.information.user);
+    const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch();
-    const isAuthenticated = useSelector(state => state.information.isAuthenticated);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
     useEffect(() => {
         if (isAuthenticated && !user) {
