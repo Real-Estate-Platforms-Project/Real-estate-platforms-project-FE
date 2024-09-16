@@ -84,7 +84,7 @@
     padding: 10px;
     box-sizing: border-box;
     font-size: 16px;
-    width: 400px;
+    width: 100%;
 }
 
 textarea.customFormControl {
@@ -95,12 +95,13 @@ textarea.customFormControl {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 10px;
 }
 
-.customImagePreviewWrapper {
+.customImageWrapper {
     position: relative;
-    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    background-color: #fff;
 }
 
 .customImagePreview {
@@ -109,11 +110,24 @@ textarea.customFormControl {
     object-fit: cover;
     border: 1px solid #ddd;
     border-radius: 4px;
-    cursor: pointer;
 }
 
-.customRemoveImageButton:hover {
-    background-color: darkred;
+.customRemoveImageButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 100% !important;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 1;
 }
 
 input[type="file"] {
@@ -149,11 +163,6 @@ input[type="file"]:hover {
     display: none !important;
 }
 
-.customImageWrapper {
-    position: relative;
-    display: inline-block;
-}
-
 .customFileInputLabel {
     display: flex;
     align-items: center;
@@ -180,69 +189,8 @@ input[type="file"]:hover {
     color: rgba(0, 0, 0, 0.7);
 }
 
-.customImagePreviewWrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.customImagePreview {
-    margin-left: 20px;
-    margin-top: 20px;
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.customRemoveImageButton {
-    position: absolute;
-    transform: translate(110%, -50%);
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 12px;
-    height: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.customRemoveImageButton:hover {
-    background-color: darkred;
-}
-
 .largeImage {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
-
-.image-preview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.image-preview {
-    position: relative;
-    display: inline-block;
-}
-
-.img-thumbnail {
-    max-width: 100px;
-    max-height: 100px;
-    object-fit: cover;
-}
-
-.btn-danger {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 1;
-}
-
-

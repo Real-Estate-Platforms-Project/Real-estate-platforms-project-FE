@@ -15,6 +15,7 @@ const validationSchema = Yup.object({
     images: Yup.array().of(Yup.string().required('Cần chọn một hình ảnh')).min(1, 'Cần chọn ít nhất một hình ảnh'),
     contend: Yup.string().required('Mô tả là bắt buộc'),
 });
+
 const AddNotificationModal = ({show, onClose, onAdd}) => {
     const [selectedImages, setSelectedImages] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
@@ -122,7 +123,7 @@ const AddNotificationModal = ({show, onClose, onAdd}) => {
 
                                         <ErrorMessage name="images" component="div" className="text-danger" />
                                         {selectedImages.length > 0 && (
-                                            <div className={styles.customImagePreviewWrapper}>
+                                            <div className={styles.customImagePreviewContainer}>
                                                 {selectedImages.map((image, index) => (
                                                     <div key={index} className={styles.customImageWrapper}>
                                                         <img
