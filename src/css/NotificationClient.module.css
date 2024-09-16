@@ -1,0 +1,71 @@
+.notificationContainer {
+    padding: 20px;
+}
+
+.searchBar {
+    margin-bottom: 20px;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.notificationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.notificationItem {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.notificationItem:hover {
+    transform: scale(1.02);
+}
+
+.articleContent {
+    padding: 20px;
+    flex: 1;
+}
+
+.articleTitle {
+    font-size: 20px;
+    margin: 0;
+    color: #333;
+}
+
+.articleDate {
+    color: #888;
+    font-size: 14px;
+}
+
+.articleDescription {
+    margin-top: 10px;
+    color: #555;
+}
+
+.articleImages {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 20px;
+}
+
+.articleImage {
+    height: 100px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.articleImage:hover {
+    transform: scale(1.1);
+}
