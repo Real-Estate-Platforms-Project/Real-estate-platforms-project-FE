@@ -2,7 +2,7 @@ import './App.css';
 import './css/custom.css';
 import "./css/SearchBar.css";
 import {ToastContainer} from "react-toastify";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Client from './page/layout/Client';
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,7 +22,7 @@ import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
 
-import {WebSocketProvider} from './services/SocketNotification';
+import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
@@ -37,7 +37,7 @@ import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
 import SellerList from "./component/customer/SellerList";
 import EstateListing from "./page/client/EstateListing";
 import ProtectedRoute from "./component/ProtectedRoute";
-
+import Dashboard from "./page/admin/dashboard/Dashboard";
 import EditDemand from "./page/client/EditDemand";
 import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
