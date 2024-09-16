@@ -22,14 +22,17 @@ export const getSellerById = async (id) => {
     }
 };
 
+export const searchSellers = (searchCriteria) => {
+    const params = new URLSearchParams();
+    if (searchCriteria.code) params.append('code', searchCriteria.code);
+    if (searchCriteria.name) params.append('name', searchCriteria.name);
+    if (searchCriteria.email) params.append('email', searchCriteria.email);
+    if (searchCriteria.phoneNumber) params.append('phoneNumber', searchCriteria.phoneNumber);
 
-export const searchSellers = async (searchCriteria) => {
-    try {
-        const params = new URLSearchParams(searchCriteria).toString();
-        const response = await axios.get(`${API_URL}?${params}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error searching sellers:', error);
-        throw error;
-    }
+    return axios.get(`${API_URL}/search`, { params })
+        .then(response => response.data)
+        .catch(error => {
+            console.error('Error searching sellers:', error);
+            throw error;
+        });
 };
