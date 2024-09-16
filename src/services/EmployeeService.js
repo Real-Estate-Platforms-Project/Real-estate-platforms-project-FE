@@ -1,17 +1,12 @@
-import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/admin/employees';
+import apiClient from "../configs/AxiosConfigs";
+import employee from "sockjs-client/lib/transport/receiver/jsonp";
 
-export const getEmployees = async (filters = {}) => {
-    try {
-        const token = sessionStorage.getItem('token');
+    export const getEmployees = async (filters = {}) => {
+        try {
         const query = new URLSearchParams(filters).toString();
-        const res = await axios.get(`${API_URL}?${query}`, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            }
-        });
+            console.log(query);
+        const res = await apiClient.get(`/admin/employees/search?${query}`);
         return res.data;
     } catch (e) {
         console.error("Error fetching employee data:", e);
@@ -22,30 +17,49 @@ export const getEmployees = async (filters = {}) => {
 export const deleteEmployee = async (employeeId) => {
     try {
         const token = sessionStorage.getItem('token');
-        await axios.delete(`${API_URL}/${employeeId}`, {
+        if (!token) {
+            throw new Error('Không tìm thấy token trong session storage');
+        }
+        const response = await apiClient.delete(`/admin/employees/${employeeId}`, {
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             }
         });
+        if (response.status !== 200) {
+            throw new Error(`Lỗi khi xóa nhân viên: ${response.statusText}`);
+        }
+        return response.data;
     } catch (e) {
-        console.error("Error deleting employee:", e);
+        console.error("Lỗi khi xóa nhân viên:", e);
         throw e;
     }
 };
 
+
 export const updateEmployee = async (employee) => {
     try {
         const token = sessionStorage.getItem('token');
-        const res = await axios.put(`${API_URL}/${employee.id}`, employee, {
+        const res = await apiClient.put(`/admin/employees/${employee.id}`, employee, {
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             }
         });
         return res.data;
     } catch (e) {
         console.error("Error updating employee:", e);
+        throw e;
+    }
+};
+
+export const checkEmailExists = async (email) => {
+    try {
+        const token = sessionStorage.getItem('token');
+        const res = await apiClient.get(`/admin/employees/check-email`, {
+            params: { email },
+        });
+        return res.data;
+    } catch (e) {
+        console.error("Error checking email:", e);
         throw e;
     }
 };

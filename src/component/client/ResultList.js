@@ -1,6 +1,9 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import "../../css/Card.css"
+import {Player} from "@lottiefiles/react-lottie-player";
+import lottieEmpty from "../../lottie/empty-estate.json";
+import lottieLoading from "../../lottie/loading-estate.json";
 
 const ResultsList = ({results, loading, error, currentPage, totalPages, handlePageChange}) => {
 
@@ -15,11 +18,21 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
     return (
         <div className=" bg-body-tertiary my-5 results-section">
             {loading ? (
-                <p>Đang tìm kiếm...</p>
+                 <Player
+                    autoplay
+                    keepLastFrame
+                    src={lottieLoading}
+                    style={{height: '500px', width: 'auto',backgroundColor: 'white'}}
+                ></Player>
             ) : error ? (
                 <p className="error-message">{error}</p>
             ) : results.length === 0 ? (
-                <p>Không tìm thấy kết quả nào phù hợp với tiêu chí tìm kiếm.</p>
+                <Player
+                    autoplay
+                    keepLastFrame
+                    src={lottieEmpty}
+                    style={{height: '800px', width: 'auto',backgroundColor: 'white'}}
+                ></Player>
             ) : (
                 <div className="container m-auto p-4 row">
                     <div className='mb-3'>
@@ -42,7 +55,7 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                             style={{height: "200px", objectFit: "cover"}}
                                         />
                                     </div>
-                                    {item.type === 'Nhà ở' ? (
+                                    {item.type === 'Nhà' ? (
                                         <div>
                                             <div className="card-body pb-1">
                                                 <h6 className="card-title title fw-bold">{item?.title || ''}</h6>

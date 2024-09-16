@@ -1,5 +1,5 @@
 .sidebar {
-    background-color: #f8f9fa;
+    background-color: #FFF7F0;
     padding: 20px;
     height: 100vh;
 }
@@ -32,6 +32,16 @@
     background-color: #ff8800;
     color: #fff;
     border-radius: 5px;
+}
+
+.custom-nav-link.active {
+    background-color: #ff8800;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.custom-nav-link.active i {
+    color: #fff;
 }
 
 .custom-subnav {

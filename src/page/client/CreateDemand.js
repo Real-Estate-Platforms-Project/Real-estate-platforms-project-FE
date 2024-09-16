@@ -66,7 +66,7 @@ function CreateDemand() {
     }
 
 
-    if(!buyer){return <Forbidden/>}
+    // if(!buyer){return <Forbidden/>}
     return (
         <>
             <Formik initialValues={form} onSubmit={saveDemand} validationSchema={Yup.object(objectValid)}>
@@ -83,7 +83,7 @@ function CreateDemand() {
                             <Field as="select" name="type" id="type" className="form-select">
                                 <option>Chọn</option>
                                 <option value="Mua">Mua</option>
-                                <option value="Thuê">Thuê</option>
+                                <option value="Thue">Thuê</option>
                             </Field>
                             <ErrorMessage name="type" component="div" className="text-danger"/>
                         </div>

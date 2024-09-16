@@ -1,4 +1,3 @@
-// NotificationAdmin.jsx
 import React, { useEffect, useState } from 'react';
 import * as notificationService from '../../services/NotificationService';
 import '../../css/Notification.css';
@@ -8,6 +7,7 @@ import Modal from './Modal';
 import CreateNotification from './CreateNotification';
 import EditNotificationModal from './EditNotification';
 import { toast } from "react-toastify";
+import { Modal as BootstrapModal } from 'react-bootstrap';
 
 function NotificationAdmin() {
     const [title, setTitle] = useState("");
@@ -17,6 +17,8 @@ function NotificationAdmin() {
     const [notificationToDelete, setNotificationToDelete] = useState(null);
     const [notificationToEdit, setNotificationToEdit] = useState(null);
     const [notificationsList, setNotificationsList] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [deleteNotificationTitle, setDeleteNotificationTitle] = useState("");
 
     useEffect(() => {
         getNotifications(title);
@@ -41,9 +43,9 @@ function NotificationAdmin() {
         setShowEditModal(true);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async () => {
         try {
-            await notificationService.deleteNotification(id);
+            await notificationService.deleteNotification(notificationToDelete.id);
             getNotifications(title);
             setShowModal(false);
             toast.success("Xóa thông báo thành công!");
@@ -54,13 +56,16 @@ function NotificationAdmin() {
     };
 
     const openDeleteModal = (id) => {
-        setNotificationToDelete(id);
+        const notification = notificationsList.find(n => n.id === id);
+        setNotificationToDelete(notification);
+        setDeleteNotificationTitle(notification.title);
         setShowModal(true);
     };
 
     const closeModal = () => {
         setShowModal(false);
         setNotificationToDelete(null);
+        setDeleteNotificationTitle("");
     };
 
     const openAddModal = () => {
@@ -73,6 +78,7 @@ function NotificationAdmin() {
 
     const handleAddNotification = async (newNotification) => {
         try {
+            console.log(newNotification)
             await notificationService.addNotification(newNotification);
             getNotifications(title);
             toast.success("Thêm thông báo thành công!");
@@ -95,6 +101,14 @@ function NotificationAdmin() {
         }
     };
 
+    const handleImageClick = (imageUrl) => {
+        setSelectedImage(imageUrl);
+    };
+
+    const closeImageModal = () => {
+        setSelectedImage(null);
+    };
+
     return (
         <div className="notification-container-ky">
             <div>
@@ -103,7 +117,7 @@ function NotificationAdmin() {
             <div className="d-flex align-items-center gap-2">
                 <input
                     type="text"
-                    className="form-control search-bar-ky "
+                    className="form-control search-bar-ky"
                     placeholder="Tìm kiếm theo tiêu đề..."
                     value={title}
                     onChange={handleSearchChange}
@@ -126,7 +140,21 @@ function NotificationAdmin() {
                     {notificationsList.map((item) => (
                         <tr key={item.id}>
                             <td>
-                                <img src={item.image} alt={item.title} className="article-image"/>
+                                {item.images && item.images.length > 0 ? (
+                                    <div className="image-container">
+                                        {item.images.map((image, index) => (
+                                            <img
+                                                key={index}
+                                                src={image.imageUrl}
+                                                alt={`Image ${index}`}
+                                                className="article-image"
+                                                onClick={() => handleImageClick(image.imageUrl)}
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    'Chưa có hình ảnh'
+                                )}
                             </td>
                             <td>
                                 <Link to={`/notificationDetail/${item.id}`} className="article-link">
@@ -151,8 +179,8 @@ function NotificationAdmin() {
             <Modal
                 show={showModal}
                 onClose={closeModal}
-                onConfirm={() => handleDelete(notificationToDelete)}
-                message="Bạn có chắc chắn muốn xóa thông báo này?"
+                onConfirm={handleDelete}
+                message={`Bạn có chắc chắn muốn xóa thông báo có tiêu đề "${deleteNotificationTitle}"?`} // Display title in the message
             />
 
             <CreateNotification
@@ -167,6 +195,22 @@ function NotificationAdmin() {
                 onUpdate={handleUpdateNotification}
                 notification={notificationToEdit}
             />
+
+            <BootstrapModal show={selectedImage !== null} onHide={closeImageModal} size="lg">
+                <BootstrapModal.Header closeButton>
+                    <BootstrapModal.Title>Xem Ảnh</BootstrapModal.Title>
+                </BootstrapModal.Header>
+                <BootstrapModal.Body>
+                    {selectedImage && (
+                        <img
+                            src={selectedImage}
+                            alt="Selected"
+                            className="img-fluid"
+                            style={{ maxWidth: '100%' }}
+                        />
+                    )}
+                </BootstrapModal.Body>
+            </BootstrapModal>
         </div>
     );
 }

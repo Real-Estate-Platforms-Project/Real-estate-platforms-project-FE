@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as employeeService from '../../services/EmployeeService';
+import * as positionService from '../../services/PositionService'; // Assuming your position API is in a separate service
 import EmployeeForm from './EmployeeForm';
 import { Modal, Button } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
@@ -7,12 +8,14 @@ import { toast } from 'react-toastify';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
+    const [positions, setPositions] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         loadEmployees();
+        fetchPositions();  // Fetch positions when component mounts
     }, []);
 
     const loadEmployees = async (filters = {}) => {
@@ -21,6 +24,15 @@ const EmployeeList = () => {
             setEmployees(response);
         } catch (error) {
             console.error("Error loading employees:", error);
+        }
+    };
+
+    const fetchPositions = async () => {
+        try {
+            const positionsData = await positionService.getPosition();
+            setPositions(positionsData);  // Save the positions in state
+        } catch (error) {
+            console.error("Error fetching positions:", error);
         }
     };
 
@@ -51,27 +63,15 @@ const EmployeeList = () => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn xoá nhân viên này không?")) {
+        if (window.confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")) {
             try {
                 await employeeService.deleteEmployee(id);
-                toast.success('Xoá thành công!');
+                toast.success('Xóa thành công!');
                 await loadEmployees();
             } catch (error) {
-                console.error("Error deleting employee:", error);
-                toast.error('Có lỗi xảy ra khi xoá nhân viên!');
+                console.error("Lỗi khi xóa nhân viên:", error);
+                toast.error('Có lỗi xảy ra khi xóa nhân viên!');
             }
-        }
-    };
-
-    const handleUpdate = async (employee) => {
-        try {
-            await employeeService.updateEmployee(employee);
-            toast.success('Cập nhật thành công!');
-            await loadEmployees();
-            handleModalClose();
-        } catch (error) {
-            console.error("Error updating employee:", error);
-            toast.error('Có lỗi xảy ra khi cập nhật nhân viên!');
         }
     };
 
@@ -132,9 +132,11 @@ const EmployeeList = () => {
                                 <div className="col-md-2">
                                     <Field as="select" name="position" className="form-select">
                                         <option value="">Chức vụ</option>
-                                        <option value="Trưởng phòng">Trưởng phòng</option>
-                                        <option value="Kế toán">Kế toán</option>
-                                        <option value="Nhân viên">Nhân viên</option>
+                                        {positions.map((position) => (
+                                            <option key={position.id} value={position.name}>
+                                                {position.name}
+                                            </option>
+                                        ))}
                                     </Field>
                                 </div>
                                 <div className="col-md-2">
@@ -158,8 +160,9 @@ const EmployeeList = () => {
                     )}
                 </Formik>
                 <div className="table-responsive">
-                    <table className="table table-hover table-bordered">
-                        <thead className="thead-dark">
+                    <table className="table table-hover ">
+                        <thead className="thead-dark" style={{backgroundColor: '#FF6B35'}}>
+
                         <tr>
                             <th>Mã nhân viên</th>
                             <th>Họ tên</th>

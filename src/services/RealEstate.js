@@ -35,7 +35,6 @@ export const searchRealEstate = async (filters) => {
         const filteredFilters = Object.fromEntries(
             Object.entries(filters).filter(([_, value]) => value !== null && value !== undefined && value !== '')
         );
-
         // Tạo query string từ các tham số đã lọc
         const params = new URLSearchParams(filteredFilters).toString();
         const response = await axios.get(`${URL_REAL_ESTATE}/search?${params}`);
