@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 export default function StatisticsSection() {
     return (
         <>
-        <div className="py-5 mt-3 mb-5"  style={{ backgroundColor: '#FFF7F0' }}>
+        <div className="py-5 mt-3"  style={{ backgroundColor: '#FFF7F0' }}>
             <div className="container">
                 <Row className="justify-content-center text-center">
                     <Col md={3} className="d-flex flex-column align-items-center gap-2">

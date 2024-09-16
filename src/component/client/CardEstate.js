@@ -52,122 +52,83 @@ function CardEstate() {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " VND";
     }
     return (
-        <div className="container mt-3">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2>Bất động sản nổi bật</h2>
-                <Link to="/estate-list" className="text-decoration-none text-warning">
-                    Tất cả →
-                </Link>
-            </div>
-            <div className="mb-4 d-flex">
-                <Button
-                    variant={selectedLocation === 'all' ? 'primary' : 'light'}
-                    onClick={() => handleLocationChange('all')}
-                    className="me-2"
-                >
-                    Khu vực nổi bật
-                </Button>
-                <Button
-                    variant={selectedLocation === 'Trung tâm' ? 'primary' : 'light'}
-                    onClick={() => handleLocationChange('Trung tâm')}
-                    className="me-2"
-                >
-                    Khu vực trung tâm
-                </Button>
-                <Button
-                    variant={selectedLocation === 'Ngoại ô' ? 'primary' : 'light'}
-                    onClick={() => handleLocationChange('Ngoại ô')}
-                    className="me-2"
-                >
-                    Khu vực ngoại ô
-                </Button>
-            </div>
-            <div className="card">
-                <div className="container row">
-                    {/* Kiểm tra nếu không có dữ liệu */}
-                    {displayEstates.length === 0 ? (
-                        <p>Không tìm thấy bất động sản nào.</p>
-                    ) : (
-                        displayEstates.map((item, index) => (
-                            <div key={index} className="box col-3">
-                                <Link to={`/real-estate-detail/${item.id}`} className="view-property-link">
-                                    <div className="top">
-                                        <img
-                                            src={item.images[0]?.name || ""}
-                                            alt="Real estate"
-
-                                        />
-                                        <span>
-                                                <i className="fas fa-heart"></i>
-                                                <i className="fas fa-exchange-alt"></i>
-                                            </span>
+        <div className="bg-body-tertiary ">
+            <div className="container my-3 py-5">
+                <div className="d-flex justify-content-between align-items-center ">
+                    <h2>Bất động sản nổi bật</h2>
+                    <Link to="/estate-list" className="text-decoration-none text-warning">
+                        Tất cả →
+                    </Link>
+                </div>
+                <div className="d-flex mt-2">
+                    <Button
+                        variant={selectedLocation === 'all' ? 'primary' : 'light'}
+                        onClick={() => handleLocationChange('all')}
+                        className="me-2"
+                    >
+                        Khu vực nổi bật
+                    </Button>
+                    <Button
+                        variant={selectedLocation === 'Trung tâm' ? 'primary' : 'light'}
+                        onClick={() => handleLocationChange('Trung tâm')}
+                        className="me-2"
+                    >
+                        Khu vực trung tâm
+                    </Button>
+                    <Button
+                        variant={selectedLocation === 'Ngoại ô' ? 'primary' : 'light'}
+                        onClick={() => handleLocationChange('Ngoại ô')}
+                        className="me-2"
+                    >
+                        Khu vực ngoại ô
+                    </Button>
+                </div>
+                <div className="mt-4">
+                    <div className="row">
+                        {/* Kiểm tra nếu không có dữ liệu */}
+                        {displayEstates.length === 0 ? (
+                            <p>Không tìm thấy bất động sản nào.</p>
+                        ) : (
+                            displayEstates.map((item, index) => (
+                                <div key={index} className="col-md-3 mb-4 ">
+                                    <div className="card shadow-4">
+                                        <Link to={`/real-estate-detail/${item.id}`}
+                                              className="text-decoration-none text-black">
+                                            <div className="image-container">
+                                                <img
+                                                    src={item.images[0]?.name || ""}
+                                                    alt="Real estate"
+                                                    className="card-img-top"
+                                                    style={{height: "200px", objectFit: "cover"}}
+                                                />
+                                            </div>
+                                            <div className="card-body pb-1">
+                                                <h6 className="card-title title fw-bold">{item?.title || ''}</h6>
+                                                <p className="card-text description mt-3">{item?.note || ''}</p>
+                                                <div className="d-flex justify-content-between align-items-center">
+                                                    <div className="text-danger fw-bold">
+                                                        {formatPrice(item?.price) || 'Liên hệ để biết giá'}
+                                                    </div>
+                                                    <div className="text-danger fw-bold">{item?.area || ''} m²
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="card-footer d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i className="bi bi-geo-alt me-2"></i>
+                                                    <small
+                                                        className="text-muted">{item.district.name}, {item.province.name}</small>
+                                                </div>
+                                                <button className="btn btn-outline-danger btn-sm">
+                                                    <i className="bi bi-heart"></i>
+                                                </button>
+                                            </div>
+                                        </Link>
                                     </div>
-                                </Link>
-                                <div className="bottom">
-                                    {item.type === 'Nhà' ? (
-                                        <>
-                                            <h3><b>Địa chỉ :</b> {item?.address || 'Unknown Province'}</h3>
-                                            <p><b>Mô tả : </b> {item?.note || 'No additional information available.'}
-                                            </p>
-                                            <div className="advants">
-                                                <div>
-                                                    <span>Phòng ngủ</span>
-                                                    <div>
-                                                        <i className="fas fa-th-large"></i>
-                                                        <span>{item?.realEstateDetail?.bedroom || 'Không có'}</span>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <span>Nhà tắm</span>
-                                                    <div>
-                                                        <i className="fas fa-shower"></i>
-                                                        <span>{item?.realEstateDetail?.toilet || 'Không có'}</span>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <span>Diện tích</span>
-                                                    <div>
-                                                        <i className="fas fa-vector-square"></i>
-                                                        <span>{item?.area || 'Không có'} m²</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="price">
-                                                <span>For Sale</span>
-                                                <span>{formatPrice(item?.price) || 'Contact for price'}</span>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <h3><b>Địa chỉ :</b>{item?.address || 'Unknown Province'}</h3>
-                                            <p><b>Mô tả : </b>{item?.note || 'No additional information available.'}</p>
-                                            <div className="advants">
-                                                <div>
-                                                    <span>Diện tích</span>
-                                                    <div>
-                                                        <i className="fas fa-vector-square"></i>
-                                                        <span>{item?.area || 'Không có'} m²</span>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <span>Giá trên m²</span>
-                                                    <div>
-                                                        <i className="fas fa-vector-square"></i>
-                                                        <span>{formatPrice(item?.price / item.area) || 'Không có'} /m²</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="price">
-                                                <span>For Sale</span>
-                                                <span>{formatPrice(item?.price) || 'Contact for price'}</span>
-                                            </div>
-                                        </>
-                                    )}
-
                                 </div>
-                            </div>
-                        ))
-                    )}
+                            ))
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
