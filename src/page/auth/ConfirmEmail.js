@@ -5,17 +5,17 @@ import {Player} from '@lottiefiles/react-lottie-player';
 import lottieSuccess from '../../lottie/success.json';
 import lottieError from '../../lottie/error.json';
 import authService from "../../services/AuthService";
+import Loading from "../../component/Loading";
 
 const ActivationSuccess = () => {
     const [loading, setLoading] = useState(true);
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState('');
-    const [countdown, setCountdown] = useState(10); // Thêm state cho countdown
+    const [countdown, setCountdown] = useState(10);
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
-    console.log(token);
 
     useEffect(() => {
         if (token) {
@@ -48,11 +48,11 @@ const ActivationSuccess = () => {
     }, []);
 
     if (loading) {
-        return <div className="text-center mt-5">Đang xử lý...</div>;
+        return <Loading/>;
     }
 
     return (
-        <div className="container text-center mt-5">
+        <div className="container d-flex vh-100 justify-content-center align-items-center">
             <div>
                 {
                     success ?
@@ -60,19 +60,18 @@ const ActivationSuccess = () => {
                             autoplay
                             keepLastFrame
                             src={lottieSuccess}
-                            style={{height: '300px', width: '300px'}}
+                            style={{height: '260px', width: '260px'}}
                         />
                         :
                         <Player
                             autoplay
                             keepLastFrame
                             src={lottieError}
-                            style={{height: '300px', width: '300px'}}
+                            style={{height: '260px', width: '260px'}}
                         />
                 }
 
-                <h2 className="alert-heading mt-3">{success ? 'Thành công!' : 'Lỗi!'}</h2>
-                <p className="text-center mt-1">{message}</p>
+                <h3 className="text-center mt-5">{message}</h3>
                 <p className="text-center mt-5">
                     Trang sẽ được chuyển hướng về trang đăng nhập sau {countdown} giây...
                 </p>
