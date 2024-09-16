@@ -4,6 +4,7 @@ import {useLocation} from "react-router-dom";
 import * as realEstateService from "../../services/RealEstate";
 import ResultsList from "../../component/client/ResultList";
 import '../../css/Paging.css'
+
 function EstateListing() {
     const location = useLocation();
     const [results, setResults] = React.useState([]);
@@ -15,8 +16,8 @@ function EstateListing() {
         setLoading(true);
         setError(null);
         try {
-            const response = await realEstateService.searchRealEstate({ ...filters, page, size: 6 });
-            setResults(response.content|| []);
+            const response = await realEstateService.searchRealEstate({...filters, page, size: 6});
+            setResults(response.content || []);
             setTotalPages(response.totalPages || 0);
             setCurrentPage(page);
         } catch (error) {
@@ -34,10 +35,10 @@ function EstateListing() {
         handleSearch(filters);
     }, [location.state]);
 
-    return(
+    return (
         <>
-            <div className="custom-search w-75 mt-3" style={{justifyContent:"center",margin:"auto"}}>
-                <SearchBar onSearch={handleSearch} initialTab={activeTab} />
+            <div className="custom-search w-75 mt-3" style={{justifyContent: "center", margin: "auto"}}>
+                <SearchBar onSearch={handleSearch} initialTab={activeTab}/>
             </div>
             <ResultsList
                 results={results}

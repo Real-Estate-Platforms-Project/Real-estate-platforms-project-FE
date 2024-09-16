@@ -2,18 +2,16 @@ import React, {useEffect, useState} from "react";
 import {Button, Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
+import {Link} from "react-router-dom";
 import * as demandService from "../../services/DemandService";
 import "../../css/custom.css"
-import * as accountService from "../../services/AccountService";
 import SearchBarDemand from "../search/SearchBarDemand";
 import {useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
 
-function DemandList() {
+function AccountDemand() {
     const [demands, setDemands] = useState([]);
     const [selectedDemand, setSelectedDemand] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    // const [userRoles, setUserRoles] = useState(null);
 
     const location = useLocation();
     const [loading, setLoading] = React.useState(false);
@@ -21,28 +19,17 @@ function DemandList() {
     const [currentPage, setCurrentPage] = React.useState(0);
     const [totalPages, setTotalPages] = React.useState(0);
 
-    const userRoles = useSelector((state) => state.auth.roles).map((value) => value.name);
 
     useEffect(() => {
         const filters = location.state?.filters || {};
         handleSearch(filters, 0);
     }, [location.state]);
 
+
     const handleShow = (demand) => {
         setSelectedDemand(demand);
         setShowModal(true);
     };
-
-    const verifyDemand = async (demand) => {
-        let isVerify = await demandService.verifyDemand(demand);
-        if (isVerify) {
-            demand.isVerify = true
-            setDemands(demands.map(s => s !== demand ? s : demand));
-            toast.success("Duyệt nhu cau thành công")
-        } else {
-            toast.error("Duyệt nhu cau thất bại.")
-        }
-    }
 
     const deleteDemand = async (id) => {
         let isSuccess = await demandService.deleteDemand(id)
@@ -58,7 +45,7 @@ function DemandList() {
         setLoading(true);
         setError(null);
         try {
-            const response = await demandService.searchDemand({...filters, page, size: 6});
+            const response = await demandService.searchAccountDemand({...filters, page, size: 6});
             setDemands(response.content || []);
             setTotalPages(response.totalPages || 0);
             setCurrentPage(page);
@@ -70,6 +57,7 @@ function DemandList() {
             setLoading(false);
         }
     };
+
     const handlePageChange = (newPage) => handleSearch(location.state?.filters, newPage);
 
     if (!demands) {
@@ -108,18 +96,19 @@ function DemandList() {
                                 className="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
-
-                        {(userRoles.includes("ROLE_ADMIN") || userRoles.includes("ROLE_EMPLOYEE")) ?
-                            <div className="d-flex justify-content-end mt-3">
-                                <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>Xoá
-                                    nhu cầu
+                        {!item.isVerify ?
+                            <h6 className="card-subtitle mb-3 text-warning" style={{fontStyle: "italic"}}>Nhu cầu đang
+                                chờ phê duyệt</h6> : ""}
+                        <div className="d-flex justify-content-end mt-3">
+                            <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>
+                                Xoá nhu cầu
+                            </button>
+                            <Link to={`/demand/edit/${item.id}`}>
+                                <button className="btn btn-primary btn-sm text-white pr-3">
+                                    Chỉnh sửa nhu cầu
                                 </button>
-                                {item.isVerify ? "" :
-                                    <button className="btn btn-primary btn-sm text-white pr-3"
-                                            onClick={() => verifyDemand(item)}>Duyệt nhu
-                                        cầu</button>}
-                            </div> : ""
-                        }
+                            </Link>
+                        </div>
                     </div>
                 </div>)
             }
@@ -166,4 +155,4 @@ function DemandList() {
     )
 }
 
-export default DemandList;
+export default AccountDemand;

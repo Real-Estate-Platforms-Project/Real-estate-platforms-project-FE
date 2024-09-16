@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {useFormik} from 'formik';
-import {toast} from 'react-toastify';
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import apiClient from '../../configs/AxiosConfigs';
 import * as positionService from '../../services/PositionService';
+import * as Yup from 'yup';
 
-const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {
+
+const EmployeeForm = ({ onCloseModal, onSave, employee, isEditing }) => {
     const [positions, setPositions] = useState([]);
 
     useEffect(() => {
@@ -21,9 +23,34 @@ const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {
         fetchPositions();
     }, []);
 
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Tên nhân viên là bắt buộc'),
+        dob: Yup.date().required('Ngày sinh là bắt buộc'),
+        gender: Yup.string().required('Giới tính là bắt buộc'),
+        phoneNumber: Yup.string()
+            .matches(/^[0-9]{10}$/, 'Số điện thoại phải có 10 chữ số')
+            .required('Số điện thoại là bắt buộc'),
+        email: Yup.string()
+            .email('Email không hợp lệ')
+            .required('Email là bắt buộc')
+            .test('email-exists', 'Email đã tồn tại', async value => {
+                if (isEditing && value === employee.email) return true;
+                try {
+                    const response = await apiClient.get(`/admin/employees/check-email`, {
+                        params: { email: value }
+                    });
+                    return !response.data;
+                } catch (error) {
+                    console.error('Error checking email:', error);
+                    return false;
+                }
+            }),
+        positionId: Yup.string().required('Chức vụ là bắt buộc'),
+        address: Yup.string().required('Địa chỉ là bắt buộc'),
+    });
+
     const formik = useFormik({
         initialValues: employee || {
-            code: '',
             name: '',
             dob: '',
             gender: '',
@@ -34,6 +61,7 @@ const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {
             role: 'Nhân viên',
         },
         enableReinitialize: true,
+        validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
                 if (isEditing) {
@@ -61,43 +89,38 @@ const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {
     });
 
     return (
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} className="p-4 bg-light rounded shadow-sm">
             <div className="row">
-                <div className="mb-3 col-6">
-                    <label className="form-label">Mã nhân viên</label>
-                    <input
-                        type="text"
-                        name="code"
-                        value={formik.values.code}
-                        onChange={formik.handleChange}
-                        className="form-control"
-                        placeholder="Nhập mã nhân viên"
-                    />
-                </div>
-                <div className="mb-3 col-6">
+                <div className="col-md-6 mb-3">
                     <label className="form-label">Tên nhân viên</label>
                     <input
                         type="text"
                         name="name"
                         value={formik.values.name}
                         onChange={formik.handleChange}
-                        className="form-control"
+                        className={`form-control ${formik.errors.name && formik.touched.name ? 'is-invalid' : ''}`}
                         placeholder="Nhập tên nhân viên"
                     />
+                    {formik.errors.name && formik.touched.name && (
+                        <div className="invalid-feedback">{formik.errors.name}</div>
+                    )}
                 </div>
-                <div className="mb-3 col-6">
+                <div className="col-md-6 mb-3">
                     <label className="form-label">Ngày sinh</label>
                     <input
                         type="date"
                         name="dob"
                         value={formik.values.dob}
                         onChange={formik.handleChange}
-                        className="form-control"
+                        className={`form-control ${formik.errors.dob && formik.touched.dob ? 'is-invalid' : ''}`}
                     />
+                    {formik.errors.dob && formik.touched.dob && (
+                        <div className="invalid-feedback">{formik.errors.dob}</div>
+                    )}
                 </div>
-                <div className="mb-3 col-6">
+                <div className="col-md-6 mb-3">
                     <label className="form-label">Giới tính</label>
-                    <div className="form-check">
+                    <div className="form-check form-check-inline">
                         <input
                             type="radio"
                             id="genderMale"
@@ -109,7 +132,7 @@ const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {
                         />
                         <label htmlFor="genderMale" className="form-check-label">Nam</label>
                     </div>
-                    <div className="form-check">
+                    <div className="form-check form-check-inline">
                         <input
                             type="radio"
                             id="genderFemale"
@@ -121,37 +144,46 @@ const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {
                         />
                         <label htmlFor="genderFemale" className="form-check-label">Nữ</label>
                     </div>
-
+                    {formik.errors.gender && formik.touched.gender && (
+                        <div className="invalid-feedback d-block">{formik.errors.gender}</div>
+                    )}
                 </div>
-                <div className="mb-3 col-6">
+                <div className="col-md-6 mb-3">
                     <label className="form-label">Số điện thoại</label>
                     <input
                         type="text"
                         name="phoneNumber"
                         value={formik.values.phoneNumber}
                         onChange={formik.handleChange}
-                        className="form-control"
+                        className={`form-control ${formik.errors.phoneNumber && formik.touched.phoneNumber ? 'is-invalid' : ''}`}
                         placeholder="Nhập số điện thoại"
                     />
+                    {formik.errors.phoneNumber && formik.touched.phoneNumber && (
+                        <div className="invalid-feedback">{formik.errors.phoneNumber}</div>
+                    )}
                 </div>
-                <div className="mb-3 col-6">
+                <div className="col-md-6 mb-3">
                     <label className="form-label">Email</label>
                     <input
                         type="email"
                         name="email"
                         value={formik.values.email}
                         onChange={formik.handleChange}
-                        className="form-control"
+                        className={`form-control ${formik.errors.email && formik.touched.email ? 'is-invalid' : ''}`}
                         placeholder="Nhập email"
+                        readOnly={isEditing}  // Make email read-only if editing
                     />
+                    {formik.errors.email && formik.touched.email && (
+                        <div className="invalid-feedback">{formik.errors.email}</div>
+                    )}
                 </div>
-                <div className="mb-3 col-6">
+                <div className="col-md-6 mb-3">
                     <label className="form-label">Chức vụ</label>
                     <select
                         name="positionId"
                         value={formik.values.positionId}
                         onChange={formik.handleChange}
-                        className="form-select"
+                        className={`form-select ${formik.errors.positionId && formik.touched.positionId ? 'is-invalid' : ''}`}
                     >
                         <option value="">Chọn chức vụ</option>
                         {positions.map((position, index) => (
@@ -160,19 +192,25 @@ const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {
                             </option>
                         ))}
                     </select>
+                    {formik.errors.positionId && formik.touched.positionId && (
+                        <div className="invalid-feedback">{formik.errors.positionId}</div>
+                    )}
                 </div>
-                <div className="mb-3 col-6">
+                <div className="col-md-6 mb-3">
                     <label className="form-label">Địa chỉ</label>
                     <input
                         type="text"
                         name="address"
                         value={formik.values.address}
                         onChange={formik.handleChange}
-                        className="form-control"
+                        className={`form-control ${formik.errors.address && formik.touched.address ? 'is-invalid' : ''}`}
                         placeholder="Nhập địa chỉ"
                     />
+                    {formik.errors.address && formik.touched.address && (
+                        <div className="invalid-feedback">{formik.errors.address}</div>
+                    )}
                 </div>
-                <div className="mb-3 col-6">
+                <div className="col-md-6 mb-3">
                     <label className="form-label">Phân quyền</label>
                     <div className="form-check">
                         <input
@@ -189,28 +227,21 @@ const EmployeeForm = ({onCloseModal, onSave, employee, isEditing}) => {
                     <div className="form-check">
                         <input
                             type="radio"
-                            id="roleAdmin"
+                            id="roleManager"
                             name="role"
-                            value="Admin"
-                            checked={formik.values.role === 'Admin'}
+                            value="Quản lý"
+                            checked={formik.values.role === 'Quản lý'}
                             onChange={formik.handleChange}
                             className="form-check-input"
                         />
-                        <label htmlFor="roleAdmin" className="form-check-label">Admin</label>
+                        <label htmlFor="roleManager" className="form-check-label">Quản lý</label>
                     </div>
                 </div>
-            </div>
-            <div className="text-end">
-                <button type="submit" className="btn btn-primary me-2">
-                    {isEditing ? 'Cập nhật' : 'Thêm'}
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={onCloseModal}
-                >
-                    Đóng
-                </button>
+                <div className="col-12 text-end">
+                    <button type="submit" className="btn" style={{ backgroundColor: '#FC650B', color: 'white' }}>
+                        {isEditing ? 'Cập nhật' : 'Thêm mới'}
+                    </button>
+                </div>
             </div>
         </form>
     );
