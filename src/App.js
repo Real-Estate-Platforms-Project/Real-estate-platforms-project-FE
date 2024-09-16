@@ -42,6 +42,8 @@ import EditDemand from "./page/client/EditDemand";
 import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
+import TransactionCreate from "./component/admin/transaction/TransactionCreact";
+import HomeTransaction from "./component/admin/transaction/HomeTransaction";
 
 
 function App() {
@@ -65,6 +67,8 @@ function App() {
                             <Route path="/login" element={<Authentication/>}/>
                             <Route path="/activation-success" element={<ActivationSuccess/>}/>
                             <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
+                            <Route path="/homeTransactions" element={<HomeTransaction/>} />
+                            <Route path="/homeTransactions/create" element={<TransactionCreate/>}/>
                             <Route path="/" element={<Client/>}>
                                 <Route element={<ProtectedRoute/>}>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
@@ -99,6 +103,8 @@ function App() {
                                     <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
                                     <Route path="/admin/statistics" element={<Statistics/>}/>
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
+                                    {/*<Route path="/admin/homeTransactions" element={<HomeTransaction/>} />*/}
+                                    {/*<Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/>*/}
                                 </Route>
                             </Route>
                         </Routes>

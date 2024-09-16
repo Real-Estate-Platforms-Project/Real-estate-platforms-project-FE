@@ -20,8 +20,8 @@ const TransactionCreate = () => {
     const fetchData = async () => {
             let employeeData = await EmployeeService.getEmployees();
             setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.code })));
-            // const realEstateData = await RealEstateService.getRealEstates();
-            // setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
+            const realEstateData = await RealEstateService.getRealEstates();
+            setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
     };
 
     const validationSchema = Yup.object().shape({
@@ -63,14 +63,14 @@ const TransactionCreate = () => {
     });
 
     const saveTransaction = async (value) => {
-        console.log("Dữ liệu gửi đi:", value);  
+        console.log("Dữ liệu gửi đi:", value);
 
         try {
             const isSuccess = await transactionService.saveTransaction(value);
-            console.log("Kết quả:", isSuccess); 
+            console.log("Kết quả:", isSuccess);
             if (isSuccess) {
                 toast.success("Thêm mới thành công");
-                navigate("/admin/homeTransactions"); 
+                navigate("/admin/homeTransactions");
             } else {
                 toast.error("Thêm mới thất bại");
             }
@@ -79,6 +79,7 @@ const TransactionCreate = () => {
             toast.error("Đã xảy ra lỗi");
         }
     };
+
 
 
 

@@ -23,7 +23,7 @@ export const findRealEstate = async () => {
 async function getRealEstates() {
     let response = null
     await axios({
-        url: `http://localhost:8080/api/real-estate`,
+        url: `http://localhost:8080/api/real-estate/findAll`,
         headers: {
             Accept: 'application/json'
         },

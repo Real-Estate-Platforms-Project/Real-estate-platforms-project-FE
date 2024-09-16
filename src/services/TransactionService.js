@@ -17,15 +17,16 @@ export const getAllHome = async (searchTransactionCode, ) => {
 
 export const saveTransaction = async (transaction) => {
     try {
-        console.log("du lieu 1", transaction);
+        console.log("Dữ liệu gửi đi:", transaction);
         const response = await axios.post(URL_TRANSACTION, transaction);
-        console.log("dữ liệu", response)
+        console.log("Phản hồi từ API:", response);
         return response.status === 200;
     } catch (e) {
-        console.error(e);
+        console.error("Lỗi khi lưu giao dịch:", e);
         return false;
     }
 };
+
 
 export const deleteTransaction = async (id) => {
     try {

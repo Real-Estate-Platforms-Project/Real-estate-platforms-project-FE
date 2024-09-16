@@ -32,6 +32,10 @@ function HomeTransaction() {
         fetchTransactions(page);
     }, [page]);
 
+    const seeDetails = async (id) => {
+
+    }
+
     const handleDelete = async (id) => {
         const swalWithBootstrapButtons = swal.mixin({
             customClass: {
@@ -95,7 +99,7 @@ function HomeTransaction() {
         <div className="table-transaction">
             <h3 className="transaction-heading">Danh Sách Giao Dịch Bất Động Sản</h3>
             <div>
-                <Link to="/admin/homeTransactions/create" className="btn btn-success mb-3">Thêm mới</Link>
+                <Link to="/homeTransactions/create" className="btn btn-success mb-3">Thêm mới</Link>
             </div>
 
             <div className="search-bar-client">
