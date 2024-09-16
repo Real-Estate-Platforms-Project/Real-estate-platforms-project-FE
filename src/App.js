@@ -2,7 +2,7 @@ import './App.css';
 import './css/custom.css';
 import "./css/SearchBar.css";
 import {ToastContainer} from "react-toastify";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Client from './page/layout/Client';
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,7 +22,7 @@ import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
 
-import {WebSocketProvider} from './services/SocketNotification';
+import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
@@ -37,7 +37,7 @@ import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
 import SellerList from "./component/customer/SellerList";
 import EstateListing from "./page/client/EstateListing";
 import ProtectedRoute from "./component/ProtectedRoute";
-
+import Dashboard from "./page/admin/dashboard/Dashboard";
 import EditDemand from "./page/client/EditDemand";
 import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
@@ -66,17 +66,17 @@ function App() {
                             <Route path="/activation-success" element={<ActivationSuccess/>}/>
                             <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                             <Route path="/" element={<Client/>}>
-                                <Route element={<ProtectedRoute
-                                    requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_BUYER', 'ROLE_SELLER']}/>}>
+                                <Route element={<ProtectedRoute/>}>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
+                                    <Route path="/demand/edit/:id" element={<EditDemand/>}/>
                                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+                                    <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 </Route>
                                 <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
                                     <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                                 </Route>
                                 <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
                                 <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
-                                <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 <Route path="*" element={<NotFound/>}/>
                                 <Route path="/" element={<Home/>}/>
                                 <Route path="/docs/quy-dinh-dang-tin-chung" element={<PostingRegulations/>}/>
@@ -88,7 +88,7 @@ function App() {
                                 <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                             </Route>
 
-                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                            {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
                                 <Route path="/admin" element={<Admin/>}>
                                     <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
                                         <Route path={"/admin/employee"} element={<EmployeeList/>}/>
@@ -100,7 +100,7 @@ function App() {
                                     <Route path="/admin/statistics" element={<Statistics/>}/>
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
                                 </Route>
-                            </Route>
+                            {/*</Route>*/}
                         </Routes>
 
                 }

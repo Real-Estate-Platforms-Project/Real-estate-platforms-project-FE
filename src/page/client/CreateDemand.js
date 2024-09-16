@@ -66,7 +66,7 @@ function CreateDemand() {
     }
 
 
-    if(!buyer){return <Forbidden/>}
+    // if(!buyer){return <Forbidden/>}
     return (
         <>
             <Formik initialValues={form} onSubmit={saveDemand} validationSchema={Yup.object(objectValid)}>
