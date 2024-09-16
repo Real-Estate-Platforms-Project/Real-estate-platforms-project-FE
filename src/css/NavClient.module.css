@@ -46,7 +46,7 @@
     opacity: 0;
     visibility: hidden;
     width: 230px;
-    background-color: #eaeaea;
+    background-color: #f8f8f8;
     z-index: 1000;
     transition: 0.3s;
 }
@@ -64,4 +64,17 @@
 
 .loginBtn {
     background-color: #FC650B;
+    border-radius: 8px;
+    color: #fff;
+    padding: 7px 14px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.loginBtn:hover {
+    background-color: #ff7f34;
+    color: #ffffff;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(2px);
 }

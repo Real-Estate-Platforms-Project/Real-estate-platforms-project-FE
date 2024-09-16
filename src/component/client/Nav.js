@@ -12,7 +12,7 @@ function Nav() {
     const roles = useSelector((state) => state.auth.roles);
     const user = useSelector((state) => state.auth.user);
     const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' || role.name === 'ROLE_EMPLOYEE')
-    console.log(isSeller)
+    console.log(isAuthenticated)
 
 
     return (
@@ -55,27 +55,24 @@ function Nav() {
                                 </ul>
                             </li>
 
-                            <li className="nav-item me-4">
-                                <Link className="nav-link text-dark" aria-disabled="true" to="#">Tài khoản</Link>
-                            </li>
                             <li className="nav-item">
                                 <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin
                                     tức</Link>
                             </li>
                         </ul>
-                        <Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>
-                        {isSeller && (<Link className='me-2 button-orange me-5' to='sellernet/dang-tin'><span
+                        {isAuthenticated && (<Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>)}
+                        {isSeller && (<Link className='me-2 button-orange' to='sellernet/dang-tin'><span
                             className='fw-bold'>Đăng tin</span></Link>)}
 
                         {!isAuthenticated && (
-                            <Link className={`btn ${styles.loginBtn}`} to='/login'>
+                            <Link className={`${styles.loginBtn}`} to='/login'>
                                 <span className='fw-bold'>Đăng nhập</span>
                             </Link>
                         )}
 
                         {isAuthenticated && (
                             <>
-                                <div className={`position-relative me-4 ${styles.user}`}>
+                                <div className={`position-relative ms-5 me-4 ${styles.user}`}>
                                     <div className={`d-flex ${styles.headerUser}`}>
                                         <p className={`me-3 fw-bold`}>{user.name}</p>
                                         <i className="fa-solid fa-user fs-4"></i>
