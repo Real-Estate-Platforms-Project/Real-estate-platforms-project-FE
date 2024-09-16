@@ -36,17 +36,18 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
             setIsLoggingIn(true);
             try {
                 const response = await authService.login(values.email, values.password);
-                const isDeleted = await accountService.checkIsDeleted();
-
-                if (isDeleted) {
-                    toast.error("Tài khoản đã bị vô hiệu hóa");
-                    return;
-                }
 
                 if (rememberMe) {
                     localStorage.setItem('token', response.data.token);
                 } else {
                     sessionStorage.setItem('token', response.data.token);
+                }
+
+                const isDeleted = await accountService.checkIsDeleted();
+
+                if (isDeleted) {
+                    toast.error("Tài khoản đã bị vô hiệu hóa");
+                    return;
                 }
 
                 const passwordCheck = await accountService.checkDateToChangePassword(values.email);
