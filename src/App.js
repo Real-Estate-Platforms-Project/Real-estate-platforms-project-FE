@@ -68,6 +68,7 @@ function App() {
                             <Route path="/" element={<Client/>}>
                                 <Route element={<ProtectedRoute/>}>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
+                                    <Route path="/demand/edit/:id" element={<EditDemand/>}/>
                                     <Route path="/update-password" element={<UpdatePassWord/>}/>
                                     <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 </Route>

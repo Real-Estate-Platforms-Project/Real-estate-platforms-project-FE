@@ -112,12 +112,12 @@ function AccountDemand() {
                                 className="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
-                        {!item.isVerify? <h6 className="card-subtitle mb-3 text-muted text-warning" style={{fontStyle:"italic"}}>Nhu cầu đang chờ phê duyệt</h6>:""}
+                        {!item.isVerify? <h6 className="card-subtitle mb-3 text-warning" style={{fontStyle:"italic"}}>Nhu cầu đang chờ phê duyệt</h6>:""}
                         <div className="d-flex justify-content-end mt-3">
                             <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>
                                 Xoá nhu cầu
                             </button>
-                            <Link to={`/edit/${item.id}`}>
+                            <Link to={`/demand/edit/${item.id}`}>
                             <button className="btn btn-primary btn-sm text-white pr-3">
                                 Chỉnh sửa nhu cầu
                             </button>

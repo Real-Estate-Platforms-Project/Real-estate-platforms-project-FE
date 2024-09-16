@@ -43,16 +43,12 @@ function Nav() {
                                     <ListingMenu/>
                                 </ul>
                             </li>
-
                             <li className="nav-item dropdown me-4">
-                                <Link className="nav-link dropdown-toggle text-dark" role="button"
+                                <Link className="nav-link text-dark" role="button"
                                       data-bs-toggle="dropdown"
-                                      aria-expanded="false" to="#">
-                                    Tài khoản
+                                      aria-expanded="false" to="/">
+                                    Phân tích và đánh giá
                                 </Link>
-                                <ul className="dropdown-menu">
-                                    <AccountDetail/>
-                                </ul>
                             </li>
 
                             <li className="nav-item">
@@ -92,9 +88,9 @@ function Nav() {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to="#" className={styles.link}>
+                                                <Link to="/account/danh-sach-nhu-cau" className={styles.link}>
                                                     <i className="fa-solid fa-clock-rotate-left"></i>
-                                                    <span>Lịch sử giao dịch</span>
+                                                    <span>Lịch sử nhu cầu</span>
                                                 </Link>
                                             </li>
                                             <li>
