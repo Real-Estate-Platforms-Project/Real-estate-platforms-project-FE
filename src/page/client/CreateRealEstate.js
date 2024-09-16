@@ -12,6 +12,7 @@ import {getDownloadURL, ref as storageRef, uploadBytes} from "firebase/storage";
 
 // Validation schema
 const validationSchema = Yup.object({
+    title: Yup.string().required("Cần nhập thông tin này"),
     demandType: Yup.string().required("Cần nhập thông tin này"),
     type: Yup.string().required("Cần nhập thông tin này"),
     address: Yup.string().required("Cần nhập thông tin này"),
@@ -183,6 +184,7 @@ const CreateRealEstate = () => {
     return (
         <Formik
             initialValues={{
+                title:"",
                 demandType: "Bán",
                 type: "Nhà ở",
                 address: "",
