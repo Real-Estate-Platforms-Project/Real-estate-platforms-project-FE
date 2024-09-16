@@ -66,17 +66,16 @@ function App() {
                             <Route path="/activation-success" element={<ActivationSuccess/>}/>
                             <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                             <Route path="/" element={<Client/>}>
-                                <Route element={<ProtectedRoute
-                                    requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_BUYER', 'ROLE_SELLER']}/>}>
+                                <Route element={<ProtectedRoute/>}>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                                     <Route path="/update-password" element={<UpdatePassWord/>}/>
+                                    <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 </Route>
                                 <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
                                     <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                                 </Route>
                                 <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
                                 <Route path="/buyernet/danh-sach-nhu-cau" element={<DemandList/>}/>
-                                <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 <Route path="*" element={<NotFound/>}/>
                                 <Route path="/" element={<Home/>}/>
                                 <Route path="/docs/quy-dinh-dang-tin-chung" element={<PostingRegulations/>}/>
