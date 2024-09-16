@@ -14,7 +14,6 @@ function Nav() {
     const isSeller = roles.some(role => role.name === 'ROLE_SELLER' || role.name === 'ROLE_ADMIN' || role.name === 'ROLE_EMPLOYEE')
     console.log(isAuthenticated)
 
-
     return (
         <div>
             <nav className="navbar navbar-expand-lg">
