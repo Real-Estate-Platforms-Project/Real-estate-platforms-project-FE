@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import moment from 'moment';
 import authService from '../../services/AuthService';
 import * as accountService from '../../services/AccountService';
 import {
@@ -60,24 +61,25 @@ function Authentication() {
         try {
 
             const response = await authService.login(email, password);
-            let res = await accountService.checkIsDeleted(email);
-            if (res) {
-                toast.error("Tài khoản đã bị vô hiệu hóa");
-                return true;
-            }
+
             if (rememberMe) {
                 localStorage.setItem('token', response.data.token);
             } else {
                 sessionStorage.setItem('token', response.data.token);
             }
-
+            let res = await accountService.checkIsDeleted();
+            if (res) {
+                toast.error("Tài khoản đã bị vô hiệu hóa");
+                return true;
+            }
             let checkDateToChangePassword = await accountService.checkDateToChangePassword(email);
             console.log(checkDateToChangePassword)
             if (checkDateToChangePassword) {
+                let expiryDate= await accountService.getExpiryDate();
+                let expiryDateConvert= moment(expiryDate).format('DD-MM-YYYY');
                 toast.error(`Tài khoản của bạn chưa thay đổi sau 30 ngày, thay đổi ngay hoặc tài khoản sẽ bị vô hiệu hóa `)
-
+                toast.error(`Hạn chót thay đổi : ${expiryDateConvert}`)
             }
-
             await dispatch(setToken(response.data.token));
             navigate("/");
         } catch (error) {
