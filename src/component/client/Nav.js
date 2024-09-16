@@ -60,11 +60,9 @@ function Nav() {
                                     tức</Link>
                             </li>
                         </ul>
-                        <div className="me-2">
-                            <i className="bi bi-bell fs-4"></i>
-                        </div>
-                        <Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>
-                        {isAuthenticated && (<Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>)}
+
+                        {isAuthenticated && (
+                            <Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>)}
                         {isSeller && (<Link className='me-2 button-orange' to='sellernet/dang-tin'><span
                             className='fw-bold'>Đăng tin</span></Link>)}
 
@@ -73,6 +71,9 @@ function Nav() {
                                 <span className='fw-bold'>Đăng nhập</span>
                             </Link>
                         )}
+                        <div className={`d-flex ms-3 p-2 rounded-3 ${styles.notification}`}>
+                            <i className="fa-solid fa-bell fs-4"></i>
+                        </div>
                         {isAuthenticated && (
                             <>
                                 <div className={`position-relative ms-5 me-4 ${styles.user}`}>

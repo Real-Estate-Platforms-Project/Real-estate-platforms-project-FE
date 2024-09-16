@@ -2,6 +2,19 @@
     color: #FC650B;
 }
 
+.notification {
+    color: #FC650B;
+    cursor: pointer;
+}
+
+.notification:hover {
+    background-color: #e8e8e8;
+}
+
+.user {
+    top: 8px;
+}
+
 .user li {
     cursor: pointer;
 }
