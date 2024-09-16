@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
 })
 
 function UpdatePassWord() {
-    const navigate = new useNavigate();
+    const navigate = useNavigate();
     const handleSubmit = async (data) => {
         let status = await UpdatePassword(data)
         if (status) {
