@@ -1,0 +1,35 @@
+.nhat {
+    background: #ff5722 !important;
+}
+
+.nhat th {
+    color: white !important;
+
+}
+.position-relative {
+    position: relative;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.top-50 {
+    top: 50%;
+}
+
+.start-0 {
+    left: 0;
+}
+
+.translate-middle-y {
+    transform: translateY(-50%);
+}
+
+.ps-5 {
+    padding-left: 2.5rem; /* Adjust based on icon size */
+}
+
+.me-2 {
+    margin-right: 0.5rem;
+}

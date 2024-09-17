@@ -11,11 +11,13 @@ import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../../redux/FetchUser';
-import { format } from 'date-fns'; // Import date-fns to format localDateTime
+import { format } from 'date-fns';
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Tiêu đề là bắt buộc'),
-    images: Yup.array().of(Yup.string().required('Cần chọn một hình ảnh')).min(1, 'Cần chọn ít nhất một hình ảnh'),
+    images: Yup.array().of(Yup.string().required('Cần chọn một hình ảnh'))
+        .min(1, 'Cần chọn ít nhất một hình ảnh')
+        .max(3,'Tối đa 3 hình ảnh'),
     contend: Yup.string().required('Mô tả là bắt buộc'),
     dateStart: Yup.date().required('Ngày bắt đầu là bắt buộc').nullable(),
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../../css/ModalDelete.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Modal = ({ show, onClose, onConfirm, message }) => {
+const ModalDeleteEmployee = ({ show, onClose, onConfirm, message }) => {
     if (!show) return null;
 
     return (
@@ -19,5 +19,5 @@ const Modal = ({ show, onClose, onConfirm, message }) => {
     );
 }
 
-export default Modal;
+export default ModalDeleteEmployee;
 
