@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getAllBuyers, searchBuyers, getBuyerById } from '../../services/BuyerService';
+import { updateAccountRole } from '../../services/CustomerService';
 import { Modal, Table, Button, Container, Row, Col, Form, Card, InputGroup } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
-import { FaSearch, FaEye, FaIdCard, FaUser, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
+import { FaSearch, FaEye, FaIdCard, FaUser, FaEnvelope, FaPhoneAlt, FaSync } from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../css/PaginationStyles.module.css';
 import modalStyles from '../../css/ModalStyles.module.css';
@@ -20,6 +21,8 @@ const BuyerList = () => {
     const toastId = useRef(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [buyerToUpdate, setBuyerToUpdate] = useState(null);
 
     useEffect(() => {
         loadBuyers();
@@ -76,6 +79,30 @@ const BuyerList = () => {
         } catch (error) {
             console.error('Error fetching buyer details:', error);
             showToast('Đã xảy ra lỗi khi lấy thông tin chi tiết.', 'error');
+        }
+    };
+
+    const handleConfirmClose = () => {
+        setShowConfirmModal(false);
+        setBuyerToUpdate(null);
+    };
+
+    const handleConfirmShow = (buyer) => {
+        setBuyerToUpdate(buyer);
+        setShowConfirmModal(true);
+    };
+
+    const handleUpdateRole = async () => {
+        if (!buyerToUpdate) return;
+        try {
+            const newRole = buyerToUpdate.customerType === 'seller' ? 'buyer' : 'seller';
+            await updateAccountRole(buyerToUpdate.account.id, newRole);
+            setBuyers((prevBuyers) => prevBuyers.filter(buyer => buyer.id !== buyerToUpdate.id));
+            showToast(`Vai trò đã được cập nhật thành ${newRole === 'buyer' ? 'Người mua' : 'Người bán'}.`, 'info');
+            handleConfirmClose();
+        } catch (error) {
+            console.error('Error updating role:', error);
+            showToast('Đã xảy ra lỗi khi cập nhật vai trò.', 'error');
         }
     };
 
@@ -217,10 +244,18 @@ const BuyerList = () => {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        style={{ color: '#ff6b35', borderColor: '#ff6b35', marginRight: '5px' }}
+                                        style={{color: '#ff6b35', borderColor: '#ff6b35', marginRight: '5px'}}
                                         onClick={() => handleModalShow(buyer.id)}
                                     >
-                                        <FaEye /> Xem
+                                        <FaEye/> Xem
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        style={{color: '#ff6b35', borderColor: '#ff6b35'}}
+                                        onClick={() => handleConfirmShow(buyer)}
+                                    >
+                                        <FaSync /> Cập nhật
                                     </Button>
                                 </td>
                             </tr>
@@ -234,7 +269,7 @@ const BuyerList = () => {
                         >
                             &lt;
                         </div>
-                        {Array.from({ length: totalPages }, (_, i) => (
+                        {Array.from({length: totalPages}, (_, i) => (
                             <div
                                 key={i + 1}
                                 className={`${styles.pageItem} ${i + 1 === currentPage ? styles.pageItemActive : ''}`}
@@ -261,7 +296,7 @@ const BuyerList = () => {
                 show={showModal}
                 onHide={handleModalClose}
                 centered
-                size="xl"
+                size="lg"
                 dialogClassName={modalStyles.customModalOverlay}
             >
                 <Modal.Header
@@ -284,7 +319,7 @@ const BuyerList = () => {
                                         <img
                                             src={selectedBuyer.imageUrl}
                                             alt={selectedBuyer.name}
-                                            style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '50%' }}
+                                            className={modalStyles.customModalImage}
                                         />
                                     </div>
                                 )}
@@ -310,7 +345,7 @@ const BuyerList = () => {
                                         <strong>ID Card:</strong> <span>{selectedBuyer.idCard}</span>
                                     </li>
                                     <li className={`list-group-item ${modalStyles.customListItem}`}>
-                                        <strong>Loại khách hàng:</strong> <span>{selectedBuyer.customerType === 'buyer' ? 'Người mua' : 'Người bán'}</span>
+                                        <strong>Loại khách hàng:</strong> <span>{selectedBuyer.customerType === 'seller' ? 'Người bán' : 'Người mua'}</span>
                                     </li>
                                 </ul>
                             </Card.Body>
@@ -319,6 +354,45 @@ const BuyerList = () => {
                         <p className="text-center text-muted">Không có thông tin để hiển thị.</p>
                     )}
                 </Modal.Body>
+            </Modal>
+
+            <Modal
+                show={showConfirmModal}
+                onHide={handleConfirmClose}
+                centered
+                size="md"
+                dialogClassName={modalStyles.customModalOverlay}
+            >
+                <Modal.Header
+                    closeButton
+                    className={`${modalStyles.customModalHeader} border-0`}
+                >
+                    <Modal.Title
+                        className={`${modalStyles.customModalTitle} fs-4 text-center`}
+                        style={{ color: "white", width: '100%' }}
+                    >
+                        Xác nhận thay đổi vai trò
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={modalStyles.customModalBody}>
+                    <p className="text-center">
+                        Bạn có chắc chắn muốn thay đổi vai trò của <strong>{buyerToUpdate?.name}</strong> từ <strong>{buyerToUpdate?.customerType === 'seller' ? 'Người bán' : 'Người mua'}</strong> thành <strong>{buyerToUpdate?.customerType === 'buyer' ? 'Người mua' : 'Người bán'}</strong> không?
+                    </p>
+                </Modal.Body>
+                <Modal.Footer className="border-0 d-flex justify-content-center">
+                    <Button
+                        variant="outline-secondary"
+                        onClick={handleConfirmClose}
+                    >
+                        Hủy
+                    </Button>
+                    <Button
+                        variant="primary"
+                        onClick={handleUpdateRole}
+                    >
+                        Xác nhận
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </Container>
     );

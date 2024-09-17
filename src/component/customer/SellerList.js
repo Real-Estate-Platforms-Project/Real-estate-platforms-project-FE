@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getAllSellers, searchSellers, getSellerById } from '../../services/SellerService';
+import { updateAccountRole } from '../../services/CustomerService'; // Sử dụng đúng service cho update role
 import { Modal, Table, Button, Container, Row, Col, Form, Card, InputGroup } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
-import { FaSearch, FaEye, FaIdCard, FaUser, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
+import {FaSearch, FaEye, FaIdCard, FaUser, FaEnvelope, FaPhoneAlt, FaSync} from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../css/PaginationStyles.module.css';
 import modalStyles from '../../css/ModalStyles.module.css';
@@ -21,6 +22,9 @@ const SellerList = () => {
     const toastId = useRef(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [sellerToUpdate, setSellerToUpdate] = useState(null);
+
 
     useEffect(() => {
         loadSellers();
@@ -77,6 +81,30 @@ const SellerList = () => {
         } catch (error) {
             console.error('Error fetching seller details:', error);
             showToast('Đã xảy ra lỗi khi lấy thông tin chi tiết.', 'error');
+        }
+    };
+
+    const handleConfirmClose = () => {
+        setShowConfirmModal(false);
+        setSellerToUpdate(null);
+    };
+
+    const handleConfirmShow = (seller) => {
+        setSellerToUpdate(seller);
+        setShowConfirmModal(true);
+    };
+
+    const handleUpdateRole = async () => {
+        if (!sellerToUpdate) return;
+        try {
+            const newRole = sellerToUpdate.customerType === 'buyer' ? 'seller' : 'buyer';
+            await updateAccountRole(sellerToUpdate.account.id, newRole);
+            setSellers((prevSellers) => prevSellers.filter(seller => seller.id !== sellerToUpdate.id));
+            showToast(`Vai trò đã được cập nhật thành ${newRole === 'seller' ? 'Người bán' : 'Người mua'}.`, 'info');
+            handleConfirmClose();
+        } catch (error) {
+            console.error('Error updating role:', error);
+            showToast('Đã xảy ra lỗi khi cập nhật vai trò.', 'error');
         }
     };
 
@@ -223,6 +251,14 @@ const SellerList = () => {
                                     >
                                         <FaEye /> Xem
                                     </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        style={{color: '#ff6b35', borderColor: '#ff6b35'}}
+                                        onClick={() => handleConfirmShow(seller)}
+                                    >
+                                        <FaSync /> Cập nhật
+                                    </Button>
                                 </td>
                             </tr>
                         ))}
@@ -262,7 +298,7 @@ const SellerList = () => {
                 show={showModal}
                 onHide={handleModalClose}
                 centered
-                size="xl"
+                size="lg"
                 dialogClassName={modalStyles.customModalOverlay}
             >
                 <Modal.Header
@@ -285,7 +321,7 @@ const SellerList = () => {
                                         <img
                                             src={selectedSeller.imageUrl}
                                             alt={selectedSeller.name}
-                                            style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '50%' }}
+                                            className={modalStyles.customModalImage}
                                         />
                                     </div>
                                 )}
@@ -311,7 +347,7 @@ const SellerList = () => {
                                         <strong>ID Card:</strong> <span>{selectedSeller.idCard}</span>
                                     </li>
                                     <li className={`list-group-item ${modalStyles.customListItem}`}>
-                                        <strong>Loại khách hàng:</strong> <span>{selectedSeller.customerType === 'seller' ? 'Người bán' : 'Người mua'}</span>
+                                        <strong>Loại khách hàng:</strong> <span>{selectedSeller.customerType === 'buyer' ? 'Người mua' : 'Người bán'}</span>
                                     </li>
                                 </ul>
                             </Card.Body>
@@ -320,6 +356,45 @@ const SellerList = () => {
                         <p className="text-center text-muted">Không có thông tin để hiển thị.</p>
                     )}
                 </Modal.Body>
+            </Modal>
+
+            <Modal
+                show={showConfirmModal}
+                onHide={handleConfirmClose}
+                centered
+                size="md"
+                dialogClassName={modalStyles.customModalOverlay}
+            >
+                <Modal.Header
+                    closeButton
+                    className={`${modalStyles.customModalHeader} border-0`}
+                >
+                    <Modal.Title
+                        className={`${modalStyles.customModalTitle} fs-4 text-center`}
+                        style={{ color: "white", width: '100%' }}
+                    >
+                        Xác nhận thay đổi vai trò
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={modalStyles.customModalBody}>
+                    <p className="text-center">
+                        Bạn có chắc chắn muốn thay đổi vai trò của người mua <strong>{sellerToUpdate?.name}</strong> từ <strong>{sellerToUpdate?.customerType === 'buyer' ? 'Người mua' : 'Người bán'}</strong> thành <strong>{sellerToUpdate?.customerType === 'seller' ? 'Người bán' : 'Người mua'}</strong> không?
+                    </p>
+                </Modal.Body>
+                <Modal.Footer className="border-0 d-flex justify-content-center">
+                    <Button
+                        variant="outline-secondary"
+                        onClick={handleConfirmClose}
+                    >
+                        Hủy
+                    </Button>
+                    <Button
+                        variant="primary"
+                        onClick={handleUpdateRole}
+                    >
+                        Xác nhận
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </Container>
     );
