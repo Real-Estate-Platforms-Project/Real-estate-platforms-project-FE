@@ -1,10 +1,10 @@
-import axios from 'axios';
+import apiClient from "../configs/AxiosConfigs";
 
-const API_URL = 'http://localhost:8080/api/admin/sellers';
+const API_URL = '/admin/sellers';
 
 export const getAllSellers = async () => {
     try {
-        const response = await axios.get(API_URL);
+        const response = await apiClient.get(API_URL);
         return response.data;
     } catch (error) {
         console.error('Error fetching sellers:', error);
@@ -14,7 +14,7 @@ export const getAllSellers = async () => {
 
 export const getSellerById = async (id) => {
     try {
-        const response = await axios.get(`${API_URL}/${id}`);
+        const response = await apiClient.get(`${API_URL}/${id}`);
         return response.data;
     } catch (error) {
         console.error(`Error fetching seller with ID ${id}:`, error);
@@ -29,7 +29,7 @@ export const searchSellers = (searchCriteria) => {
     if (searchCriteria.email) params.append('email', searchCriteria.email);
     if (searchCriteria.phoneNumber) params.append('phoneNumber', searchCriteria.phoneNumber);
 
-    return axios.get(`${API_URL}/search`, { params })
+    return apiClient.get(`${API_URL}/search`, { params })
         .then(response => response.data)
         .catch(error => {
             console.error('Error searching sellers:', error);
