@@ -42,6 +42,7 @@ import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
 import ProfilePage from "./page/client/Profile";
+import ManagePostings from "./page/client/ManagePostings";
 
 
 
@@ -90,6 +91,7 @@ function App() {
                                 />}/>
                                 <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                                 <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
+                                <Route path="/sellernet/quan-ly-tin-rao-ban-cho-thue" element={<ManagePostings/>}/>
                             </Route>
 
                             <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>

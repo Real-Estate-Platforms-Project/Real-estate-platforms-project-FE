@@ -398,11 +398,11 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
 
             </div>
             <div className="search-bar d-flex my-2">
-                <div className="w-25 search-input-icon">
+                <div className="w-auto search-input-icon">
                     <i className="bi bi-search"></i>
                     <input
                         type="text"
-                        className="search-input "
+                        className="search-input w-100"
                         placeholder="Nhập địa chỉ tìm kiếm"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
