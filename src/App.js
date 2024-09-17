@@ -86,12 +86,13 @@ function App() {
                                 <Route path="/notification" element={<Notification/>}/>
                                 <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                                 <Route path="/403" element={<Forbidden/>}/>
-                                <Route path="/estate-list" element={<EstateListing/>}/>
+                                <Route path="/estate-list" element={<EstateListing
+                                />}/>
                                 <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                                 <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                             </Route>
 
-                            {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
+                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
                             <Route
                                 path="/admin"
                                 element={
@@ -111,7 +112,7 @@ function App() {
                                     <Route path="/admin/statistics" element={<Statistics/>}/>
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
                                 </Route>
-                            {/*</Route>*/}
+                            </Route>
                         </Routes>
 
                 }
