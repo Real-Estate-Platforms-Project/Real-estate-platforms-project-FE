@@ -21,6 +21,9 @@ function NotificationAdmin() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [deleteNotificationTitle, setDeleteNotificationTitle] = useState("");
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
+
     useEffect(() => {
         getNotifications(title);
     }, [title]);
@@ -28,12 +31,18 @@ function NotificationAdmin() {
     const getNotifications = async (title) => {
         try {
             let res = await notificationService.getAllNotification(title);
-            console.log(res)
             setNotificationsList(res.length > 0 ? res : []);
         } catch (error) {
             console.error('Lỗi', error);
         }
     };
+
+    const totalPages = Math.ceil(notificationsList.length / itemsPerPage);
+
+    const paginatedNotifications = notificationsList.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
 
     const handleSearchChange = (event) => {
         setTitle(event.target.value);
@@ -80,7 +89,6 @@ function NotificationAdmin() {
 
     const handleAddNotification = async (newNotification) => {
         try {
-            console.log(newNotification)
             await notificationService.addNotification(newNotification);
             getNotifications(title);
             toast.success("Thêm thông báo thành công!");
@@ -115,6 +123,22 @@ function NotificationAdmin() {
         return format(new Date(date), 'dd/MM/yyyy HH:mm');
     };
 
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
     return (
         <div className="notification-container-ky">
             <div>
@@ -144,7 +168,7 @@ function NotificationAdmin() {
                     </tr>
                     </thead>
                     <tbody>
-                    {notificationsList.map((item) => (
+                    {paginatedNotifications.map((item) => (
                         <tr key={item.id}>
                             <td>
                                 {item.images && item.images.length > 0 ? (
@@ -187,11 +211,38 @@ function NotificationAdmin() {
                 </table>
             </div>
 
+            <div className="pagination-controls d-flex justify-content-center mt-3">
+                <button
+                    className="button-orange me-2"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                >
+                    Previous
+                </button>
+                {Array.from({length: totalPages}, (_, index) => (
+                    <button
+                        key={index}
+                        className={`button-orange me-2 ${currentPage === index + 1 ? 'active' : ''}`}
+                        onClick={() => handlePageChange(index + 1)}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+                <button
+                    className="button-orange ms-2"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                >
+                    Next
+                </button>
+            </div>
+
+
             <Modal
                 show={showModal}
                 onClose={closeModal}
                 onConfirm={handleDelete}
-                message={`Bạn có chắc chắn muốn xóa thông báo có tiêu đề "${deleteNotificationTitle}"?`} // Display title in the message
+                message={`Bạn có chắc chắn muốn xóa thông báo có tiêu đề "${deleteNotificationTitle}"?`}
             />
 
             <CreateNotification
@@ -217,7 +268,7 @@ function NotificationAdmin() {
                             src={selectedImage}
                             alt="Selected"
                             className="img-fluid"
-                            style={{ maxWidth: '100%' }}
+                            style={{maxWidth: '100%'}}
                         />
                     )}
                 </BootstrapModal.Body>
@@ -225,5 +276,6 @@ function NotificationAdmin() {
         </div>
     );
 }
+
 
 export default NotificationAdmin;
