@@ -5,8 +5,6 @@ import * as Yup from "yup";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
-import * as buyerService from "../../services/BuyerInfor";
-import Forbidden from "../../component/client/Forbidden";
 
 
 
@@ -21,11 +19,6 @@ function CreateDemand() {
         notes:"",
     });
 
-    const[buyer,setBuyer]=useState(null)
-
-    useEffect(()=>{
-        fetchBuyer()}
-    , []);
 
     const navigate = useNavigate()
     const objectValid = {
@@ -46,14 +39,6 @@ function CreateDemand() {
             .integer("diện tích phải là số nguyên")
     }
 
-    const fetchBuyer = async () => {
-        try {
-            const buyer = await buyerService.BuyerInfor();
-            setBuyer(buyer)
-        } catch (error) {
-            toast.error("Không thể tải thông tin khách hàng.");
-        }
-    };
     const saveDemand = async (value) => {
         let isSuccess = await demandService.saveDemand(value)
         if(isSuccess) {
@@ -64,26 +49,19 @@ function CreateDemand() {
         }
 
     }
-
-
-    if(!buyer){return <Forbidden/>}
+    
     return (
         <>
             <Formik initialValues={form} onSubmit={saveDemand} validationSchema={Yup.object(objectValid)}>
                 <Form className='container mt-5 shadow-sm p-3 rounded w-50 bg-white'>
                     <h4 className="fw-bold text-center">Thông tin nhu cầu bất động sản</h4>
-                    <div className="mt-3">
-                        <label htmlFor="buyerCode" className="form-label">Khách hàng</label>
-                        <Field type="text" className="form-control" id="buyerCode" name="buyerCode" value={buyer.name}
-                               disabled/>
-                    </div>
                     <div className="row mt-3">
                         <div className="col">
                             <label htmlFor="type" className="form-label">Loại nhu cầu</label>
                             <Field as="select" name="type" id="type" className="form-select">
                                 <option>Chọn</option>
                                 <option value="Mua">Mua</option>
-                                <option value="Thuê">Thuê</option>
+                                <option value="Thue">Thuê</option>
                             </Field>
                             <ErrorMessage name="type" component="div" className="text-danger"/>
                         </div>
