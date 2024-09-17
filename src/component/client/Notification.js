@@ -2,23 +2,25 @@ import React, { useEffect, useState } from "react";
 import * as notificationService from '../../services/NotificationService';
 import styles from '../../css/NotificationClient.module.css';
 import { Link } from "react-router-dom";
-import {format} from "date-fns";
+import { format } from "date-fns";
 
 function Notification() {
-    const [notification, setNotification] = useState([]);
+    const [notifications, setNotifications] = useState([]);
     const [title, setTitle] = useState("");
+    const [visibleCount, setVisibleCount] = useState(3); // Number of notifications to show
+    const [expanded, setExpanded] = useState({}); // To track expanded notifications
 
     useEffect(() => {
-        getNotification(title);
+        getNotifications(title);
     }, [title]);
 
-    const getNotification = async (title) => {
+    const getNotifications = async (title) => {
         let res = await notificationService.getAllNotification(title);
         if (res.length > 0) {
-            setNotification(res);
+            setNotifications(res);
             console.log(res);
         } else {
-            setNotification([]);
+            setNotifications([]);
         }
     }
 
@@ -41,6 +43,21 @@ function Notification() {
         return format(new Date(date), 'dd/MM/yyyy HH:mm');
     };
 
+    const showMore = () => {
+        setVisibleCount(prevCount => prevCount + 3);
+    };
+
+    const showMore1 = () => {
+        setVisibleCount(prevCount => prevCount - 3);
+    };
+
+    const toggleExpand = (id) => {
+        setExpanded(prev => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+    };
+
     return (
         <div className={`container mt-4 ${styles.notificationContainer}`}>
             <div className={`mb-4 ${styles.searchBar}`}>
@@ -53,7 +70,7 @@ function Notification() {
                 />
             </div>
             <div className="row">
-                {notification.map((item) => (
+                {notifications.slice(0, visibleCount).map((item) => (
                     <div key={item.id} className="col-md-4 mb-3">
                         <div className={styles.notificationItem}>
                             <Link to={`/notificationDetail/${item.id}`} className="text-decoration-none">
@@ -64,7 +81,6 @@ function Notification() {
                                         alt={item.title}
                                         className={`img-fluid ${styles.articleImage}`}
                                     />
-                                    {/* Thumbnail images if needed, but kept hidden for the main view */}
                                 </div>
                                 <div className={styles.articleContent}>
                                     <h5 className={styles.articleTitle}>{item.title}</h5>
@@ -76,19 +92,34 @@ function Notification() {
                                         {truncateText(item.contend, 100)} {/* Display first 100 characters */}
                                     </p>
                                     {item.contend.length > 100 && (
-                                        <button className="btn btn-link" data-bs-toggle="collapse"
-                                                data-bs-target={`#content${item.id}`}>
-                                            Xem thêm
-                                        </button>
+                                        <>
+                                            <button
+                                                className="btn btn-link"
+                                                onClick={() => toggleExpand(item.id)}
+                                            >
+                                                {expanded[item.id] ? "Thu gọn" : "Xem thêm"}
+                                            </button>
+                                            {expanded[item.id] && (
+                                                <div className={styles.fullContent}>
+                                                    {item.contend}
+                                                </div>
+                                            )}
+                                        </>
                                     )}
-                                    <div id={`content${item.id}`} className="collapse">
-                                        {item.contend}
-                                    </div>
                                 </div>
                             </Link>
                         </div>
                     </div>
                 ))}
+            </div>
+            <div>
+                {visibleCount < notifications.length && (
+                    <div className="text-center">
+                        <button className="button-orange" onClick={showMore}>
+                            Xem thêm
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
