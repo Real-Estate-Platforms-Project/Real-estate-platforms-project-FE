@@ -119,7 +119,7 @@ const EmployeeForm = ({ onCloseModal, onSave, employee, isEditing }) => {
                     )}
                 </div>
                 <div className="col-md-6 mb-3">
-                    <label className="form-label">Giới tính</label>
+                    <label className="form-label">Giới tính </label>
                     <div className="form-check form-check-inline">
                         <input
                             type="radio"

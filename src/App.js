@@ -21,7 +21,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
-
 import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
@@ -43,6 +42,8 @@ import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
 import ProfilePage from "./page/client/Profile";
+
+
 
 
 function App() {
@@ -91,7 +92,15 @@ function App() {
                             </Route>
 
                             {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
-                                <Route path="/admin" element={<Admin/>}>
+                            <Route
+                                path="/admin"
+                                element={
+                                    <>
+                                        <Admin />
+                                    </>
+                                }
+                            >
+
                                     <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
                                         <Route path={"/admin/employee"} element={<EmployeeList/>}/>
                                     </Route>

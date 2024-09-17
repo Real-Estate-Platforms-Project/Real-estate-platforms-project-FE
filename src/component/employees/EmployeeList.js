@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import * as employeeService from '../../services/EmployeeService';
-import * as positionService from '../../services/PositionService'; // Assuming your position API is in a separate service
+import * as positionService from '../../services/PositionService';
 import EmployeeForm from './EmployeeForm';
+import ModalDeleteEmployee from "../admin/ModalDeleteEmployee";
 import { Modal, Button } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-toastify';
+import styles from '../../css/PaginationStyles.module.css';
+import '../../css/nhat.css';
+import { FaSearch, FaUser, FaAt, FaPhone, FaBriefcase, FaIdBadge } from 'react-icons/fa';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
     const [positions, setPositions] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
 
     useEffect(() => {
         loadEmployees();
-        fetchPositions();  // Fetch positions when component mounts
+        fetchPositions();
     }, []);
 
     const loadEmployees = async (filters = {}) => {
@@ -30,7 +37,7 @@ const EmployeeList = () => {
     const fetchPositions = async () => {
         try {
             const positionsData = await positionService.getPosition();
-            setPositions(positionsData);  // Save the positions in state
+            setPositions(positionsData);
         } catch (error) {
             console.error("Error fetching positions:", error);
         }
@@ -62,17 +69,34 @@ const EmployeeList = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")) {
+    const handleDeleteModalShow = (employee) => {
+        setSelectedEmployee(employee);
+        setShowDeleteModal(true);
+    };
+
+    const handleDelete = async () => {
+        if (selectedEmployee) {
             try {
-                await employeeService.deleteEmployee(id);
+                await employeeService.deleteEmployee(selectedEmployee.id);
                 toast.success('Xóa thành công!');
                 await loadEmployees();
             } catch (error) {
                 console.error("Lỗi khi xóa nhân viên:", error);
                 toast.error('Có lỗi xảy ra khi xóa nhân viên!');
             }
+            setShowDeleteModal(false);
         }
+    };
+
+    const totalPages = Math.ceil(employees.length / itemsPerPage);
+    const currentEmployees = employees.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const handlePrevClick = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
+
+    const handleNextClick = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
 
     return (
@@ -100,6 +124,13 @@ const EmployeeList = () => {
                 </Modal.Body>
             </Modal>
 
+            <ModalDeleteEmployee
+                show={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={handleDelete}
+                message="Bạn có chắc chắn muốn xóa nhân viên  này không?"
+            />
+
             <div className="shadow-sm p-4 rounded">
                 <Formik
                     initialValues={{
@@ -112,25 +143,28 @@ const EmployeeList = () => {
                 >
                     {() => (
                         <Form>
-                            <div className="row align-items-center mb-3">
-                                <div className="col-md-2">
+                            <div className="d-flex flex-wrap align-items-center mb-3">
+                                <div className="position-relative flex-grow-1 me-2">
+                                    <FaIdBadge className="position-absolute top-50 start-0 translate-middle-y ms-2" />
                                     <Field
                                         type="text"
                                         name="code"
                                         placeholder="Mã NV"
-                                        className="form-control"
+                                        className="form-control ps-5"
                                     />
                                 </div>
-                                <div className="col-md-2">
+                                <div className="position-relative flex-grow-1 me-2">
+                                    <FaUser className="position-absolute top-50 start-0 translate-middle-y ms-2" />
                                     <Field
                                         type="text"
                                         name="name"
                                         placeholder="Tên NV"
-                                        className="form-control"
+                                        className="form-control ps-5"
                                     />
                                 </div>
-                                <div className="col-md-2">
-                                    <Field as="select" name="position" className="form-select">
+                                <div className="position-relative flex-grow-1 me-2">
+                                    <FaBriefcase className="position-absolute top-50 start-0 translate-middle-y ms-2" />
+                                    <Field as="select" name="position" className="form-select ps-5">
                                         <option value="">Chức vụ</option>
                                         {positions.map((position) => (
                                             <option key={position.id} value={position.name}>
@@ -139,30 +173,30 @@ const EmployeeList = () => {
                                         ))}
                                     </Field>
                                 </div>
-                                <div className="col-md-2">
+                                <div className="position-relative flex-grow-1 me-2">
+                                    <FaAt className="position-absolute top-50 start-0 translate-middle-y ms-2" />
                                     <Field
                                         type="text"
                                         name="email"
                                         placeholder="Email"
-                                        className="form-control"
+                                        className="form-control ps-5"
                                     />
                                 </div>
-                                <div className="col-md-2">
-                                    <Button
-                                        type="submit"
-                                        className="btn btn-outline-dark w-100"
-                                    >
-                                        Tìm kiếm
-                                    </Button>
-                                </div>
+                                <Button
+                                    type="submit"
+                                    className="btn btn-outline-dark flex-grow-1"
+                                >
+                                    <FaSearch className="me-2" />
+                                    Tìm kiếm
+                                </Button>
                             </div>
                         </Form>
                     )}
                 </Formik>
-                <div className="table-responsive">
-                    <table className="table table-hover ">
-                        <thead className="thead-dark" style={{backgroundColor: '#FF6B35'}}>
 
+                <div className="table-responsive">
+                    <table className="table table-hover">
+                        <thead className="thead-dark nhat">
                         <tr>
                             <th>Mã nhân viên</th>
                             <th>Họ tên</th>
@@ -175,37 +209,68 @@ const EmployeeList = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {employees.map((employee) => (
-                            <tr key={employee.id}>
-                                <td>{employee.code}</td>
-                                <td>{employee.name}</td>
-                                <td>{employee.dob}</td>
-                                <td>{employee.gender}</td>
-                                <td>{employee.phoneNumber}</td>
-                                <td>{employee.email}</td>
-                                <td>{employee.position.name || 'N/A'}</td>
-                                <td>
-                                    <Button
-                                        className="btn btn-info btn-sm me-2"
-                                        onClick={() => handleModalShow({
-                                            ...employee,
-                                            positionId: employee.position.id,
-                                            role: employee.isAdmin ? "Admin" : "Nhân viên"
-                                        })}
-                                    >
-                                        Sửa
-                                    </Button>
-                                    <Button
-                                        className="btn btn-danger btn-sm"
-                                        onClick={() => handleDelete(employee.id)}
-                                    >
-                                        Xoá
-                                    </Button>
-                                </td>
+                        {currentEmployees.length > 0 ? (
+                            currentEmployees.map((employee) => (
+                                <tr key={employee.id}>
+                                    <td>{employee.code}</td>
+                                    <td>{employee.name}</td>
+                                    <td>{employee.dob}</td>
+                                    <td>{employee.gender}</td>
+                                    <td>{employee.phoneNumber}</td>
+                                    <td>{employee.email}</td>
+                                    <td>{employee.position.name || 'N/A'}</td>
+                                    <td>
+                                        <Button
+                                            className="me-2"
+                                            style={{ backgroundColor: 'white', color: '#ff5722', border: '1px solid #ff5722' }}
+                                            onClick={() => handleModalShow({
+                                                ...employee,
+                                                positionId: employee.position.id,
+                                                role: employee.isAdmin ? "Admin" : "Nhân viên"
+                                            })}
+                                        >
+                                            Sửa
+                                        </Button>
+                                        <Button
+                                            style={{ backgroundColor: 'white', color: '#ff8800', border: '1px solid #ff8800' }}
+                                            onClick={() => handleDeleteModalShow(employee)}
+                                        >
+                                            Xoá
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="8" className="text-center">Không tìm thấy nhân viên</td>
                             </tr>
-                        ))}
+                        )}
                         </tbody>
                     </table>
+                </div>
+
+                <div className={styles.paginationCustom}>
+                    <div
+                        className={`${styles.pageItem} ${currentPage === 1 ? styles.pageItemDisabled : ''}`}
+                        onClick={handlePrevClick}
+                    >
+                        &lt;
+                    </div>
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <div
+                            key={i + 1}
+                            className={`${styles.pageItem} ${i + 1 === currentPage ? styles.pageItemActive : ''}`}
+                            onClick={() => setCurrentPage(i + 1)}
+                        >
+                            {i + 1}
+                        </div>
+                    ))}
+                    <div
+                        className={`${styles.pageItem} ${currentPage === totalPages ? styles.pageItemDisabled : ''}`}
+                        onClick={handleNextClick}
+                    >
+                        &gt;
+                    </div>
                 </div>
             </div>
         </div>
