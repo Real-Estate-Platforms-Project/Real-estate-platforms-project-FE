@@ -68,6 +68,11 @@ const SideBar = () => {
                     </NavLink>
                 </li>
                 <li className="custom-nav-item">
+                    <NavLink className="custom-nav-link" to="/admin/statistics">
+                        <i className="bi bi-graph-up"></i> Thống kê
+                    </NavLink>
+                </li>
+                <li className="custom-nav-item">
                     <NavLink className="custom-nav-link" to="/admin/notification">
                         <i className="bi bi-bell"></i> Thông báo
                     </NavLink>
