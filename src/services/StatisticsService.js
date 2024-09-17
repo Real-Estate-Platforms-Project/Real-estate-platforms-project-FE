@@ -54,3 +54,14 @@ export const getStatisticTransactionByMonth = async (year, month) => {
         return [];
     }
 }
+
+export const getStatisticTransactionByDay = async (startDate, endDate) => {
+    try {
+        let res = await axios.get(`${URL_STATISTICS}/transactions/day`, {
+            params: { startDate, endDate }
+        });
+        return res.data;
+    } catch (e) {
+        return [];
+    }
+}
