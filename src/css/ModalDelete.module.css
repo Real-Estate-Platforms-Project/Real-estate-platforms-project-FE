@@ -1,0 +1,66 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Màu nền tối */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050; /* Đảm bảo modal nằm trên tất cả các phần tử khác */
+}
+
+.modalContent {
+    background: white;
+    border-radius: 12px; /* Bo tròn góc */
+    padding: 20px;
+    max-width: 600px; /* Kích thước tối đa */
+    width: 90%; /* Kích thước theo phần trăm */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Hiệu ứng chuyển động */
+    transform: translateY(-20px); /* Đặt modal cao hơn và di chuyển vào khi hiển thị */
+    opacity: 0; /* Đặt opacity về 0 để làm cho modal mờ dần */
+}
+
+.modalContent.show {
+    opacity: 1; /* Hiển thị modal */
+    transform: translateY(0); /* Di chuyển modal về vị trí bình thường */
+}
+
+.modalButtons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    padding: 10px 20px; /* Kích thước nút */
+    border: none;
+    border-radius: 6px; /* Bo tròn góc nút */
+    cursor: pointer;
+    font-size: 16px; /* Kích thước chữ */
+    font-weight: 600; /* Chữ đậm hơn */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng chuyển động */
+}
+
+.confirmButton {
+    background-color: #ff5722; /* Màu nền đỏ */
+    color: white;
+}
+
+.confirmButton:hover {
+    background-color: #ff5722; /* Màu đỏ đậm hơn khi hover */
+    transform: scale(1.05); /* Phóng to nút khi hover */
+}
+
+.cancelButton {
+    background-color: rgba(178, 175, 175, 0.8); /* Màu nền xám */
+    color: white;
+    margin-left: 10px; /* Khoảng cách giữa các nút */
+}
+
+.cancelButton:hover {
+    background-color: #e5e5e5; /* Màu xám đậm hơn khi hover */
+    transform: scale(1.05); /* Phóng to nút khi hover */
+}
