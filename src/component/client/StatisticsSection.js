@@ -11,7 +11,7 @@ export default function StatisticsSection() {
                         <div className="d-flex justify-content-center align-items-center bg-white rounded-circle shadow-sm" style={{ width: '70px', height: '70px' }}>
                             <i className="bi bi-coin" style={{fontSize: '35px', color: '#ff5722'}}></i>
                         </div>
-                        <h4 className="fw-bold mt-3">$15.4M</h4>
+                        <h4 className="fw-bold mt-3">> 15 tỷ </h4>
                         <p className="text-secondary">
                            Lượng giao dịch trong tháng
                         </p>
@@ -21,9 +21,9 @@ export default function StatisticsSection() {
                         <div className="d-flex justify-content-center align-items-center bg-white rounded-circle shadow-sm" style={{ width: '70px', height: '70px' }}>
                             <i className="bi bi-coin" style={{fontSize: '35px', color: '#ff5722'}}></i>
                         </div>
-                        <h4 className="fw-bold mt-3">25K+</h4>
+                        <h4 className="fw-bold mt-3">1K+</h4>
                         <p className="text-secondary">
-                            Properties for Buy & sell Successfully
+                            Số lượt mua bán thành công
                         </p>
                     </Col>
 
@@ -33,11 +33,11 @@ export default function StatisticsSection() {
                             style={{width: '70px', height: '70px'}}>
                             <i className="bi bi-coin" style={{fontSize: '35px', color: '#ff5722'}}></i>
                         </div>
-                        <h4 className="fw-bold mt-3">$15.4M</h4>
+                        <h4 className="fw-bold mt-3">> 5 tỷ  </h4>
                         <p className="text-secondary">
-                            Owned from
+                            Doanh thu
                             <br />
-                            Properties transactions
+                            dự kiến trong quý
                         </p>
                     </Col>
 
@@ -45,8 +45,9 @@ export default function StatisticsSection() {
                         <div className="d-flex justify-content-center align-items-center bg-white rounded-circle shadow-sm" style={{ width: '70px', height: '70px' }}>
                             <i className="bi bi-emoji-smile" style={{ fontSize: '35px', color: '#ff5722' }}></i>
                         </div>
-                        <h4 className="fw-bold mt-3">600+</h4>
-                        <p className="text-secondary">Regular Clients</p>
+                        <h4 className="fw-bold mt-3">100+</h4>
+                        <p className="text-secondary">Khách hàng <br />
+                        thường xuyên truy cập</p>
                     </Col>
                 </Row>
             </div>

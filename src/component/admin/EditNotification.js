@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 import { storage } from '../../configs/ConfigFirebase';
 import { toast } from 'react-toastify';
+import DatePicker from "react-datepicker";
+import {format} from "date-fns";
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Tiêu đề là bắt buộc'),
@@ -23,17 +25,22 @@ const EditNotificationModal = ({ show, onClose, onUpdate, notification }) => {
         images: notification?.images.map(item => item.imageUrl.replace(/\"/g, '')) || [],
         contend: notification?.contend || '',
         createAt: notification?.createAt || '',
-        employee: notification?.employee || ''
+        employee: notification?.employee || '',
+        dateStart: notification?.dateStart || ''
     };
 
     const handleUpdate = (values) => {
+
+        const localDateTime = values.dateStart ? format(values.dateStart, 'yyyy-MM-dd\'T\'HH:mm:ss') : null;
+
         const updatedNotification = {
             id: notification.id,
             title: values.title,
             images: values.images.map(url => ({ imageUrl: url })),
             contend: values.contend,
             createAt: notification.createAt,
-            employee: notification.employee
+            employee: notification.employee,
+            dateStart: localDateTime
         };
         onUpdate(updatedNotification);
         onClose();
@@ -104,7 +111,7 @@ const EditNotificationModal = ({ show, onClose, onUpdate, notification }) => {
                                             {values.images.length > 0 ? (
                                                 <div className={styles.customImagePreviewContainer}>
                                                     {values.images.map((image, index) => (
-                                                        <div key={index} className={styles.customImagePreviewWrapper}>
+                                                        <div key={index} className={styles.customImageWrapper}>
                                                             <img
                                                                 src={image}
                                                                 alt={`Image ${index}`}
@@ -116,7 +123,7 @@ const EditNotificationModal = ({ show, onClose, onUpdate, notification }) => {
                                                                 className={styles.customRemoveImageButton}
                                                                 onClick={() => handleRemoveImage(setFieldValue, values.images, index)}
                                                             >
-                                                                Xóa
+                                                                X
                                                             </Button>
                                                         </div>
                                                     ))}
@@ -138,6 +145,24 @@ const EditNotificationModal = ({ show, onClose, onUpdate, notification }) => {
                                             </label>
                                         </div>
                                         <ErrorMessage name="images" component="div" className="text-danger" />
+                                    </Form.Group>
+
+                                    <Form.Group controlId="formDateStart" className={styles.customFormGroup}>
+                                        <Form.Label className={styles.customModalLabel}>Ngày / giờ bắt đầu</Form.Label>
+                                        <Field name="dateStart">
+                                            {({ field, form }) => (
+                                                <DatePicker
+                                                    selected={field.value ? new Date(field.value) : null}
+                                                    onChange={(date) => {
+                                                        setFieldValue("dateStart", date);
+                                                    }}
+                                                    showTimeSelect
+                                                    dateFormat="Pp"
+                                                    className={styles.customFormControl}
+                                                />
+                                            )}
+                                        </Field>
+                                        <ErrorMessage name="dateStart" component="div" className="text-danger" />
                                     </Form.Group>
                                     <Form.Group controlId="formContend" className={styles.customFormGroup}>
                                         <Form.Label className={styles.customModalLabel}>Mô tả</Form.Label>

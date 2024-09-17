@@ -4,19 +4,23 @@ import * as Yup from 'yup';
 import { Formik, Field, Form as FormikForm, ErrorMessage } from 'formik';
 import styles from '../../css/ModalCreate.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css'; // Import datepicker styles
+import DatePicker from 'react-datepicker';
 import { storage } from '../../configs/ConfigFirebase';
 import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../../redux/FetchUser';
+import { format } from 'date-fns'; // Import date-fns to format localDateTime
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Tiêu đề là bắt buộc'),
     images: Yup.array().of(Yup.string().required('Cần chọn một hình ảnh')).min(1, 'Cần chọn ít nhất một hình ảnh'),
     contend: Yup.string().required('Mô tả là bắt buộc'),
+    dateStart: Yup.date().required('Ngày bắt đầu là bắt buộc').nullable(),
 });
 
-const AddNotificationModal = ({show, onClose, onAdd}) => {
+const AddNotificationModal = ({ show, onClose, onAdd }) => {
     const [selectedImages, setSelectedImages] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
     const [showLargeImage, setShowLargeImage] = useState(false);
@@ -32,11 +36,15 @@ const AddNotificationModal = ({show, onClose, onAdd}) => {
     }, [isAuthenticated, user, dispatch]);
 
     const handleAdd = (values) => {
+
+        const localDateTime = values.dateStart ? format(values.dateStart, 'yyyy-MM-dd\'T\'HH:mm:ss') : null;
+
         const newNotification = {
             title: values.title,
             contend: values.contend,
             employee: { id: values.employee },
-            images: selectedImages.map(url => ({ imageUrl: url }))
+            images: selectedImages.map(url => ({ imageUrl: url })),
+            dateStart: localDateTime
         };
         onAdd(newNotification);
         onClose();
@@ -87,11 +95,11 @@ const AddNotificationModal = ({show, onClose, onAdd}) => {
                     </Modal.Header>
                     <Modal.Body>
                         <Formik
-                            initialValues={{ title: '', images: [], contend: '', employee: user ? user.id : '' }}
+                            initialValues={{ title: '', images: [], contend: '', employee: user ? user.id : '', dateStart: null }}
                             validationSchema={validationSchema}
                             onSubmit={handleAdd}
                         >
-                            {({ setFieldValue }) => (
+                            {({ setFieldValue, values }) => (
                                 <FormikForm className={styles.customModalForm}>
                                     <Form.Group controlId="formTitle" className={styles.customFormGroup}>
                                         <Form.Label className={styles.customModalLabel}>Tiêu đề</Form.Label>
@@ -123,7 +131,7 @@ const AddNotificationModal = ({show, onClose, onAdd}) => {
 
                                         <ErrorMessage name="images" component="div" className="text-danger" />
                                         {selectedImages.length > 0 && (
-                                            <div className={styles.customImagePreviewContainer}>
+                                            <div className={styles.customImagePreviewWrapper}>
                                                 {selectedImages.map((image, index) => (
                                                     <div key={index} className={styles.customImageWrapper}>
                                                         <img
@@ -143,6 +151,25 @@ const AddNotificationModal = ({show, onClose, onAdd}) => {
                                                 ))}
                                             </div>
                                         )}
+                                    </Form.Group>
+
+                                    <Form.Group controlId="formDateStart" className={styles.customFormGroup}>
+                                        <Form.Label className={styles.customModalLabel}>Ngày / giờ bắt đầu</Form.Label>
+                                        <Field name="dateStart">
+                                            {({ field, form }) => (
+                                                <DatePicker
+                                                    selected={field.value ? new Date(field.value) : null}
+                                                    onChange={(date) => {
+                                                        setFieldValue("dateStart", date);
+                                                    }}
+                                                    showTimeSelect
+                                                    dateFormat="Pp"
+                                                    placeholderText="Nhập ngày giờ"
+                                                    className={styles.customFormControl}
+                                                />
+                                            )}
+                                        </Field>
+                                        <ErrorMessage name="dateStart" component="div" className="text-danger" />
                                     </Form.Group>
 
                                     <Form.Group controlId="formContend" className={styles.customFormGroup}>
