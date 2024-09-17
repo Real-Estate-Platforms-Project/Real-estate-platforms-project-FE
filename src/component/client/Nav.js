@@ -50,8 +50,7 @@ function Nav() {
                             </li>
 
                             <li className="nav-item">
-                                <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Tin
-                                    tức</Link>
+                                <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Thông báo</Link>
                             </li>
                         </ul>
 
