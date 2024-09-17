@@ -59,9 +59,11 @@ function DemandList() {
         setError(null);
         try {
             const response = await demandService.searchDemand({...filters, page, size: 6});
+            console.log(page)
             setDemands(response.content || []);
             setTotalPages(response.totalPages || 0);
             setCurrentPage(page);
+            console.log(currentPage);
         } catch (error) {
             console.error('Error fetching search results:', error);
             setError('Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.');

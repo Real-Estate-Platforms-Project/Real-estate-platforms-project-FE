@@ -55,7 +55,7 @@ const ResultsList = ({results, loading, error, currentPage, totalPages, handlePa
                                             style={{height: "200px", objectFit: "cover"}}
                                         />
                                     </div>
-                                    {item.type === 'Nhà' ? (
+                                    {item.type === 'Nhà ở' ? (
                                         <div>
                                             <div className="card-body pb-1">
                                                 <h6 className="card-title title fw-bold">{item?.title || ''}</h6>
