@@ -94,7 +94,7 @@ const SearchBar = ({onSearch}) => {
             navigate('/estate-list', {state: {filters}});
         } else {
             // Nếu đang ở trang EstateListing thì gọi onSearch
-            onSearch(filters);
+            onSearch({...filters});
         }
 
 
