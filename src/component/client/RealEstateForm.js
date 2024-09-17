@@ -11,12 +11,16 @@ const RealEstateForm = ({
                             selectedProvince,
                             selectedDistrict,
                             selectedWard,
+                            formattedPrice,
                             selectedDemandType,
                             handleProvinceChange,
                             handleDistrictChange,
                             handleWardChange,
                             handleDemandTypeChange,
-                            handleUploadFiles
+                            handleUploadFiles,
+                            handlePriceChange,
+                            uploadedFiles,
+                            handleRemoveFile
                         }) => (
     <form onSubmit={formik.handleSubmit} className="form-create-real-estate pt-4">
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white">
@@ -153,13 +157,31 @@ const RealEstateForm = ({
             <h4 className="fw-bold">Thông tin bất động sản</h4>
             <div className="mt-4">
                 <label htmlFor="area" className="form-label">Diện tích <span className="text-danger">*</span></label>
-                <Field type="number" name="area" id="area" className="form-control" placeholder="VD: 100 m2"/>
+                <Field
+                    type="text"
+                    name="area"
+                    id="area"
+                    className="form-control"
+                    placeholder="Nhập diện tích, VD: 80 m²"
+                    maxLength={8}
+                />
                 <ErrorMessage name="area" component="div" className="text-danger"/>
             </div>
+
             <div className="mt-3">
-                <label htmlFor="price" className="form-label">Giá kì vọng <span className="text-danger">*</span></label>
-                <Field type="number" name="price" id="price" className="form-control"
-                       placeholder="VD: 1.000.000 VNĐ/m2"/>
+                <label htmlFor="price" className="form-label">
+                    Giá kì vọng <span className="text-danger">*</span>
+                </label>
+                <Field
+                    type="text"
+                    name="price"
+                    id="price"
+                    className="form-control"
+                    placeholder="Nhập giá, VD 12000000"
+                    value={formattedPrice}
+                    onChange={handlePriceChange}
+                    maxLength={19}
+                />
                 <ErrorMessage name="price" component="div" className="text-danger"/>
             </div>
             <div className="mt-3">
@@ -213,18 +235,32 @@ const RealEstateForm = ({
         </div>
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white mt-2">
             <h4 className="fw-bold">Hình ảnh & Video</h4>
-            <ul className="px-3 mt-3 small fw-normal">
-                <li>Đăng tối thiểu 3 ảnh, tối đa 24 ảnh với tất cả các loại tin</li>
-                <li>Hãy dùng ảnh thật, không trùng, không chèn SĐT</li>
-                <li>Mỗi ảnh kích thước tối thiểu 100x100 px, tối đa 15 MB</li>
-                <li>Mô tả ảnh tối đa 45 kí tự.</li>
-            </ul>
             <input
                 type="file"
                 accept="image/png, image/jpeg"
                 multiple
                 onChange={(e) => handleUploadFiles(e.target.files)}
             />
+            <div className="image-preview mt-3 d-flex">
+                {uploadedFiles.map((fileData, index) => (
+                    <div key={index} className="position-relative me-2">
+                        <img
+                            src={fileData.preview}
+                            alt={`preview-${index}`}
+                            className="img-thumbnail"
+                            style={{width: "150px", height: "150px"}}
+                        />
+                        <button
+                            type="button"
+                            className="btn btn-danger btn-sm position-absolute"
+                            style={{top: "7px", right: "7px"}}
+                            onClick={() => handleRemoveFile(index)}
+                        >
+                            X
+                        </button>
+                    </div>
+                ))}
+            </div>
             <ErrorMessage name="imageUrls" component="div" className="text-danger"/>
         </div>
         <div className="shadow-sm m-auto w-50 rounded p-4 bg-white mt-2">
@@ -232,18 +268,18 @@ const RealEstateForm = ({
             <div className="row mt-4">
                 <div className="col-6 ">
                     <label htmlFor="name" className="form-label">Tên liên hệ</label>
-                    <Field name="name" id="name" className="form-control" value={seller.name || ''}/>
+                    <Field name="name" id="name" className="form-control" value={seller.name || ''} disabled/>
                 </div>
                 <div className="col-6">
                     <label htmlFor="phone_number" className="form-label">Số điện thoại</label>
                     <Field name="phone_number" id="phone_number" className="form-control"
-                           value={seller.phoneNumber || ''}/>
+                           value={seller.phoneNumber || ''} disabled/>
                 </div>
             </div>
             <div className="row mt-3 mb-5">
                 <div className="col-6">
                     <label htmlFor="email" className="form-label">Email</label>
-                    <Field name="email" id="email" className="form-control" value={seller.email || ''}/>
+                    <Field name="email" id="email" className="form-control" value={seller.email || ''} disabled/>
                 </div>
             </div>
         </div>

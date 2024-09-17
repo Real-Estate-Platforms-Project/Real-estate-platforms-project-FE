@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import "../../css/RealEstateDetail.css"
-import * as realEstateService from "../../services/RealEstate";
+import * as realEstateService from "../../services/RealEstateService";
 import {useParams} from "react-router-dom";
 import CurrencyHelper from "../../utils/CurrencyHelper";
 import {Carousel} from "react-responsive-carousel";
@@ -14,7 +14,6 @@ function RealEstateDetail() {
     const [error, setError] = useState(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isSaved, setIsSaved] = useState(false);
-
 
     useEffect(() => {
         const fetchRealEstateData = async () => {

@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom';
 function ContentAward() {
     const [isContentVisible, setIsContentVisible] = useState(false);
 
-    const toggleContent = () => {
+    const toggleContent = (e) => {
+        e.preventDefault();
         setIsContentVisible(prevState => !prevState);
     };
 
@@ -49,7 +50,7 @@ function ContentAward() {
                     nhiều lựa chọn từ <span className="text-danger">nhà nguyên căn</span>, <span
                     className="text-danger">phòng trọ giá rẻ</span> đến văn phòng và mặt bằng kinh doanh.
                     {!isContentVisible && <span className="toggle-text">..</span>}
-                    <a href="javascript:void(0)" className="toggle-button text-danger fw-bold" onClick={toggleContent}>
+                    <a href="#" className="toggle-button text-danger fw-bold" onClick={(e) => toggleContent(e)}>
                         {isContentVisible ? '' : 'Xem thêm'}
                     </a>
                 </p>
@@ -73,8 +74,8 @@ function ContentAward() {
                                 cho
                                 thuê và quản lý bất động sản hiệu quả tại Việt Nam. {!isContentVisible &&
                                 <span className="toggle-text">..</span>}
-                                <a href="javascript:void(0)" className="toggle-button text-danger fw-bold"
-                                   onClick={toggleContent}>
+                                <a href="#" className="toggle-button text-danger fw-bold"
+                                   onClick={(e) => toggleContent(e)}>
                                     {isContentVisible ? 'Thu gọn' : ''}
                                 </a>
                             </p>

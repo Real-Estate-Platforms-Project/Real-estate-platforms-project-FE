@@ -1,7 +1,7 @@
 import '../../css/Card.css';
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import * as estateService from '../../services/RealEstate';
+import * as estateService from '../../services/RealEstateService';
 import {Button} from "react-bootstrap";
 import lottieEmpty from "../../lottie/empty-estate.json";
 import {Player} from "@lottiefiles/react-lottie-player";
@@ -11,6 +11,7 @@ function CardEstate() {
     const [selectedLocation, setSelectedLocation] = useState('all');
     const [filteredEstate, setFilteredEstate] = useState([]);
     const displayEstates = filteredEstate.slice(0, 8);
+    const [savedItems, setSavedItems] = useState({});
 
     useEffect(() => {
         getAllEstate();
@@ -19,7 +20,6 @@ function CardEstate() {
     const getAllEstate = async () => {
         try {
             let data = await estateService.findRealEstate();
-            console.log(data);
             if (Array.isArray(data)) {
                 handleLocationChange('all');
                 setEstate(data);
@@ -38,7 +38,6 @@ function CardEstate() {
 
     const handleLocationChange = (location) => {
         setSelectedLocation(location);
-        console.log(location)
         if (location === 'all') {
             setFilteredEstate(estate);
         } else {
@@ -53,6 +52,13 @@ function CardEstate() {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " VND";
     }
 
+
+    const toggleSave = (id) => {
+        setSavedItems(prevSavedItems => ({
+            ...prevSavedItems,
+            [id]: !prevSavedItems[id]
+        }));
+    };
     return (
         <div className="bg-body-tertiary ">
             <div className="container my-3 py-5">
@@ -125,8 +131,16 @@ function CardEstate() {
                                                     <small
                                                         className="text-muted">{item.district.name}, {item.province.name}</small>
                                                 </div>
-                                                <button className="btn btn-outline-danger btn-sm">
-                                                    <i className="bi bi-heart"></i>
+                                                <button
+                                                    className="button-heart btn-outline-danger btn-sm position-relative"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        toggleSave(item.id);
+                                                    }}
+                                                >
+                                                <span
+                                                    className="tooltip-in-page-all">{savedItems[item.id] ? 'Bấm để bỏ lưu tin' : 'Bấm để lưu tin'}</span>
+                                                    <i className={`bi ${savedItems[item.id] ? 'bi-heart-fill' : 'bi-heart'}`}></i>
                                                 </button>
                                             </div>
                                         </Link>

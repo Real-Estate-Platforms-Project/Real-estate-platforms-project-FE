@@ -21,7 +21,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
-import {WebSocketProvider} from './services/SocketNotification';
+import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
@@ -42,6 +42,9 @@ import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
 import ProfilePage from "./page/client/Profile";
+import ManagePostings from "./page/client/ManagePostings";
+
+
 // import ManagePostings from "./page/client/ManagePostings";
 import TransactionCreate from "./component/admin/transaction/TransactionCreact";
 import HomeTransaction from "./component/admin/transaction/HomeTransaction"
@@ -76,8 +79,7 @@ function App() {
                                     {/*<Route path="/update-password" element={<UpdatePassWord/>}/>*/}
                                     <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 </Route>
-                                <Route element={<ProtectedRoute
-                                    requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
+                                <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
                                     <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                                 </Route>
                                 <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
@@ -96,14 +98,14 @@ function App() {
                             </Route>
 
                             <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
-                                <Route
-                                    path="/admin"
-                                    element={
-                                        <>
-                                            <Admin/>
-                                        </>
-                                    }
-                                >
+                            <Route
+                                path="/admin"
+                                element={
+                                    <>
+                                        <Admin />
+                                    </>
+                                }
+                            >
 
                                     <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
                                         <Route path={"/admin/employee"} element={<EmployeeList/>}/>

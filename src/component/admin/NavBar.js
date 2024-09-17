@@ -1,5 +1,4 @@
 import Logo from "../Logo";
-import MegaMenu from "../MegaMenu";
 import { Link } from "react-router-dom";
 import ListingMenu from "../ListingMenu";
 import { useSelector } from "react-redux";
