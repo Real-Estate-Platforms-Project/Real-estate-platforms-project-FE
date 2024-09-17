@@ -8,9 +8,11 @@
 }
 
 .largeImage {
-    max-width: 400px;
-    height: auto;
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .thumbnailContainer {
@@ -33,4 +35,10 @@
 .thumbnail:hover {
     transform: scale(1.1);
     border: 2px solid #007bff;
+}
+
+.largeImageInModal {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
 }
