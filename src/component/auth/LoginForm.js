@@ -59,6 +59,12 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
                 }
 
                 dispatch(setToken(response.data.token));
+                const roles = response.data.authorities;
+                const isAdmin = roles.some(role => ['ROLE_EMPLOYEE', 'ROLE_ADMIN'].includes(role.authority));
+                if (isAdmin) {
+                    navigate('/admin')
+                    return;
+                }
                 navigate("/");
             } catch (error) {
                 const errorMessage = error.response?.data;

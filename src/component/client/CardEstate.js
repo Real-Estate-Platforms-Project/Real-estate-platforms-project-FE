@@ -3,16 +3,18 @@ import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import * as estateService from '../../services/RealEstate';
 import {Button} from "react-bootstrap";
+import lottieEmpty from "../../lottie/empty-estate.json";
+import {Player} from "@lottiefiles/react-lottie-player";
 
 function CardEstate() {
     const [estate, setEstate] = useState([])
     const [selectedLocation, setSelectedLocation] = useState('all');
     const [filteredEstate, setFilteredEstate] = useState([]);
+    const displayEstates = filteredEstate.slice(0, 8);
 
     useEffect(() => {
         getAllEstate();
     }, []);
-
 
     const getAllEstate = async () => {
         try {
@@ -22,8 +24,6 @@ function CardEstate() {
                 handleLocationChange('all');
                 setEstate(data);
                 setFilteredEstate(data);
-
-
             } else {
                 console.error("Expected an array but received:", data);
                 setEstate([]);
@@ -35,6 +35,7 @@ function CardEstate() {
             setFilteredEstate([]);
         }
     }
+
     const handleLocationChange = (location) => {
         setSelectedLocation(location);
         console.log(location)
@@ -47,10 +48,11 @@ function CardEstate() {
             setFilteredEstate(filtered);
         }
     };
-    const displayEstates = filteredEstate.slice(0, 6);
+
     const formatPrice = (price) => {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " VND";
     }
+
     return (
         <div className="bg-body-tertiary ">
             <div className="container my-3 py-5">
@@ -85,9 +87,13 @@ function CardEstate() {
                 </div>
                 <div className="mt-4">
                     <div className="row">
-                        {/* Kiểm tra nếu không có dữ liệu */}
                         {displayEstates.length === 0 ? (
-                            <p>Không tìm thấy bất động sản nào.</p>
+                            <Player
+                                autoplay
+                                keepLastFrame
+                                src={lottieEmpty}
+                                style={{height: '800px', width: 'auto',backgroundColor: 'white'}}
+                            ></Player>
                         ) : (
                             displayEstates.map((item, index) => (
                                 <div key={index} className="col-md-3 mb-4 ">
