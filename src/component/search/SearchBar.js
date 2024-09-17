@@ -1,5 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+
 
 const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
     const navigate = useNavigate();
@@ -16,6 +18,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
     const [errorMessage, setErrorMessage] = useState('');
     const firstRender = useRef(true);
 
+
     useEffect(() => {
         const savedFilters = JSON.parse(localStorage.getItem('searchFilters'));
         if (savedFilters && location.pathname === '/estate-list') {
@@ -29,7 +32,9 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
             setAddress(savedFilters.address || '');
         }
 
+
     }, [location.pathname]);
+
 
     useEffect(() => {
         const completeFilters = {
@@ -44,6 +49,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         localStorage.setItem('searchFilters', JSON.stringify(completeFilters));
     }, [priceRange, selectedPriceOption, areaRange, selectedAreaOption, selectedLocations, displayText, address]);
 
+
     useEffect(() => {
         if (!firstRender.current && window.location.pathname === '/estate-list') {
             handleSearch();
@@ -53,11 +59,23 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
     }, [activeTab]);
 
 
+
+
     const handlePriceRangeChange = (e) => {
         const {name, value} = e.target;
-        setPriceRange({...priceRange, [name]: value});
-        setSelectedPriceOption('custom');
+        const numericValue = value.replace(/\D/g, '');
+        if (numericValue === '' || checkLimit(numericValue, 10000000000000)) {
+            setPriceRange({...priceRange, [name]: numericValue});
+            setSelectedPriceOption('custom');
+            setErrorMessage('');
+        } else {
+            setErrorMessage("ok")
+            toast.error('Giá trị không được vượt quá 10.000 tỷ VND');
+        }
+        const displayValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        e.target.value = numericValue === '' ? '' : `${displayValue} VND`;
     };
+
 
     const handleLocationChange = (e) => {
         const {value, checked} = e.target;
@@ -68,33 +86,54 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         }
     };
 
+
     const handlePriceRangeBlur = () => {
         const min = parseFloat(priceRange.min);
         const max = parseFloat(priceRange.max);
 
+
         if (!isNaN(min) && !isNaN(max) && min > max) {
-            setErrorMessage('Giá trị tối thiểu không được lớn hơn giá trị tối đa.');
+            setErrorMessage("ok")
+            toast.error('Giá trị tối thiểu không được lớn hơn giá trị tối đa.');
         } else {
             setErrorMessage('');
         }
     };
 
+
     const handleAreaRangeChange = (e) => {
         const {name, value} = e.target;
-        setAreaRange({...areaRange, [name]: value});
-        setSelectedAreaOption('custom');
+        const numericValue = value.replace(/\D/g, '');
+
+
+        if (numericValue === '' || checkLimit(numericValue, 10000)) {
+            setAreaRange({...areaRange, [name]: numericValue});
+            setSelectedAreaOption('custom');
+            setErrorMessage('');
+        } else {
+            setErrorMessage("ok")
+            toast.error('Diện tích không được vượt quá 10.000 m²');
+        }
+
+
+        const displayValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        e.target.value = numericValue === '' ? '' : `${displayValue} m²`;
     };
+
 
     const handleAreaRangeBlur = () => {
         const min = parseFloat(areaRange.min);
         const max = parseFloat(areaRange.max);
 
+
         if (!isNaN(min) && !isNaN(max) && min > max) {
-            setErrorMessage('Diện tích tối thiểu không được lớn hơn diện tích tối đa.');
+            setErrorMessage("ok")
+            toast.error('Diện tích tối thiểu không được lớn hơn diện tích tối đa.');
         } else {
             setErrorMessage('');
         }
     };
+
 
     const handlePriceOptionChange = (e) => {
         const option = e.target.value;
@@ -120,6 +159,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         }
     };
 
+
     const handleAreaOptionChange = (e) => {
         const option = e.target.value;
         setSelectedAreaOption(option);
@@ -144,15 +184,19 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         }
     };
 
+
     const toggleDropdown = (dropdownName) => {
         setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
     };
+
 
     const closeDropdowns = () => {
         setActiveDropdown(null);
     };
 
+
     const applyLocationFilter = () => {
+
 
         if (selectedLocations.length > 0) {
             setDisplayText(selectedLocations.join(', '));
@@ -160,13 +204,16 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
             setDisplayText('Vị trí');
         }
 
+
         setActiveDropdown(null);
     };
+
 
     const handleSearch = async () => {
         if (errorMessage) return;
         const priceFilters = getPriceFilters();
         const areaFilters = getAreaFilters();
+
 
         const filters = {
             ...(priceRange.min && {minPrice: parseFloat(priceRange.min)}),
@@ -182,15 +229,17 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
             demandType: activeTab === 'Bán,Cho thuê' ? 'Bán,Cho thuê' : activeTab === 'Bán' ? 'Bán' : 'Cho thuê',
         };
         if (window.location.pathname !== '/estate-list') {
-            navigate('/estate-list', {state: {filters,activeTab}});
+            navigate('/estate-list', {state: {filters, activeTab}});
         } else {
-            onSearch(filters);
+            onSearch({...filters});
         }
     };
+
 
     const getPriceFilters = () => {
         let minPrice = null;
         let maxPrice = null;
+
 
         switch (selectedPriceOption) {
             case '500':
@@ -214,9 +263,11 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         return {minPrice, maxPrice};
     };
 
+
     const getAreaFilters = () => {
         let minArea = null;
         let maxArea = null;
+
 
         switch (selectedAreaOption) {
             case 'under30':
@@ -240,14 +291,18 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         return {minArea, maxArea};
     };
 
+
     const formatPrice = (value) => {
         if (value >= 1000000000) {
             return `${(value / 1000000000).toFixed(1)} tỷ`;
         } else if (value >= 1000000) {
             return `${(value / 1000000).toFixed(0)} triệu`;
+        } else if (value >= 1000) {
+            return `${(value / 1000).toFixed(0)} ngàn`;
         }
         return value;
     };
+
 
     const getPriceButtonLabel = () => {
         if (priceRange.min && priceRange.max) {
@@ -260,6 +315,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         return 'Mức giá';
     };
 
+
     const getAreaButtonLabel = () => {
         if (areaRange.min && areaRange.max) {
             return `Từ ${parseInt(areaRange.min).toLocaleString()} đến ${parseInt(areaRange.max).toLocaleString()} m²`;
@@ -271,41 +327,58 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         return 'Diện tích';
     };
 
+
     const handleReloadPrice = () => {
         setSelectedPriceOption('all');
         setPriceRange({min: '', max: ''})
     }
+
 
     const handleReloadArea = () => {
         setSelectedAreaOption('all');
         setAreaRange({min: '', max: ''})
     }
 
+
     const applyPriceFilter = () => {
         const min = parseFloat(priceRange.min);
         const max = parseFloat(priceRange.max);
         if (!isNaN(min) && !isNaN(max) && min > max) {
             closeDropdowns();
-            setErrorMessage('Giá trị tối thiểu không được lớn hơn giá trị tối đa.');
+            setErrorMessage("ok")
+            toast.error('Giá trị tối thiểu không được lớn hơn giá trị tối đa.');
             return;
         }
         setErrorMessage('');
         closeDropdowns();
     };
+
 
     const applyAreaFilter = () => {
         const min = parseFloat(areaRange.min);
         const max = parseFloat(areaRange.max);
         if (!isNaN(min) && !isNaN(max) && min > max) {
             closeDropdowns();
-            setErrorMessage('Diện tích tối thiểu không được lớn hơn diện tích tối đa.');
+            setErrorMessage("ok")
+            toast.error('Diện tích tối thiểu không được lớn hơn diện tích tối đa.');
             return;
         }
         setErrorMessage('');
         closeDropdowns();
     };
 
+
+    const checkLimit = (value, maxValue) => {
+        const numericValue = parseInt(value, 10);
+        if (isNaN(numericValue) || numericValue > maxValue) {
+            return false;
+        }
+        return true;
+    };
+
+
     return (
+
 
         <div className="search-bar">
             <div className="tabs">
@@ -328,6 +401,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
                     Nhà đất cho thuê
                 </button>
 
+
             </div>
             <div className="search-bar d-flex my-2">
                 <div className="w-25 search-input-icon">
@@ -345,8 +419,8 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
                         disabled={Boolean(errorMessage)}>Tìm kiếm
                 </button>
             </div>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
             <div className="search-options">
+
 
                 <div
                     className={`option ${activeDropdown === 'type' ? 'active' : ''}`}
@@ -391,6 +465,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
                         </div>
                     )}
                 </div>
+
 
                 <div
                     className={`option ${activeDropdown === 'price' ? 'active' : ''}`}
@@ -458,6 +533,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
                         </div>
                     )}
                 </div>
+
 
                 <div
                     className={`option ${activeDropdown === 'area' ? 'active' : ''}`}
@@ -528,7 +604,10 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
             </div>
         </div>
 
+
     );
 };
 
+
 export default SearchBar;
+
