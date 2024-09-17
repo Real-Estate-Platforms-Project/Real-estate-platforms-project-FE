@@ -12,8 +12,11 @@ import {format} from "date-fns";
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Tiêu đề là bắt buộc'),
-    images: Yup.array().of(Yup.string().url('URL hình ảnh không hợp lệ')).required('Ít nhất một hình ảnh là bắt buộc'),
+    images: Yup.array().of(Yup.string().required('Cần chọn một hình ảnh'))
+        .min(1, 'Cần chọn ít nhất một hình ảnh')
+        .max(3,'Tối đa 3 hình ảnh'),
     contend: Yup.string().required('Mô tả là bắt buộc'),
+    dateStart: Yup.date().required('Ngày bắt đầu là bắt buộc').nullable(),
 });
 
 const EditNotificationModal = ({ show, onClose, onUpdate, notification }) => {

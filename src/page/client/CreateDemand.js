@@ -37,6 +37,10 @@ function CreateDemand() {
             .min(10, "diện tích tối đa không được nhỏ hơn 10m2")
             .max(10000, "diện tích tối thiểu không được lớn hơn 10000m2")
             .integer("diện tích phải là số nguyên")
+            .test('is-greater', 'Diện tích tối đa phải lớn hơn diện tích tối thiểu', function (value) {
+                const { minArea } = this.parent;
+                return value > minArea;
+            })
     }
 
     const saveDemand = async (value) => {
@@ -49,7 +53,7 @@ function CreateDemand() {
         }
 
     }
-    
+
     return (
         <>
             <Formik initialValues={form} onSubmit={saveDemand} validationSchema={Yup.object(objectValid)}>

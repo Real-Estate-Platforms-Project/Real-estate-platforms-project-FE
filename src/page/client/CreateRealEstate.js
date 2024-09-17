@@ -2,7 +2,7 @@ import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import {Formik} from "formik";
-import * as realEstateService from "../../services/RealEstate";
+import * as realEstateService from "../../services/RealEstateService";
 import * as addressService from "../../services/AddressService";
 import * as sellerService from "../../services/Seller";
 import {toast} from "react-toastify";
@@ -60,6 +60,7 @@ const CreateRealEstate = () => {
     const [selectedWard, setSelectedWard] = useState(null);
     const [selectedDemandType, setSelectedDemandType] = useState("Bán");
     const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [formattedPrice, setFormattedPrice] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -73,7 +74,6 @@ const CreateRealEstate = () => {
         };
         fetchSeller();
     }, []);
-
 
     useEffect(() => {
         const fetchProvinces = async () => {
@@ -125,6 +125,24 @@ const CreateRealEstate = () => {
         fetchWards();
     }, [selectedDistrict]);
 
+    useEffect(() => {
+        return () => {
+            uploadedFiles.forEach(fileData => URL.revokeObjectURL(fileData.preview));
+        };
+    }, [uploadedFiles]);
+
+    const formatNumber = (value) => {
+        return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
+
+    const handlePriceChange = (e, formik) => {
+        const {value} = e.target;
+        const numericValue = value.replace(/\D/g, "");
+        const formatted = formatNumber(value);
+        setFormattedPrice(formatted);
+        formik.setFieldValue("price", numericValue);
+    };
+
     const handleProvinceChange = (selectedOption) => {
         setSelectedProvince(selectedOption);
         setSelectedDistrict(null);
@@ -136,9 +154,37 @@ const CreateRealEstate = () => {
             toast.error("Vui lòng thêm ít nhất một ảnh");
             return;
         }
-        setUploadedFiles(Array.from(files)); // Store files temporarily
+        const validFiles = Array.from(files).filter(file => {
+            if (file.size > 15 * 1024 * 1024) {
+                toast.error(`File ${file.name} vượt quá kích thước tối đa 15MB`);
+                return false;
+            }
+            if (!['image/png', 'image/jpeg'].includes(file.type)) {
+                toast.error(`File ${file.name} không phải là định dạng ảnh hợp lệ`);
+                return false;
+            }
+            return true;
+        });
+        if (validFiles.length === 0) {
+            toast.error("Không có file hợp lệ");
+            return;
+        }
+        const filePreviews = validFiles.map(file => ({
+            file,
+            preview: URL.createObjectURL(file)
+        }));
+
+        setUploadedFiles(prevFiles => [...prevFiles, ...filePreviews]); // Giữ lại ảnh cũ và thêm ảnh mới
     };
 
+    const handleRemoveFile = (index) => {
+        setUploadedFiles(prevFiles => {
+            const updatedFiles = [...prevFiles];
+            URL.revokeObjectURL(updatedFiles[index].preview); // Hủy URL ảnh xem trước để giải phóng bộ nhớ
+            updatedFiles.splice(index, 1); // Xoá ảnh khỏi mảng
+            return updatedFiles;
+        });
+    };
 
     const handleDistrictChange = (selectedOption) => {
         setSelectedDistrict(selectedOption);
@@ -152,10 +198,13 @@ const CreateRealEstate = () => {
     const handleDemandTypeChange = (type) => setSelectedDemandType(type);
 
     const handleSubmit = async (values) => {
+        const priceNumber = parseFloat(values.price.replace(/\./g, '').replace(',', '.'));
         try {
+            // Upload từng file lên Firebase và lấy đường dẫn URL
             const imageUrls = await Promise.all(
-                uploadedFiles.map(async (file) => {
-                    const imageRef = storageRef(storage, `/files/${file.name}`);
+                uploadedFiles.map(async (fileData) => {
+                    const file = fileData.file; // Lấy file thực tế từ đối tượng fileData
+                    const imageRef = storageRef(storage, `real-estate/${file.name}`); // Lưu trong thư mục `real-estate`ge
                     const snapshot = await uploadBytes(imageRef, file);
                     const url = await getDownloadURL(snapshot.ref);
                     return url;
@@ -163,10 +212,10 @@ const CreateRealEstate = () => {
             );
             const response = await realEstateService.saveRealEstate({
                 ...values,
+                price: priceNumber,
                 imageUrls: imageUrls,
-                sellerId: seller.id
+                sellerId: seller.id,
             });
-
             if (response) {
                 toast.success("Thêm mới thành công");
                 navigate("/");
@@ -174,16 +223,16 @@ const CreateRealEstate = () => {
                 toast.error("Thêm mới thất bại");
             }
         } catch (error) {
+            console.error("Lỗi trong quá trình upload hoặc lưu thông tin", error);
             toast.error("Đã xảy ra lỗi trong quá trình xử lý.");
         }
     };
 
 
-
     return (
         <Formik
             initialValues={{
-                title:"",
+                title: "",
                 demandType: "Bán",
                 type: "Nhà ở",
                 address: "",
@@ -199,12 +248,12 @@ const CreateRealEstate = () => {
                 bedroom: "",
                 floor: "",
                 toilet: "",
-                imageUrls: [],  // Store multiple image URLs
+                imageUrls: [],
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
         >
-        {formik => (
+            {formik => (
                 <RealEstateForm
                     formik={formik}
                     seller={seller}
@@ -215,11 +264,15 @@ const CreateRealEstate = () => {
                     selectedDistrict={selectedDistrict}
                     selectedWard={selectedWard}
                     selectedDemandType={selectedDemandType}
+                    formattedPrice={formattedPrice}
+                    uploadedFiles={uploadedFiles}
                     handleProvinceChange={handleProvinceChange}
                     handleDistrictChange={handleDistrictChange}
                     handleWardChange={handleWardChange}
                     handleDemandTypeChange={handleDemandTypeChange}
                     handleUploadFiles={handleUploadFiles}
+                    handlePriceChange={(e) => handlePriceChange(e, formik)}
+                    handleRemoveFile={handleRemoveFile}
                 />
             )}
         </Formik>
