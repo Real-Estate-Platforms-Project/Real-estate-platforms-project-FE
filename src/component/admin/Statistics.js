@@ -24,8 +24,8 @@ function Statistics() {
         const start = new Date(startDate);
         const end = new Date(endDate);
         const timeDifference = end - start;
-          // Cộng 1 để bao gồm ngày kết thúc
-        return Math.ceil(timeDifference / (1000 * 3600 * 24) +1);
+        // Cộng 1 để bao gồm ngày kết thúc
+        return Math.ceil(timeDifference / (1000 * 3600 * 24) + 1);
     }
 
     useEffect(() => {
@@ -78,7 +78,7 @@ function Statistics() {
 
     const getStatisticDataByYear = async () => {
         try {
-            if (statistic === "demand"){
+            if (statistic === "demand") {
                 let res = await statisticsService.getStatisticDemandByYear(selectedYear);
                 const statisticsByYear = Array(12).fill(0);
 
@@ -88,7 +88,7 @@ function Statistics() {
                 });
 
                 setMonthlyStatistics(statisticsByYear);
-            } else if (statistic === "transaction"){
+            } else if (statistic === "transaction") {
                 let res = await statisticsService.getStatisticTransactionByYear(selectedYear);
                 const statisticsByYear = Array(12).fill(0);
 
@@ -108,7 +108,7 @@ function Statistics() {
 
     const getStatisticDataByMonth = async () => {
         try {
-            if (statistic === "demand"){
+            if (statistic === "demand") {
                 let res = await statisticsService.getStatisticDemandByMonth(selectedYear, selectedMonth);
 
                 const daysInMonth = getDaysInMonth(selectedMonth, selectedYear);
@@ -120,7 +120,7 @@ function Statistics() {
                 });
 
                 setDailyStatistics(statisticsByDay);
-            } else if(statistic === "transaction"){
+            } else if (statistic === "transaction") {
                 let res = await statisticsService.getStatisticTransactionByMonth(selectedYear, selectedMonth);
 
                 const daysInMonth = getDaysInMonth(selectedMonth, selectedYear);
@@ -145,21 +145,18 @@ function Statistics() {
             const daysInBetween = getDaysInBetween(startDate, endDate);
             const statisticsByDay = Array(daysInBetween).fill(0);
 
-            console.log(startDate + "      "  + endDate)
+            console.log(startDate + "      " + endDate)
             console.log(daysInBetween)
-            let count =0;
+            let count = 0;
 
             res.forEach(item => {
                 const day = new Date(item.createdAt).getDate();
-                console.log(item.createdAt)
-                console.log(day)
                 count += 1;
 
                 if (day > 0 && day <= daysInBetween) {
-                    statisticsByDay[day] += 1;
+                    statisticsByDay[day - 1] += 1;
                 }
             });
-            console.log(count)
             console.log(statisticsByDay)
 
             setDailyStatisticsByDay(statisticsByDay);
@@ -169,22 +166,52 @@ function Statistics() {
     };
 
 
-    const maxYDemandByYear = Math.max(...monthlyStatistics.map(stat => stat.count)) + 1;
+    const maxYStatisticByYear = Math.max(...monthlyStatistics) + 1;
 
-    const chartOptionsDemandByYear = {
+    const titleTextByYear = statistic === "demand" ? `Thống kê nhu cầu trong năm ${selectedYear}` : `Thống kê số giao dịch trong năm ${selectedYear}`;
+
+    const chartStatisticByYear = {
         chart: {
-            id: "monthly-demand-chart",
+            id: "yearly-statistical-chart",
         },
         xaxis: {
             categories: [
                 "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
                 "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
-            ],
+            ]
         },
         yaxis: {
-            tickAmount: maxYDemandByYear < 5 ? maxYDemandByYear : 5,
+            tickAmount: (function () {
+                if (maxYStatisticByYear < 5) {
+                    return 5;
+                } else if (maxYStatisticByYear <= 10) {
+                    return 5;
+                } else if (maxYStatisticByYear <= 15) {
+                    return 5;
+                } else if (maxYStatisticByYear <= 20) {
+                    return 5;
+                } else if (maxYStatisticByYear <= 25) {
+                    return 5;
+                } else {
+                    return Math.ceil(maxYStatisticByYear / 5);
+                }
+            })(),
             min: 0,
-            max: maxYDemandByYear,
+            max: (function () {
+                if (maxYStatisticByYear < 5) {
+                    return 5;
+                } else if (maxYStatisticByYear <= 10) {
+                    return 10;
+                } else if (maxYStatisticByYear <= 15) {
+                    return 15;
+                } else if (maxYStatisticByYear <= 20) {
+                    return 20;
+                } else if (maxYStatisticByYear <= 25) {
+                    return 25;
+                } else {
+                    return Math.ceil(maxYStatisticByYear / 5) * 5;
+                }
+            })(),
             labels: {
                 formatter: function (val) {
                     return Math.floor(val);
@@ -193,7 +220,7 @@ function Statistics() {
             forceNiceScale: true,
         },
         title: {
-            text: `Thống kê nhu cầu trong năm ${selectedYear}`,
+            text: titleTextByYear,
             align: "center",
             margin: 10,
             style: {
@@ -203,25 +230,57 @@ function Statistics() {
         }
     };
 
-    const chartSeriesDemandByYear = [{
-        name: "Số lượng nhu cầu",
+    const nameSeries = statistic === "demand" ? "Số lượng nhu cầu" : "Số lượng giao dịch";
+
+    const chartSeriesStatisticByYear = [{
+        name: nameSeries,
         data: monthlyStatistics
     }];
 
 
-    const maxYDemandByMonth = Math.max(...dailyStatistics.map(stat => stat.count)) + 1;
+    const maxYStatisticByMonth = Math.max(...dailyStatistics) + 1;
 
-    const chartOptionsDemandByMonth = {
+    const titleTextByMonth = statistic === "demand" ? `Thống kê nhu cầu trong tháng ${selectedMonth}-${selectedYear}` : `Thống kê số giao dịch trong tháng ${selectedMonth}-${selectedYear}`;
+
+    const chartOptionsStatisticByMonth = {
         chart: {
-            id: "daily-demand-chart",
+            id: "yearly-statistical-chart",
         },
         xaxis: {
             categories: Array.from({length: getDaysInMonth(selectedMonth, selectedYear)}, (_, i) => `Ngày ${i + 1}`)
         },
         yaxis: {
-            tickAmount: maxYDemandByMonth < 5 ? maxYDemandByMonth : 5,
+            tickAmount: (function () {
+                if (maxYStatisticByMonth < 5) {
+                    return 5;
+                } else if (maxYStatisticByMonth <= 10) {
+                    return 5;
+                } else if (maxYStatisticByMonth <= 15) {
+                    return 5;
+                } else if (maxYStatisticByMonth <= 20) {
+                    return 5;
+                } else if (maxYStatisticByMonth <= 25) {
+                    return 5;
+                } else {
+                    return Math.ceil(maxYStatisticByMonth / 5);
+                }
+            })(),
             min: 0,
-            max: maxYDemandByMonth,
+            max: (function () {
+                if (maxYStatisticByMonth < 5) {
+                    return 5;
+                } else if (maxYStatisticByMonth <= 10) {
+                    return 10;
+                } else if (maxYStatisticByMonth <= 15) {
+                    return 15;
+                } else if (maxYStatisticByMonth <= 20) {
+                    return 20;
+                } else if (maxYStatisticByMonth <= 25) {
+                    return 25;
+                } else {
+                    return Math.ceil(maxYStatisticByMonth / 5) * 5;
+                }
+            })(),
             labels: {
                 formatter: function (val) {
                     return Math.floor(val);
@@ -230,7 +289,7 @@ function Statistics() {
             forceNiceScale: true,
         },
         title: {
-            text: `Thống kê nhu cầu trong tháng ${selectedYear}`,
+            text: titleTextByMonth,
             align: "center",
             margin: 10,
             style: {
@@ -240,29 +299,45 @@ function Statistics() {
         }
     };
 
-    const chartSeriesDemandByMonth = [{
-        name: "Số lượng nhu cầu",
+    const chartSeriesStatisticByMonth = [{
+        name: nameSeries,
         data: dailyStatistics
     }];
 
+    const groupSize = 5;
+    const groupedDays = [];
+    const groupedStatistics = [];
+
+    for (let i = 0; i < dailyStatistics.length; i += groupSize) {
+        const startDay = i + 1;
+        const endDay = Math.min(i + groupSize, dailyStatistics.length);
+        groupedDays.push(`${startDay}-${endDay}`);
+
+        const groupSum = dailyStatistics.slice(i, i + groupSize).reduce((total, count) => total + count, 0);
+        groupedStatistics.push(groupSum);
+    }
 
 
-
-
-    const maxYDemandByDay = Math.max(...dailyStatisticsByDay.map(stat => stat.count)) + 1;
+    const maxYDemandByDay = Math.max(...dailyStatisticsByDay) + 1;
 
     const getDaysBetweenDates = (startDate, endDate) => {
         const start = new Date(startDate);
         const end = new Date(endDate);
         const dates = [];
 
-        while (start <= end ) {
+        while (start <= end) {
             dates.push(start.toLocaleDateString('vi-VN', {day: '2-digit', month: '2-digit'}));
             start.setDate(start.getDate() + 1);
         }
 
         return dates;
     };
+
+    const daysBetween = getDaysBetweenDates(startDate, endDate);
+
+    const filteredDays = daysBetween.filter((_, index) => dailyStatisticsByDay[index] !== 0);
+
+    const filteredDemandCounts = filteredDays.map((_, index) => dailyStatisticsByDay[daysBetween.indexOf(filteredDays[index])]);
 
     const chartOptionsDemandByDay = {
         chart: {
@@ -298,6 +373,7 @@ function Statistics() {
         data: dailyStatisticsByDay
     }];
 
+
     return (
         <div className="container">
             <div className="d-flex justify-content-between mt-3">
@@ -310,7 +386,7 @@ function Statistics() {
                             onChange={handleStatisticChange}
                         >
                             <option value="" disabled hidden>Thống kê</option>
-                            <option value="transactions">Số giao dịch</option>
+                            <option value="transaction">Số giao dịch</option>
                             <option value="revenue">Doanh thu</option>
                             <option value="demand">Nhu cầu của khách hàng</option>
                         </select>
@@ -406,20 +482,23 @@ function Statistics() {
                 </div>
             </div>
 
-            {statistic === 'demand' && statisticBy === 'year' && monthlyStatistics.length > 0 && (
+            {(statistic === 'demand' || statistic === 'transaction') && statisticBy === 'year' && monthlyStatistics.length > 0 && (
                 <div className="row mt-4">
-
                     <div className="col-md-12">
                         <Chart
-                            options={chartOptionsDemandByYear}
-                            series={chartSeriesDemandByYear}
+                            options={chartStatisticByYear}
+                            series={chartSeriesStatisticByYear}
                             type="line"
                             height={350}
                         />
                     </div>
 
                     <div className="col-md-12 pt-5">
-                        <h5>Số lượng nhu cầu trong năm {selectedYear}</h5>
+                        <h5>
+                            {statistic === 'demand'
+                                ? `Số lượng nhu cầu trong năm ${selectedYear}`
+                                : `Số lượng giao dịch trong năm ${selectedYear}`}
+                        </h5>
                         <table className="table table-striped">
                             <thead>
                             <tr>
@@ -427,14 +506,20 @@ function Statistics() {
                                 {monthlyStatistics.map((_, index) => (
                                     <th key={index}>{index + 1}</th>
                                 ))}
+                                <td>Tổng</td>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Nhu cầu</td>
-                                {monthlyStatistics.map((demandCount, index) => (
-                                    <td key={index}>{demandCount}</td>
+                                <td>{statistic === 'demand' ? 'Nhu cầu' : 'Giao dịch'}</td>
+                                {monthlyStatistics.map((count, index) => (
+                                    <td key={index}>{count}</td>
                                 ))}
+
+                                <td>
+                                    {monthlyStatistics.reduce((total, count) => total + count, 0)}
+                                </td>
+
                             </tr>
                             </tbody>
                         </table>
@@ -442,41 +527,49 @@ function Statistics() {
                 </div>
             )}
 
-            {statistic === 'demand' && statisticBy === 'month' && dailyStatistics.length > 0 && (
+            {(statistic === 'demand' || statistic === 'transaction') && statisticBy === 'month' && dailyStatistics.length > 0 && (
                 <div className="row mt-4">
-
                     <div className="col-md-12">
                         <Chart
-                            options={chartOptionsDemandByMonth}
-                            series={chartSeriesDemandByMonth}
+                            options={chartOptionsStatisticByMonth}
+                            series={chartSeriesStatisticByMonth}
                             type="line"
                             height={350}
                         />
                     </div>
 
                     <div className="col-md-12 pt-5">
-                        <h5>Số lượng nhu cầu trong tháng {selectedMonth}</h5>
+                        <h5>
+                            {statistic === 'demand'
+                                ? `Số lượng nhu cầu trong tháng ${selectedMonth}-${selectedYear}`
+                                : `Số lượng giao dịch trong tháng ${selectedMonth}-${selectedYear}`}
+                        </h5>
                         <table className="table table-striped">
                             <thead>
                             <tr>
                                 <td>Ngày</td>
-                                {dailyStatistics.map((_, index) => (
-                                    <th key={index}>{index + 1}</th>
+                                {groupedDays.map((group, index) => (
+                                    <th key={index}>{group}</th>
                                 ))}
+                                <td>Tổng</td>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Nhu cầu</td>
-                                {dailyStatistics.map((demandCount, index) => (
-                                    <td key={index}>{demandCount}</td>
+                                <td>{statistic === 'demand' ? 'Nhu cầu' : 'Giao dịch'}</td>
+                                {groupedStatistics.map((groupCount, index) => (
+                                    <td key={index}>{groupCount}</td>
                                 ))}
+                                <td>
+                                    {dailyStatistics.reduce((total, count) => total + count, 0)}
+                                </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             )}
+
 
             {statistic === 'demand' && statisticBy === 'day' && dailyStatisticsByDay.length > 0 && (
                 <div className="row mt-4">
@@ -496,17 +589,21 @@ function Statistics() {
                             <thead>
                             <tr>
                                 <td>Ngày</td>
-                                {getDaysBetweenDates(startDate, endDate).map((_, startDate) => (
-                                    <th key={startDate}>{startDate + 1}</th>
+                                {filteredDays.map((day, index) => (
+                                    <th key={index}>{day}</th>
                                 ))}
+                                <td>Tổng</td>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td>Nhu cầu</td>
-                                {dailyStatisticsByDay.map((demandCount, index) => (
+                                {filteredDemandCounts.map((demandCount, index) => (
                                     <td key={index}>{demandCount}</td>
                                 ))}
+                                <td>
+                                    {filteredDemandCounts.reduce((total, count) => total + count, 0)}
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -514,77 +611,7 @@ function Statistics() {
                 </div>
             )}
 
-            {statistic === 'transaction' && statisticBy === 'year' && monthlyStatistics.length > 0 && (
-                <div className="row mt-4">
 
-                    <div className="col-md-12">
-                        <Chart
-                            options={chartOptionsDemandByYear}
-                            series={chartSeriesDemandByYear}
-                            type="line"
-                            height={350}
-                        />
-                    </div>
-
-                    <div className="col-md-12 pt-5">
-                        <h5>Số lượng nhu cầu trong năm {selectedYear}</h5>
-                        <table className="table table-striped">
-                            <thead>
-                            <tr>
-                                <td>Tháng</td>
-                                {monthlyStatistics.map((_, index) => (
-                                    <th key={index}>{index + 1}</th>
-                                ))}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Nhu cầu</td>
-                                {monthlyStatistics.map((demandCount, index) => (
-                                    <td key={index}>{demandCount}</td>
-                                ))}
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            )}
-
-            {statistic === 'transaction' && statisticBy === 'month' && dailyStatistics.length > 0 && (
-                <div className="row mt-4">
-
-                    <div className="col-md-12">
-                        <Chart
-                            options={chartOptionsDemandByMonth}
-                            series={chartSeriesDemandByMonth}
-                            type="line"
-                            height={350}
-                        />
-                    </div>
-
-                    <div className="col-md-12 pt-5">
-                        <h5>Số lượng nhu cầu trong tháng {selectedMonth}</h5>
-                        <table className="table table-striped">
-                            <thead>
-                            <tr>
-                                <td>Ngày</td>
-                                {dailyStatistics.map((_, index) => (
-                                    <th key={index}>{index + 1}</th>
-                                ))}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Nhu cầu</td>
-                                {dailyStatistics.map((demandCount, index) => (
-                                    <td key={index}>{demandCount}</td>
-                                ))}
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

@@ -1,18 +1,18 @@
 import React from 'react';
-import '../../css/ModalDelete.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from '../../css/ModalDelete.module.css'; // Nhập CSS Module
+import 'bootstrap/dist/css/bootstrap.min.css'; // Nhập Bootstrap CSS
 
 const Modal = ({ show, onClose, onConfirm, message }) => {
     if (!show) return null;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <h2>Xác nhận</h2>
+        <div className={styles.modalOverlay}>
+            <div className={`${styles.modalContent} ${show ? styles.show : ''}`}>
+                <h2 className="mb-3">Xác nhận</h2>
                 <p>{message}</p>
-                <div className="modal-buttons">
-                    <button className="btn" id="confirm-button" onClick={onConfirm}>Xóa</button>
-                    <button className="btn btn-secondary" onClick={onClose}>Hủy</button>
+                <div className={styles.modalButtons}>
+                    <button className={`${styles.btn} ${styles.confirmButton}`} onClick={onConfirm}>Xóa</button>
+                    <button className={`${styles.btn} ${styles.cancelButton}`} onClick={onClose}>Hủy</button>
                 </div>
             </div>
         </div>

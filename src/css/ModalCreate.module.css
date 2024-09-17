@@ -50,10 +50,10 @@
 }
 
 .customConfirmButton {
-    background-color: #ff5722;
-    color: #fff;
-    border: none;
-    transition: background-color 0.3s ease;
+    background-color: #ff5722 !important;
+    color: #fff !important;
+    border: none !important;
+    transition: background-color 0.3s ease !important;
 }
 
 .customConfirmButton:hover {
@@ -109,6 +109,7 @@ textarea.customFormControl {
     object-fit: cover;
     border: 1px solid #ddd;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .customRemoveImageButton:hover {
@@ -148,6 +149,12 @@ input[type="file"]:hover {
     display: none !important;
 }
 
+.customImageWrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
 .customFileInputLabel {
     display: flex;
     align-items: center;
@@ -175,12 +182,14 @@ input[type="file"]:hover {
 }
 
 .customImagePreviewWrapper {
-    position: relative;
-    display: inline-block;
-    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .customImagePreview {
+    margin-left: 20px;
+    margin-top: 20px;
     width: 100px;
     height: 100px;
     object-fit: cover;
@@ -189,26 +198,52 @@ input[type="file"]:hover {
 }
 
 .customRemoveImageButton {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    position: absolute !important;
+    transform: translate(110%, -50%) !important;
+    background-color: red !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 12px !important;
+    height: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
 }
 
 .customRemoveImageButton:hover {
     background-color: darkred;
 }
 
+.largeImage {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    margin-left: 130px;
+}
 
+.image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image-preview {
+    position: relative;
+    display: inline-block;
+}
+
+.img-thumbnail {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+}
+
+.btn-danger {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+}
 

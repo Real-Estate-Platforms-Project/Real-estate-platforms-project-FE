@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
 })
 
 function UpdatePassWord() {
-    const navigate = new useNavigate();
+    const navigate = useNavigate();
     const handleSubmit = async (data) => {
         let status = await UpdatePassword(data)
         if (status) {
@@ -66,11 +66,14 @@ function UpdatePassWord() {
                                    placeholder="VD : Abc#123"/>
                             <ErrorMessage className="text-danger" name="reEnterPassWord" component="b"/>
                         </div>
-                        <div className="text-center mt-4">
-                            <button type="submit" className="btn btn-sm btn-outline-dark w-50 fw-bold">Thay đổi mật
-                                khẩu
-                            </button>
-                            <Link className="btn btn-sm btn-outline-dark w-50 fw-bold" to="/">Hủy</Link>
+                        <div className=" d-flex justify-content-between mt-4">
+                            <div><Link className="btn btn-secondary me-2 fw-bold back-to-home" to="/">Hủy</Link></div>
+                            <div>
+                                <button type="submit" className="btn button-search text-white fw-bold fw-bold">Thay đổi
+                                    mật
+                                    khẩu
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </Form>

@@ -1,0 +1,89 @@
+.notificationContainer {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.searchBar {
+    margin-bottom: 20px;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notificationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.notificationItem {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 450px;
+}
+
+.notificationItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.articleContent {
+    padding: 15px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.articleTitle {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.articleDate {
+    color: #999;
+    font-size: 12px;
+}
+
+.articleDescription {
+    margin-top: 10px;
+    color: #666;
+    flex-grow: 1;
+}
+
+.articleImages {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.articleImage {
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.articleImage:hover {
+    transform: scale(1.05);
+}
+
+.button-orange:hover {
+    background-color: #ff5722;
+    color: white;
+}

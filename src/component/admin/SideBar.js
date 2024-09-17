@@ -1,85 +1,81 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { Col } from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Logo from "../Logo";
-import '../../css/AdminNav.css';
+import '../../css/AdminSideBar.css';
 
 const SideBar = () => {
     const [isCustomerManagementOpen, setIsCustomerManagementOpen] = useState(false);
 
-    const toggleCustomerManagement = () => {
+    const toggleCustomerManagement = (e) => {
+        e.preventDefault();
         setIsCustomerManagementOpen(!isCustomerManagementOpen);
     };
 
     return (
         <Col md={2} className="sidebar">
-            <Link to="/" className="d-flex justify-content-center mt-5">
-                <Logo width="200px" />
-            </Link>
+            <NavLink to="/" className="d-flex justify-content-center mt-5">
+                <Logo width="180px" />
+            </NavLink>
             <ul className="custom-nav flex-column">
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="/admin">
+                    <NavLink className="custom-nav-link" to="/admin/dashboard">
                         <i className="bi bi-speedometer2"></i> Bảng điều khiển
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="/admin/personal">
-                        <i className="bi bi-person"></i> Cá nhân
-                    </Link>
-                </li>
-                <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="/admin/employee">
+                    <NavLink className="custom-nav-link" to="/admin/employee">
                         <i className="bi bi-people"></i> Quản lý nhân viên
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="#" onClick={toggleCustomerManagement}>
+                    <a className="custom-nav-link" to="#" onClick={(e) => toggleCustomerManagement(e)}>
                         <i className="bi bi-briefcase"></i> Quản lý khách hàng
-                    </Link>
+                    </a>
                     {isCustomerManagementOpen && (
                         <ul className="custom-subnav flex-column ms-3">
                             <li className="custom-nav-item">
-                                <Link className="custom-nav-link" to="/admin/buyers">
+                                <NavLink className="custom-nav-link" to="/admin/buyers">
                                     <i className="bi bi-person"></i> Người mua
-                                </Link>
+                                </NavLink>
                             </li>
                             <li className="custom-nav-item">
-                                <Link className="custom-nav-link" to="/admin/sellers">
+                                <NavLink className="custom-nav-link" to="/admin/sellers">
                                     <i className="bi bi-person"></i> Người bán
-                                </Link>
+                                </NavLink>
                             </li>
                             <li className="custom-nav-item">
-                                <Link className="custom-nav-link" to="/admin/customers/add">
+                                <NavLink className="custom-nav-link" to="/admin/customers/add">
                                     <i className="bi bi-plus"></i> Thêm mới
-                                </Link>
+                                </NavLink>
                             </li>
                         </ul>
                     )}
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="#">
+                    <NavLink className="custom-nav-link" to="/admin/transaction">
                         <i className="bi bi-building"></i> Bất động sản
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="/admin/danh-sach-nhu-cau">
-                        <i className="bi bi-building"></i> Danh sách nhu
-                    </Link>
+                    <NavLink className="custom-nav-link" to="/admin/danh-sach-nhu-cau">
+                        <i className="bi bi-building"></i> Danh sách nhu cầu
+                    </NavLink>
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="/admin/homeTransactions">
+                    <NavLink className="custom-nav-link" to="/admin/real-estate">
                         <i className="bi bi-credit-card"></i> Giao dịch
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="/admin/notification">
+                    <NavLink className="custom-nav-link" to="/admin/notification">
                         <i className="bi bi-bell"></i> Thông báo
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="custom-nav-item">
-                    <Link className="custom-nav-link" to="#">
+                    <NavLink className="custom-nav-link" to="/admin/support">
                         <i className="bi bi-headset"></i> Hỗ trợ
-                    </Link>
+                    </NavLink>
                 </li>
             </ul>
         </Col>

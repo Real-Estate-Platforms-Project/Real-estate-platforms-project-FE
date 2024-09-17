@@ -4,51 +4,33 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
 import "../../css/custom.css"
-import * as accountService from "../../services/AccountService";
 import SearchBarDemand from "../search/SearchBarDemand";
-import {useLocation} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 function DemandList() {
     const [demands, setDemands] = useState([]);
     const [selectedDemand, setSelectedDemand] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [userRoles, setUserRoles] = useState(null);
+    const [filters, setFilters] = useState({})
 
-    const location = useLocation();
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
     const [currentPage, setCurrentPage] = React.useState(0);
     const [totalPages, setTotalPages] = React.useState(0);
 
+    const userRoles = useSelector((state) => state.auth.roles)
+        .map((value) => value.name);
+
+    console.log(userRoles)
 
     useEffect(() => {
-        getAllDemand()
-    }, [])
-
-    useEffect(() => {
-        getAllRoles()
-    }, [])
-
-    useEffect(() => {
-        handleSearch()
-    }, [])
-
-
-    const getAllDemand = async () => {
-        let res = await demandService.getAllDemand();
-        setDemands(res)
-    }
+        handleSearch(filters);
+    }, [filters]);
 
     const handleShow = (demand) => {
         setSelectedDemand(demand);
         setShowModal(true);
     };
-
-    const getAllRoles = async () => {
-        let res = await accountService.getAllRoles()
-        console.log(res)
-        setUserRoles(res)
-    }
 
     const verifyDemand = async (demand) => {
         let isVerify = await demandService.verifyDemand(demand);
@@ -74,9 +56,13 @@ function DemandList() {
     const handleSearch = async (filters, page = 0) => {
         setLoading(true);
         setError(null);
+        // set
         try {
-            const response = await demandService.searchAccountDemand(filters);
-            setDemands(response);
+            const response = await demandService.searchDemand({...filters, page, size: 6});
+            console.log(filters)
+            setDemands(response.content || []);
+            setTotalPages(response.totalPages || 0);
+            setCurrentPage(page);
         } catch (error) {
             console.error('Error fetching search results:', error);
             setError('Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.');
@@ -85,19 +71,25 @@ function DemandList() {
             setLoading(false);
         }
     };
+    console.log(filters)
+    const handlePageChange = (newPage) => {
+        console.log(filters)
+        handleSearch(filters, newPage);
+    }
 
     if (!demands) {
-        return <><div className="custom-search w-75" style={{justifyContent: "center", margin: "auto"}}>
-            <SearchBarDemand onSearch={handleSearch}/>
-        </div>
+        return <>
+            <div className="custom-search w-75" style={{justifyContent: "center", margin: "auto"}}>
+                <SearchBarDemand onSearch={setFilters}/>
+            </div>
             <h3 className="text-center">Không có nhu cầu</h3>
-            </>
+        </>
     }
     return (
         <div className="container m-auto mt-5 p-3 justify-content-center row">
 
             <div className="custom-search w-75" style={{justifyContent: "center", margin: "auto"}}>
-                <SearchBarDemand onSearch={handleSearch}/>
+                <SearchBarDemand onSearch={setFilters}/>
             </div>
 
             {demands.map((item) =>
@@ -137,6 +129,30 @@ function DemandList() {
                 </div>)
             }
 
+            <div className="pagination pagination--center">
+                <button
+                    className="prev page-numbers"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 0}
+                >
+                    <i className="fas fa-angle-left"></i>
+                </button>
+                {[...Array(totalPages).keys()].map((page) => (
+                    <span
+                        key={page}
+                        className={`page-numbers ${page === currentPage ? 'current' : ''}`}
+                        onClick={() => handlePageChange(page)}
+                    >{page + 1}</span>
+                ))}
+                <button
+                    className="next page-numbers"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages - 1}
+                >
+                    <i className="fas fa-angle-right"></i>
+                </button>
+            </div>
+
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Xác nhận xoá</Modal.Title>
@@ -155,4 +171,4 @@ function DemandList() {
     )
 }
 
-    export default DemandList;
+export default DemandList;

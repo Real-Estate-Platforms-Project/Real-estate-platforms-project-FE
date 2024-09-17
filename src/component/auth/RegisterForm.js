@@ -50,13 +50,13 @@ const RegisterForm = () => {
                 return;
             }
             try {
-                await authService.register(values);
-                toast.success('Đăng ký thành công! Vui lòng kiểm tra email.', {
+                const response = await authService.register(values);
+                toast.success('Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.', {
                     theme: "colored",
                     className: toastCustom.customToast
                 });
             } catch (error) {
-                toast.error('Đăng ký thất bại! Vui lòng kiểm tra lại thông tin.', {
+                toast.error(error.response?.data, {
                     theme: "colored",
                     className: toastCustom.customToast
                 });
@@ -138,8 +138,8 @@ const RegisterForm = () => {
                     />
                     <span
                         className={`position-absolute ${styles.showPasswordInput}`}
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          style={{cursor: 'pointer'}}>
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        style={{cursor: 'pointer'}}>
                             {showConfirmPassword ? (<i className="fa-solid fa-eye-slash"></i>) : (
                                 <i className="fa-solid fa-eye"></i>)}
                         </span>

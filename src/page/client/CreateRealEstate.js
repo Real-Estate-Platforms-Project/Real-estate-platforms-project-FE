@@ -161,7 +161,6 @@ const CreateRealEstate = () => {
                     return url;
                 })
             );
-
             const response = await realEstateService.saveRealEstate({
                 ...values,
                 imageUrls: imageUrls,

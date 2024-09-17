@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import * as demandService from "../../services/DemandService";
 import "../../css/custom.css"
 import SearchBarDemand from "../search/SearchBarDemand";
@@ -21,35 +21,15 @@ function AccountDemand() {
 
 
     useEffect(() => {
-        getAccountDemand()
-    }, [])
+        const filters = location.state?.filters || {};
+        handleSearch(filters, 0);
+    }, [location.state]);
 
-
-    useEffect(() => {
-        handleSearch()
-    }, [])
-
-
-    const getAccountDemand = async () => {
-        let res = await demandService.getAccountDemand();
-        setDemands(res)
-    }
 
     const handleShow = (demand) => {
         setSelectedDemand(demand);
         setShowModal(true);
     };
-
-    const editDemand = async (demand) => {
-        let isVerify = await demandService.verifyDemand(demand);
-        if (isVerify) {
-            demand.isVerify = true
-            setDemands(demands.map(s => s !== demand ? s : demand));
-            toast.success("Duyệt nhu cau thành công")
-        } else {
-            toast.error("Duyệt nhu cau thất bại.")
-        }
-    }
 
     const deleteDemand = async (id) => {
         let isSuccess = await demandService.deleteDemand(id)
@@ -65,8 +45,10 @@ function AccountDemand() {
         setLoading(true);
         setError(null);
         try {
-            const response = await demandService.searchDemand(filters);
-            setDemands(response);
+            const response = await demandService.searchAccountDemand({...filters, page, size: 6});
+            setDemands(response.content || []);
+            setTotalPages(response.totalPages || 0);
+            setCurrentPage(page);
         } catch (error) {
             console.error('Error fetching search results:', error);
             setError('Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.');
@@ -75,6 +57,8 @@ function AccountDemand() {
             setLoading(false);
         }
     };
+
+    const handlePageChange = (newPage) => handleSearch(location.state?.filters, newPage);
 
     if (!demands) {
         return <>
@@ -112,7 +96,9 @@ function AccountDemand() {
                                 className="fa-solid fa-map"></i> {item.minArea}-{item.maxArea} m2
                             </h6>
                         </div>
-                        {!item.isVerify? <h6 className="card-subtitle mb-3 text-warning" style={{fontStyle:"italic"}}>Nhu cầu đang chờ phê duyệt</h6>:""}
+                        {!item.isVerify ?
+                            <h6 className="card-subtitle mb-3 text-warning" style={{fontStyle: "italic"}}>Nhu cầu đang
+                                chờ phê duyệt</h6> : ""}
                         <div className="d-flex justify-content-end mt-3">
                             <button className="btn btn-danger btn-sm pr-3 me-2" onClick={() => handleShow(item)}>
                                 Xoá nhu cầu
@@ -126,6 +112,30 @@ function AccountDemand() {
                     </div>
                 </div>)
             }
+
+            <div className="pagination pagination--center">
+                <button
+                    className="prev page-numbers"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 0}
+                >
+                    <i className="fas fa-angle-left"></i>
+                </button>
+                {[...Array(totalPages).keys()].map((page) => (
+                    <span
+                        key={page}
+                        className={`page-numbers ${page === currentPage ? 'current' : ''}`}
+                        onClick={() => handlePageChange(page)}
+                    >{page + 1}</span>
+                ))}
+                <button
+                    className="next page-numbers"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages - 1}
+                >
+                    <i className="fas fa-angle-right"></i>
+                </button>
+            </div>
 
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>

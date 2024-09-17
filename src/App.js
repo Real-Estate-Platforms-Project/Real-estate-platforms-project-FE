@@ -2,7 +2,7 @@ import './App.css';
 import './css/custom.css';
 import "./css/SearchBar.css";
 import {ToastContainer} from "react-toastify";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Client from './page/layout/Client';
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,7 +22,7 @@ import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
 
-import {WebSocketProvider} from './services/SocketNotification';
+import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
@@ -37,14 +37,13 @@ import UpdateForgetPassword from "./component/password/UpdateForgetPassword";
 import SellerList from "./component/customer/SellerList";
 import EstateListing from "./page/client/EstateListing";
 import ProtectedRoute from "./component/ProtectedRoute";
-
+import Dashboard from "./page/admin/dashboard/Dashboard";
 import EditDemand from "./page/client/EditDemand";
 import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
 import TransactionCreate from "./component/admin/transaction/TransactionCreact";
 import HomeTransaction from "./component/admin/transaction/HomeTransaction";
-import TransactionDetail from "./component/admin/transaction/TransactionDetail";
 
 
 function App() {
@@ -68,11 +67,9 @@ function App() {
                             <Route path="/login" element={<Authentication/>}/>
                             <Route path="/activation-success" element={<ActivationSuccess/>}/>
                             <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
-                            <Route path="/homeTransactions" element={<HomeTransaction/>} />
-                            <Route path="/homeTransactions/transactionDetail" element={<TransactionDetail/>} />
-                            <Route path="/homeTransactions/create" element={<TransactionCreate/>}/>
                             <Route path="/" element={<Client/>}>
                                 <Route element={<ProtectedRoute/>}>
+                                    <Route path="/profile" element={<ProfilePage/>}/>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                                     <Route path="/demand/edit/:id" element={<EditDemand/>}/>
                                     <Route path="/update-password" element={<UpdatePassWord/>}/>
@@ -94,21 +91,21 @@ function App() {
                                 <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                             </Route>
 
-                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
-                                <Route path="/admin" element={<Admin/>}>
-                                    <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
-                                        <Route path={"/admin/employee"} element={<EmployeeList/>}/>
-                                    </Route>
-                                    <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
-                                    <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
-                                    <Route path={"/admin/buyers"} element={<BuyerList/>}/>
-                                    <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
-                                    <Route path="/admin/statistics" element={<Statistics/>}/>
-                                    <Route path="/admin/sellers" element={<SellerList/>}/>
-                                    {/*<Route path="/admin/homeTransactions" element={<HomeTransaction/>} />*/}
-                                    {/*<Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/>*/}
+                            {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
+                            <Route path="/admin" element={<Admin/>}>
+                                <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
+                                    <Route path={"/admin/employee"} element={<EmployeeList/>}/>
                                 </Route>
+                                <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
+                                <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
+                                <Route path={"/admin/buyers"} element={<BuyerList/>}/>
+                                <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
+                                <Route path="/admin/statistics" element={<Statistics/>}/>
+                                <Route path="/admin/sellers" element={<SellerList/>}/>
+                                <Route path="/admin/homeTransactions" element={<HomeTransaction/>} />
+                                <Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/>
                             </Route>
+                            {/*</Route>*/}
                         </Routes>
 
                 }
