@@ -63,3 +63,5 @@ export const checkEmailExists = async (email) => {
         throw e;
     }
 };
+
+export default { getEmployees};

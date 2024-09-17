@@ -43,3 +43,5 @@ export const searchBuyers = (searchCriteria) => {
 export const saveUserProfile = async (userData) => {
     await apiClient.post(`/customers/update`, userData);
 };
+
+export default { getAllBuyers};

@@ -36,3 +36,5 @@ export const searchSellers = (searchCriteria) => {
             throw error;
         });
 };
+
+export default { getAllSellers};
