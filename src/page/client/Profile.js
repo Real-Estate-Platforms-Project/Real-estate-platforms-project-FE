@@ -6,6 +6,8 @@ import {format} from 'date-fns';
 import {vi} from 'date-fns/locale';
 import styles from '../../css/Profile.module.css'
 import ProfileForm from "../../component/client/ProfileForm";
+import {toast} from "react-toastify";
+import customToast from "../../css/Toastify.module.css";
 
 export default function ProfilePage() {
     const [userPermission, setUserPermission] = useState('');
@@ -21,6 +23,11 @@ export default function ProfilePage() {
         'ROLE_SELLER': 2,
         'ROLE_EMPLOYEE': 3,
         'ROLE_ADMIN': 4
+    };
+
+    const handleSave = () => {
+        localStorage.setItem('profileUpdateToast', 'Cập nhật thông tin thành công.');
+        window.location.href="/profile";
     };
 
     const handleCancel = () => {
@@ -52,6 +59,14 @@ export default function ProfilePage() {
             }
         }
     }, [roles]);
+
+    useEffect(() => {
+        const toastMessage = localStorage.getItem('profileUpdateToast');
+        if (toastMessage) {
+            toast.success(toastMessage, {theme: "colored", className: customToast.customToast});
+            localStorage.removeItem('profileUpdateToast');
+        }
+    }, []);
 
     return (
         <section style={{backgroundColor: '#eee'}}>
@@ -127,7 +142,7 @@ export default function ProfilePage() {
                     <div className="col-lg-8">
 
                         {isEditing ? (
-                            <ProfileForm user={user} onCancel={handleCancel}/>
+                            <ProfileForm user={user} onSave={handleSave} onCancel={handleCancel}/>
                         ) : (
 
                             <div className="card mb-4">

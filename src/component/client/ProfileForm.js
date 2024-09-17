@@ -1,13 +1,12 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import styles from '../../css/Profile.module.css';
 import { saveUserProfile } from "../../services/BuyerService";
 import {toast} from "react-toastify";
 import customToast from "../../css/Toastify.module.css"
 import {useNavigate} from "react-router-dom";
 
-const ProfileForm = ({ user, onCancel }) => {
+const ProfileForm = ({ user, onSave , onCancel }) => {
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -24,14 +23,13 @@ const ProfileForm = ({ user, onCancel }) => {
             dob: Yup.date().required('Ngày sinh là bắt buộc').nullable(),
             phoneNumber: Yup.string().required('Số điện thoại là bắt buộc').matches(/^([+0])\d{9,12}$/, 'Định dạng số điện thoại không hợp lệ.'),
             address: Yup.string().required('Địa chỉ là bắt buộc').max(155, 'Địa chỉ không được quá 155 ký tự.'),
-            gender: Yup.string().oneOf(['Nam', 'Nữ', 'Giới tính thứ 3'], 'Chọn giới tính').required('Giới tính là bắt buộc'),
+            gender: Yup.string().oneOf(['Nam', 'Nữ', 'Khác'], 'Chọn giới tính').required('Giới tính là bắt buộc'),
             idCard: Yup.string().required('CCCD/Hộ chiếu là bắt buộc').matches(/^(?:\d{12}|[A-Z0-9]{8}|[A-Z][0-9]{8})$/, 'CCCD hoặc Hộ chiếu không hợp lệ.'),
         }),
         onSubmit: async (values) => {
             try {
                 await saveUserProfile({ ...values, code: user.code, email: user.email });
-                toast.success('Cập nhật thông tin thành công.', {theme: "colored", className: customToast.customToast})
-                onCancel();
+                onSave();
             } catch (error) {
                 toast.error(error.response?.data, {theme: "colored", className: customToast.customToast})
             }
@@ -83,7 +81,7 @@ const ProfileForm = ({ user, onCancel }) => {
                             <option value="">Chọn giới tính</option>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
-                            <option value="Giới tính thứ 3">Giới tính thứ ba</option>
+                            <option value="Khác">Khác</option>
                         </select>
                         {formik.touched.gender && formik.errors.gender ? (
                             <div className="invalid-feedback">
