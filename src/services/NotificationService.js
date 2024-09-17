@@ -1,7 +1,8 @@
 import axios from "axios";
+import apiClient from "../configs/AxiosConfigs";
 
-const URL_GET_ALL_NOTIFICATION = "http://localhost:8080/api/client/notifications";
-const URL_ACTION_NOTIFICATION = "http://localhost:8080/api/admin/notifications";
+const URL_GET_ALL_NOTIFICATION = "/client/notifications";
+const URL_ACTION_NOTIFICATION = "/admin/notifications";
 
 
 export const getAllNotification = async (title) => {
@@ -10,7 +11,7 @@ export const getAllNotification = async (title) => {
         if (title) {
             url += `&title_like=${title}`;
         }
-        const res = await axios.get(url);
+        const res = await apiClient.get(url);
         const notifications = res.data;
 
         notifications.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
@@ -22,7 +23,7 @@ export const getAllNotification = async (title) => {
 
 export const getNotificationDetail = async (id) => {
     try {
-        let res = await axios.get(URL_GET_ALL_NOTIFICATION + `/${id}`);
+        let res = await apiClient.get(URL_GET_ALL_NOTIFICATION + `/${id}`);
         return res.data;
     } catch (e) {
         return [];
@@ -31,7 +32,7 @@ export const getNotificationDetail = async (id) => {
 
 export const deleteNotification = async (id) => {
     try {
-        await axios.delete(`${URL_ACTION_NOTIFICATION}/${id}`);
+        await apiClient.delete(`${URL_ACTION_NOTIFICATION}/${id}`);
     } catch (e) {
         throw e;
     }
@@ -39,7 +40,7 @@ export const deleteNotification = async (id) => {
 
 export const addNotification = async (notification) => {
     try {
-        const response = await axios.post(URL_ACTION_NOTIFICATION, notification);
+        const response = await apiClient.post(URL_ACTION_NOTIFICATION, notification);
         console.log(response)
         return response.data;
     } catch (error) {
@@ -54,7 +55,7 @@ export const updateNotification = async (notification) => {
         console.log('Cập nhật thông báo:', notification);
         console.log('URL:', url);
 
-        const response = await axios.put(url, notification, {
+        const response = await apiClient.put(url, notification, {
             headers: {
                 'Content-Type': 'application/json',
             }
