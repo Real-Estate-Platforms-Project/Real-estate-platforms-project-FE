@@ -5,6 +5,7 @@ const API_URL = 'http://localhost:8080/api/admin/buyers';
 export const getAllBuyers = async () => {
     try {
         const response = await axios.get(API_URL);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching buyers:', error);
@@ -15,6 +16,7 @@ export const getAllBuyers = async () => {
 export const getBuyerById = async (id) => {
     try {
         const response = await axios.get(`${API_URL}/${id}`);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error(`Error fetching buyer with ID ${id}:`, error);
