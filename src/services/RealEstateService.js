@@ -54,3 +54,7 @@ export const findRealEstateBySellerId = async (id) => {
         throw error;
     }
 }
+
+export default {
+    findRealEstate
+};

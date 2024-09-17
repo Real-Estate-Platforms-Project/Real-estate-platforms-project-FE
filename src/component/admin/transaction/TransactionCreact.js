@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as transactionService from "..//..//..//services/TransactionService";
 import { toast } from "react-toastify";
-import EmployeeService from '..//..//..//services/EmployeeService';
+import EmployeeService, {getEmployees} from '..//..//..//services/EmployeeService';
 import RealEstateService from '..//..//..//services/EmployeeService';
 import Modal from 'react-bootstrap/Modal';
 import Select from "react-select";
@@ -29,7 +29,8 @@ const TransactionCreate = ({ showModal, handleClose }) => {
         let employeeData = await EmployeeService.getEmployees();
         setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.code })));
 
-        let realEstateData = await RealEstateService.getRealEstates();
+
+        let realEstateData = await RealEstateService.getEmployees();
         setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
 
         let buyerData = await BuyerService.getAllBuyers();
@@ -100,7 +101,7 @@ const TransactionCreate = ({ showModal, handleClose }) => {
 
             if (isSuccess) {
                 toast.success("Thêm mới thành công");
-                navigate("/homeTransactions");
+                navigate("/admin/homeTransactions");
             } else {
                 toast.error("Thêm mới thất bại");
             }

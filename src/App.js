@@ -97,7 +97,7 @@ function App() {
                                 <Route path="/sellernet/quan-ly-tin-rao-ban-cho-thue" element={<ManagePostings/>}/>
                             </Route>
 
-                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                            {/* <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}> */}
                             <Route
                                 path="/admin"
                                 element={
@@ -119,7 +119,7 @@ function App() {
                                     <Route path="/admin/homeTransactions" element={<HomeTransaction/>}/>
                                     <Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/>
                                 </Route>
-                            </Route>
+                            {/* </Route> */}
                         </Routes>
 
                 }

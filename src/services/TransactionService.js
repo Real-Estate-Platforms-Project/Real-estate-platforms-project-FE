@@ -2,17 +2,25 @@ import axios from "axios";
 
 const URL_TRANSACTION = "http://localhost:8080/api/transactions"
 
-export const getAllHome = async (searchTransactionCode, ) => {
+export const getAllHome = async (searchTransactionCode = "") => {
     try {
+        // Kiểm tra nếu có mã giao dịch cần tìm kiếm, thêm vào query string
         let query = "";
+        if (searchTransactionCode) {
+            query = `?searchTransactionCode=${encodeURIComponent(searchTransactionCode)}`;
+        }
 
+        // Gửi request với query string
         let res = await axios.get(URL_TRANSACTION + query);
+
+        // Trả về dữ liệu từ response
         return res.data;
     } catch (e) {
         console.log("Lỗi khi truy xuất tất cả giao dịch:", e);
         return [];
     }
 }
+
 
 export const saveTransaction = async (transaction) => {
     try {

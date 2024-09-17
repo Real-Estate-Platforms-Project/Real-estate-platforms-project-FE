@@ -8,7 +8,7 @@ import TransactionUpdate from "..//transaction/TransactionUpdate";
 import TransactionDetail from "..//transaction/TransactionDetail";
 import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
-
+import { tr } from 'date-fns/locale';
 
 function HomeTransaction() {
     const [transactions, setTransactions] = useState([]);
@@ -37,25 +37,35 @@ function HomeTransaction() {
 
     const fetchTransactions = async (page) => {
         setLoading(true);
-        const data = await transactionService.getAllHome(page);
-        setTransactions(prevTransactions => [...prevTransactions, ...data.content]);
-        setTotalPages(data.totalPages);
-        setLoading(false);
-    }
+        try {
+            const data = await transactionService.getAllHome(page);
+
+            if (page === 0) {
+                setTransactions(data.content);
+                console.log(setTransactions)
+            } else {
+                setTransactions(prevTransactions => [...prevTransactions, ...data.content]);
+            }
+
+            setTotalPages(data.totalPages);
+        } catch (error) {
+            console.error("Lỗi khi lấy danh sách giao dịch:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     useEffect(() => {
         fetchTransactions(page);
     }, [page]);
 
-    // Hàm xem chi tiết giao dịch
     const seeDetails = async (id) => {
         try {
             const transaction = await transactionService.findTransactionId(id);
-            console.log("chi tiết 2", transaction)
             setSelectedTransactionForDetail(transaction.data);
             handleShowDetailModal();
         } catch (error) {
-            console.error("Error fetching transaction details:", error);
             toast.error("Lỗi khi lấy thông tin chi tiết giao dịch!");
         }
     };
@@ -64,26 +74,23 @@ function HomeTransaction() {
         try {
             const transaction = await transactionService.findTransactionId(id);
             console.log(transaction);
-            
-            setSelectedTransactionForEdit(transaction); // Lưu dữ liệu giao dịch vào state
-            handleShowEditModal(); // Hiển thị modal chỉnh sửa
+
+            setSelectedTransactionForEdit(transaction);
+            handleShowEditModal();
         } catch (error) {
             toast.error("Có lỗi xảy ra khi lấy dữ liệu giao dịch!");
         }
     };
 
-
-
-    // const handleEdit = async (id) => {
-    //     try {
-    //         await transactionService.updateTransaction(id);
-    //         console.log("transaction", id);
-    //         toast.success("Cập nhật thành công!");
-    //         handleCloseEditModal(); 
-    //     } catch (error) {
-    //         toast.error("Có lỗi xảy ra khi cập nhật giao dịch!");
-    //     }
-    // };
+    const TransactionDetails = async (id) => {
+        try {
+            const transaction = await transactionService.findTransactionId(id);
+            setSelectedTransactionForDetail(transaction.data);
+            handleShowDetailModal()
+        } catch (error) {
+            toast.error("Lỗi khi lấy chi tiết giao dịch!");
+        }
+    };
 
 
     const handleDelete = async (id) => {
@@ -136,7 +143,8 @@ function HomeTransaction() {
         if (page < totalPages - 1) {
             setPage(prevPage => prevPage + 1);
         }
-    }
+    };
+
 
     return (
         <div className="table-transaction">
@@ -187,24 +195,21 @@ function HomeTransaction() {
                                 <TableCell>{transaction.createAt}</TableCell>
                                 <TableCell>{transaction.commissionFee}</TableCell>
                                 <TableCell>
-                                    {/* <Button className="btn btn-info btn-sm me-2" variant="primary" onClick={() => handleEdit(transaction.id)}>
-                                    Sửa
-                                </Button> */}
-
                                     <Button className="btn btn-info btn-sm me-2" variant="primary" onClick={() => handleEdit(transaction.id)}>
                                         Sửa
                                     </Button>
 
                                     <Button className="btn btn-danger btn-sm" onClick={() => handleDelete(transaction.id)}> Xoá </Button>
 
-                                    {/*<Button className="btn btn-info btn-sm" onClick={() => seeDetails(transaction.id)}>*/}
-                                    {/*    Xem chi tiết*/}
-                                    {/*</Button>*/}
+                                    {/* <Button className="btn btn-info btn-sm" onClick={() => TransactionDetails(transaction.id)}>
+                                        Xem chi tiết
+                                    </Button> */}
 
-                                    <div>
-                                        <Link to="/homeTransactions/TransactionDetail" onClick={() => seeDetails(transaction.id)} className="btn btn-info btn-sm">Xem chi tiết</Link>
 
-                                    </div>
+                                    {/* <div>
+                                        <Link to="/admin/homeTransactions/TransactionDetail" onClick={() => seeDetails(transaction.id)} className="btn btn-info btn-sm">Xem chi tiết</Link>
+
+                                    </div> */}
                                 </TableCell>
                             </TableRow>
                         ))
@@ -217,21 +222,32 @@ function HomeTransaction() {
             </table>
 
             <div className="text-center mt-3">
-                <Button className="btn btn-success btn-sm" onClick={handleLoadMore} disabled={loading}>
+                <Button
+                    className="btn btn-success btn-sm"
+                    onClick={handleLoadMore}
+                    disabled={loading || page >= totalPages - 1}
+                    style={{ display: page >= totalPages - 1 ? 'none' : 'block' }}
+                >
                     {loading ? "Đang tải..." : (
                         <>
                             <i className="bi bi-arrow-bar-down"></i> XEM THÊM <i className="bi bi-arrow-bar-down"></i>
                         </>
                     )}
                 </Button>
+
             </div>
 
             <TransactionCreate showModal={showCreateModal} handleClose={handleCloseCreateModal} />
             <TransactionUpdate
                 showModal={showEditModal}
                 handleClose={handleCloseEditModal}
-                transaction={selectedTransactionForEdit} 
+                transaction={selectedTransactionForEdit}
             />
+            {/* <TransactionDetail
+                showModal={showDetailModal}
+                handleClose={handleCloseDetailModal}
+                transaction={selectedTransactionForDetail}
+            /> */}
 
 
         </div>

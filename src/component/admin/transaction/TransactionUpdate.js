@@ -5,7 +5,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as transactionService from "../../../services/TransactionService";
 import { toast } from "react-toastify";
 import EmployeeService from '../../../services/EmployeeService';
-import RealEstateService from '../../../services/RealEstateService';
+import RealEstateService from '..//..//..//services/RealEstateService';
 import Modal from 'react-bootstrap/Modal';
 import Select from "react-select";
 import Button from "react-bootstrap/Button";
@@ -27,7 +27,7 @@ const TransactionUpdate = ({ showModal, handleClose, transaction }) => {
         const employeeData = await EmployeeService.getEmployees();
         setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.code })));
 
-        const realEstateData = await RealEstateService.getRealEstates();
+        const realEstateData = await RealEstateService.findRealEstate();
         setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
 
         const buyerData = await BuyerService.getAllBuyers();

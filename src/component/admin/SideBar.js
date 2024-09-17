@@ -53,7 +53,7 @@ const SideBar = () => {
                     )}
                 </li>
                 <li className="custom-nav-item">
-                    <NavLink className="custom-nav-link" to="/admin/transaction">
+                    <NavLink className="custom-nav-link" to="/admin/real-estate" >
                         <i className="bi bi-building"></i> Bất động sản
                     </NavLink>
                 </li>
@@ -63,7 +63,7 @@ const SideBar = () => {
                     </NavLink>
                 </li>
                 <li className="custom-nav-item">
-                    <NavLink className="custom-nav-link" to="/admin/real-estate">
+                    <NavLink className="custom-nav-link" to="/admin/homeTransactions">
                         <i className="bi bi-credit-card"></i> Giao dịch
                     </NavLink>
                 </li>

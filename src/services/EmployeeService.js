@@ -1,4 +1,3 @@
-
 import apiClient from "../configs/AxiosConfigs";
 import employee from "sockjs-client/lib/transport/receiver/jsonp";
 
@@ -55,7 +54,7 @@ export const checkEmailExists = async (email) => {
     try {
         const token = sessionStorage.getItem('token');
         const res = await apiClient.get(`/admin/employees/check-email`, {
-            params: { email },
+            params: {email},
         });
         return res.data;
     } catch (e) {
@@ -64,4 +63,6 @@ export const checkEmailExists = async (email) => {
     }
 };
 
-export default { getEmployees};
+export default {
+    getEmployees
+};
