@@ -42,6 +42,7 @@ import EditDemand from "./page/client/EditDemand";
 import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
+import ProfilePage from "./page/client/Profile";
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
                             <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                             <Route path="/" element={<Client/>}>
                                 <Route element={<ProtectedRoute/>}>
+                                    <Route path="/profile" element={<ProfilePage/>}/>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                                     <Route path="/demand/edit/:id" element={<EditDemand/>}/>
                                     <Route path="/update-password" element={<UpdatePassWord/>}/>
