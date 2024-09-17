@@ -83,7 +83,8 @@ function App() {
                                 <Route path="/notification" element={<Notification/>}/>
                                 <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                                 <Route path="/403" element={<Forbidden/>}/>
-                                <Route path="/estate-list" element={<EstateListing/>}/>
+                                <Route path="/estate-list" element={<EstateListing
+                                />}/>
                                 <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                                 <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                             </Route>

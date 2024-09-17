@@ -8,7 +8,7 @@ import CreateNotification from './CreateNotification';
 import EditNotificationModal from './EditNotification';
 import { toast } from "react-toastify";
 import { Modal as BootstrapModal } from 'react-bootstrap';
-import {format} from "date-fns";
+import { format } from "date-fns";
 
 function NotificationAdmin() {
     const [title, setTitle] = useState("");
@@ -20,9 +20,9 @@ function NotificationAdmin() {
     const [notificationsList, setNotificationsList] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [deleteNotificationTitle, setDeleteNotificationTitle] = useState("");
-
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
+    const [expandedNotifications, setExpandedNotifications] = useState({});
 
     useEffect(() => {
         getNotifications(title);
@@ -139,6 +139,18 @@ function NotificationAdmin() {
         }
     };
 
+    const toggleContent = (id) => {
+        setExpandedNotifications(prev => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+    };
+
+    const getTruncatedContent = (content) => {
+        const maxLength = 200;
+        return content.length > maxLength ? content.substring(0, maxLength) + '...' : content;
+    };
+
     return (
         <div className="notification-container-ky">
             <div>
@@ -195,14 +207,22 @@ function NotificationAdmin() {
                             <td>{item.dateStart ? formatDate(item.dateStart) : 'N/A'}</td>
                             <td>{item.formattedCreateNotification}</td>
                             <td>{item.employee ? item.employee.name : 'N/A'}</td>
-                            <td>{item.contend}</td>
+                            <td>
+                                {expandedNotifications[item.id]
+                                    ? item.contend
+                                    : getTruncatedContent(item.contend)}
+                                {item.contend.length > 100 && (
+                                    <button
+                                        onClick={() => toggleContent(item.id)}
+                                        className="btn btn-link">
+                                        {expandedNotifications[item.id] ? "Thu gọn" : "Xem thêm"}
+                                    </button>
+                                )}
+                            </td>
                             <td>
                                 <div className="d-flex gap-2">
-                                    <button className='me-2 button-orange' onClick={() => handleEdit(item.id)}>Sửa
-                                    </button>
-                                    <button className='me-2 button-orange'
-                                            onClick={() => openDeleteModal(item.id)}>Xóa
-                                    </button>
+                                    <button className='me-2 button-orange' onClick={() => handleEdit(item.id)}>Sửa</button>
+                                    <button className='me-2 button-orange' onClick={() => openDeleteModal(item.id)}>Xóa</button>
                                 </div>
                             </td>
                         </tr>
@@ -219,7 +239,7 @@ function NotificationAdmin() {
                 >
                     Previous
                 </button>
-                {Array.from({length: totalPages}, (_, index) => (
+                {Array.from({ length: totalPages }, (_, index) => (
                     <button
                         key={index}
                         className={`button-orange me-2 ${currentPage === index + 1 ? 'active' : ''}`}
@@ -236,7 +256,6 @@ function NotificationAdmin() {
                     Next
                 </button>
             </div>
-
 
             <Modal
                 show={showModal}
@@ -268,7 +287,7 @@ function NotificationAdmin() {
                             src={selectedImage}
                             alt="Selected"
                             className="img-fluid"
-                            style={{maxWidth: '100%'}}
+                            style={{ maxWidth: '100%' }}
                         />
                     )}
                 </BootstrapModal.Body>
@@ -276,6 +295,5 @@ function NotificationAdmin() {
         </div>
     );
 }
-
 
 export default NotificationAdmin;

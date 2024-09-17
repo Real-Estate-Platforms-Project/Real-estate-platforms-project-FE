@@ -46,6 +46,7 @@ const AddNotificationModal = ({ show, onClose, onAdd }) => {
             images: selectedImages.map(url => ({ imageUrl: url })),
             dateStart: localDateTime
         };
+        console.log(newNotification)
         onAdd(newNotification);
         onClose();
     };
