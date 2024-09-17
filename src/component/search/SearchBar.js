@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
     const navigate = useNavigate();
@@ -55,8 +56,17 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
 
     const handlePriceRangeChange = (e) => {
         const {name, value} = e.target;
-        setPriceRange({...priceRange, [name]: value});
-        setSelectedPriceOption('custom');
+        const numericValue = value.replace(/\D/g, '');
+        if (numericValue === '' || checkLimit(numericValue, 10000000000000)) {
+            setPriceRange({...priceRange, [name]: numericValue});
+            setSelectedPriceOption('custom');
+            setErrorMessage('');
+        } else {
+            setErrorMessage("ok")
+            toast.error('Giá trị không được vượt quá 10.000 tỷ VND');
+        }
+        const displayValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        e.target.value = numericValue === '' ? '' : `${displayValue} VND`;
     };
 
     const handleLocationChange = (e) => {
@@ -73,7 +83,8 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         const max = parseFloat(priceRange.max);
 
         if (!isNaN(min) && !isNaN(max) && min > max) {
-            setErrorMessage('Giá trị tối thiểu không được lớn hơn giá trị tối đa.');
+            setErrorMessage("ok")
+            toast.error('Giá trị tối thiểu không được lớn hơn giá trị tối đa.');
         } else {
             setErrorMessage('');
         }
@@ -81,8 +92,19 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
 
     const handleAreaRangeChange = (e) => {
         const {name, value} = e.target;
-        setAreaRange({...areaRange, [name]: value});
-        setSelectedAreaOption('custom');
+        const numericValue = value.replace(/\D/g, '');
+
+        if (numericValue === '' || checkLimit(numericValue, 10000)) {
+            setAreaRange({...areaRange, [name]: numericValue});
+            setSelectedAreaOption('custom');
+            setErrorMessage('');
+        } else {
+            setErrorMessage("ok")
+            toast.error('Diện tích không được vượt quá 10.000 m²');
+        }
+
+        const displayValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Định dạng với dấu chấm
+        e.target.value = numericValue === '' ? '' : `${displayValue} m²`;
     };
 
     const handleAreaRangeBlur = () => {
@@ -90,7 +112,8 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         const max = parseFloat(areaRange.max);
 
         if (!isNaN(min) && !isNaN(max) && min > max) {
-            setErrorMessage('Diện tích tối thiểu không được lớn hơn diện tích tối đa.');
+            setErrorMessage("ok")
+            toast.error('Diện tích tối thiểu không được lớn hơn diện tích tối đa.');
         } else {
             setErrorMessage('');
         }
@@ -182,7 +205,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
             demandType: activeTab === 'Bán,Cho thuê' ? 'Bán,Cho thuê' : activeTab === 'Bán' ? 'Bán' : 'Cho thuê',
         };
         if (window.location.pathname !== '/estate-list') {
-            navigate('/estate-list', {state: {filters,activeTab}});
+            navigate('/estate-list', {state: {filters, activeTab}});
         } else {
             onSearch(filters);
         }
@@ -245,6 +268,8 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
             return `${(value / 1000000000).toFixed(1)} tỷ`;
         } else if (value >= 1000000) {
             return `${(value / 1000000).toFixed(0)} triệu`;
+        } else if (value >= 1000) {
+            return `${(value / 1000).toFixed(0)} ngàn`;
         }
         return value;
     };
@@ -286,7 +311,8 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         const max = parseFloat(priceRange.max);
         if (!isNaN(min) && !isNaN(max) && min > max) {
             closeDropdowns();
-            setErrorMessage('Giá trị tối thiểu không được lớn hơn giá trị tối đa.');
+            setErrorMessage("ok")
+            toast.error('Giá trị tối thiểu không được lớn hơn giá trị tối đa.');
             return;
         }
         setErrorMessage('');
@@ -298,11 +324,20 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         const max = parseFloat(areaRange.max);
         if (!isNaN(min) && !isNaN(max) && min > max) {
             closeDropdowns();
-            setErrorMessage('Diện tích tối thiểu không được lớn hơn diện tích tối đa.');
+            setErrorMessage("ok")
+            toast.error('Diện tích tối thiểu không được lớn hơn diện tích tối đa.');
             return;
         }
         setErrorMessage('');
         closeDropdowns();
+    };
+
+    const checkLimit = (value, maxValue) => {
+        const numericValue = parseInt(value, 10);
+        if (isNaN(numericValue) || numericValue > maxValue) {
+            return false;
+        }
+        return true;
     };
 
     return (
@@ -345,7 +380,6 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
                         disabled={Boolean(errorMessage)}>Tìm kiếm
                 </button>
             </div>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
             <div className="search-options">
 
                 <div
