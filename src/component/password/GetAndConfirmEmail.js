@@ -58,7 +58,7 @@ function GetAndConfirmEmail() {
                                 <div className="mt-2 me-1"><a href="/login"
                                                               className="btn btn-outline-warning">Hủy</a></div>
                                 <div className="mt-2">
-                                    <button className="btn btn-outline-warning">Tìm kiếm</button>
+                                    <button type="submit" className="btn btn-outline-warning">Tìm kiếm</button>
                                 </div>
                             </div>
                         </div>
