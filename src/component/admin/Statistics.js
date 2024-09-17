@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import * as statisticsService from "../../services/StatisticsService";
 import "../../css/Statistic.css";
 import Chart from "react-apexcharts";
-import {format} from "date-fns";
 
 function Statistics() {
     const [years, setYears] = useState([]);
@@ -40,7 +39,6 @@ function Statistics() {
             monthList.push(month);
         }
         setMonths(monthList);
-        console.log(startDate)
     }, [currentYear]);
 
     const handleStatisticChange = (e) => {
@@ -270,57 +268,76 @@ function Statistics() {
 
 
 
-    const maxYRevenueByYear = Math.max(...monthlyStatistics) + 1;
-    console.log(maxYRevenueByYear)
+    const maxYRevenueByYear = Math.max(...monthlyStatistics);
+    const scaleFactor = 1_000_000_000;
+    const scaledMaxYRevenue = Math.ceil(maxYRevenueByYear / scaleFactor / 30) * 30 * scaleFactor;
 
-    const chartRevenueByYear = {
+    const chartStatisticRevenueByYear = {
         chart: {
             id: "yearly-revenue-chart",
+            offsetX: -54,
         },
         xaxis: {
-            categories: [
-                "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
-                "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
-            ]
+            categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            axisBorder: {
+                show: true,
+                color: '#000',
+            },
+            axisTicks: {
+                show: true,
+                color: '#000',
+            },
+            title: {
+                text: 'Tháng',
+                offsetX: 580,
+                offsetY: -30,
+                style: {
+                    color: '#000',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                },
+            },
         },
         yaxis: {
-            tickAmount: (function () {
-                if (maxYRevenueByYear < 5) {
-                    return 5;
-                } else if (maxYRevenueByYear <= 10) {
-                    return 5;
-                } else if (maxYRevenueByYear <= 15) {
-                    return 5;
-                } else if (maxYRevenueByYear <= 20) {
-                    return 5;
-                } else if (maxYRevenueByYear <= 25) {
-                    return 5;
-                } else {
-                    return Math.ceil(maxYRevenueByYear / 5);
-                }
-            })(),
+            tickAmount: Math.ceil(scaledMaxYRevenue / scaleFactor / 30),
             min: 0,
-            max: (function () {
-                if (maxYRevenueByYear < 5) {
-                    return 5;
-                } else if (maxYRevenueByYear <= 10) {
-                    return 10;
-                } else if (maxYRevenueByYear <= 15) {
-                    return 15;
-                } else if (maxYRevenueByYear <= 20) {
-                    return 20;
-                } else if (maxYRevenueByYear <= 25) {
-                    return 25;
-                } else {
-                    return Math.ceil(maxYRevenueByYear / 5) * 5;
-                }
-            })(),
+            max: scaledMaxYRevenue,
             labels: {
                 formatter: function (val) {
-                    return Math.floor(val);
+                    return (val / scaleFactor).toLocaleString();
                 }
             },
+            title: {
+                text: 'Tỷ VNĐ',
+                rotate: 0,
+                offsetX: 30,
+                offsetY:-130,
+                style: {
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    color: '#000',
+                },
+            },
             forceNiceScale: true,
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: '60%',
+                dataLabels: {
+                    position: 'top',
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val) {
+                return (val / scaleFactor).toFixed(1) + " tỷ";
+            },
+            offsetY: -20,
+            style: {
+                fontSize: '12px',
+                colors: ["#304758"]
+            }
         },
         title: {
             text: `Thống kê doanh thu trong năm ${selectedYear}`,
@@ -333,10 +350,11 @@ function Statistics() {
         }
     };
 
-    const chartSeriesRevenueByYear = [{
-        name: `Doanh thu`,
-        data: monthlyStatistics.map(stat => stat.totalAmount) // Thay đổi dữ liệu để sử dụng tổng doanh thu
+    const chartSeriesStatisticRevenueByYear = [{
+        name: "Doanh thu",
+        data: monthlyStatistics
     }];
+
 
 
 
@@ -410,22 +428,10 @@ function Statistics() {
         data: dailyStatistics
     }];
 
-    const groupSize = 5;
-    const groupedDays = [];
-    const groupedStatistics = [];
 
-    for (let i = 0; i < dailyStatistics.length; i += groupSize) {
-        const startDay = i + 1;
-        const endDay = Math.min(i + groupSize, dailyStatistics.length);
-        groupedDays.push(`${startDay}-${endDay}`);
-
-        const groupSum = dailyStatistics.slice(i, i + groupSize).reduce((total, count) => total + count, 0);
-        groupedStatistics.push(groupSum);
-    }
 
 
     const maxYStatisticByDay = Math.max(...dailyStatisticsByDay) + 1;
-
 
     const getDaysBetweenDates = (startDate, endDate) => {
         const dateRegex = /^\d{4}([./-])\d{2}\1\d{2}$/;
@@ -462,7 +468,6 @@ function Statistics() {
     const titleTextByDay = statistic === "demand" ? `Thống kê nhu cầu trong khoảng từ ngày ${formatStartDate(startDate)} đến ngày ${formatEndDate(endDate)}` : `Thống kê sô giao dịch trong khoảng từ ngày ${startDate} đến ngày ${endDate}`;
 
     const chartOptionsStatisticByDay = {
-
         chart: {
             id: "daily-demand-by-day-chart",
         },
@@ -524,12 +529,10 @@ function Statistics() {
         data: dailyStatisticsByDay
     }];
 
-
     function handleSelectStartDate(e) {
         console.log(typeof e.target.value)
         setStartDate(e.target.value)
     }
-
 
     return (
         <div className="container">
@@ -703,8 +706,8 @@ function Statistics() {
                             <thead>
                             <tr>
                                 <td>Ngày</td>
-                                {groupedDays.map((group, index) => (
-                                    <th key={index}>{group}</th>
+                                {dailyStatistics.map((_, index) => (
+                                    <th key={index}>{index + 1}</th>
                                 ))}
                                 <td>Tổng</td>
                             </tr>
@@ -770,6 +773,17 @@ function Statistics() {
                 </div>
             )}
 
+            {statistic === 'revenue' && statisticBy === 'year' && monthlyStatistics.length > 0 && (
+                <div className="row mt-4">
+                    <div className="col-md-12">
+                        <Chart
+                            options={chartStatisticRevenueByYear}
+                            series={chartSeriesStatisticRevenueByYear}
+                            type="bar" height={350}
+                        />
+                    </div>
+                </div>
+            )}
 
         </div>
     );
