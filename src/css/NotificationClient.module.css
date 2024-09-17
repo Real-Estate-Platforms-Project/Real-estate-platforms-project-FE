@@ -82,3 +82,8 @@
 .articleImage:hover {
     transform: scale(1.05);
 }
+
+.button-orange:hover {
+    background-color: #ff5722;
+    color: white;
+}

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { Col } from 'react-bootstrap';
 import { NavLink } from "react-router-dom";
 import Logo from "../Logo";
-import '../../css/AdminNav.css';
+import '../../css/AdminSideBar.css';
 
 const SideBar = () => {
     const [isCustomerManagementOpen, setIsCustomerManagementOpen] = useState(false);
@@ -15,17 +15,12 @@ const SideBar = () => {
     return (
         <Col md={2} className="sidebar">
             <NavLink to="/" className="d-flex justify-content-center mt-5">
-                <Logo width="200px" />
+                <Logo width="180px" />
             </NavLink>
             <ul className="custom-nav flex-column">
                 <li className="custom-nav-item">
                     <NavLink className="custom-nav-link" to="/admin/dashboard">
                         <i className="bi bi-speedometer2"></i> Bảng điều khiển
-                    </NavLink>
-                </li>
-                <li className="custom-nav-item">
-                    <NavLink className="custom-nav-link" to="/admin/personal">
-                        <i className="bi bi-person"></i> Cá nhân
                     </NavLink>
                 </li>
                 <li className="custom-nav-item">
@@ -70,6 +65,11 @@ const SideBar = () => {
                 <li className="custom-nav-item">
                     <NavLink className="custom-nav-link" to="/admin/real-estate">
                         <i className="bi bi-credit-card"></i> Giao dịch
+                    </NavLink>
+                </li>
+                <li className="custom-nav-item">
+                    <NavLink className="custom-nav-link" to="/admin/statistics">
+                        <i className="bi bi-graph-up"></i> Thống kê
                     </NavLink>
                 </li>
                 <li className="custom-nav-item">

@@ -4,29 +4,28 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
 import "../../css/custom.css"
-import * as accountService from "../../services/AccountService";
 import SearchBarDemand from "../search/SearchBarDemand";
-import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 function DemandList() {
     const [demands, setDemands] = useState([]);
     const [selectedDemand, setSelectedDemand] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    // const [userRoles, setUserRoles] = useState(null);
+    const [filters, setFilters] = useState({})
 
-    const location = useLocation();
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
     const [currentPage, setCurrentPage] = React.useState(0);
     const [totalPages, setTotalPages] = React.useState(0);
 
-    const userRoles = useSelector((state) => state.auth.roles).map((value) => value.name);
+    const userRoles = useSelector((state) => state.auth.roles)
+        .map((value) => value.name);
+
+    console.log(userRoles)
 
     useEffect(() => {
-        const filters = location.state?.filters || {};
-        handleSearch(filters, 0);
-    }, [location.state]);
+        handleSearch(filters);
+    }, [filters]);
 
     const handleShow = (demand) => {
         setSelectedDemand(demand);
@@ -57,13 +56,13 @@ function DemandList() {
     const handleSearch = async (filters, page = 0) => {
         setLoading(true);
         setError(null);
+        // set
         try {
             const response = await demandService.searchDemand({...filters, page, size: 6});
-            console.log(page)
+            console.log(filters)
             setDemands(response.content || []);
             setTotalPages(response.totalPages || 0);
             setCurrentPage(page);
-            console.log(currentPage);
         } catch (error) {
             console.error('Error fetching search results:', error);
             setError('Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.');
@@ -72,12 +71,16 @@ function DemandList() {
             setLoading(false);
         }
     };
-    const handlePageChange = (newPage) => handleSearch(location.state?.filters, newPage);
+    console.log(filters)
+    const handlePageChange = (newPage) => {
+        console.log(filters)
+        handleSearch(filters, newPage);
+    }
 
     if (!demands) {
         return <>
             <div className="custom-search w-75" style={{justifyContent: "center", margin: "auto"}}>
-                <SearchBarDemand onSearch={handleSearch}/>
+                <SearchBarDemand onSearch={setFilters}/>
             </div>
             <h3 className="text-center">Không có nhu cầu</h3>
         </>
@@ -86,7 +89,7 @@ function DemandList() {
         <div className="container m-auto mt-5 p-3 justify-content-center row">
 
             <div className="custom-search w-75" style={{justifyContent: "center", margin: "auto"}}>
-                <SearchBarDemand onSearch={handleSearch}/>
+                <SearchBarDemand onSearch={setFilters}/>
             </div>
 
             {demands.map((item) =>

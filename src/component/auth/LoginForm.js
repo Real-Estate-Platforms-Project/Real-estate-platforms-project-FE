@@ -38,7 +38,6 @@ const LoginForm = ({rememberMe, setRememberMe, isLoggingIn, setIsLoggingIn}) => 
             try {
                 const response = await authService.login(values.email, values.password);
 
-
                 if (rememberMe) {
                     localStorage.setItem('token', response.data.token);
                 } else {
