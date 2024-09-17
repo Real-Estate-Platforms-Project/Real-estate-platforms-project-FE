@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import apiClient from "../configs/AxiosConfigs";
 
 const URL_GET_ALL_NOTIFICATION = "/client/notifications";
@@ -13,7 +13,6 @@ export const getAllNotification = async (title) => {
         }
         const res = await apiClient.get(url);
         const notifications = res.data;
-
         notifications.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
         return res.data;
     } catch (e) {
