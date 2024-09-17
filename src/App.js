@@ -44,6 +44,7 @@ import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
 import TransactionCreate from "./component/admin/transaction/TransactionCreact";
 import HomeTransaction from "./component/admin/transaction/HomeTransaction";
+import TransactionDetail from "./component/admin/transaction/TransactionDetail";
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
                             <Route path="/activation-success" element={<ActivationSuccess/>}/>
                             <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                             <Route path="/homeTransactions" element={<HomeTransaction/>} />
+                            <Route path="/homeTransactions/transactionDetail" element={<TransactionDetail/>} />
                             <Route path="/homeTransactions/create" element={<TransactionCreate/>}/>
                             <Route path="/" element={<Client/>}>
                                 <Route element={<ProtectedRoute/>}>

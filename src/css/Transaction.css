@@ -137,7 +137,7 @@ tbody tr:hover {
     align-items: center;
     width: 84rem;
     margin-left: 167px;
-    right:100px
+    margin-top: -23px;
 }
 
 .search-bar-client input {
@@ -193,4 +193,37 @@ tbody tr:hover {
 /* Áp dụng hiệu ứng trượt cho các dòng giao dịch mới */
 .new-transaction {
     animation: slideInLeft 0.6s ease-in-out;
+}
+
+
+.form-group label {
+    display: inline-block;  /* Đảm bảo nhãn hiển thị theo dòng */
+    width: 150px;  /* Chiều rộng cố định cho nhãn */
+    text-align: left;  /* Căn chỉnh chữ về phía bên trái */
+    margin-right: 10px; /* Khoảng cách giữa nhãn và ô nhập */
+}
+
+.form-group {
+    display: flex;  /* Đặt các thành phần trong form-group theo chiều ngang */
+    align-items: center;  /* Căn giữa các thành phần theo chiều dọc */
+    margin-bottom: 10px;  /* Khoảng cách dưới mỗi hàng */
+}
+
+.form-group .form-control, .form-group .css-yk16xz-control {
+    flex-grow: 1;  /* Đảm bảo các ô nhập liệu chiếm hết không gian còn lại */
+    min-width: 300px;  /* Chiều rộng tối thiểu cho các trường đầu vào */
+}
+
+.form-group select,
+.form-group .form-control,
+.form-group .css-yk16xz-control {
+    width: 100%; /* Tăng chiều rộng tối đa của các ô */
+    max-width: 500px; /* Đặt chiều rộng tối đa */
+    min-width: 250px; /* Đặt chiều rộng tối thiểu */
+}
+
+.form-group label {
+    width: 120px; /* Chiều rộng cố định của nhãn */
+    text-align: left; /* Căn chỉnh chữ bên trái */
+    margin-right: 15px; /* Khoảng cách giữa nhãn và ô nhập */
 }

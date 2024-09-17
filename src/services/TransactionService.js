@@ -1,4 +1,3 @@
-import { Code, Search } from "@mui/icons-material";
 import axios from "axios";
 
 const URL_TRANSACTION = "http://localhost:8080/api/transactions"
@@ -51,3 +50,33 @@ export const searchTransactionCodeAndDescription = async (keyword) => {
     }
 };
 
+export const updateTransaction = async (id, transaction) => {
+    try {
+        const token = sessionStorage.getItem('token'); 
+        console.log("Transaction data id:", id); 
+        console.log("Transaction data request:", transaction);  // Kiểm tra dữ liệu transaction
+
+        const res = await axios.put(`${URL_TRANSACTION}/${id}`, transaction, {
+            headers: {
+                "Authorization": `Bearer ${token}`,  
+                "Content-Type": "application/json"
+            }
+        });
+        console.log("Phản hồi từ API:", res);
+        return res.data;
+    } catch (e) {
+        console.error("Lỗi khi cập nhật giao dịch:", e.response ? e.response.data : e);
+        throw e;
+    }
+};
+
+
+export const findTransactionId = async (id) => {
+    try {
+        let res = await axios.get(URL_TRANSACTION + "/" + id);
+        console.log("du lieu",res.data);
+        return res.data;
+    } catch (e) {
+        console.log('lỗi',e);
+    }
+}

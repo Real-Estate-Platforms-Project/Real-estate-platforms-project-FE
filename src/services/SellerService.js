@@ -33,3 +33,7 @@ export const searchSellers = async (searchCriteria) => {
         throw error;
     }
 };
+
+export default {
+    getAllSellers
+};

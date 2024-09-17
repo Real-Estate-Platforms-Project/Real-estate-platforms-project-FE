@@ -1,27 +1,42 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { Formik } from "formik";
+import { Formik, Field, ErrorMessage } from "formik";
 import * as transactionService from "../../../services/TransactionService";
 import { toast } from "react-toastify";
-import TransactionForm from "../transaction/TransactionForm";
-import EmployeeService from '..//..//..//services/EmployeeService';
+import EmployeeService from '../../../services/EmployeeService';
 import RealEstateService from '../../../services/RealEstateService';
+import Modal from 'react-bootstrap/Modal';
+import Select from "react-select";
+import Button from "react-bootstrap/Button";
+import BuyerService from "..//..//..//services/BuyerService"
+import SellerService from "..//..//..//services/SellerService"
 
-const TransactionCreate = () => {
+const TransactionCreate = ({ showModal, handleClose }) => {
     const [employees, setEmployees] = useState([]);
     const [realEstates, setRealEstates] = useState([]);
     const navigate = useNavigate();
+    const [buyer, setBuyer] = useState([]);
+    const [seller, setSeller] = useState([]);
+
+
 
     useEffect(() => {
         fetchData();
     }, []);
 
     const fetchData = async () => {
-            let employeeData = await EmployeeService.getEmployees();
-            setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.code })));
-            const realEstateData = await RealEstateService.getRealEstates();
-            setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
+        let employeeData = await EmployeeService.getEmployees();
+        setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.code })));
+
+        let realEstateData = await RealEstateService.getRealEstates();
+        setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
+
+        let buyerData = await BuyerService.getAllBuyers();
+        setBuyer(buyerData.map(buyer => ({ value: buyer.id, label: buyer.name })))
+
+        let sellerData = await SellerService.getAllSellers();
+        setSeller(sellerData.map(seller => ({ value: seller.id, label: seller.name })))
     };
 
     const validationSchema = Yup.object().shape({
@@ -62,55 +77,165 @@ const TransactionCreate = () => {
             .required("Trường này không được để trống")
     });
 
-    const saveTransaction = async (value) => {
-        console.log("Dữ liệu gửi đi:", value);
+
+    const saveTransaction = async (values) => {
+        console.log("values", values);
 
         try {
-            const isSuccess = await transactionService.saveTransaction(value);
-            console.log("Kết quả:", isSuccess);
+            let dataRequest = {
+                code : values.code,
+                employee : values.employeeId,
+                realEstate : values.realEstateId,
+                buyer : values.buyerId,
+                seller : values.sellerId,
+                amount : values.amount,
+                createAt : values.createAt,
+                commissionFee : values.commissionFee,
+                description : values.description,
+                status : values.status,
+                isDeleted : values.isDeleted,
+            }
+            const isSuccess = await transactionService.saveTransaction(dataRequest);
+            console.log("Dữ liệu gửi đi:", isSuccess);
+
             if (isSuccess) {
                 toast.success("Thêm mới thành công");
-                navigate("/admin/homeTransactions");
+                navigate("/homeTransactions");
             } else {
                 toast.error("Thêm mới thất bại");
             }
         } catch (error) {
-            console.error("Error saving transaction:", error);
             toast.error("Đã xảy ra lỗi");
         }
     };
 
-
-
-
     return (
-        <Formik
-            initialValues={{
-                code: "",
-                employeeId: "",
-                realEstateId: "",
-                buyerId: "",
-                sellerId: "",
-                amount: "",
-                createAt: "",
-                commissionFee: "",
-                description: "",
-                status: "pending",
-                isDeleted: false
-            }}
-            validationSchema={validationSchema}
-            onSubmit={saveTransaction}
+        <Modal show={showModal} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Thêm Giao Dịch Mới</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Formik
+                    initialValues={{
+                        code: "",
+                        employeeId: "",
+                        realEstateId: "",
+                        buyerId: "",
+                        sellerId: "",
+                        amount: "",
+                        createAt: "",
+                        commissionFee: "",
+                        description: "",
+                        status: "pending",
+                        isDeleted: false
+                    }}
+                    validationSchema={validationSchema}
+                    onSubmit={saveTransaction}
+                    validateOnChange={true}
+                    validateOnBlur={true}
+                >
+                    {(formik) => (
+                        <form onSubmit={formik.handleSubmit}>
+                            <div className="form-group">
+                                <label>Mã Giao Dịch</label>
+                                <Field name="code" type="text" className="form-control" />
+                                <ErrorMessage name="code" component="div" className="text-danger" />
+                            </div>
 
-        >
-            {formik => (
-                <TransactionForm
-                    formik={formik}
-                    employees={employees}  
-                    realEstates={realEstates}
+                            <div className="form-group">
+                                <label>Mã Nhân Viên</label>
+                                <Select
+                                    name="employeeId"
+                                    options={employees}
+                                    onChange={(option) => formik.setFieldValue("employeeId", option ? option.value : '')}
+                                    value={employees.find(option => option.value === formik.values.employeeId)}
+                                    placeholder="Chọn nhân viên"
+                                />
+                                <ErrorMessage name="employeeId" component="div" className="text-danger" />
+                            </div>
 
-                />
-            )}
-        </Formik>
+                            <div className="form-group">
+                                <label>Mã Bất Động Sản</label>
+                                <Select
+                                    name="realEstateId"
+                                    options={realEstates}
+                                    onChange={(option) => formik.setFieldValue("realEstateId", option.value)}
+                                    value={realEstates.find(option => option.value === formik.values.realEstateId)}
+                                    placeholder="Chọn bất động sản"
+                                />
+                                <ErrorMessage name="realEstateId" component="div" className="text-danger" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Bên Mua</label>
+                                <Select
+                                    name="buyerId"
+                                    options={buyer}
+                                    onChange={(option) => formik.setFieldValue("buyerId", option.value)}
+                                    value={buyer.find(option => option.value === formik.values.buyerId)}
+                                    placeholder="Chọn bên mua"
+                                />
+                                <ErrorMessage name="buyerId" component="div" className="text-danger" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Bên bán</label>
+                                <Select
+                                    name="sellerId"
+                                    options={seller}
+                                    onChange={(option) => formik.setFieldValue("sellerId", option.value)}
+                                    value={seller.find(option => option.value === formik.values.sellerId)}
+                                    placeholder="Chọn bên bán"
+                                />
+                                <ErrorMessage name="sellerId" component="div" className="text-danger" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Số Tiền</label>
+                                <Field name="amount" type="number" className="form-control" />
+                                <ErrorMessage name="amount" component="div" className="text-danger" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Ngày Giao Dịch</label>
+                                <Field name="createAt" type="date" className="form-control" />
+                                <ErrorMessage name="createAt" component="div" className="text-danger" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Tỷ Lệ Hoa Hồng</label>
+                                <Field name="commissionFee" type="number" step="0.01" className="form-control" />
+                                <ErrorMessage name="commissionFee" component="div" className="text-danger" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Mô Tả</label>
+                                <Field name="description" as="textarea" className="form-control" />
+                                <ErrorMessage name="description" component="div" className="text-danger" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Trạng Thái</label>
+                                <Field as="select" name="status" className="form-control">
+                                    <option value="pending">Chưa hoàn thành</option>
+                                    <option value="completed">Hoàn thành</option>
+                                </Field>
+                                <ErrorMessage name="status" component="div" className="text-danger" />
+                            </div>
+                            <Button type="submit" className="btn btn-primary mt-3">
+                                Lưu
+                            </Button>
+                            <Button variant="secondary" className="btn btn-primary mt-3" onClick={handleClose}>
+                                Đóng
+                            </Button>
+                        </form>
+                    )}
+                </Formik>
+            </Modal.Body>
+            {/* <Modal.Footer>
+
+            </Modal.Footer> */}
+        </Modal>
     );
 };
 

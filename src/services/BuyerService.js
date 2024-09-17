@@ -66,3 +66,7 @@ export const searchBuyers = async (searchCriteria) => {
         throw error; // Ném lỗi để có thể xử lý ở tầng gọi hàm
     }
 };
+
+export default {
+    getAllBuyers
+};
