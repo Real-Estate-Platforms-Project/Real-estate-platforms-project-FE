@@ -21,7 +21,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
-
 import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
@@ -42,6 +41,10 @@ import EditDemand from "./page/client/EditDemand";
 import AccountDemand from "./component/client/AcountDemand";
 import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
+import ProfilePage from "./page/client/Profile";
+import ManagePostings from "./page/client/ManagePostings";
+
+
 
 
 function App() {
@@ -67,9 +70,10 @@ function App() {
                             <Route path="/terms-and-polocies" element={<TermsAndPolicies/>}/>
                             <Route path="/" element={<Client/>}>
                                 <Route element={<ProtectedRoute/>}>
+                                    <Route path="/profile" element={<ProfilePage/>}/>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                                     <Route path="/demand/edit/:id" element={<EditDemand/>}/>
-                                    <Route path="/update-password" element={<UpdatePassWord/>}/>
+                                    {/*<Route path="/update-password" element={<UpdatePassWord/>}/>*/}
                                     <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 </Route>
                                 <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
@@ -83,13 +87,23 @@ function App() {
                                 <Route path="/notification" element={<Notification/>}/>
                                 <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                                 <Route path="/403" element={<Forbidden/>}/>
-                                <Route path="/estate-list" element={<EstateListing/>}/>
+                                <Route path="/estate-list" element={<EstateListing
+                                />}/>
                                 <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                                 <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
+                                <Route path="/sellernet/quan-ly-tin-rao-ban-cho-thue" element={<ManagePostings/>}/>
                             </Route>
 
-                            {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
-                                <Route path="/admin" element={<Admin/>}>
+                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                            <Route
+                                path="/admin"
+                                element={
+                                    <>
+                                        <Admin />
+                                    </>
+                                }
+                            >
+
                                     <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
                                         <Route path={"/admin/employee"} element={<EmployeeList/>}/>
                                     </Route>
@@ -100,7 +114,7 @@ function App() {
                                     <Route path="/admin/statistics" element={<Statistics/>}/>
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
                                 </Route>
-                            {/*</Route>*/}
+                            </Route>
                         </Routes>
 
                 }

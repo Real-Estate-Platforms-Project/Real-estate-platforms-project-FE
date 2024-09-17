@@ -7,7 +7,7 @@ export const getAllSellers = async () => {
         const response = await axios.get(API_URL);
         return response.data;
     } catch (error) {
-        console.error('Error fetching buyers:', error);
+        console.error('Error fetching sellers:', error);
         throw error;
     }
 };
@@ -17,7 +17,7 @@ export const getSellerById = async (id) => {
         const response = await axios.get(`${API_URL}/${id}`);
         return response.data;
     } catch (error) {
-        console.error(`Error fetching buyer with ID ${id}:`, error);
+        console.error(`Error fetching seller with ID ${id}:`, error);
         throw error;
     }
 };

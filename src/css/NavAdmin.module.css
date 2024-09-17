@@ -103,23 +103,3 @@
     transform: translateX(2px);
 }
 
-.notificationList {
-    top: 160%;
-    right: -50%;
-    border-radius: 6px;
-    background-color: #ffffff;
-    z-index: 100;
-    min-width: 300px;
-    white-space: nowrap;
-    padding: 14px;
-}
-
-.notificationList:before {
-    content: "";
-    position: absolute;
-    border:  8px solid transparent;
-    border-bottom-color: #fff;
-    transform: translateY(-100%);
-    top: 0;
-    right: 9%;
-}

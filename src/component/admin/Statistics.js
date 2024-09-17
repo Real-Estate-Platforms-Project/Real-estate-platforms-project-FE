@@ -410,11 +410,22 @@ function Statistics() {
         data: dailyStatistics
     }];
 
+    const groupSize = 5;
+    const groupedDays = [];
+    const groupedStatistics = [];
 
+    for (let i = 0; i < dailyStatistics.length; i += groupSize) {
+        const startDay = i + 1;
+        const endDay = Math.min(i + groupSize, dailyStatistics.length);
+        groupedDays.push(`${startDay}-${endDay}`);
 
+        const groupSum = dailyStatistics.slice(i, i + groupSize).reduce((total, count) => total + count, 0);
+        groupedStatistics.push(groupSum);
+    }
 
 
     const maxYStatisticByDay = Math.max(...dailyStatisticsByDay) + 1;
+
 
     const getDaysBetweenDates = (startDate, endDate) => {
         const dateRegex = /^\d{4}([./-])\d{2}\1\d{2}$/;
@@ -518,6 +529,7 @@ function Statistics() {
         console.log(typeof e.target.value)
         setStartDate(e.target.value)
     }
+
 
     return (
         <div className="container">
@@ -691,8 +703,8 @@ function Statistics() {
                             <thead>
                             <tr>
                                 <td>Ngày</td>
-                                {dailyStatistics.map((_, index) => (
-                                    <th key={index}>{index + 1}</th>
+                                {groupedDays.map((group, index) => (
+                                    <th key={index}>{group}</th>
                                 ))}
                                 <td>Tổng</td>
                             </tr>
@@ -749,6 +761,7 @@ function Statistics() {
                                 ))}
                                 <td>
                                     {dailyStatisticsByDay.reduce((total, count) => total + count, 0)}
+
                                 </td>
                             </tr>
                             </tbody>

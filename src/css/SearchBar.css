@@ -16,6 +16,7 @@
         background: white;
         border-radius: 5px;
         outline: none;
+        margin-right: 140px;
     }
 
     .bi-search {
@@ -76,8 +77,8 @@
         position: absolute;
         right: 10px;
         border-radius: 5px;
-        height: 34px;
-        margin-top: 1px;
+        height: 35px;
+
     }
 
     .option {
