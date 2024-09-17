@@ -7,8 +7,8 @@ import { format } from "date-fns";
 function Notification() {
     const [notifications, setNotifications] = useState([]);
     const [title, setTitle] = useState("");
-    const [visibleCount, setVisibleCount] = useState(3); // Number of notifications to show
-    const [expanded, setExpanded] = useState({}); // To track expanded notifications
+    const [visibleCount, setVisibleCount] = useState(3);
+    const [expanded, setExpanded] = useState({});
 
     useEffect(() => {
         getNotifications(title);

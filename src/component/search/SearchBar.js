@@ -604,3 +604,4 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
 
 
 export default SearchBar;
+

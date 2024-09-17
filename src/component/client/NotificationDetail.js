@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 function NotificationDetail() {
     const [detail, setDetail] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [showLargeImageModal, setShowLargeImageModal] = useState(false); // State for the modal
+    const [showLargeImageModal, setShowLargeImageModal] = useState(false);
     const { id } = useParams();
 
     useEffect(() => {
@@ -21,7 +21,6 @@ function NotificationDetail() {
     const getAllNotificationDetail = async (id) => {
         let res = await notificationService.getNotificationDetail(id);
         setDetail(res);
-        // Set the first image as the selected image by default
         if (res.images.length > 0) {
             setSelectedImage(res.images[0].imageUrl);
         }

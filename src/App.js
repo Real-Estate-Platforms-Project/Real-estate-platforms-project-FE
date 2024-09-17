@@ -21,7 +21,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
-
 import { WebSocketProvider } from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
@@ -44,6 +43,8 @@ import Loading from "./component/Loading";
 import {fetchUser} from "./redux/UserReducer";
 import TransactionCreate from "./component/admin/transaction/TransactionCreact";
 import HomeTransaction from "./component/admin/transaction/HomeTransaction";
+
+
 
 
 function App() {
@@ -72,7 +73,7 @@ function App() {
                                     <Route path="/profile" element={<ProfilePage/>}/>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                                     <Route path="/demand/edit/:id" element={<EditDemand/>}/>
-                                    <Route path="/update-password" element={<UpdatePassWord/>}/>
+                                    {/*<Route path="/update-password" element={<UpdatePassWord/>}/>*/}
                                     <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 </Route>
                                 <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
@@ -86,26 +87,35 @@ function App() {
                                 <Route path="/notification" element={<Notification/>}/>
                                 <Route path="/notificationDetail/:id" element={<NotificationDetail/>}/>
                                 <Route path="/403" element={<Forbidden/>}/>
-                                <Route path="/estate-list" element={<EstateListing/>}/>
+                                <Route path="/estate-list" element={<EstateListing
+                                />}/>
                                 <Route path="/forget-password" element={<GetAndConfirmEmail/>}/>
                                 <Route path="/update-forget-password" element={<UpdateForgetPassword/>}/>
                             </Route>
 
-                            {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
-                            <Route path="/admin" element={<Admin/>}>
-                                <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
-                                    <Route path={"/admin/employee"} element={<EmployeeList/>}/>
-                                </Route>
-                                <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
-                                <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
-                                <Route path={"/admin/buyers"} element={<BuyerList/>}/>
-                                <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
-                                <Route path="/admin/statistics" element={<Statistics/>}/>
-                                <Route path="/admin/sellers" element={<SellerList/>}/>
+                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                            <Route
+                                path="/admin"
+                                element={
+                                    <>
+                                        <Admin />
+                                    </>
+                                }
+                            >
+
+                                    <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
+                                        <Route path={"/admin/employee"} element={<EmployeeList/>}/>
+                                    </Route>
+                                    <Route path={"/admin/notification"} element={<NotificationAdmin/>}/>
+                                    <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
+                                    <Route path={"/admin/buyers"} element={<BuyerList/>}/>
+                                    <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
+                                    <Route path="/admin/statistics" element={<Statistics/>}/>
+                                    <Route path="/admin/sellers" element={<SellerList/>}/>
                                 <Route path="/admin/homeTransactions" element={<HomeTransaction/>} />
                                 <Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/>
+                                </Route>
                             </Route>
-                            {/*</Route>*/}
                         </Routes>
 
                 }

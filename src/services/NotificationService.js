@@ -6,12 +6,14 @@ const URL_ACTION_NOTIFICATION = "http://localhost:8080/api/admin/notifications";
 
 export const getAllNotification = async (title) => {
     try {
-        let url = `${URL_GET_ALL_NOTIFICATION}?_sort=created_at&_order=asc`;
+        let url = `${URL_GET_ALL_NOTIFICATION}?_sort=created_at&_order=desc`;
         if (title) {
             url += `&title_like=${title}`;
         }
-        let res = await axios.get(url);
-        console.log(res.data)
+        const res = await axios.get(url);
+        const notifications = res.data;
+
+        notifications.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
         return res.data;
     } catch (e) {
         return [];
