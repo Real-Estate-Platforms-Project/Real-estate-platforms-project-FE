@@ -27,7 +27,6 @@ const NotificationDisplay = () => {
     }, [user]);
 
     useEffect(() => {
-        console.log("baoly1" + notifications.length)
         if (notifications.length > 0) {
             notifications.forEach(notification => {
                 if (notification.id !== currentUserId) {
