@@ -39,10 +39,10 @@ function UpdatePassWord() {
             >
 
                 <Form>
-                    <div className="shadow m-auto w-50 rounded p-4 bg-white">
-                        <Link to="/" className="d-flex justify-content-center">
-                            <Logo width="200px"/>.
-                        </Link>
+                    <div className="">
+                        {/*<Link to="/" className="d-flex justify-content-center">*/}
+                        {/*    <Logo width="200px"/>.*/}
+                        {/*</Link>*/}
                         <h4 className="fw-bold">Cập nhật tài khoản</h4>
                         <div className="mt-3">
                             <label htmlFor="recentPassWord" className="form-label">Mật khẩu hiện tại <span
