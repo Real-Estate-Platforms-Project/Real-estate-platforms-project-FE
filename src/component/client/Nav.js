@@ -6,12 +6,20 @@ import {useSelector} from "react-redux";
 import Logout from "../Logout";
 import styles from "../../css/NavClient.module.css"
 import AccountDetail from "../AccountDetail";
+import {Button, Modal} from "react-bootstrap";
+import UpdatePassWord from "../password/UpdatePassWord";
+import React, { useState } from 'react';
 
 function Nav() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const roles = useSelector((state) => state.auth.roles);
     const user = useSelector((state) => state.auth.user);
     const isSeller = roles.some(role => ['ROLE_SELLER', 'ROLE_ADMIN', 'ROLE_EMPLOYEE'].includes(role.name));
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <div className="shadow-lg">
@@ -92,10 +100,29 @@ function Nav() {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to='update-password' className={styles.link}>
+                                                {/*<Link to='update-password' className={styles.link}>*/}
+                                                {/*    <i className="fa-solid fa-key"></i>*/}
+                                                {/*    <span>Đổi mật khẩu</span>*/}
+                                                {/*</Link>*/}
+                                                <btn className={styles.link} variant="primary" onClick={handleShow}>
                                                     <i className="fa-solid fa-key"></i>
                                                     <span>Đổi mật khẩu</span>
-                                                </Link>
+                                                </btn>
+
+                                                <Modal className="mt-5" show={show} onHide={handleClose}>
+                                                    <Modal.Header  className="justify-content-around">
+                                                        <Modal.Title >
+                                                            <div>
+                                                                <Link to="/" className="d-flex justify-content-center">
+                                                                    <Logo width="200px"/>.
+                                                                </Link>
+                                                            </div>
+                                                        </Modal.Title>
+                                                    </Modal.Header>
+                                                    <Modal.Body>
+                                                        <UpdatePassWord />
+                                                    </Modal.Body>
+                                                </Modal>
                                             </li>
                                             <Logout/>
                                         </ul>

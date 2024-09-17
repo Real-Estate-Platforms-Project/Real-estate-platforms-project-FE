@@ -71,7 +71,7 @@ function App() {
                                     <Route path="/profile" element={<ProfilePage/>}/>
                                     <Route path="/buyernet/dang-tin" element={<CreateDemand/>}/>
                                     <Route path="/demand/edit/:id" element={<EditDemand/>}/>
-                                    <Route path="/update-password" element={<UpdatePassWord/>}/>
+                                    {/*<Route path="/update-password" element={<UpdatePassWord/>}/>*/}
                                     <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 </Route>
                                 <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
