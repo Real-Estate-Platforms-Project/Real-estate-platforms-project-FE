@@ -86,3 +86,31 @@
     flex-wrap: wrap;
     gap: 10px;
 }
+
+.pagination-controls .button-orange {
+    background-color: rgba(245, 166, 35, 0);
+    color: #ff5722;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    border: #ff5722 solid 1px;
+}
+
+.pagination-controls .button-orange.active {
+    background-color: #ff5722;
+    color: white;
+    border: 1px solid #e67e22;
+}
+
+.pagination-controls .button-orange:hover {
+    background-color: #f39c12;
+    color: white;
+}
+
+.pagination-controls .button-orange:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+

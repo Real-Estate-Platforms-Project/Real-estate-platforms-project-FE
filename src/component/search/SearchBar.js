@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 
-
 const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -105,7 +104,6 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         const {name, value} = e.target;
         const numericValue = value.replace(/\D/g, '');
 
-
         if (numericValue === '' || checkLimit(numericValue, 10000)) {
             setAreaRange({...areaRange, [name]: numericValue});
             setSelectedAreaOption('custom');
@@ -114,9 +112,7 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
             setErrorMessage("ok")
             toast.error('Diện tích không được vượt quá 10.000 m²');
         }
-
-
-        const displayValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        const displayValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Định dạng với dấu chấm
         e.target.value = numericValue === '' ? '' : `${displayValue} m²`;
     };
 
@@ -367,7 +363,6 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         closeDropdowns();
     };
 
-
     const checkLimit = (value, maxValue) => {
         const numericValue = parseInt(value, 10);
         if (isNaN(numericValue) || numericValue > maxValue) {
@@ -375,7 +370,6 @@ const SearchBar = ({onSearch, initialTab = 'Bán,Cho thuê'}) => {
         }
         return true;
     };
-
 
     return (
 
