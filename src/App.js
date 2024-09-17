@@ -94,7 +94,7 @@ function App() {
                                 <Route path="/sellernet/quan-ly-tin-rao-ban-cho-thue" element={<ManagePostings/>}/>
                             </Route>
 
-                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                            {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
                             <Route
                                 path="/admin"
                                 element={
@@ -111,10 +111,10 @@ function App() {
                                     <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
                                     <Route path={"/admin/buyers"} element={<BuyerList/>}/>
                                     <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
-                                    <Route path="/admin/statistics" element={<Statistics/>}/>
+                                    <Route path="/admin" element={<Statistics/>}/>
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
                                 </Route>
-                            </Route>
+                            {/*</Route>*/}
                         </Routes>
 
                 }
