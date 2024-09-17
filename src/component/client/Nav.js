@@ -25,24 +25,24 @@ function Nav() {
                     </button>
                     <div className="align-items-center mt-2 collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mb-2 mb-lg-0 justify-content-center flex-grow-1">
-                            <li className="nav-item dropdown me-4">
-                                <Link className="nav-link text-dark" role="button"
-                                      aria-expanded="false" to="/">
+                            <li className="nav-item me-4">
+                                <Link className="nav-link text-dark fw-bold" role="button" to="/">
                                     Trang chủ
                                 </Link>
                             </li>
                             <li className="nav-item dropdown me-4">
-                                <Link className="nav-link dropdown-toggle text-dark" role="button"
+                                <Link className="nav-link dropdown-toggle text-dark fw-bold"
                                       data-bs-toggle="dropdown"
                                       aria-expanded="false" to="#">
                                     Danh sách
                                 </Link>
                                 <ul className="dropdown-menu">
-                                    <ListingMenu/>
+                                    <li><Link className="dropdown-item" to='buyernet/danh-sach-nhu-cau'>Danh sách nhu cầu</Link></li>
+                                    <li><Link className="dropdown-item" to='/estate-list'>Danh sách nhà Đất</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown me-4">
-                                <Link className="nav-link text-dark" role="button"
+                                <Link className="nav-link text-dark fw-bold" role="button"
                                       data-bs-toggle="dropdown"
                                       aria-expanded="false" to="/">
                                     Phân tích và đánh giá
@@ -50,7 +50,7 @@ function Nav() {
                             </li>
 
                             <li className="nav-item">
-                                <Link className="nav-link text-dark" aria-disabled="true" to='notification'>Thông báo</Link>
+                                <Link className="nav-link text-dark fw-bold" aria-disabled="true" to='notification'>Thông báo</Link>
                             </li>
                         </ul>
 
@@ -80,7 +80,7 @@ function Nav() {
                                         <hr/>
                                         <ul className="list-unstyled mb-0">
                                             <li>
-                                                <Link to="#" className={styles.link}>
+                                                <Link to="/profile" className={styles.link}>
                                                     <i className="fa-solid fa-user-gear"></i>
                                                     <span>Thông tin cá nhân</span>
                                                 </Link>
