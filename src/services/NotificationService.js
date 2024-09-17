@@ -11,7 +11,7 @@ export const getAllNotification = async (title) => {
             url += `&title_like=${title}`;
         }
         let res = await axios.get(url);
-        // console.log(res.data)
+        console.log(res.data)
         return res.data;
     } catch (e) {
         return [];

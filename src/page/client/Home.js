@@ -9,8 +9,8 @@ function Home() {
     return (
         <>
             <LandingPage/>
-            <StatisticsSection/>
             <CardEstate/>
+            <StatisticsSection/>
             <ContentIntroduction/>
             <ContrentAward/>
         </>

@@ -8,6 +8,7 @@ import CreateNotification from './CreateNotification';
 import EditNotificationModal from './EditNotification';
 import { toast } from "react-toastify";
 import { Modal as BootstrapModal } from 'react-bootstrap';
+import {format} from "date-fns";
 
 function NotificationAdmin() {
     const [title, setTitle] = useState("");
@@ -27,6 +28,7 @@ function NotificationAdmin() {
     const getNotifications = async (title) => {
         try {
             let res = await notificationService.getAllNotification(title);
+            console.log(res)
             setNotificationsList(res.length > 0 ? res : []);
         } catch (error) {
             console.error('Lỗi', error);
@@ -109,6 +111,10 @@ function NotificationAdmin() {
         setSelectedImage(null);
     };
 
+    const formatDate = (date) => {
+        return format(new Date(date), 'dd/MM/yyyy HH:mm');
+    };
+
     return (
         <div className="notification-container-ky">
             <div>
@@ -130,7 +136,8 @@ function NotificationAdmin() {
                     <tr>
                         <th>Hình ảnh</th>
                         <th>Tiêu đề</th>
-                        <th>Ngày</th>
+                        <th>Ngày diễn ra</th>
+                        <th>Thời gian tạo</th>
                         <th>Người tạo</th>
                         <th>Mô tả</th>
                         <th>Hành động</th>
@@ -161,13 +168,17 @@ function NotificationAdmin() {
                                     {item.title}
                                 </Link>
                             </td>
+                            <td>{item.dateStart ? formatDate(item.dateStart) : 'N/A'}</td>
                             <td>{item.formattedCreateNotification}</td>
                             <td>{item.employee ? item.employee.name : 'N/A'}</td>
                             <td>{item.contend}</td>
                             <td>
                                 <div className="d-flex gap-2">
-                                    <button className='me-2 button-orange' onClick={() => handleEdit(item.id)}>Sửa</button>
-                                    <button className='me-2 button-orange' onClick={() => openDeleteModal(item.id)}>Xóa</button>
+                                    <button className='me-2 button-orange' onClick={() => handleEdit(item.id)}>Sửa
+                                    </button>
+                                    <button className='me-2 button-orange'
+                                            onClick={() => openDeleteModal(item.id)}>Xóa
+                                    </button>
                                 </div>
                             </td>
                         </tr>
