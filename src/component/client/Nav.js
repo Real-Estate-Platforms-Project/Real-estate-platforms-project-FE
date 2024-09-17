@@ -1,11 +1,11 @@
 import Logo from "../Logo";
-import MegaMenu from "../MegaMenu";
 import {Link} from "react-router-dom";
 import ListingMenu from "../ListingMenu";
 import {useSelector} from "react-redux";
 import Logout from "../Logout";
 import styles from "../../css/NavClient.module.css"
 import AccountDetail from "../AccountDetail";
+import AccountNotification from "../AccountNotification";
 import {Button, Modal} from "react-bootstrap";
 import UpdatePassWord from "../password/UpdatePassWord";
 import React, { useState } from 'react';
@@ -15,6 +15,7 @@ function Nav() {
     const roles = useSelector((state) => state.auth.roles);
     const user = useSelector((state) => state.auth.user);
     const isSeller = roles.some(role => ['ROLE_SELLER', 'ROLE_ADMIN', 'ROLE_EMPLOYEE'].includes(role.name));
+
 
     const [show, setShow] = useState(false);
 
@@ -75,9 +76,8 @@ function Nav() {
 
                         {isAuthenticated && (
                             <>
-                                <div className={`d-flex ms-3 p-2 rounded-3 ${styles.notification}`}>
-                                    <i className="fa-solid fa-bell fs-4"></i>
-                                </div>
+                                <AccountNotification />
+
                                 <div className={`position-relative ms-5 ${styles.user}`}>
                                     <div className={`d-flex ${styles.headerUser}`}>
                                         <p className={`me-2 fw-bold`}>{user.name}</p>
@@ -91,6 +91,12 @@ function Nav() {
                                                 <Link to="/profile" className={styles.link}>
                                                     <i className="fa-solid fa-user-gear"></i>
                                                     <span>Thông tin cá nhân</span>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/sellernet/quan-ly-tin-rao-ban-cho-thue" className={styles.link}>
+                                                    <i className="fa-solid fa-list"></i>
+                                                    <span>Quản lý tin đăng</span>
                                                 </Link>
                                             </li>
                                             <li>

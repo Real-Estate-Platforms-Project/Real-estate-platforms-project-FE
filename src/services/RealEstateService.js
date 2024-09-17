@@ -24,7 +24,6 @@ export const getRealEstateById = async (id) => {
 export const findRealEstate = async () => {
     try {
         let res = await axios.get(URL_REAL_ESTATE + "/findAll");
-        console.log(res);
         return res.data;
     } catch (e) {
         return [];
@@ -45,4 +44,14 @@ export const searchRealEstate = async (filters) => {
         throw error;
     }
 };
+
+export const findRealEstateBySellerId = async (id) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/real-estate/seller/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching real estate data:", error);
+        throw error;
+    }
+}
 
