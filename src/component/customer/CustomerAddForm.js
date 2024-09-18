@@ -37,7 +37,7 @@ const validationSchema = yup.object().shape({
     customerType: yup.string()
         .matches(/^(buyer|seller)$/, 'Loại khách hàng phải là Người mua hoặc Người bán')
         .required('Loại khách hàng không được để trống'),
-    imageUrl: yup.string().nullable() // Đổi thành string để lưu URL
+    imageUrl: yup.string().nullable()
 });
 
 const CustomerAddForm = () => {
@@ -60,7 +60,7 @@ const CustomerAddForm = () => {
         onSubmit: async (values, { resetForm }) => {
             try {
                 if (!emailExists) {
-                    await addCustomer(values); // Gửi đối tượng JSON trực tiếp
+                    await addCustomer(values);
                     resetForm();
                     setImagePreview(null);
                     setEmailExists(false);
@@ -95,7 +95,7 @@ const CustomerAddForm = () => {
             const url = await getDownloadURL(snapshot.ref);
             console.log(url);
             setImagePreview(url);
-            formik.setFieldValue("imageUrl", url);
+            await formik.setFieldValue("imageUrl", url);
             toast.success("Tải ảnh lên thành công", {
                 position: "top-right",
                 autoClose: 3000,

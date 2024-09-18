@@ -4,7 +4,7 @@ import apiClient from "../configs/AxiosConfigs";
 
 export const addCustomer = async (formData) => {
     try {
-        await apiClient.post('/admin/customers/add', formData, {
+        await apiClient.post('/customers/add', formData, {
         });
         toast.success('Khách hàng đã được thêm thành công.', {
             position: "top-right",
@@ -29,7 +29,7 @@ export const addCustomer = async (formData) => {
 
 export const checkEmailExists = async (email) => {
     try {
-        const response = await apiClient.get(`/admin/customers/check-email`, {
+        const response = await apiClient.get(`/customers/check-email`, {
             params: { email: email },
         });
         if (response.data) {
@@ -53,7 +53,7 @@ export const checkEmailExists = async (email) => {
 
 export const updateAccountRole = async (accountId, newRole) => {
     try {
-        const response = await apiClient.put(`/admin/customers/update-role/${accountId}?newRole=${newRole}`);
+        const response = await apiClient.put(`/customers/update-role/${accountId}?newRole=${newRole}`);
         toast.success('Vai trò đã được cập nhật thành công!', {
             position: "top-right",
             autoClose: 3000,
