@@ -1,159 +1,127 @@
-// import React, { useState, useEffect } from 'react';
-// import * as transactionService from "../../../services/TransactionService";
-// import { Button, TableRow, TableCell } from "@mui/material";
-// import swal from "sweetalert2";
-// import '..//..//..//css/Transaction.css'
-// import TransactionUpdate from "..//transaction/TransactionUpdate";
-// import { toast } from "react-toastify";
-// import { Link } from 'react-router-dom';
+import React from "react";
+import { Formik, Field } from "formik";
+import Modal from 'react-bootstrap/Modal';
+import Button from "react-bootstrap/Button";
 
+const TransactionDetail = ({ showModal, handleClose, transaction }) => {
 
-// function TransactionDetails() {
-//     const [transactions, setTransactions] = useState([]);
-//     const [selectedTransactionForEdit, setSelectedTransactionForEdit] = useState(null);
-//     const [showEditModal, setShowEditModal] = useState(false);
-//     const [selectedTransactionForDetail, setSelectedTransactionForDetail] = useState(null);
-//     const [showDetailModal, setShowDetailModal] = useState(false);
-//     const [showCreateModal, setShowCreateModal] = useState(false);
-//     const handleShowCreateModal = () => setShowCreateModal(true);
-//     const handleCloseCreateModal = () => setShowCreateModal(false);
-//     const handleShowEditModal = () => setShowEditModal(true);
-//     const handleCloseEditModal = () => setShowEditModal(false);
-//     const handleShowDetailModal = () => setShowDetailModal(true);
-//     const handleCloseDetailModal = () => setShowDetailModal(false);
+    return (
+        <Modal show={showModal} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Chi Tiết Giao Dịch</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Formik
+                    initialValues={{
+                        id: transaction?.id || "",
+                        code: transaction?.code || "",
+                        employeeId: transaction?.employee?.code || "",
+                        employeeName: transaction?.employee?.name || "",
+                        employeeEmail: transaction?.employee?.email || "",
+                        realEstateId: transaction?.realEstate?.code || "",
+                        realEstateTitle: transaction?.realEstate?.title || "",
+                        buyerId: transaction?.buyer?.name || "",
+                        buyerEmail: transaction?.buyer?.email || "",
+                        sellerId: transaction?.seller?.name || "",
+                        sellerEmail: transaction?.seller?.email || "",
+                        amount: transaction?.amount || "",
+                        createAt: transaction?.createAt || "",
+                        commissionFee: transaction?.commissionFee || "",
+                        description: transaction?.description || "",
+                        status: transaction?.status || "pending",
+                    }}
+                >
+                    {() => (
+                        <form>
+                            {/* Phần Transaction */}
+                            <h5>Thông Tin Giao Dịch</h5>
+                            <div className="form-group">
+                                <label>Mã Giao Dịch</label>
+                                <Field name="code" type="text" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Số Tiền</label>
+                                <Field name="amount" type="number" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Ngày Giao Dịch</label>
+                                <Field name="createAt" type="date" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Tỷ Lệ Hoa Hồng</label>
+                                <Field name="commissionFee" type="number" step="0.01" className="form-control"
+                                       disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Mô Tả</label>
+                                <Field name="description" as="textarea" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Trạng Thái</label>
+                                <Field as="select" name="status" className="form-control" disabled>
+                                    <option value="pending">Chưa hoàn thành</option>
+                                    <option value="completed">Hoàn thành</option>
+                                </Field>
+                            </div>
 
-//     const getTransactionDetails = async (id) => {
-//         try {
-//             const data = await transactionService.findTransactionId(id);
-//         } catch (error) {
-//             console.error("Lỗi khi lấy chi tiết giao dịch:", error);
-//         }
-//     };
+                            {/* Phần Employee */}
+                            <h5>Thông Tin Nhân Viên</h5>
+                            <div className="form-group">
+                                <label>Mã Nhân Viên</label>
+                                <Field name="employeeId" type="text" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Tên Nhân Viên</label>
+                                <Field name="employeeName" type="text" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Email Nhân Viên</label>
+                                <Field name="employeeEmail" type="email" className="form-control" disabled/>
+                            </div>
 
-//     useEffect(() => {
-//         getTransactionDetails();
-//     }, []);
+                            {/* Phần RealEstate */}
+                            <h5>Thông Tin Bất Động Sản</h5>
+                            <div className="form-group">
+                                <label>Mã Bất Động Sản</label>
+                                <Field name="realEstateId" type="text" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Tiêu Đề Bất Động Sản</label>
+                                <Field name="realEstateTitle" type="text" className="form-control" disabled/>
+                            </div>
 
+                            {/* Phần Buyer */}
+                            <h5>Thông Tin Người Mua</h5>
+                            <div className="form-group">
+                                <label>Tên Người Mua</label>
+                                <Field name="buyerId" type="text" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Email Người Mua</label>
+                                <Field name="buyerEmail" type="email" className="form-control" disabled/>
+                            </div>
 
-//     const handleEdit = async (id) => {
-//         try {
-//             const transaction = await transactionService.findTransactionId(id);
-//             console.log(transaction);
+                            {/* Phần Seller */}
+                            <h5>Thông Tin Người Bán</h5>
+                            <div className="form-group">
+                                <label>Tên Người Bán</label>
+                                <Field name="sellerId" type="text" className="form-control" disabled/>
+                            </div>
+                            <div className="form-group">
+                                <label>Email Người Bán</label>
+                                <Field name="sellerEmail" type="email" className="form-control" disabled/>
+                            </div>
 
-//             setSelectedTransactionForEdit(transaction);
-//             handleShowEditModal();
-//         } catch (error) {
-//             toast.error("Có lỗi xảy ra khi lấy dữ liệu giao dịch!");
-//         }
-//     };
+                            <Button variant="secondary" className="btn btn-primary mt-3" onClick={handleClose}>
+                                Đóng
+                            </Button>
+                        </form>
+                    )}
+                </Formik>
 
+            </Modal.Body>
+        </Modal>
+    );
+};
 
-//     const handleDelete = async (id) => {
-//         const swalWithBootstrapButtons = swal.mixin({
-//             customClass: {
-//                 confirmButton: "btn btn-success",
-//                 cancelButton: "btn btn-danger"
-//             },
-//             buttonsStyling: false
-//         });
-
-//         swalWithBootstrapButtons.fire({
-//             title: "Bạn có chắc không?",
-//             text: "Bạn sẽ không thể hoàn tác điều này!",
-//             icon: "warning",
-//             showCancelButton: true,
-//             confirmButtonText: "Đúng rồi, xóa nó đi!",
-//             cancelButtonText: "Không, hủy đi!",
-//             reverseButtons: true
-//         }).then(async (result) => {
-//             if (result.isConfirmed) {
-//                 let isDeleted = await transactionService.deleteTransaction(id);
-//                 if (isDeleted) {
-//                     swalWithBootstrapButtons.fire(
-//                         "Đã xóa!",
-//                         "Giao dịch của bạn đã được xóa.",
-//                         "success"
-//                     );
-
-//                     const data = await transactionService.getAllHome();
-//                     setTransactions(data.content.slice(0, 5));
-//                 } else {
-//                     swalWithBootstrapButtons.fire(
-//                         "Lỗi",
-//                         "Xóa giao dịch không thành công.",
-//                         "error"
-//                     );
-//                 }
-//             } else if (result.dismiss === swal.DismissReason.cancel) {
-//                 swalWithBootstrapButtons.fire(
-//                     "Đã hủy",
-//                     "Giao dịch của bạn vẫn an toàn :)",
-//                     "error"
-//                 );
-//             }
-//         });
-//     };
-
-    
-
-
-//     return (
-//         <div className="table-transaction">
-//             <h3 className="transaction-heading">Chi Tiết Giao Dịch Bất Động Sản</h3>
-//             <table className="table table-hover table-bordered transaction">
-//                 <thead className="thead-transaction">
-//                     <tr>
-//                         <th>Mã giao dịch</th>
-//                         <th>Mã Nhân Viên</th>
-//                         <th>Bên Mua</th>
-//                         <th>Bên Bán</th>
-//                         <th>Mã BĐS</th>
-//                         <th>Số Tiền</th>
-//                         <th>Ngày Giao Dịch</th>
-//                         <th>Tỷ Lệ Hoa Hồng</th>
-//                         <th>Thao Tác</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     {transactions.length > 0 ? (
-//                         transactions.map((transaction) => (
-//                             <TableRow key={transaction.id}>
-//                                 <TableCell>{transaction.code}</TableCell>
-//                                 <TableCell>{transaction.employee}</TableCell>
-//                                 <TableCell>{transaction.buyer}</TableCell>
-//                                 <TableCell>{transaction.seller}</TableCell>
-//                                 <TableCell>{transaction.realEstate}</TableCell>
-//                                 <TableCell>{transaction.amount}</TableCell>
-//                                 <TableCell>{transaction.createAt}</TableCell>
-//                                 <TableCell>{transaction.commissionFee}</TableCell>
-//                                 <TableCell>
-//                                     <Button className="btn btn-info btn-sm me-2" variant="primary" onClick={() => handleEdit(transaction.id)}>
-//                                         Sửa
-//                                     </Button>
-
-//                                     <Button className="btn btn-danger btn-sm" onClick={() => handleDelete(transaction.id)}> Xoá </Button>
-
-//                                 </TableCell>
-//                             </TableRow>
-//                         ))
-//                     ) : (
-//                         <TableRow>
-//                             <TableCell colSpan={9}>Không có dữ liệu</TableCell>
-//                         </TableRow>
-//                     )}
-//                 </tbody>
-//             </table>
-
-        
-//             <TransactionUpdate
-//                 showModal={showEditModal}
-//                 handleClose={handleCloseEditModal}
-//                 transaction={selectedTransactionForEdit}
-//             />
-
-
-//         </div>
-//     );
-// }
-
-// export default TransactionDetails;
+export default TransactionDetail;

@@ -48,6 +48,7 @@ import ManagePostings from "./page/client/ManagePostings";
 // import ManagePostings from "./page/client/ManagePostings";
 import TransactionCreate from "./component/admin/transaction/TransactionCreact";
 import HomeTransaction from "./component/admin/transaction/HomeTransaction"
+import TransactionDetail from "./component/admin/transaction/TransactionDetail";
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
                 {
                     token !== null && status === 'idle' ? <Loading/> :
                         <Routes>
+
                             <Route path="/confirm-email" element={<ConfirmEmail/>}/>
                             <Route path="/login" element={<Authentication/>}/>
                             <Route path="/activation-success" element={<ActivationSuccess/>}/>
@@ -121,6 +123,7 @@ function App() {
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
                                     <Route path="/admin/homeTransactions" element={<HomeTransaction/>}/>
                                     <Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/>
+
                                 </Route>
                             </Route>
                         </Routes>

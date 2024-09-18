@@ -8,7 +8,7 @@ body {
     justify-content: center;
     padding: 20px;
     margin-left: 10px;
-    margin-right: -120px;
+    margin-right: -320px;
 
 }
 
@@ -70,7 +70,7 @@ tbody tr:hover {
 }
 
 .text-center {
-    margin-right: 29rem;
+    margin-left: 46rem;
     display: block;
     font-size: 18px;
     padding: 10px 20px;

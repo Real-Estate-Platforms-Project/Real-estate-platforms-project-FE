@@ -4,8 +4,8 @@ import * as Yup from "yup";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as transactionService from "..//..//..//services/TransactionService";
 import { toast } from "react-toastify";
-import EmployeeService, {getEmployees} from '..//..//..//services/EmployeeService';
-import RealEstateService from '..//..//..//services/EmployeeService';
+import EmployeeService from '..//..//..//services/EmployeeService';
+import RealEstateService from '..//..//..//services/RealEstateService';
 import Modal from 'react-bootstrap/Modal';
 import Select from "react-select";
 import Button from "react-bootstrap/Button";
@@ -30,7 +30,7 @@ const TransactionCreate = ({ showModal, handleClose }) => {
         setEmployees(employeeData.map(emp => ({ value: emp.id, label: emp.code })));
 
 
-        let realEstateData = await RealEstateService.getEmployees();
+        let realEstateData = await RealEstateService.findRealEstate();
         setRealEstates(realEstateData.map(re => ({ value: re.id, label: re.code })));
 
         let buyerData = await BuyerService.getAllBuyers();
@@ -101,6 +101,7 @@ const TransactionCreate = ({ showModal, handleClose }) => {
             
             if (response && response.status === "OK") {
                 toast.success("Thêm mới thành công");
+                handleClose();
                 navigate("/admin/homeTransactions");
             } else if (response && response.status === "BAD_REQUEST" && response.message === "Mã giao dịch đã tồn tại!") {
                 toast.error("Mã giao dịch đã tồn tại. Vui lòng sử dụng mã khác.");

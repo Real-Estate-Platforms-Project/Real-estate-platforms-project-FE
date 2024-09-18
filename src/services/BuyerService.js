@@ -1,4 +1,5 @@
 import apiClient from "../configs/AxiosConfigs";
+import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/admin/buyers';
 
