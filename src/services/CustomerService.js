@@ -1,7 +1,5 @@
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import apiClient from "../configs/AxiosConfigs";
-
 
 
 export const addCustomer = async (formData) => {
@@ -77,3 +75,4 @@ export const updateAccountRole = async (accountId, newRole) => {
         throw error;
     }
 };
+
