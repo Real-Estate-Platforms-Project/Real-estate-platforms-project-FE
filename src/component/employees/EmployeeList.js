@@ -3,12 +3,12 @@ import * as employeeService from '../../services/EmployeeService';
 import * as positionService from '../../services/PositionService';
 import EmployeeForm from './EmployeeForm';
 import ModalDeleteEmployee from "../admin/ModalDeleteEmployee";
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Card, Row, Col, InputGroup } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-toastify';
 import styles from '../../css/PaginationStyles.module.css';
 import '../../css/nhat.css';
-import { FaSearch, FaUser, FaAt, FaPhone, FaBriefcase, FaIdBadge } from 'react-icons/fa';
+import { FaSearch, FaUser, FaAt, FaBriefcase, FaIdBadge, FaTrash, FaSync } from 'react-icons/fa';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
@@ -128,7 +128,7 @@ const EmployeeList = () => {
                 show={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}
                 onConfirm={handleDelete}
-                message="Bạn có chắc chắn muốn xóa nhân viên  này không?"
+                message="Bạn có chắc chắn muốn xóa nhân viên này không?"
             />
 
             <div className="shadow-sm p-4 rounded">
@@ -141,58 +141,81 @@ const EmployeeList = () => {
                     }}
                     onSubmit={handleSearch}
                 >
-                    {() => (
-                        <Form>
-                            <div className="d-flex flex-wrap align-items-center mb-3">
-                                <div className="position-relative flex-grow-1 me-2">
-                                    <FaIdBadge className="position-absolute top-50 start-0 translate-middle-y ms-2" />
-                                    <Field
-                                        type="text"
-                                        name="code"
-                                        placeholder="Mã NV"
-                                        className="form-control ps-5"
-                                    />
-                                </div>
-                                <div className="position-relative flex-grow-1 me-2">
-                                    <FaUser className="position-absolute top-50 start-0 translate-middle-y ms-2" />
-                                    <Field
-                                        type="text"
-                                        name="name"
-                                        placeholder="Tên NV"
-                                        className="form-control ps-5"
-                                    />
-                                </div>
-                                <div className="position-relative flex-grow-1 me-2">
-                                    <FaBriefcase className="position-absolute top-50 start-0 translate-middle-y ms-2" />
-                                    <Field as="select" name="position" className="form-select ps-5">
-                                        <option value="">Chức vụ</option>
-                                        {positions.map((position) => (
-                                            <option key={position.id} value={position.name}>
-                                                {position.name}
-                                            </option>
-                                        ))}
-                                    </Field>
-                                </div>
-                                <div className="position-relative flex-grow-1 me-2">
-                                    <FaAt className="position-absolute top-50 start-0 translate-middle-y ms-2" />
-                                    <Field
-                                        type="text"
-                                        name="email"
-                                        placeholder="Email"
-                                        className="form-control ps-5"
-                                    />
-                                </div>
-                                <Button
-                                    type="submit"
-                                    className="btn btn-outline-dark flex-grow-1"
-                                >
-                                    <FaSearch className="me-2" />
-                                    Tìm kiếm
-                                </Button>
-                            </div>
+                    {({ handleSubmit }) => (
+                        <Form onSubmit={handleSubmit}>
+                            <Card className="shadow-sm p-4 mb-4 bg-white rounded">
+                                <Row className="d-flex align-items-center justify-content-between flex-wrap">
+                                    <Col md="auto" className="mb-2">
+                                        <InputGroup size="lg">
+                                            <InputGroup.Text className="bg-white border-end-0">
+                                                <FaIdBadge className="text-secondary" />
+                                            </InputGroup.Text>
+                                            <Field
+                                                type="text"
+                                                name="code"
+                                                placeholder="Mã NV"
+                                                className="form-control border-start-0 form-control-lg"
+                                            />
+                                        </InputGroup>
+                                    </Col>
+                                    <Col md="auto" className="mb-2">
+                                        <InputGroup size="lg">
+                                            <InputGroup.Text className="bg-white border-end-0">
+                                                <FaUser className="text-secondary" />
+                                            </InputGroup.Text>
+                                            <Field
+                                                type="text"
+                                                name="name"
+                                                placeholder="Tên NV"
+                                                className="form-control border-start-0 form-control-lg"
+                                            />
+                                        </InputGroup>
+                                    </Col>
+                                    <Col md="auto" className="mb-2">
+                                        <InputGroup size="lg">
+                                            <InputGroup.Text className="bg-white border-end-0">
+                                                <FaBriefcase className="text-secondary" />
+                                            </InputGroup.Text>
+                                            <Field as="select" name="position" className="form-select border-start-0 form-control-lg">
+                                                <option value="">Chức vụ</option>
+                                                {positions.map((position) => (
+                                                    <option key={position.id} value={position.name}>
+                                                        {position.name}
+                                                    </option>
+                                                ))}
+                                            </Field>
+                                        </InputGroup>
+                                    </Col>
+                                    <Col md="auto" className="mb-2">
+                                        <InputGroup size="lg">
+                                            <InputGroup.Text className="bg-white border-end-0">
+                                                <FaAt className="text-secondary" />
+                                            </InputGroup.Text>
+                                            <Field
+                                                type="text"
+                                                name="email"
+                                                placeholder="Email"
+                                                className="form-control border-start-0 form-control-lg"
+                                            />
+                                        </InputGroup>
+                                    </Col>
+                                    <Col md="auto" className="mb-2">
+                                        <Button
+                                            size="lg"
+                                            type="submit"
+                                            style={{ backgroundColor: '#ff6b35', borderColor: '#ff6b35', padding: '10px 20px' }}
+                                            className="text-white"
+                                        >
+                                            <FaSearch className="me-2" /> Tìm kiếm
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </Card>
                         </Form>
                     )}
                 </Formik>
+
+                <h4 className="mt-3 mb-4" style={{ color: '#ff6b35', textAlign: 'left', fontSize: '2rem' }}>Quản lý Nhân Viên</h4>
 
                 <div className="table-responsive">
                     <table className="table table-hover">
@@ -221,21 +244,24 @@ const EmployeeList = () => {
                                     <td>{employee.position.name || 'N/A'}</td>
                                     <td>
                                         <Button
-                                            className="me-2"
-                                            style={{ backgroundColor: 'white', color: '#ff5722', border: '1px solid #ff5722' }}
+                                            variant="outline"
+                                            size="sm"
+                                            style={{ color: '#ff6b35', borderColor: '#ff6b35', marginRight: '5px' }}
                                             onClick={() => handleModalShow({
                                                 ...employee,
                                                 positionId: employee.position.id,
                                                 role: employee.isAdmin ? "Admin" : "Nhân viên"
                                             })}
                                         >
-                                            Sửa
+                                            <FaSync /> Cập nhật
                                         </Button>
                                         <Button
-                                            style={{ backgroundColor: 'white', color: '#ff8800', border: '1px solid #ff8800' }}
+                                            variant="outline"
+                                            size="sm"
+                                            style={{ color: '#ff6b35', borderColor: '#ff6b35', marginRight: '5px' }}
                                             onClick={() => handleDeleteModalShow(employee)}
                                         >
-                                            Xoá
+                                            <FaTrash /> Xóa
                                         </Button>
                                     </td>
                                 </tr>
