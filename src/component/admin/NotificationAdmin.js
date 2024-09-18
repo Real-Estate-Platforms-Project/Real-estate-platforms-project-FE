@@ -23,6 +23,7 @@ function NotificationAdmin() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [expandedNotification, setExpandedNotification] = useState(null);
+    const [isContentExpanded, setIsContentExpanded] = useState(false);
 
     useEffect(() => {
         getNotifications(title);
@@ -58,10 +59,9 @@ function NotificationAdmin() {
             await notificationService.deleteNotification(notificationToDelete.id);
             getNotifications(title);
             setShowModal(false);
-            toast.success("Deleted notification successfully!");
+            toast.success("Xóa thông báo thành công!");
         } catch (error) {
-            console.error('Failed to delete notification', error);
-            toast.error("Failed to delete notification!");
+            toast.error("Xóa thông báo thất bại!");
         }
     };
 
@@ -90,11 +90,10 @@ function NotificationAdmin() {
         try {
             await notificationService.addNotification(newNotification);
             getNotifications(title);
-            toast.success("Added notification successfully!");
+            toast.success("Thêm mới thông báo thành công!");
             closeAddModal();
         } catch (error) {
-            console.error('Failed to add notification', error);
-            toast.error("Failed to add notification!");
+            toast.error("Thêm mới thông báo thất bại!");
         }
     };
 
@@ -102,11 +101,10 @@ function NotificationAdmin() {
         try {
             await notificationService.updateNotification(updatedNotification);
             getNotifications(title);
-            toast.success("Updated notification successfully!");
+            toast.success("Cập nhật thông báo thành công!");
             setShowEditModal(false);
         } catch (error) {
-            console.error('Failed to update notification', error);
-            toast.error("Failed to update notification!");
+            toast.error("Cập nhật thông báo thất bại!");
         }
     };
 
@@ -140,6 +138,7 @@ function NotificationAdmin() {
 
     const openDescriptionModal = (notification) => {
         setExpandedNotification(notification);
+        setIsContentExpanded(false); // Reset content display state
     };
 
     const closeDescriptionModal = () => {
@@ -179,15 +178,23 @@ function NotificationAdmin() {
                             <td>
                                 {item.images && item.images.length > 0 ? (
                                     <div className="image-container">
-                                        {item.images.map((image, index) => (
-                                            <img
-                                                key={index}
-                                                src={image.imageUrl}
-                                                alt={`Image ${index}`}
-                                                className="article-image"
-                                                onClick={() => handleImageClick(image.imageUrl)}
-                                            />
-                                        ))}
+                                        <img
+                                            src={item.images[0].imageUrl}
+                                            alt="Main"
+                                            className="main-image"
+                                            onClick={() => handleImageClick(item.images[0].imageUrl)}
+                                        />
+                                        <div className="thumbnail-container">
+                                            {item.images.slice(1).map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={image.imageUrl}
+                                                    alt={`Thumbnail ${index}`}
+                                                    className="thumbnail-image"
+                                                    onClick={() => handleImageClick(image.imageUrl)}
+                                                />
+                                            ))}
+                                        </div>
                                     </div>
                                 ) : (
                                     'Chưa có hình ảnh'
@@ -276,7 +283,20 @@ function NotificationAdmin() {
                     {expandedNotification && (
                         <div>
                             <h5>{expandedNotification.title}</h5>
-                            <p>{expandedNotification.contend}</p>
+                            {isContentExpanded ? (
+                                <p>{expandedNotification.contend}</p>
+                            ) : (
+                                <p>
+                                    {expandedNotification.contend.length > 100
+                                        ? `${expandedNotification.contend.substring(0, 300)}...`
+                                        : expandedNotification.contend}
+                                </p>
+                            )}
+                            {expandedNotification.contend.length > 100 && (
+                                <button onClick={() => setIsContentExpanded(!isContentExpanded)} className="btn btn-link">
+                                    {isContentExpanded ? 'Thu Gọn' : 'Xem Thêm'}
+                                </button>
+                            )}
                         </div>
                     )}
                 </BootstrapModal.Body>
