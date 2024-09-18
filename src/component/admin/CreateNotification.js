@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { Formik, Field, Form as FormikForm, ErrorMessage } from 'formik';
 import styles from '../../css/ModalCreate.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-datepicker/dist/react-datepicker.css'; // Import datepicker styles
+import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { storage } from '../../configs/ConfigFirebase';
 import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
@@ -15,9 +15,10 @@ import { format } from 'date-fns';
 
 const validationSchema = Yup.object({
     title: Yup.string().required('Tiêu đề là bắt buộc'),
-    images: Yup.array().of(Yup.string().required('Cần chọn một hình ảnh'))
+    images: Yup.array()
+        .of(Yup.string().required('Cần chọn một hình ảnh'))
         .min(1, 'Cần chọn ít nhất một hình ảnh')
-        .max(3,'Tối đa 3 hình ảnh'),
+        .max(3, 'Tối đa 3 hình ảnh'),
     contend: Yup.string().required('Mô tả là bắt buộc'),
     dateStart: Yup.date().required('Ngày bắt đầu là bắt buộc').nullable(),
 });
@@ -37,51 +38,26 @@ const AddNotificationModal = ({ show, onClose, onAdd }) => {
         }
     }, [isAuthenticated, user, dispatch]);
 
-    const handleAdd = (values) => {
-
-        const localDateTime = values.dateStart ? format(values.dateStart, 'yyyy-MM-dd\'T\'HH:mm:ss') : null;
-
-        const newNotification = {
-            title: values.title,
-            contend: values.contend,
-            employee: { id: values.employee },
-            images: selectedImages.map(url => ({ imageUrl: url })),
-            dateStart: localDateTime
-        };
-        console.log(newNotification)
-        onAdd(newNotification);
-        onClose();
-    };
-
-    const handleFileChange = async (event, setFieldValue) => {
+    const handleFileChange = (event, setFieldValue) => {
         const files = Array.from(event.currentTarget.files);
         if (files.length === 0) return;
 
         const urls = [];
         const updatedImageFiles = [];
 
-        for (const file of files) {
-            const imageRef = storageRef(storage, `images/${file.name}`);
-            try {
-                const snapshot = await uploadBytes(imageRef, file);
-                const url = await getDownloadURL(snapshot.ref);
-                urls.push(url);
-                updatedImageFiles.push(file);
-            } catch (error) {
-                console.error("Error uploading file:", error);
-                toast.error("Tải ảnh lên thất bại");
-            }
-        }
+        files.forEach(file => {
+            urls.push(URL.createObjectURL(file)); // Preview the images
+            updatedImageFiles.push(file);
+        });
 
-        setSelectedImages(prevImages => [...prevImages, ...urls]);
-        setImageFiles(prevFiles => [...prevFiles, ...updatedImageFiles]);
-        setFieldValue("images", [...selectedImages, ...urls]);
-        toast.success("Tải ảnh lên thành công");
+        setSelectedImages(urls);
+        setImageFiles(updatedImageFiles);
+        setFieldValue("images", updatedImageFiles);
     };
 
     const handleRemoveImage = (url) => {
         setSelectedImages(prevImages => prevImages.filter(image => image !== url));
-        setImageFiles(prevFiles => prevFiles.filter(file => file.name !== url));
+        setImageFiles(prevFiles => prevFiles.filter(file => URL.createObjectURL(file) !== url));
     };
 
     const handleImageClick = (url) => {
@@ -89,9 +65,54 @@ const AddNotificationModal = ({ show, onClose, onAdd }) => {
         setShowLargeImage(true);
     };
 
+    const uploadImages = async (files) => {
+        const urls = [];
+        for (const file of files) {
+            const imageRef = storageRef(storage, `images/${file.name}`);
+            try {
+                const snapshot = await uploadBytes(imageRef, file);
+                const url = await getDownloadURL(snapshot.ref);
+                urls.push(url);
+            } catch (error) {
+                console.error("Error uploading file:", error);
+                toast.error("Tải ảnh lên thất bại");
+            }
+        }
+        return urls;
+    };
+
+    const handleAdd = async (values) => {
+        const localDateTime = values.dateStart ? format(values.dateStart, 'yyyy-MM-dd\'T\'HH:mm:ss') : null;
+
+        const uploadedImageUrls = await uploadImages(imageFiles);
+
+        const newNotification = {
+            title: values.title,
+            contend: values.contend,
+            employee: { id: values.employee },
+            images: uploadedImageUrls.map(url => ({ imageUrl: url })),
+            dateStart: localDateTime,
+        };
+
+        console.log(newNotification);
+        onAdd(newNotification);
+        resetForm();
+        onClose();
+    };
+
+    const resetForm = () => {
+        setSelectedImages([]);
+        setImageFiles([]);
+    };
+
+    const handleClose = () => {
+        resetForm();
+        onClose();
+    };
+
     return (
         <>
-            <Modal show={show} onHide={onClose} className={styles.customModalOverlay}>
+            <Modal show={show} onHide={handleClose} className={styles.customModalOverlay}>
                 <div className={styles.customModalContent}>
                     <Modal.Header closeButton className={styles.customModalHeader}>
                         <Modal.Title className={styles.customModalTitle}>Thêm Mới Thông Báo</Modal.Title>
@@ -102,7 +123,7 @@ const AddNotificationModal = ({ show, onClose, onAdd }) => {
                             validationSchema={validationSchema}
                             onSubmit={handleAdd}
                         >
-                            {({ setFieldValue, values }) => (
+                            {({ setFieldValue }) => (
                                 <FormikForm className={styles.customModalForm}>
                                     <Form.Group controlId="formTitle" className={styles.customFormGroup}>
                                         <Form.Label className={styles.customModalLabel}>Tiêu đề</Form.Label>
@@ -159,7 +180,7 @@ const AddNotificationModal = ({ show, onClose, onAdd }) => {
                                     <Form.Group controlId="formDateStart" className={styles.customFormGroup}>
                                         <Form.Label className={styles.customModalLabel}>Ngày / giờ bắt đầu</Form.Label>
                                         <Field name="dateStart">
-                                            {({ field, form }) => (
+                                            {({ field }) => (
                                                 <DatePicker
                                                     selected={field.value ? new Date(field.value) : null}
                                                     onChange={(date) => {
@@ -188,7 +209,7 @@ const AddNotificationModal = ({ show, onClose, onAdd }) => {
                                     </Form.Group>
 
                                     <Modal.Footer className={styles.customModalFooter}>
-                                        <Button variant="secondary" onClick={onClose} className={`${styles.customBtn} btn-secondary`}>
+                                        <Button variant="secondary" onClick={handleClose} className={`${styles.customBtn} btn-secondary`}>
                                             Hủy
                                         </Button>
                                         <Button type="submit" variant="primary" className={styles.customConfirmButton}>
