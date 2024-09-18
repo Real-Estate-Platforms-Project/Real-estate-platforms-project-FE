@@ -102,6 +102,8 @@ function App() {
                                         </>
                                 }
                                 >
+                                    <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
+                                    <Route path="/admin/dashboard" element={<Dashboard />} />
 
                                     <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
                                         <Route path={"/admin/employee"} element={<EmployeeList/>}/>
@@ -110,7 +112,7 @@ function App() {
                                     <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
                                     <Route path={"/admin/buyers"} element={<BuyerList/>}/>
                                     <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
-                                    <Route path="/admin" element={<Statistics/>}/>
+                                    <Route path="/admin/statics" element={<Statistics/>}/>
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
                                 </Route>
                             </Route>
