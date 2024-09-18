@@ -46,7 +46,6 @@ function HomeTransaction() {
             } else {
                 setTransactions(prevTransactions => [...prevTransactions, ...data.content]);
             }
-
             setTotalPages(data.totalPages);
         } catch (error) {
             console.error("Lỗi khi lấy danh sách giao dịch:", error);

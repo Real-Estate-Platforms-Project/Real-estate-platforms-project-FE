@@ -51,22 +51,23 @@ const TransactionUpdate = ({ showModal, handleClose, transaction }) => {
         isDeleted: Yup.boolean().required("Trường này không được để trống")
     });
 
+
     const updateTransaction = async (values) => {
         console.log("Submit values: ", values);
         try {
             let dataRequest = {
-                id : values.id, 
-                code : values.code,
-                employee : values.employeeId,
-                realEstate : values.realEstateId,
-                buyer : values.buyerId,
-                seller : values.sellerId,
-                amount : values.amount,
-                createAt : values.createAt,
-                commissionFee : values.commissionFee,
-                description : values.description,
-                status : values.status,
-                isDeleted : values.isDeleted,
+                id: values.id,
+                code: values.code,
+                employee: values.employeeId,
+                realEstate: values.realEstateId,
+                buyer: values.buyerId,
+                seller: values.sellerId,
+                amount: values.amount,
+                createAt: values.createAt,
+                commissionFee: values.commissionFee,
+                description: values.description,
+                status: values.status,
+                isDeleted: values.isDeleted,
             }
             console.log("dataRequest", dataRequest)
             const isSuccess = await transactionService.updateTransaction(values.id, dataRequest);
@@ -89,7 +90,6 @@ const TransactionUpdate = ({ showModal, handleClose, transaction }) => {
             </Modal.Header>
             <Modal.Body>
                 <Formik
-                    enableReinitialize
                     initialValues={{
                         id: transaction?.id || "",
                         code: transaction?.code || "",
@@ -104,27 +104,43 @@ const TransactionUpdate = ({ showModal, handleClose, transaction }) => {
                         status: transaction?.status || "pending",
                         isDeleted: transaction?.isDeleted || false,
                     }}
-
                     validationSchema={validationSchema}
-                    onSubmit={(values) => updateTransaction(values)
-                    }
+                    onSubmit={updateTransaction}
+                    validateOnChange={true}
+                    validateOnBlur={true}
                 >
-                    {({ setFieldValue, values }) => (
-
-                        <form>
-
+                    {({ setFieldValue, values, handleSubmit, setTouched }) => (
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            setTouched({
+                                code: true,
+                                employeeId: true,
+                                realEstateId: true,
+                                buyerId: true,
+                                sellerId: true,
+                                amount: true,
+                                createAt: true,
+                                commissionFee: true,
+                                description: true,
+                                status: true,
+                            });  // Đánh dấu tất cả các trường là touched để kiểm tra
+                            handleSubmit(e);
+                        }}>
                             <div className="form-group">
                                 <label>Mã Giao Dịch</label>
-                                <Field name="code" type="text" className="form-control" value={values.code} />
+                                <Field name="code" type="text" className="form-control" />
                                 <ErrorMessage name="code" component="div" className="text-danger" />
                             </div>
+
                             <div className="form-group">
                                 <label>Mã Nhân Viên</label>
                                 <Select
                                     name="employeeId"
                                     options={employees}
+                                    onChange={(option) => setFieldValue("employeeId", option ? option.value : '')}
                                     value={employees.find(option => option.value === values.employeeId)}
-                                    onChange={(option) => setFieldValue("employeeId", option ? option.value : "")}
+                                    placeholder="Chọn nhân viên"
+                                    onBlur={() => setTouched({ employeeId: true })}  // Đánh dấu touched khi blur
                                 />
                                 <ErrorMessage name="employeeId" component="div" className="text-danger" />
                             </div>
@@ -134,10 +150,12 @@ const TransactionUpdate = ({ showModal, handleClose, transaction }) => {
                                 <Select
                                     name="realEstateId"
                                     options={realEstates}
+                                    onChange={(option) => setFieldValue("realEstateId", option.value)}
                                     value={realEstates.find(option => option.value === values.realEstateId)}
-                                    onChange={(option) => setFieldValue("realEstateId", option ? option.value : "")}
+                                    placeholder="Chọn bất động sản"
+                                    onBlur={() => setTouched({ realEstateId: true })}  // Đánh dấu touched khi blur
                                 />
-                                <ErrorMessage name="employeeId" component="div" className="text-danger" />
+                                <ErrorMessage name="realEstateId" component="div" className="text-danger" />
                             </div>
 
                             <div className="form-group">
@@ -145,26 +163,30 @@ const TransactionUpdate = ({ showModal, handleClose, transaction }) => {
                                 <Select
                                     name="buyerId"
                                     options={buyer}
+                                    onChange={(option) => setFieldValue("buyerId", option.value)}
                                     value={buyer.find(option => option.value === values.buyerId)}
-                                    onChange={(option) => setFieldValue("buyerId", option ? option.value : "")}
+                                    placeholder="Chọn bên mua"
+                                    onBlur={() => setTouched({ buyerId: true })}  // Đánh dấu touched khi blur
                                 />
-                                <ErrorMessage name="employeeId" component="div" className="text-danger" />
+                                <ErrorMessage name="buyerId" component="div" className="text-danger" />
                             </div>
 
                             <div className="form-group">
-                                <label>Bên Bán</label>
+                                <label>Bên bán</label>
                                 <Select
                                     name="sellerId"
                                     options={seller}
+                                    onChange={(option) => setFieldValue("sellerId", option.value)}
                                     value={seller.find(option => option.value === values.sellerId)}
-                                    onChange={(option) => setFieldValue("sellerId", option ? option.value : "")}
+                                    placeholder="Chọn bên bán"
+                                    onBlur={() => setTouched({ sellerId: true })}  // Đánh dấu touched khi blur
                                 />
-                                <ErrorMessage name="employeeId" component="div" className="text-danger" />
+                                <ErrorMessage name="sellerId" component="div" className="text-danger" />
                             </div>
 
                             <div className="form-group">
                                 <label>Số Tiền</label>
-                                <Field name="amount" type="number" className="form-control" value={values.amount} />
+                                <Field name="amount" type="number" className="form-control" />
                                 <ErrorMessage name="amount" component="div" className="text-danger" />
                             </div>
 
@@ -198,12 +220,16 @@ const TransactionUpdate = ({ showModal, handleClose, transaction }) => {
                             <Button type="button" onClick={() => updateTransaction(values)}>
                                 Lưu
                             </Button>
+
+
                             <Button variant="secondary" className="btn btn-primary mt-3" onClick={handleClose}>
                                 Đóng
                             </Button>
                         </form>
                     )}
+
                 </Formik>
+
             </Modal.Body>
         </Modal>
     );

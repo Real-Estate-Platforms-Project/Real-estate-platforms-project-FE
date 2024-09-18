@@ -7,7 +7,8 @@ export const getAllHome = async (searchTransactionCode = "") => {
         // Kiểm tra nếu có mã giao dịch cần tìm kiếm, thêm vào query string
         let query = "";
         if (searchTransactionCode) {
-            query = `?searchTransactionCode=${encodeURIComponent(searchTransactionCode)}`;
+            // query = `?searchTransactionCode=${encodeURIComponent(searchTransactionCode)}`;
+            query = `?page=${encodeURIComponent(searchTransactionCode)}`;
         }
 
         // Gửi request với query string
@@ -21,16 +22,15 @@ export const getAllHome = async (searchTransactionCode = "") => {
     }
 }
 
-
 export const saveTransaction = async (transaction) => {
     try {
         console.log("Dữ liệu gửi đi:", transaction);
         const response = await axios.post(URL_TRANSACTION, transaction);
         console.log("Phản hồi từ API:", response);
-        return response.status === 200;
+        return response.data; // Trả về dữ liệu phản hồi từ API, có thể chứa thông báo lỗi
     } catch (e) {
         console.error("Lỗi khi lưu giao dịch:", e);
-        return false;
+        return e.response ? e.response.data : { message: "Lỗi không xác định" };
     }
 };
 
@@ -62,7 +62,7 @@ export const updateTransaction = async (id, transaction) => {
     try {
         const token = sessionStorage.getItem('token'); 
         console.log("Transaction data id:", id); 
-        console.log("Transaction data request:", transaction);  // Kiểm tra dữ liệu transaction
+        console.log("Transaction data request:", transaction); 
 
         const res = await axios.put(`${URL_TRANSACTION}/${id}`, transaction, {
             headers: {

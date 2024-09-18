@@ -43,6 +43,7 @@ const TransactionCreate = ({ showModal, handleClose }) => {
     const validationSchema = Yup.object().shape({
         code: Yup.string()
             .required("Mã giao dịch không được để trống")
+            .required("Mã giao dịch không được trùng lặp")
             .max(10, "Mã giao dịch không được quá 10 ký tự"),
         employeeId: Yup.number()
             .required("Mã nhân viên không được để trống")
@@ -81,7 +82,7 @@ const TransactionCreate = ({ showModal, handleClose }) => {
 
     const saveTransaction = async (values) => {
         console.log("values", values);
-
+    
         try {
             let dataRequest = {
                 code : values.code,
@@ -96,12 +97,13 @@ const TransactionCreate = ({ showModal, handleClose }) => {
                 status : values.status,
                 isDeleted : values.isDeleted,
             }
-            const isSuccess = await transactionService.saveTransaction(dataRequest);
-            console.log("Dữ liệu gửi đi:", isSuccess);
-
-            if (isSuccess) {
+            const response = await transactionService.saveTransaction(dataRequest);
+            
+            if (response && response.status === "OK") {
                 toast.success("Thêm mới thành công");
                 navigate("/admin/homeTransactions");
+            } else if (response && response.status === "BAD_REQUEST" && response.message === "Mã giao dịch đã tồn tại!") {
+                toast.error("Mã giao dịch đã tồn tại. Vui lòng sử dụng mã khác.");
             } else {
                 toast.error("Thêm mới thất bại");
             }
@@ -109,6 +111,7 @@ const TransactionCreate = ({ showModal, handleClose }) => {
             toast.error("Đã xảy ra lỗi");
         }
     };
+    
 
     return (
         <Modal show={showModal} onHide={handleClose}>
@@ -233,9 +236,6 @@ const TransactionCreate = ({ showModal, handleClose }) => {
                     )}
                 </Formik>
             </Modal.Body>
-            {/* <Modal.Footer>
-
-            </Modal.Footer> */}
         </Modal>
     );
 };
