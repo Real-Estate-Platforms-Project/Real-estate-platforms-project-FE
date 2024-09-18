@@ -21,7 +21,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import Statistics from "./component/admin/Statistics";
 import NotificationAdmin from "./component/admin/NotificationAdmin";
-import { WebSocketProvider } from './services/SocketNotification';
+import {WebSocketProvider} from './services/SocketNotification';
 import NotificationDisplay from "./component/NotificationDisplay";
 import BuyerList from "./component/customer/BuyerList";
 import CustomerAddForm from "./component/customer/CustomerAddForm";
@@ -79,7 +79,8 @@ function App() {
                                     {/*<Route path="/update-password" element={<UpdatePassWord/>}/>*/}
                                     <Route path="/account/danh-sach-nhu-cau" element={<AccountDemand/>}/>
                                 </Route>
-                                <Route element={<ProtectedRoute  requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
+                                <Route element={<ProtectedRoute
+                                    requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_SELLER']}/>}>
                                     <Route path="/sellernet/dang-tin" element={<CreateRealEstate/>}/>
                                 </Route>
                                 <Route path="/real-estate-detail/:id" element={<RealEstateDetail/>}/>
@@ -97,17 +98,17 @@ function App() {
                                 <Route path="/sellernet/quan-ly-tin-rao-ban-cho-thue" element={<ManagePostings/>}/>
                             </Route>
 
-
-                            {/*<Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>*/}
-
-                            <Route
-                                path="/admin"
-                                element={
-                                    <>
-                                        <Admin />
-                                    </>
+                            <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_EMPLOYEE']}/>}>
+                                <Route
+                                    path="/admin"
+                                    element={
+                                        <>
+                                            <Admin/>
+                                        </>
                                 }
-                            >
+                                >
+                                    <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
+                                    <Route path="/admin/dashboard" element={<Dashboard />} />
 
                                     <Route element={<ProtectedRoute requiredRoles={['ROLE_ADMIN']}/>}>
                                         <Route path={"/admin/employee"} element={<EmployeeList/>}/>
@@ -116,13 +117,12 @@ function App() {
                                     <Route path="/admin/danh-sach-nhu-cau" element={<DemandList/>}/>
                                     <Route path={"/admin/buyers"} element={<BuyerList/>}/>
                                     <Route path="/admin/customers/add" element={<CustomerAddForm/>}/>
-                                    <Route path="/admin" element={<Statistics/>}/>
+                                    <Route path="/admin/statics" element={<Statistics/>}/>
                                     <Route path="/admin/sellers" element={<SellerList/>}/>
                                     <Route path="/admin/homeTransactions" element={<HomeTransaction/>}/>
                                     <Route path="/admin/homeTransactions/create" element={<TransactionCreate/>}/>
                                 </Route>
-                            {/*</Route>*/}
-
+                            </Route>
                         </Routes>
 
                 }

@@ -19,7 +19,7 @@ const SideBar = () => {
             </NavLink>
             <ul className="custom-nav flex-column">
                 <li className="custom-nav-item">
-                    <NavLink className="custom-nav-link" to="/admin/dashboard">
+                    <NavLink className="custom-nav-link" to="/admin">
                         <i className="bi bi-speedometer2"></i> Bảng điều khiển
                     </NavLink>
                 </li>
@@ -68,7 +68,7 @@ const SideBar = () => {
                     </NavLink>
                 </li>
                 <li className="custom-nav-item">
-                    <NavLink className="custom-nav-link" to="/admin">
+                    <NavLink className="custom-nav-link" to="/admin/statics">
                         <i className="bi bi-graph-up"></i> Thống kê
                     </NavLink>
                 </li>

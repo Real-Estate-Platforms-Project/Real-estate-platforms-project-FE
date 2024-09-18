@@ -1,6 +1,4 @@
-import axios from 'axios';
 import { toast } from 'react-toastify';
-
 
 
 export const addCustomer = async (formData) => {
@@ -76,3 +74,4 @@ export const updateAccountRole = async (accountId, newRole) => {
         throw error;
     }
 };
+
