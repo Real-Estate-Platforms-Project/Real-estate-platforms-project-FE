@@ -1,7 +1,7 @@
 import axios from "axios";
 import {getToken} from "../utils/storage";
 
-    const URL_DEMAND = "http://localhost:8080/api/demand"
+const URL_DEMAND = "http://localhost:8080/api/demand"
 
 export const searchDemand = async (filters) => {
     try {

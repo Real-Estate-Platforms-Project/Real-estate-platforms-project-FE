@@ -20,4 +20,3 @@ const Modal = ({ show, onClose, onConfirm, message }) => {
 }
 
 export default Modal;
-

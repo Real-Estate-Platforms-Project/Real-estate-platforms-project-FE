@@ -1,0 +1,30 @@
+
+.activeTab {
+    color: #FC650B !important;
+    border-color: #FC650B !important ;
+}
+
+.showTab {
+    color: #FC650B;
+    border-color: #FC650B;
+}
+
+.btnCustomWarning {
+    background-color: #FC650B !important;
+    border-color: #FC650B !important;
+    color: #fff !important;
+}
+
+.btnCustomWarning:hover {
+    background-color: #e85d00 !important;
+    border-color: #e85d00 !important;
+}
+
+.primary {
+    color: #FC650B;
+}
+
+.bgPrimaryCustom {
+    background-color: #FC650B !important;
+    color: #fff !important;
+}

@@ -2,17 +2,16 @@
 import apiClient from "../configs/AxiosConfigs";
 import employee from "sockjs-client/lib/transport/receiver/jsonp";
 
-    export const getEmployees = async (filters = {}) => {
-        try {
+export const getEmployees = async (filters = {}) => {
+    try {
         const query = new URLSearchParams(filters).toString();
-            console.log(query);
         const res = await apiClient.get(`/admin/employees/search?${query}`);
         return res.data;
     } catch (e) {
         console.error("Error fetching employee data:", e);
         throw e;
     }
-};
+}
 
 export const deleteEmployee = async (employeeId) => {
     try {
@@ -63,3 +62,5 @@ export const checkEmailExists = async (email) => {
         throw e;
     }
 };
+
+export default { getEmployees};

@@ -27,7 +27,7 @@ const ResultsList = ({ results, loading, error, currentPage, totalPages, handleP
     return (
         <div className="bg-body-tertiary my-5 results-section">
             {loading ? (
-                 <Player
+                <Player
                     autoplay
                     keepLastFrame
                     src={lottieLoading}

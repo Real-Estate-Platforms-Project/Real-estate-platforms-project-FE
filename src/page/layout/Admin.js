@@ -11,7 +11,7 @@ const Admin = () => {
                 <Row>
                     <AdminNav/>
                     <Col md={10} className={"px-0"}>
-                            <NavBar/>
+                        <NavBar/>
                         <Outlet/>
                     </Col>
                 </Row>

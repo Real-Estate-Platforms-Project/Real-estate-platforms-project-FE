@@ -127,10 +127,10 @@ function RealEstateDetail() {
                                 <small>Diện tích: {realEstate.area} m². </small>
                                 <br/>
                                 {realEstate.type === 'Nhà ở' ? (
-                                <small>Gồm: {realEstate.realEstateDetail?.bedroom} phòng ngủ
-                                    - {realEstate.realEstateDetail?.toilet} toilet (có thể cải tạo thêm). Ô tô
-                                    đỗ được trước
-                                    cửa.</small> ) : ("")}
+                                    <small>Gồm: {realEstate.realEstateDetail?.bedroom} phòng ngủ
+                                        - {realEstate.realEstateDetail?.toilet} toilet (có thể cải tạo thêm). Ô tô
+                                        đỗ được trước
+                                        cửa.</small> ) : ("")}
                             </p>
                             <p className="contact-info"><small>
                                 Liên hệ: {realEstate.seller.name} <span className="blur-phone me-2">{realEstate.seller.phoneNumber}</span>để
@@ -141,62 +141,62 @@ function RealEstateDetail() {
                         <hr className="text-black-50"/>
                         <div className="property-features">
                             {realEstate.type === "Nhà ở" ? (
-                            <div className="row">
-                                <div className="col-6">
-                                    <ul className="list-unstyled">
-                                        <li>
-                                            <div>
-                                                <i className="fa-solid fa-vector-square"></i>
-                                                <span className='ms-4'>Diện tích</span>
-                                            </div>
-                                            <span className="text-muted">{realEstate.area} m²</span>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <i className="fa-solid fa-city"></i>
-                                                <span className='ms-3'>Số tầng</span>
-                                            </div>
-                                            <span
-                                                className="text-muted">{realEstate.realEstateDetail?.floor} tầng</span>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <i className="fa-sharp fa-solid fa-bath me-1"></i>
-                                                <span className='ms-3'>Số toilet</span>
-                                            </div>
-                                            <span
-                                                className="text-muted">{realEstate.realEstateDetail?.toilet} toilet</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="col-6">
-                                    <ul className="list-unstyled">
-                                        <li>
-                                            <div>
-                                                <i className="bi bi-coin"></i>
-                                                <span className='ms-4'>Mức giá</span>
-                                            </div>
-                                            <span
-                                                className="text-muted">{CurrencyHelper.formatCurrency(realEstate.price)}</span>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <i className="fa-sharp fa-solid fa-bed"></i>
-                                                <span className='ms-3'>Số phòng ngủ</span>
-                                            </div>
-                                            <span
-                                                className="text-muted">{realEstate.realEstateDetail?.bedroom} phòng</span>
-                                        </li>
-                                        <li>
-                                            <div>
-                                                <i className="bi bi-journal"></i>
-                                                <span className='ms-4'>Pháp lý</span>
-                                            </div>
-                                            <span className="text-muted">Sổ đỏ/ Sổ hồng</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div> ) : (
+                                <div className="row">
+                                    <div className="col-6">
+                                        <ul className="list-unstyled">
+                                            <li>
+                                                <div>
+                                                    <i className="fa-solid fa-vector-square"></i>
+                                                    <span className='ms-4'>Diện tích</span>
+                                                </div>
+                                                <span className="text-muted">{realEstate.area} m²</span>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <i className="fa-solid fa-city"></i>
+                                                    <span className='ms-3'>Số tầng</span>
+                                                </div>
+                                                <span
+                                                    className="text-muted">{realEstate.realEstateDetail?.floor} tầng</span>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <i className="fa-sharp fa-solid fa-bath me-1"></i>
+                                                    <span className='ms-3'>Số toilet</span>
+                                                </div>
+                                                <span
+                                                    className="text-muted">{realEstate.realEstateDetail?.toilet} toilet</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="col-6">
+                                        <ul className="list-unstyled">
+                                            <li>
+                                                <div>
+                                                    <i className="bi bi-coin"></i>
+                                                    <span className='ms-4'>Mức giá</span>
+                                                </div>
+                                                <span
+                                                    className="text-muted">{CurrencyHelper.formatCurrency(realEstate.price)}</span>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <i className="fa-sharp fa-solid fa-bed"></i>
+                                                    <span className='ms-3'>Số phòng ngủ</span>
+                                                </div>
+                                                <span
+                                                    className="text-muted">{realEstate.realEstateDetail?.bedroom} phòng</span>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <i className="bi bi-journal"></i>
+                                                    <span className='ms-4'>Pháp lý</span>
+                                                </div>
+                                                <span className="text-muted">Sổ đỏ/ Sổ hồng</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> ) : (
                                 <div className="row">
                                     <div className="col-6">
                                         <ul className="list-unstyled">

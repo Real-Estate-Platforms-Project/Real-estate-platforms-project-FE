@@ -1,16 +1,17 @@
 import SearchBar from "../../component/search/SearchBar";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import * as realEstateService from "../../services/RealEstateService";
 import ResultsList from "../../component/client/ResultList";
 import '../../css/Paging.css'
 function EstateListing() {
     const location = useLocation();
-    const [results, setResults] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
-    const [error, setError] = React.useState(null);
-    const [currentPage, setCurrentPage] = React.useState(0);
-    const [totalPages, setTotalPages] = React.useState(0);
+    const [results, setResults] =useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] =useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [filters, setFilters] = useState([]);
     const handleSearch = async (filters, page = 0) => {
         setLoading(true);
         setError(null);
@@ -29,15 +30,16 @@ function EstateListing() {
     };
     const activeTab = location.state?.activeTab || 'Bán,Cho thuê';
 
+
     useEffect(() => {
-        const filters = location.state?.filters || {};
-        handleSearch(filters,currentPage);
-    }, [location.state]);
+        handleSearch(filters);
+    }, [filters]);
+
 
     return(
         <>
             <div className="custom-search w-75 mt-3" style={{justifyContent:"center",margin:"auto"}}>
-                <SearchBar onSearch={handleSearch} initialTab={activeTab} />
+                <SearchBar onSearch={setFilters} initialTab={activeTab} />
             </div>
             <ResultsList
                 results={results}
@@ -45,10 +47,11 @@ function EstateListing() {
                 error={error}
                 currentPage={currentPage}
                 totalPages={totalPages}
-                handlePageChange={(newPage) => handleSearch(location.state?.filters, newPage)}
+                handlePageChange={(newPage) => handleSearch(filters, newPage)}
             />
         </>
     )
 }
+
 
 export default EstateListing;

@@ -138,8 +138,8 @@ const RegisterForm = () => {
                     />
                     <span
                         className={`position-absolute ${styles.showPasswordInput}`}
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          style={{cursor: 'pointer'}}>
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        style={{cursor: 'pointer'}}>
                             {showConfirmPassword ? (<i className="fa-solid fa-eye-slash"></i>) : (
                                 <i className="fa-solid fa-eye"></i>)}
                         </span>
