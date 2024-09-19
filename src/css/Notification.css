@@ -162,3 +162,31 @@
     width: 20%;
 }
 
+.image-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.main-image {
+    width: 150px;
+    height: auto;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.thumbnail-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.thumbnail-image {
+    width: 50px;
+    height: auto;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.thumbnail-image:hover {
+    border-color: #ff5722;
+}
