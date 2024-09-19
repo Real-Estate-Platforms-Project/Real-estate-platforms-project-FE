@@ -36,7 +36,6 @@ function HomeTransaction() {
 
             if (page === 0) {
                 setTransactions(data.content);
-                console.log(setTransactions)
             } else {
                 setTransactions(prevTransactions => [...prevTransactions, ...data.content]);
             }
@@ -47,6 +46,8 @@ function HomeTransaction() {
             setLoading(false);
         }
     };
+
+
 
     const handleSearch = async () => {
         setLoading(true);
@@ -97,7 +98,6 @@ function HomeTransaction() {
     const TransactionDetails = async (id) => {
         try {
             const transaction = await transactionService.findTransactionId(id)
-            console.log("transaction",transaction)
             setSelectedTransactionForDetail(transaction);
             handleShowDetailModal()
         } catch (error) {

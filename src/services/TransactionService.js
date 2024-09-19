@@ -2,32 +2,66 @@ import axios from "axios";
 
 const URL_TRANSACTION = "http://localhost:8080/api/transactions"
 
+// export const getAllHome = async (searchTransactionCode = "") => {
+//     try {
+//         const token =sessionStorage.getItem(token);
+//         if (!token) {
+//             throw new Error('Không tìm thấy token trong session storage');
+//
+//         }
+//         let query = "";
+//         if (searchTransactionCode) {
+//             // query = `?searchTransactionCode=${encodeURIComponent(searchTransactionCode)}`;
+//             query = `?page=${encodeURIComponent(searchTransactionCode)}`;
+//         }
+//
+//         let res = await axios.get(URL_TRANSACTION + query);
+//         return res.data;
+//     } catch (e) {
+//         console.log("Lỗi khi truy xuất tất cả giao dịch:", e);
+//         return [];
+//     }
+// }
+
 export const getAllHome = async (searchTransactionCode = "") => {
     try {
-        // Kiểm tra nếu có mã giao dịch cần tìm kiếm, thêm vào query string
+        const token = sessionStorage.getItem('token');
+        console.log("token", token);
+        if (!token) {
+            throw new Error('Không tìm thấy token trong session storage');
+        }
+
         let query = "";
         if (searchTransactionCode) {
-            // query = `?searchTransactionCode=${encodeURIComponent(searchTransactionCode)}`;
             query = `?page=${encodeURIComponent(searchTransactionCode)}`;
         }
 
-        // Gửi request với query string
-        let res = await axios.get(URL_TRANSACTION + query);
+        let res = await axios.get(URL_TRANSACTION + query, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
-        // Trả về dữ liệu từ response
         return res.data;
     } catch (e) {
         console.log("Lỗi khi truy xuất tất cả giao dịch:", e);
         return [];
     }
-}
+};
+
 
 export const saveTransaction = async (transaction) => {
     try {
-        console.log("Dữ liệu gửi đi:", transaction);
+
+        const token = sessionStorage.getItem('token');
+        console.log("token save", token);
+        if (!token) {
+            throw new Error('Không tìm thấy token trong session storage');
+        }
+
+
         const response = await axios.post(URL_TRANSACTION, transaction);
-        console.log("Phản hồi từ API:", response);
-        return response.data; // Trả về dữ liệu phản hồi từ API, có thể chứa thông báo lỗi
+        return response.data;
     } catch (e) {
         console.error("Lỗi khi lưu giao dịch:", e);
         return e.response ? e.response.data : { message: "Lỗi không xác định" };
@@ -37,6 +71,14 @@ export const saveTransaction = async (transaction) => {
 
 export const deleteTransaction = async (id) => {
     try {
+
+        const token = sessionStorage.getItem('token');
+        console.log("token delete", token);
+        if (!token) {
+            throw new Error('Không tìm thấy token trong session storage');
+        }
+
+
         await axios.delete(URL_TRANSACTION + "/" + id);
         return true;
     } catch (e) {
@@ -47,6 +89,8 @@ export const deleteTransaction = async (id) => {
 
 export const searchTransactionCodeAndDescription = async (keyword) => {
     try {
+
+
         let query = `/search/${keyword}`; 
         console.log('Query:', query); 
         let res = await axios.get(URL_TRANSACTION + query);
@@ -61,8 +105,8 @@ export const searchTransactionCodeAndDescription = async (keyword) => {
 export const updateTransaction = async (id, transaction) => {
     try {
         const token = sessionStorage.getItem('token'); 
-        console.log("Transaction data id:", id); 
-        console.log("Transaction data request:", transaction); 
+        console.log("Transaction data id:", id);
+        console.log("Transaction data request:", transaction);
 
         const res = await axios.put(`${URL_TRANSACTION}/${id}`, transaction, {
             headers: {
