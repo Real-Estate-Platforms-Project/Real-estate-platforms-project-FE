@@ -31,7 +31,7 @@ const validationSchema = Yup.object({
             const {type} = this.parent;
             return type !== "Nhà ở" || (value && value > 0);
         }
-    ),
+    ).min(0, "Tầng không được nhỏ hơn 0"),
     toilet: Yup.number().test(
         "is-required-if-nha-o",
         "Cần nhập thông tin này",
@@ -39,7 +39,7 @@ const validationSchema = Yup.object({
             const {type} = this.parent;
             return type !== "Nhà ở" || (value && value > 0);
         }
-    ),
+    ).min(0, "Toilet không được nhỏ hơn 0"),
     bedroom: Yup.number().test(
         "is-required-if-nha-o",
         "Cần nhập thông tin này",
@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
             const {type} = this.parent;
             return type !== "Nhà ở" || (value && value > 0);
         }
-    ),
+    ).min(0, "Phòng ngủ không được nhỏ hơn 0"),
 });
 
 const CreateRealEstate = () => {
