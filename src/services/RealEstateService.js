@@ -24,6 +24,7 @@ export const getRealEstateById = async (id) => {
 
 export const findRealEstate = async () => {
     try {
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
         let res = await apiClient.get(URL_REAL_ESTATE + "/findAll");
         return res.data;
     } catch (e) {
