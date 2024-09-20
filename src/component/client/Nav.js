@@ -64,8 +64,8 @@ function Nav() {
                         </ul>
 
                         {isAuthenticated && (
-                            <Link className='me-2 button-orange' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>)}
-                        {isSeller && (<Link className='me-2 button-orange' to='sellernet/dang-tin'><span
+                            <Link className='me-2 button-orange h-100' to='/buyernet/dang-tin'><span className='fw-bold'>Đăng tin nhu cầu</span></Link>)}
+                        {isSeller && (<Link className='me-2 button-orange h-100' to='sellernet/dang-tin'><span
                             className='fw-bold'>Đăng tin</span></Link>)}
 
                         {!isAuthenticated && (
