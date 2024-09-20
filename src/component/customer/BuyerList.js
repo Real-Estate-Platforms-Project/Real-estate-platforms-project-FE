@@ -97,7 +97,7 @@ const BuyerList = () => {
         try {
             const newRole = buyerToUpdate.customerType === 'seller' ? 'buyer' : 'seller';
             await updateAccountRole(buyerToUpdate.account.id, newRole);
-            setBuyers((prevBuyers) => prevBuyers.filter(buyer => buyer.id !== buyerToUpdate.id));
+            loadBuyers();
             showToast(`Vai trò đã được cập nhật thành ${newRole === 'buyer' ? 'Người mua' : 'Người bán'}.`, 'info');
             handleConfirmClose();
         } catch (error) {
@@ -249,14 +249,17 @@ const BuyerList = () => {
                                     >
                                         <FaEye/> Xem
                                     </Button>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        style={{color: '#ff6b35', borderColor: '#ff6b35'}}
-                                        onClick={() => handleConfirmShow(buyer)}
-                                    >
-                                        <FaSync /> Cập nhật
-                                    </Button>
+                                    {/* Hide update button if user has both roles */}
+                                    {buyer.customerType !== 'seller' && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            style={{color: '#ff6b35', borderColor: '#ff6b35'}}
+                                            onClick={() => handleConfirmShow(buyer)}
+                                        >
+                                            <FaSync /> Cập nhật
+                                        </Button>
+                                    )}
                                 </td>
                             </tr>
                         ))}
