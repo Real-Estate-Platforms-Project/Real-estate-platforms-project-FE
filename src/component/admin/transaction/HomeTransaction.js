@@ -58,7 +58,7 @@ function HomeTransaction() {
             try {
                 const data = await transactionService.searchTransactionCodeAndDescription(searchKeyword);
 
-                if (!data || data.length === 0) {
+                if (!data || data?.length === 0) {
                     toast.info("Không có dữ liệu phù hợp.");
                     setTransactions([]);
                 } else {
@@ -207,8 +207,8 @@ function HomeTransaction() {
                 </tr>
                 </thead>
                 <tbody>
-                    {transactions.length > 0 ? (
-                        transactions.map((transaction, index) => (
+                    {transactions?.length > 0 ? (
+                        transactions?.map((transaction, index) => (
                             <TableRow key={transaction.id}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{transaction.code}</TableCell>

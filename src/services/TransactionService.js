@@ -2,49 +2,32 @@ import axios from "axios";
 
 const URL_TRANSACTION = "http://localhost:8080/api/transactions"
 
-// export const getAllHome = async (searchTransactionCode = "") => {
-//     try {
-//         const token =sessionStorage.getItem(token);
-//         if (!token) {
-//             throw new Error('Không tìm thấy token trong session storage');
-//
-//         }
-//         let query = "";
-//         if (searchTransactionCode) {
-//             // query = `?searchTransactionCode=${encodeURIComponent(searchTransactionCode)}`;
-//             query = `?page=${encodeURIComponent(searchTransactionCode)}`;
-//         }
-//
-//         let res = await axios.get(URL_TRANSACTION + query);
-//         return res.data;
-//     } catch (e) {
-//         console.log("Lỗi khi truy xuất tất cả giao dịch:", e);
-//         return [];
-//     }
-// }
+
 
 export const getAllHome = async (searchTransactionCode = "") => {
     try {
-        const token = sessionStorage.getItem('token');
-        console.log("token", token);
+        const user = localStorage.getItem('user');
+        if (!user) {
+            throw new Error('Không tìm thấy thông tin người dùng trong localStorage');
+        }
+
+        const { token } = JSON.parse(user);
         if (!token) {
-            throw new Error('Không tìm thấy token trong session storage');
+            throw new Error('Không tìm thấy token hợp lệ');
         }
 
-        let query = "";
-        if (searchTransactionCode) {
-            query = `?page=${encodeURIComponent(searchTransactionCode)}`;
-        }
+        const query = searchTransactionCode ? `?page=${encodeURIComponent(searchTransactionCode)}` : "";
+        const url = `${URL_TRANSACTION}${query}`;
 
-        let res = await axios.get(URL_TRANSACTION + query, {
+        const res = await axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
 
         return res.data;
-    } catch (e) {
-        console.log("Lỗi khi truy xuất tất cả giao dịch:", e);
+    } catch (error) {
+        console.error("Lỗi khi truy xuất tất cả giao dịch:", error.message);
         return [];
     }
 };
