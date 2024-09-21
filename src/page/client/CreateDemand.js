@@ -7,16 +7,15 @@ import {toast} from "react-toastify";
 import * as demandService from "../../services/DemandService";
 
 
-
 function CreateDemand() {
     const [form, setForm] = useState({
-        title:"",
-        type:"",
-        realEstateType:"",
-        region:"",
-        minArea:0,
-        maxArea:0,
-        notes:"",
+        title: "",
+        type: "",
+        realEstateType: "",
+        region: "",
+        minArea: 0,
+        maxArea: 0,
+        notes: "",
     });
 
 
@@ -38,14 +37,14 @@ function CreateDemand() {
             .max(10000, "diện tích tối thiểu không được lớn hơn 10000m2")
             .integer("diện tích phải là số nguyên")
             .test('is-greater', 'Diện tích tối đa phải lớn hơn diện tích tối thiểu', function (value) {
-                const { minArea } = this.parent;
+                const {minArea} = this.parent;
                 return value > minArea;
             })
     }
 
     const saveDemand = async (value) => {
         let isSuccess = await demandService.saveDemand(value)
-        if(isSuccess) {
+        if (isSuccess) {
             toast.success("Thêm mới nhu cầu thành công")
             navigate("/")
         } else {
@@ -87,11 +86,12 @@ function CreateDemand() {
                             <div className="form-check my-0">
                                 <Field type="radio" name="realEstateType" value="Dat" id="typeLand"
                                        className="form-check-input"/>
-                                <label htmlFor="typeLand" className="form-check-label">Dat</label>
+                                <label htmlFor="typeLand" className="form-check-label">Đất</label>
                             </div>
                         </div>
-                        <ErrorMessage name="realEstateType" component="div" className="text-danger"/>
                     </div>
+                    <ErrorMessage name="realEstateType" component="div" className="text-danger"/>
+
                     <div className="row mt-3">
                         <div className="col">
                             <label htmlFor="region" className="form-label">Khu vực</label>

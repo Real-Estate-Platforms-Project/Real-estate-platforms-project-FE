@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const SearchBar = ({onSearch}) => {
     const navigate = useNavigate();
@@ -37,11 +38,51 @@ const SearchBar = ({onSearch}) => {
 
     const handleAreaRangeChange = (e) => {
         const {name, value} = e.target;
-        setAreaRange({...areaRange, [name]: value});
+        const numericValue = value.replace(/\D/g, '');
+
+        if (numericValue === '' || checkLimit(numericValue, 10000)) {
+            setAreaRange({...areaRange, [name]: numericValue});
+            setSelectedAreaOption('custom');
+        } else {
+            toast.error('Diện tích không được vượt quá 10.000 m²');
+        }
+        const displayValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Định dạng với dấu chấm
+        e.target.value = numericValue === '' ? '' : `${displayValue} m²`;
     };
 
     const handleAreaOptionChange = (e) => {
-        setSelectedAreaOption(e.target.value);
+        const option = e.target.value;
+        setSelectedAreaOption(option);
+        switch (option) {
+            case 'all':
+                setAreaRange({min: '', max: ''});
+                break;
+            case 'under50':
+                setAreaRange({min: '', max: '50'});
+                break;
+            case '50-100':
+                setAreaRange({min: '50', max: '100'});
+                break;
+            case '100-200':
+                setAreaRange({min: '100', max: '200'});
+                break;
+            case '200-500':
+                setAreaRange({min: '200', max: '500'});
+                break;
+            default:
+                setAreaRange({min: '', max: ''});
+        }
+    };
+
+    const getAreaButtonLabel = () => {
+        if (areaRange.min && areaRange.max) {
+            return `Từ ${parseInt(areaRange.min).toLocaleString()} đến ${parseInt(areaRange.max).toLocaleString()} m²`;
+        } else if (areaRange.min) {
+            return `Từ ${parseInt(areaRange.min).toLocaleString()} m²`;
+        } else if (areaRange.max) {
+            return `Đến ${parseInt(areaRange.max).toLocaleString()} m²`;
+        }
+        return 'Diện tích';
     };
 
     const toggleDropdown = (dropdownName) => {
@@ -99,11 +140,16 @@ const SearchBar = ({onSearch}) => {
 
 
     };
-    const handlePageChange = (newPage) => {
-        if (newPage >= 0 && newPage < totalPages) {
-            handleSearch(newPage);
+
+    const checkLimit = (value, maxValue) => {
+        const numericValue = parseInt(value, 10);
+        if (isNaN(numericValue) || numericValue > maxValue) {
+            return false;
         }
+        return true;
     };
+
+
     return (
 
         <div className="search-bar">
@@ -204,7 +250,7 @@ const SearchBar = ({onSearch}) => {
                     onClick={() => toggleDropdown('area')}
                 >
                     <button className="arrow">
-                        Diện tích <span>{activeDropdown === 'area' ?
+                        {getAreaButtonLabel()} <span>{activeDropdown === 'area' ?
                         <i className="bi bi-caret-up"></i> : <i className="bi bi-caret-down"></i>}</span>
                     </button>
                     {activeDropdown === 'area' && (

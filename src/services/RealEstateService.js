@@ -38,6 +38,7 @@ export const searchRealEstate = async (filters) => {
         );
         // Tạo query string từ các tham số đã lọc
         const params = new URLSearchParams(filteredFilters).toString();
+        console.log(params)
         const response = await apiClient.get(`${URL_REAL_ESTATE}/search?${params}`);
         console.log(response.data)
         return response.data;

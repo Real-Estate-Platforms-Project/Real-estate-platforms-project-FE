@@ -286,7 +286,9 @@ const RealEstateForm = ({
         <div className="w-50 mx-auto p-0 bg-white handle-submit" style={{marginTop: -65}}>
             <div className="d-flex justify-content-between shadow-sm p-4 mt-4">
                 <Link to="/" className="btn me-2 fw-bold back-to-home">Quay lại</Link>
-                <button type="submit" className="btn button-search text-white fw-bold">Hoàn thành</button>
+                <button type="submit" className="btn button-search text-white fw-bold" disabled={formik.isSubmitting}>
+                    {formik.isSubmitting ? "Đang tải..." : "Hoàn thành"}
+                </button>
             </div>
         </div>
     </form>

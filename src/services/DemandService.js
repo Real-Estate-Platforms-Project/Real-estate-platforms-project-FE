@@ -116,7 +116,8 @@ export const getDemand = async (id) => {
 
 export const saveDemand = async (demand) => {
     try {
-        const token = getToken(); // Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        const token = getToken();// Lấy token từ localStorage hoặc nơi bạn lưu trữ
+        console.log(token)
         await axios.post(URL_DEMAND, demand, {
             headers: {
                 "Authorization": `Bearer ${token}`,// Thêm token vào header
